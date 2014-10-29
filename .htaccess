@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^admin/?(.*) backend/web/$1 [L]
+
+RewriteCond %{REQUEST_URI} !/backend/web/
+RewriteCond %{REQUEST_URI} !/frontend/web/
+
+RewriteRule (.*) frontend/web/$1 [L]
