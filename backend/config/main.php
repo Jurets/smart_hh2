@@ -29,6 +29,13 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'rules' => [
+                // your rules go here
+            ],
+            // ...
+        ]        
     ],
     'params' => $params,
 ];
