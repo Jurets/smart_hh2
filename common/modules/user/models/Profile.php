@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property string  $create_time
  * @property string  $update_time
  * @property string  $full_name
+ * @property string  $first_name
  *
  * @property User    $user
  */
@@ -35,7 +36,17 @@ class Profile extends ActiveRecord
             //            [['user_id'], 'required'],
             //            [['user_id'], 'integer'],
             //            [['create_time', 'update_time'], 'safe'],
-            [['full_name'], 'string', 'max' => 255]
+            [['full_name'], 'string', 'max' => 255],
+            [['first_name'], 'string', 'max' => 255],
+            [['last_name'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 64],
+            [['adress_mailing'], 'string', 'max' => 255],
+            [['adress_billing'], 'string', 'max' => 255],
+            [['paypal'], 'string', 'max' => 64],
+            [['another_payment'], 'string', 'max' => 255],
+            [['self_description'], 'string', 'max' => 255],
+            [['photo'], 'string', 'max' => 255],
+            [['country_code'], 'string', 'max' => 255],
         ];
     }
 
@@ -50,6 +61,17 @@ class Profile extends ActiveRecord
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
             'full_name'   => Yii::t('user', 'Full Name'),
+            //Add new fields:
+            'first_name'   => Yii::t('user', 'First name'),
+            'last_name'   => Yii::t('user', 'Last name'),
+            'phone'   => Yii::t('user', 'Phone'),
+            'adress_mailing'   => Yii::t('user', 'Adress mailing'),
+            'adress_billing'   => Yii::t('user', 'Adress billing'),
+            'paypal'   => Yii::t('user', 'Paypal'),
+            'another_payment'   => Yii::t('user', 'Another payment'),
+            'self_description'   => Yii::t('user', 'Self description'),
+            'photo'   => Yii::t('user', 'Photo'),
+            'country_code'   => Yii::t('user', 'Country code'),
         ];
     }
 

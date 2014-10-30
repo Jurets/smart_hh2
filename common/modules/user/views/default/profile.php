@@ -34,11 +34,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'enableAjaxValidation' => true,
     ]); ?>
 
-    <?= $form->field($profile, 'full_name') ?>
+    <?php echo $form->field($profile, 'full_name') ?>
+    <?php echo $form->field($profile, 'first_name') ?>
+    <?php echo $form->field($profile, 'last_name') ?>
+    <?php echo $form->field($profile, 'phone') ?>
+    <?php echo $form->field($profile, 'adress_mailing') ?>
+    <?php echo $form->field($profile, 'adress_billing') ?>
+    <?php echo $form->field($profile, 'paypal') ?>
+    <?php echo $form->field($profile, 'another_payment') ?>
+    <?php echo $form->field($profile, 'self_description') ?>
+    <?php echo $form->field($profile, 'photo') ?>
+    <?php echo $form->field($profile, 'country_code') ?>
 
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
-            <?= Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary']) ?>
+            <?php echo Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
 
