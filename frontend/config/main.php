@@ -29,6 +29,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'urlManager' => [
+            //main params e.g. enablePrettyUrl see in /common/config
+            'rules' => [
+                // your rules go here
+            ],
+        ]        
         
     ],
     'params' => $params,
