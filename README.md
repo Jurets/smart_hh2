@@ -67,3 +67,44 @@ the installed application. You only need to do these once for all.
 2. Create a new database and configuration in `common/config/main-local.php` accordingly.
 3. Apply migrations with console command `yii migrate`. This will create tables needed for the application to work.
 
+ if you want to tune the application to use a "single point access" as additional way to deployment
+ you can perform the following steps:
+ 
+ 1. Put in root .gitignore file this:
+   # Single point access to site
+   frontend/web/.htaccess
+   backend/web/.htaccess
+ 2. Create a .htaccess files in backend/web and frontend/web with:
+   #hide index.php
+   RewriteEngine On
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule . index.php
+ 3.  Add in frontend/config/main-local.php:
+       in the root section: 'homeUrl' => '/',
+       in the components section:
+       'urlManager' => [
+              'baseUrl' => '/',
+          ],
+ 4. Add in backend/config/main-local.php:
+       in the root section: 'homeUrl' => '/admin',
+       in the components section:
+       'urlManager' => [
+              'baseUrl' => '/admin',
+          ],
+ 5. In the root directory of your project create .htaccess with:
+     RewriteEngine On
+     RewriteBase /
+
+     RewriteRule ^admin/?(.*) backend/web/index.php/$1 [L]
+
+     RewriteCond %{REQUEST_URI} !/backend/web/index.php/
+     RewriteCond %{REQUEST_URI} !/frontend/web/index.php/
+
+     RewriteRule (.*) frontend/web/index.php/$1 [L]
+ 
+ After that steps you may use just one webserver for frontend and backend tjgether:
+   yoursite.ex/
+   yoursite.ex/admin
+
+

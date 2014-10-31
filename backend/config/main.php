@@ -30,7 +30,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            //main params e.g. enablePrettyUrl see in /common/config
             'rules' => [
                 // your rules go here
             ],

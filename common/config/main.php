@@ -17,6 +17,13 @@ return [
                 'charset' => 'UTF-8',
             ]
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+                // rules writes in back and front separately
+            ],
+        ]        
     ],
     'modules' => [
         'user' => [

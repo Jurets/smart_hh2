@@ -28,3 +28,7 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+
+# Single point access to site
+frontend/web/.htaccess
+backend/web/.htaccess
