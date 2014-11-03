@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\base\Model;
 use yii\web\UploadedFile;
 
 /**
@@ -21,11 +20,7 @@ use yii\web\UploadedFile;
  */
 class Files extends \yii\db\ActiveRecord
 {
-<<<<<<< .mine
 
-=======
-    public $file;
->>>>>>> .theirs
     /**
      * @var UploadedFile|Null file attribute
      */
@@ -51,8 +46,7 @@ class Files extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['code'], 'string', 'max' => 32],
             [['mimetype'], 'string', 'max' => 64],
-            [['description'], 'string', 'max' => 512],
-            [['file'], 'file']
+            [['description'], 'string', 'max' => 512]
         ];
     }
 
