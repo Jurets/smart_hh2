@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'is_time_enable:datetime',
             'start_day',
             'finish_day',
-            'performer_id',
+            //'performer_id',
             'comment:ntext',
             'is_positive',
             'rate',
