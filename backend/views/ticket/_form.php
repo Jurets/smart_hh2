@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
 
     <?php //echo $form->field($model, 'status')->textInput() ?>
 
-    <?php //echo $form->field($model, 'is_time_enable')->textInput() ?>
+    <?php echo $form->field($model, 'is_time_enable')->textInput() ?>
 
     <?= $form->field($model, 'start_day')->textInput() ?>
 
