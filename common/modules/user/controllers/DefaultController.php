@@ -112,7 +112,7 @@ class DefaultController extends Controller
         /** @var \common\modules\user\models\Role    $role */
 
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "registeruser"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
 
         // load post data
