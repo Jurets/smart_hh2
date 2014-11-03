@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -77,7 +77,7 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'user_id' => Yii::t('app', 'User'),
             'id_category' => Yii::t('app', 'Id Category'),
             'description' => Yii::t('app', 'Description'),
             'title' => Yii::t('app', 'Title'),
