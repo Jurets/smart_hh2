@@ -71,6 +71,11 @@ class User extends ActiveRecord implements IdentityInterface
      * @var array Permission cache array
      */
     protected $_access = [];
+
+    /**
+     * @var captcha
+     */
+    public $verifyCode;
     
     /**
      * @inheritdoc
@@ -110,6 +115,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['role_id', 'status'], 'integer', 'on' => ['admin']],
             [['ban_time'], 'integer', 'on' => ['admin']],
             [['ban_reason'], 'string', 'max' => 255, 'on' => 'admin'],
+
+            // verifyCode needs to be entered correctly
+            ['verifyCode', 'captcha'],
         ];
 
         // add required rules for email/username depending on module properties
@@ -159,6 +167,8 @@ class User extends ActiveRecord implements IdentityInterface
 
             'currentPassword' => Yii::t('user', 'Current Password'),
             'newPassword'     => Yii::t('user', 'New Password'),
+
+            'verifyCode' => Yii::t('user', 'Verification Code'),
         ];
     }
 
