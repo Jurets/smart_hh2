@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\base\Model;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "files".
@@ -19,6 +21,12 @@ use Yii;
  */
 class Files extends \yii\db\ActiveRecord
 {
+
+    /**
+     * @var UploadedFile|Null file attribute
+     */
+    public $file;
+
     /**
      * @inheritdoc
      */
@@ -33,7 +41,8 @@ class Files extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'code', 'size'], 'required'],
+            [['file'], 'file'],
+//            [['name', 'code', 'size'], 'required'],
             [['size', 'user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['code'], 'string', 'max' => 32],
@@ -65,4 +74,46 @@ class Files extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserDiploma::className(), ['file_id' => 'id']);
     }
+
+    /*
+     * Upload handler
+     */
+
+    public function saveImage($description = "")
+    {
+        //It  provides information about the uploaded file
+        $this->file = UploadedFile::getInstance($this, 'file');
+        //Take this information into our variables
+        $baseName = $this->file->baseName;
+        $extension = $this->file->extension;
+        $size = $this->file->size;
+        $type = $this->file->type;
+
+        //Folding the model
+        $this->name = $baseName;
+        $this->size = $size;
+        $code = $this->_getRandomName($baseName);
+        $this->code = $code;
+        $this->mimetype = $type;
+        $this->description = $description;
+        $this->user_id = Yii::$app->user->id;
+        //run validation 
+        if ($this->validate()) {
+            //If validation is successful, then we're saving the file:
+            if ($this->file->saveAs(\Yii::$app->params['defaultFolderForUploads'] . $code . '.' . $extension) !== false) {
+                $this->save();
+            }
+        }
+    }
+
+    /*
+     * Generate random string for name file
+     */
+
+    private function _getRandomName($filename)
+    {
+        $filenamehash = md5(time() . $filename);
+        return $filenamehash;
+    }
+
 }
