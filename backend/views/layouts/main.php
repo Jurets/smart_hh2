@@ -25,8 +25,8 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
-                'brandUrl' => Yii::$app->homeUrl,
+                'brandLabel' => 'Helpinghut Control panel',
+                'brandUrl' => '/admin',
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
@@ -37,6 +37,12 @@ AppAsset::register($this);
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
+                $menuItems[] = ['label' => 'Test link 1', 'url' => ['/admin/#']];
+                $menuItems[] = ['label' => 'Test link 2', 'url' => ['/admin/#']];
+                $menuItems[] = ['label' => 'Test link 3', 'url' => ['/admin/#']];
+                $menuItems[] = ['label' => 'Test link 4', 'url' => ['/admin/#']];
+                $menuItems[] = ['label' => 'Test link 5', 'url' => ['/admin/#']];
+                $menuItems[] = ['label' => 'Test link 6', 'url' => ['/admin/#']];
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
@@ -44,7 +50,7 @@ AppAsset::register($this);
                 ];
             }
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
+                'options' => ['class' => 'navbar-nav navbar-left'],
                 'items' => $menuItems,
             ]);
             NavBar::end();
