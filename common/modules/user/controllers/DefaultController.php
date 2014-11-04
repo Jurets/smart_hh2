@@ -9,8 +9,6 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use common\models\Files;
-use yii\web\UploadedFile;
-
 /**
  * Default controller for User module
  */
@@ -288,7 +286,8 @@ class DefaultController extends Controller
             //run validation 
             if ($file->validate() && $profile->validate()) {  
                 //If validation is successful, then we're saving the file:
-                $file->saveImage();
+               $files_id = $file->saveImage();
+               $profile->photo = $files_id;
             }
             $profile->save(false);
             Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));

@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'pluginLoading' => false,
         'pluginOptions' => [
             'showPreview' => true,
-            'showCaption' => true,
-            'showRemove' => true,
+            'showCaption' => false,
+            'showRemove' => false,
             'showUpload' => false
         ]
     ]);

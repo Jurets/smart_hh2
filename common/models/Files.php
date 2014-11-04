@@ -75,9 +75,23 @@ class Files extends \yii\db\ActiveRecord
     }
 
     /*
-     * Upload handler
+     * Uploader handler. Save image into the database and
+     * return file id which will be saved.
+     * Example.
+     * view:
+     *    echo $form->field($files, 'file')->widget(FileInput::classname(), [
+     * This method worls only with single downloading.
+            'options' => ['multiple' => false],
+            //boolean, whether to show a loading progress indicator in place of the input before plugin is completely loaded. Defaults to true.
+            'pluginLoading' => false,
+            'pluginOptions' => [
+                'showPreview' => true,
+                'showCaption' => false,
+                'showRemove' => false,
+                'showUpload' => false
+        ]
+    ]);
      */
-
     public function saveImage($description = "")
     {
         //It  provides information about the uploaded file
@@ -103,6 +117,9 @@ class Files extends \yii\db\ActiveRecord
                 $this->save();
             }
         }
+        //return file_id, use it to save foreign key
+       return $this->id;
+        
     }
 
     /*

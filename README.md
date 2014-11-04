@@ -66,6 +66,7 @@ the installed application. You only need to do these once for all.
 1. Run command `init` to initialize the application with a specific environment.
 2. Create a new database and configuration in `common/config/main-local.php` accordingly.
 3. Apply migrations with console command `yii migrate`. This will create tables needed for the application to work.
+4. Check your php.ini file and uncomment "extension=php_fileinfo.dll".
 
  if you want to tune the application to use a "single point access" as additional way to deployment
  you can perform the following steps:
