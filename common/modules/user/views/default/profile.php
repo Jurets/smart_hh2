@@ -2,19 +2,19 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\FileInput;
 
 /**
  * @var yii\web\View $this
  * @var yii\widgets\ActiveForm $form
  * @var common\modules\user\models\Profile $profile
  */
-
 $this->title = Yii::t('user', 'Profile');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-profile">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash("Profile-success")): ?>
 
@@ -24,15 +24,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php endif; ?>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'profile-form',
-        'options' => ['class' => 'form-horizontal'],
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-2 control-label'],
-        ],
-        'enableAjaxValidation' => true,
-    ]); ?>
+    <?php
+    $form = ActiveForm::begin([
+                'id' => 'profile-form',
+                'options' => ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data'],
+                'fieldConfig' => [
+                    'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
+                    'labelOptions' => ['class' => 'col-lg-2 control-label'],
+                ],
+                'enableAjaxValidation' => true,
+    ]);
+    ?>
 
     <?php echo $form->field($profile, 'full_name') ?>
     <?php echo $form->field($profile, 'first_name') ?>
@@ -46,6 +48,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $form->field($profile, 'photo') ?>
     <?php echo $form->field($profile, 'country_code') ?>
 
+    <?php
+    echo $form->field($files, 'file')->widget(FileInput::classname(), [
+        'options' => ['multiple' => false],
+        'pluginLoading' => false,
+        'pluginOptions' => [
+            'showPreview' => true,
+            'showCaption' => false,
+            'showRemove' => false,
+            'showUpload' => false
+        ]
+    ]);
+    ?>
     <div class="form-group">
         <div class="col-lg-offset-2 col-lg-10">
             <?php echo Html::submitButton(Yii::t('user', 'Update'), ['class' => 'btn btn-primary']) ?>

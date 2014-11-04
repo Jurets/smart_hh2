@@ -3,6 +3,10 @@ return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
+    
+    //settings for file uploading
+    'defaultFolderForUploads' => 'uploads/',
+
     //system languages
     'languages' => array(
             'en' => 'English',
