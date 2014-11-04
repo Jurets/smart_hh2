@@ -39,6 +39,7 @@ AppAsset::register($this);
                 ['label' => 'User', 'url' => ['/user']],
                 ['label' => 'Customer registration ', 'url' => ['/registration/customer']],
                 ['label' => 'Performer registration', 'url' => ['/registration/performer']],
+                ['label' => 'All Tickets', 'url' => ['/ticket/index']],
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/user/login']];
