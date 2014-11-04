@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Ticket */
@@ -23,18 +24,43 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'price')->textInput() ?>
 
     <?php //echo $form->field($model, 'created')->textInput() ?>
-
-    <?= $form->field($model, 'is_turned_on')->textInput() ?>
+    
+    <?= $form->field($model, 'is_turned_on')->dropDownList($model->surrogateStructSectionReader()) ?>
 
     <?php //echo $form->field($model, 'system_key')->textInput(['maxlength' => 255]) ?>
 
-    <?php //echo $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList($model->surrogateStructSectionReader('status')) ?>
 
-    <?php echo $form->field($model, 'is_time_enable')->textInput() ?>
-
-    <?= $form->field($model, 'start_day')->textInput() ?>
-
-    <?= $form->field($model, 'finish_day')->textInput() ?>
+    <?= $form->field($model, 'is_time_enable')->dropDownList($model->surrogateStructSectionReader('is_time_enable')) ?>
+    
+    <?php //echo $form->field($model, 'start_day')->textInput() ?>
+    
+    <?= Html::activeLabel($model, 'start_day') ?>
+    <br>
+    <?=
+     DatePicker::widget([
+        'model' => $model,
+        'attribute' => 'start_day',
+        'value' => $model->start_day,
+        'language' => 'en',
+        'dateFormat' => 'yyyy-MM-dd',
+    ]);
+    ?>
+    <br><br>
+    <?= Html::activeLabel($model, 'finish_day') ?>
+    <br>
+    <?=
+     DatePicker::widget([
+        'model' => $model,
+        'attribute' => 'finish_day',
+        'value' => $model->start_day,
+        'language' => 'en',
+        'dateFormat' => 'yyyy-MM-dd',
+    ]);
+    ?>
+    <br><br>
+    <?php // $form->field($model, 'finish_day')->textInput() ?>
+    
 
     <?php //echo $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
 

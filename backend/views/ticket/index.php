@@ -20,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'modelClass' => 'Ticket',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -33,10 +32,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
              'price',
             // 'created',
-             'is_turned_on',
+             [
+                 'attribute' => 'is_turned_on',
+                 'value' => function($turnedOnName){return $turnedOnName->getIsTurnedOn();}
+             ],
             // 'system_key',
-             'status',
-            // 'is_time_enable:datetime',
+             [
+                 'attribute' => 'status',
+                 'value' => function($statusName){return $statusName->getStatus();}
+             ],
+             [
+                 'attribute' => 'is_time_enable',
+                 'value' => function($isTimeEnableName){return $isTimeEnableName->getIsTimeEnable();}
+                 ],
              'start_day',
              'finish_day',
             // 'performer_id',
