@@ -8,7 +8,7 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
-
+use common\models\Files;
 /**
  * Default controller for User module
  */
@@ -110,7 +110,7 @@ class DefaultController extends Controller
         /** @var \common\modules\user\models\Role    $role */
 
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "registeruser"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
 
         // load post data
@@ -270,7 +270,7 @@ class DefaultController extends Controller
     public function actionProfile()
     {
         /** @var \common\modules\user\models\Profile $profile */
-
+        $file = new Files();
         // set up profile and load post data
         $profile = Yii::$app->user->identity->profile;
         $loadedPost = $profile->load(Yii::$app->request->post());
@@ -282,7 +282,13 @@ class DefaultController extends Controller
         }
 
         // validate for normal request
-        if ($loadedPost && $profile->validate()) {
+        if ($loadedPost) {
+            //run validation 
+            if ($file->validate() && $profile->validate()) {  
+                //If validation is successful, then we're saving the file:
+               $files_id = $file->saveImage();
+               $profile->photo = $files_id;
+            }
             $profile->save(false);
             Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
             return $this->refresh();
@@ -291,6 +297,7 @@ class DefaultController extends Controller
         // render
         return $this->render("profile", [
             'profile' => $profile,
+            'files' => $file,
         ]);
     }
 

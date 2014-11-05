@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
@@ -31,22 +31,23 @@ class Ticket extends \yii\db\ActiveRecord
 {
 
     // Field is_turned_on 
-    const TICKET_TURNED_OFF = 0;
-    const TICKET_TURNED_ON = 1;
+    const TURNED_OFF = 0;
+    const TURNED_ON = 1;
     
     //Field status
-    const TICKET_STATUS_COMPLETED = 0;
-    const TICKET_STATUS_EXPIRED = 1;
-    const TICKET_STATUS_PROCESSING = 2;
-    const TICKET_STATUS_NOT_COMPLETED = 3;
+    const STATUS_COMPLETED = 0;
+    const STATUS_EXPIRED = 1;
+    const STATUS_PROCESSING = 2;
+    const STATUS_NOT_COMPLETED = 3;
+    const STATUS_COMPLETED_WITH_COMMENT = 4;
     
     //Field is_time_enable
-    const TICKET_STATUS_TIME_OFF = 0;
-    const TICKET_STATUS_TIME_ON = 1;
+    const STATUS_TIME_OFF = 0;
+    const STATUS_TIME_ON = 1;
     
     
-    const TICKET_WITHOUT_COMMENT = 0;
-    const TICKET_WITH_COMMENT = 1;
+    const WITHOUT_COMMENT = 0;
+    const WITH_COMMENT = 1;
     
     /**
      * @inheritdoc
@@ -56,6 +57,46 @@ class Ticket extends \yii\db\ActiveRecord
         return 'ticket';
     }
 
+    /* serves as a substitute for native values comfy  (Extensible) */
+    protected $surrogateStruct = [
+        'is_turned_on' => [
+            self::TURNED_OFF => 'Banned',
+            self::TURNED_ON => 'Active',
+        ],
+        'status' => [
+            self::STATUS_COMPLETED => 'Completed',
+            self::STATUS_EXPIRED => 'Expired',
+            self::STATUS_PROCESSING => 'In processing',
+            self::STATUS_NOT_COMPLETED => 'Not Completed',
+            self::STATUS_COMPLETED_WITH_COMMENT => 'Completed and comment exist',
+        ],
+        'is_time_enable' => [
+            self::STATUS_TIME_OFF => 'Without execution time',
+            self::STATUS_TIME_ON => 'With execution time',
+        ],
+    ];
+    /* (statament:1) handling for surrogateStruct */
+    public function getIsTurnedOn(){
+        return (!is_null($this->is_turned_on)) ? $this->surrogateStruct['is_turned_on'][(int)$this->is_turned_on] : '';
+    }
+    public function getStatus(){
+        return (!is_null($this->status)) ? $this->surrogateStruct['status'][(int)$this->status] : '';
+    }
+    public function getIsTimeEnable(){
+        return (!is_null($this->is_time_enable)) ? $this->surrogateStruct['is_time_enable'][(int)$this->is_time_enable] : '';
+    }
+    // Available get the surrogateStruct section (particulary once)
+    public function surrogateStructSectionReader($section='is_turned_on', $first_empty = false){
+       $options = [];
+       if(isset($this->surrogateStruct[$section])){
+           if($first_empty !== false){
+               $options[NULL] ='';
+           }
+           $options = array_merge($options, $this->surrogateStruct[$section]);
+       }
+       return $options;
+    }
+    /* end of statament:1 */
     /**
      * @inheritdoc
      */
@@ -77,7 +118,7 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'user_id' => Yii::t('app', 'User'),
             'id_category' => Yii::t('app', 'Id Category'),
             'description' => Yii::t('app', 'Description'),
             'title' => Yii::t('app', 'Title'),
