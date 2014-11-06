@@ -23,7 +23,11 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-        <?php
+        <?php 
+            $module_id = Yii::$app->controller->module->id;
+            $controller_id = Yii::$app->controller->id;
+            $action_id = Yii::$app->controller->action->id;
+        
             NavBar::begin([
                 'brandLabel' => 'My Company',
                 'brandUrl' => Yii::$app->homeUrl,
@@ -38,9 +42,14 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {
                 $menuItems[] = [
+                    'label' => 'Users', 
+                    'url' => ['user/admin'], 
+                    'active' => $module_id == 'user' && $controller_id == 'admin' && $action_id == 'index'
+                ];
+                $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                    'linkOptions' => ['data-method' => 'post'],
                 ];
             }
             echo Nav::widget([
