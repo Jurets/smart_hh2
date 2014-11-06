@@ -127,16 +127,16 @@
         },
         {
             "name": "bower-asset/jquery.inputmask",
-            "version": "3.1.36",
+            "version": "3.1.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RobinHerbots/jquery.inputmask.git",
-                "reference": "1e667db21e878105686e636efea883fa23b54fb2"
+                "reference": "c40c5c0abaf42b35139cdf97569b1ef1fad3a3d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/1e667db21e878105686e636efea883fa23b54fb2",
-                "reference": "1e667db21e878105686e636efea883fa23b54fb2",
+                "url": "https://api.github.com/repos/RobinHerbots/jquery.inputmask/zipball/c40c5c0abaf42b35139cdf97569b1ef1fad3a3d9",
+                "reference": "c40c5c0abaf42b35139cdf97569b1ef1fad3a3d9",
                 "shasum": ""
             },
             "require": {
@@ -383,16 +383,16 @@
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "3562bf0f1929076da6c3f961d82021cb5d3e9159"
+                "reference": "fbeaef730ceb76da7877097650be7f0e2d19e412"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/3562bf0f1929076da6c3f961d82021cb5d3e9159",
-                "reference": "3562bf0f1929076da6c3f961d82021cb5d3e9159",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/fbeaef730ceb76da7877097650be7f0e2d19e412",
+                "reference": "fbeaef730ceb76da7877097650be7f0e2d19e412",
                 "shasum": ""
             },
             "type": "library",
@@ -420,7 +420,7 @@
                 "jquery",
                 "star"
             ],
-            "time": "2014-10-17 04:19:30"
+            "time": "2014-11-04 04:41:29"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -470,12 +470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widgets.git",
-                "reference": "c4147402834befe30d6d0d1bc6652bfef6cc74ef"
+                "reference": "623d6564bf90ef2902f124dc972945dd28ef6b98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/c4147402834befe30d6d0d1bc6652bfef6cc74ef",
-                "reference": "c4147402834befe30d6d0d1bc6652bfef6cc74ef",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widgets/zipball/623d6564bf90ef2902f124dc972945dd28ef6b98",
+                "reference": "623d6564bf90ef2902f124dc972945dd28ef6b98",
                 "shasum": ""
             },
             "require": {
@@ -509,7 +509,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-10-27 06:54:57"
+            "time": "2014-11-05 13:38:37"
         },
         {
             "name": "swiftmailer/swiftmailer",
