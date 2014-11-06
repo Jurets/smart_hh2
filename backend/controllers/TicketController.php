@@ -102,7 +102,13 @@ class TicketController extends Controller
 
         return $this->redirect(['index']);
     }
-
+    /* bann */
+    public function actionBannmanagement($id){
+        $isBann = $this->findModel($id);
+        $isBann->bannManager();
+        $isBann->save();
+        return $this->redirect(['index']);
+    }
     /**
      * Finds the Ticket model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

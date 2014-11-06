@@ -29,7 +29,7 @@ use Yii;
  */
 class Ticket extends \yii\db\ActiveRecord
 {
-
+    // bann (is turned on check)
     // Field is_turned_on 
     const TURNED_OFF = 0;
     const TURNED_ON = 1;
@@ -75,6 +75,14 @@ class Ticket extends \yii\db\ActiveRecord
             self::STATUS_TIME_ON => 'With execution time',
         ],
     ];
+    /* invertor bann/unbann */
+    public function bannManager(){
+        $this->is_turned_on = ($this->is_turned_on === self::TURNED_OFF) ? self::TURNED_ON : self::TURNED_OFF;
+    }
+    /* for check bann status in view */
+    public function isBanned(){
+        return ($this->is_turned_on === self::TURNED_OFF) ? TRUE : FALSE;
+    }
     /* (statament:1) handling for surrogateStruct */
     public function getIsTurnedOn(){
         return (!is_null($this->is_turned_on)) ? $this->surrogateStruct['is_turned_on'][(int)$this->is_turned_on] : '';
@@ -151,5 +159,5 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-
+    
 }
