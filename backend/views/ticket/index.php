@@ -52,8 +52,29 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'is_positive',
             // 'rate',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {bannmanagement}',
+                'buttons' => [
+                    'bannmanagement' => function($url, $model){
+                     if ($model->isBanned()) {
+                        return Html::a('<span class="glyphicon glyphicon-globe"></span>', $url, [
+                                    'title' => Yii::t('app', 'Bann'),
+                                    'data-confirm' => Yii::t('app', 'Are you sure to unbann this ticket?'),
+                                    'data-pjax' => 0,
+                        ]);
+                    } else {
+                        return Html::a('<span class="glyphicon glyphicon-ban-circle"></span>', $url, [
+                                    'title' => Yii::t('app', 'Bann'),
+                                    'data-confirm' => Yii::t('app', 'Are you sure to bann this ticket?'),
+                                    'data-pjax' => 0,
+                        ]);
+                    }
+                }
+                ],
+            ],
         ],
-    ]); ?>
+    ]); 
+    ?>
 
 </div>
