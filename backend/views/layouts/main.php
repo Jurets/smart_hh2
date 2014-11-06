@@ -44,7 +44,12 @@ AppAsset::register($this);
                 $menuItems[] = [
                     'label' => 'Users', 
                     'url' => ['user/admin'], 
-                    'active' => $module_id == 'user' && $controller_id == 'admin' && $action_id == 'index'
+                    'active' => $module_id == 'user' && $controller_id == 'admin' && $action_id == 'index',
+                ];
+                $menuItems[] = [
+                    'label' => 'Files', 
+                    'url' => ['files'], 
+                    'active' => $controller_id == 'files',
                 ];
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
