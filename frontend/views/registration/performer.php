@@ -44,27 +44,65 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($user, 'newPassword')->passwordInput() ?>
         <?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
         <?= $form->field($user, 'email') ?>
-        <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA (+1)','Canada ( +1 )']) ?>
+        <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA ( +1 )','Canada ( +1 )']) ?>
         <?= $form->field($profile, 'phone') ?>
         <?= Html::label('Pick language and language knowledge') ?>
-        <?= $form->field($userLanguage, 'language')->checkboxList(['ru'=>'Russia','en'=>'English']) ?>
-        <?= StarRating::widget(['name' => 'rating_19',
-        'pluginOptions' => [
-        'stars' => 6,
-        'min' => 0,
-        'max' => 6,
-        'step' => 0.1,
-        'symbol' => html_entity_decode('&#xe005;', ENT_QUOTES, "utf-8"),
-        'defaultCaption' => '{rating} hearts',
-        'starCaptions'=>[]
-        ]
-        ]);?>
+        <?= $form->field($userLanguage, 'language')->checkboxList(['ru'=>'Russia']) ?>
+
+        <?= StarRating::widget(['name' => 'rating_ru',
+                'pluginOptions' => [
+                    'stars' => 5,
+                    'min' => 0,
+                    'max' => 5,
+                    'step' => 1,
+                    'size' => 'xs',
+                    'defaultCaption' => '{rating} stars',
+                    'starCaptions'=>[],
+                    'showClear' => false,
+                    'showCaption' => false,
+                    'options' => [
+                        'disabled' => true
+                    ],
+                ]
+            ]);?>
+        <?= $form->field($userLanguage, 'language')->checkboxList(['en'=>'English']) ?>
+
+        <?= StarRating::widget(['name' => 'rating_en',
+                'pluginOptions' => [
+                    'stars' => 5,
+                    'min' => 0,
+                    'max' => 5,
+                    'step' => 1,
+                    'size' => 'xs',
+                    'defaultCaption' => '{rating} stars',
+                    'starCaptions'=>[],
+                    'showClear' => false,
+                    'showCaption' => false,
+                    'options' => [
+                        'disabled' => true
+                    ],
+                ]
+            ]);?>
+
         <?= Html::label('Do you have PayPal?') ?>
+        <?= Html::radioList('checkPaypal',[],['yes','no']) ?>
         <?= $form->field($profile, 'paypal') ?>
+        <?= Html::a('Create a PayPal account','https://www.paypal.com') ?>
+        <?= Html::label('or input another payment') ?>
+        <?= $form->field($profile, 'another_payment') ?>
+
+
         <?= $form->field($profile, 'adress_mailing') ?>
+
         <?= $form->field($profile, 'self_description')->textArea(['rows' => 6]) ?>
+
+        <?= Html::label('Download your photo') ?>
         <?= $form->field($files, 'file')->fileInput() ?>
+
+        <?= Html::label('Download license/certificate') ?>
         <?= $form->field($files, 'file[]')->fileInput(['multiple' => '']) ?>
+
+        <?= Html::label('Verification (copy of ID)') ?>
         <?= $form->field($files, 'file')->fileInput() ?>
 
         <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [
