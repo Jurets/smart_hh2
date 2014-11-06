@@ -108,4 +108,4 @@ the installed application. You only need to do these once for all.
    yoursite.ex/
    yoursite.ex/admin
 
-
+test
