@@ -5,7 +5,8 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     
     //settings for file uploading
-    'defaultFolderForUploads' => 'uploads/',
+    'upload.path' => 'uploads',
+    'upload.url' => 'uploads',
 
     //system languages
     'languages' => array(

@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "files".
@@ -113,7 +114,8 @@ class Files extends \yii\db\ActiveRecord
         //run validation 
         if ($this->validate()) {
             //If validation is successful, then we're saving the file:
-            if ($this->file->saveAs(\Yii::$app->params['defaultFolderForUploads'] . $code . '.' . $extension) !== false) {
+            //if ($this->file->saveAs(\Yii::$app->params['upload.path'] . $code . '.' . $extension) !== false) {
+            if ($this->file->saveAs(self::getUploadPath() . $code . '.' . $extension) !== false) {
                 $this->save();
             }
         }
@@ -125,11 +127,71 @@ class Files extends \yii\db\ActiveRecord
     /*
      * Generate random string for name file
      */
-
     private function _getRandomName($filename)
     {
         $filenamehash = md5(time() . $filename);
         return $filenamehash;
+    }
+
+    /**
+    * 
+    */
+    public function getFilePath() {
+        //$exts = FileHelper::getExtensionsByMimeType($this->mimetype);
+        return self::getUploadPath() . $this->_baseName();
+        //return self::getUploadPath() . $this->code . '.' . $exts[0];
+    }   
+    
+    /**
+    * вернуть URL картинки
+    * 
+    * @param mixed $fileName - имя файла (без пути естесно))
+    * @param mixed $default - файл по дефолту, если $fileName не найден
+    * @return CAttributeCollection
+    */
+    public function getFileUrl() {
+        //путь к хранилищу файлов (из настроек)
+        /*$dir = isset(Yii::app()->params['upload.path']) ? Yii::app()->params['upload.path'] : self::DEFAULT_PATH;
+        //базовый урл (из настроек)
+        $url = isset(Yii::app()->params['upload.url']) ? Yii::app()->params['upload.url'] : self::DEFAULT_PATH;
+        if (is_file($dir . DIRECTORY_SEPARATOR . $fileName))
+            return $url . basename($fileName);  
+        else { //если файл не найден - вернуть дефолтное фото
+            if (!empty($default)) {
+                if (is_file($default))
+                    return $default;
+                else if (is_file($dir . DIRECTORY_SEPARATOR . $default))
+                    return $dir . DIRECTORY_SEPARATOR . $default;
+            }
+            return isset(Yii::app()->params['photo.default']) ? Yii::app()->params['photo.default'] : self::DEFAULT_PHOTO;
+        }*/ 
+        //DebugBreak();
+        //$exts = FileHelper::getExtensionsByMimeType($this->mimetype);
+        return Yii::$app->params['upload.url'] . '/' . $this->_baseName();
+        //return Yii::$app->params['upload.url'] . '/' . $this->code . '.' . $exts[0];
+    }
+
+    /**
+    * build base name by code and mimetype
+    * 
+    */
+    private function _baseName() {
+        $path = self::getUploadPath();
+        //get extensions (http://www.yiiframework.com/doc-2.0/yii-helpers-basefilehelper.html#$mimeMagicFile-detail)
+        $exts = FileHelper::getExtensionsByMimeType($this->mimetype);
+        foreach ($exts as $ext) {
+            //$file = $path . $this->code . '.' . $ext;
+            if (is_file($path . $this->code . '.' . $ext))
+                return $this->code . '.' . $ext;
+        }
+        return false;
+    }
+    
+    /**
+    *  return path for files uploading
+    */
+    public static function getUploadPath() {
+        return Yii::$app->params['upload.path'] . DIRECTORY_SEPARATOR;
     }
 
 }

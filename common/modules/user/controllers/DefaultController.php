@@ -287,9 +287,9 @@ class DefaultController extends Controller
             if ($file->validate() && $profile->validate()) {  
                 //If validation is successful, then we're saving the file:
                $files_id = $file->saveImage();
-               $profile->photo = $files_id;
+               $profile->photo = $files_id;  //put file_id in field 'photo'
             }
-            $profile->save(false);
+            $profile->save(false);           //save profile
             Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
             return $this->refresh();
         }
