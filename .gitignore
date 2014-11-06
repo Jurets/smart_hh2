@@ -32,3 +32,4 @@ phpunit.phar
 # Single point access to site
 frontend/web/.htaccess
 backend/web/.htaccess
+.htaccess
