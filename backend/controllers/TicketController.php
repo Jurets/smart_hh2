@@ -109,6 +109,10 @@ class TicketController extends Controller
         $isBann->save();
         return $this->redirect(['index']);
     }
+    /**/
+    public function actionTest(){
+        ;
+    }
     /**
      * Finds the Ticket model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

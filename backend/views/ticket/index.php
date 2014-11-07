@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\grid\GridView as kGridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\TicketSearch */
@@ -16,11 +17,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Ticket',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?=
+        Html::a(Yii::t('app', 'Create {modelClass}', [
+                    'modelClass' => 'Ticket',
+                ]), ['create'], ['class' => 'btn btn-success'])
+        ?>
     </p>
-    <?= GridView::widget([
+    <?php
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -78,3 +82,26 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
 </div>
+
+
+<?php
+//echo kGridView::widget([
+//    'dataProvider' => $dataProvider,
+//    'filterModel' => $searchModel,
+//    'columns' => ['id'],
+//    'panel' => [
+//        'bootstrap' => TRUE,
+//        'heading' => 'qwerty',
+//        'type'=>'success',
+//        'before'=>'just string',
+//        'after'=>'1233',
+//    ],
+//    'toolbar' => [
+//        ['content' =>
+//            Html::button('<i class="glyphicon glyphicon-plus"></i>', ['type' => 'button', 'title' => Yii::t('app', 'Add Book'), 'class' => 'btn btn-success', 'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");']) . ' ' .
+//            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax' => false, 'class' => 'btn btn-default', 'title' => Yii::t('app', 'Reset Grid')])
+//        ],
+//        '{test}'
+//    ],
+//]);
+?>

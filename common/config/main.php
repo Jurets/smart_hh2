@@ -21,14 +21,18 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                // rules writes in back and front separately
+            // rules writes in back and front separately
             ],
-        ]        
+        ]
     ],
     'modules' => [
         'user' => [
             'class' => 'common\modules\user\Module',
         // set custom module properties here ...
         ],
+        'gridview' => [
+            'class' => '\kartik\grid\Module'
+            
+        ]
     ],
 ];
