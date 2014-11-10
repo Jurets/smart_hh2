@@ -47,6 +47,16 @@ AppAsset::register($this);
                     'active' => $module_id == 'user' && $controller_id == 'admin' && $action_id == 'index',
                 ];
                 $menuItems[] = [
+                    'label' => 'Tickets',
+                    'url' => ['/ticket/index'],
+                    
+                ];
+                 $menuItems[] = [
+                    'label' => 'Ticket status',
+                    'url' => ['/ticket/statusupdate'],
+                    
+                ];
+                $menuItems[] = [
                     'label' => 'Files', 
                     'url' => ['files'], 
                     'active' => $controller_id == 'files',

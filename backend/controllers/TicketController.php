@@ -113,6 +113,11 @@ class TicketController extends Controller
     public function actionTest(){
         ;
     }
+    public function actionStatusupdate(){
+        $model = new Ticket;
+        $updateStatuses = $model->getUpdateStatuses();
+        return $this->render('ticketUpdateStatuses',['model'=>$model,'ticketUpdateStatuses'=>$updateStatuses]);
+    }
     /**
      * Finds the Ticket model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
