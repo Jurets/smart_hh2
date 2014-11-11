@@ -30,7 +30,11 @@ return [
                 // your rules go here
             ],
             // ...
-        ]        
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            ],
     ],
     'modules' => [],
     'params' => $params,

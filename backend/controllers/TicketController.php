@@ -4,10 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Ticket;
+use common\models\User;
 use common\models\TicketSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -111,7 +113,97 @@ class TicketController extends Controller
     }
     /**/
     public function actionTest(){
-        ;
+        
+        return $this->render('test');
+    }
+    public function actionImplementtask(){
+         //Check input's values
+        if (isset($_POST['code']) && isset($_POST['id'])) {
+
+            $code = Yii::$app->request->post('code');
+            $id = Yii::$app->request->post('id');
+            
+            if (!preg_match('/\d+/', $code)) {
+                // if post code is invalid
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The specified code is incorrect."
+                ));
+                Yii::$app->end();
+            }
+            //Try to find Ticket in database
+            $ticket = Ticket::findOne(['id'=>$id]);
+            //If it's not found throw new exception
+            if (!$ticket) {
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The Ticket with id = '$id' not found."
+                ));
+                Yii::$app->end();
+            }
+            //Compare codes
+            if ($ticket->system_key != $code) {
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The code $code is incorrect"
+                ));
+                Yii::$app->end();
+            }
+            if ($ticket->status == Ticket::STATUS_COMPLETED) {
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The Ticket has already completed"
+                ));
+                Yii::$app->end();
+            }
+            if ($ticket->status == Ticket::STATUS_EXPIRED) {
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The Ticket has already expired"
+                ));
+                Yii::$app->end();
+            }
+            $ticket->status = Ticket::STATUS_COMPLETED;
+            if (1 === 2/*!$ticket->save()*/) {
+                echo Json::encode(Array(
+                    "result" => false,
+                    "text" => "The Ticket hasn't been saved"
+                ));
+                Yii::$app->end();
+            } else {
+                //Here we notify employer about new suggestion               
+                //Get pefrormer ID
+                $customerId = $ticket->user_id;
+                //Find his model
+                $customer = User::findOne(['id'=>$customerId]);                
+                //Send email to employer 
+                $email = $customer->email;
+                $username = $customer->username;
+                $idTicket = $ticket->id;
+                
+                //$result = Mail::sendToPerformerNotifyAboutClosingTicket($email, $username, $idTicket);
+                $test = Yii::$app->mailer->compose('ticket/mail', ['username'=>$username, 'idTicket'=>$idTicket])
+                        ->setFrom('admin@helpinghunt.com')
+                        ->setTo('localhost@local.test')
+                        ->setSubject('Test subject')
+                        ->send();
+                
+                
+                //mail('qwerty@test.localhost', 'у-ха=-ха 2 раза', "Не понятно мне что-то...");
+                echo Json::encode(Array(
+                    "result" => true,
+                    "text" => "The Task Completlly done"
+                ));
+                Yii::$app->end();
+            }
+        }
+        $this->render('implement-task', array());
+        
+    }
+    public function actionActivetickets(){
+       $model = new Ticket;
+       $tickets = $model->getActiveTickets();
+       return $this->render('activeTickets', ['tickets'=>$tickets]);
     }
     public function actionStatusupdate(){
         $model = new Ticket;

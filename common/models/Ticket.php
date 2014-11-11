@@ -162,4 +162,8 @@ class Ticket extends \yii\db\ActiveRecord
     public function getUpdateStatuses(){
         return Offer::getTicketStatusUpdate();
     }
+    public function getActiveTickets(){
+        return $this->find()->where(['performer_id'=>Yii::$app->user->id, 'status'=>self::STATUS_NOT_COMPLETED])->all();
+        //return $this->find()->where(['performer_id'=>1])->all();
+    }
 }
