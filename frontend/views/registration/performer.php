@@ -13,7 +13,7 @@ use yii\captcha\Captcha;
  * @var string $userDisplayName
  */
 
-$this->title = Yii::t('user', 'Registration customer');
+$this->title = Yii::t('user', 'Registration performer');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-register">
@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                     'labelOptions' => ['class' => 'col-lg-2 control-label'],
                 ],
-                'enableAjaxValidation' => true,
+                //'enableAjaxValidation' => true,
             ]); ?>
 
         <?= $form->field($user, 'username') ?>
