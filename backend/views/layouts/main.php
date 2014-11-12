@@ -43,7 +43,7 @@ AppAsset::register($this);
             } else {
                 $menuItems[] = [
                     'label' => 'Users', 
-                    'url' => ['user/admin'], 
+                    'url' => ['/user/admin'], 
                     'active' => $module_id == 'user' && $controller_id == 'admin' && $action_id == 'index',
                 ];
                 $menuItems[] = [
