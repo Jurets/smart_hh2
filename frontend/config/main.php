@@ -29,7 +29,11 @@ return [
             'rules' => [
                 // your rules go here
             ],
-        ]        
+        ],
+        /*'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => false,
+            ],*/
         
     ],
     'params' => $params,

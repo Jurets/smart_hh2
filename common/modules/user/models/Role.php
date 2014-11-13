@@ -27,6 +27,11 @@ class Role extends ActiveRecord
      * @var int Default user role
      */
     const ROLE_USER = 2;
+    
+    /* extence roles constants */
+    const EXT_ROLE_ADMIN = 1;
+    const EXT_ROLE_CUSTOMER = 2;
+    const EXT_ROLE_PERFORMER = 3;
 
     /**
      * @inheritdoc

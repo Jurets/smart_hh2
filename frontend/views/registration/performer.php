@@ -37,7 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                     'labelOptions' => ['class' => 'col-lg-2 control-label'],
                 ],
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => true,
             ]); ?>
 
         <?= $form->field($user, 'username') ?>

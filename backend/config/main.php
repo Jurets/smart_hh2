@@ -31,10 +31,10 @@ return [
             ],
             // ...
         ],
-        'mailer' => [
+        /*'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
-            ],
+            ],*/
     ],
     'modules' => [],
     'params' => $params,
