@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
                     'labelOptions' => ['class' => 'col-lg-2 control-label'],
                 ],
-                //'enableAjaxValidation' => true,
+                'enableAjaxValidation' => true,
             ]); ?>
 
         <?= $form->field($user, 'username') ?>
@@ -97,13 +97,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'self_description')->textArea(['rows' => 6]) ?>
 
         <?= Html::label('Download your photo') ?>
-        <?= $form->field($files, 'file')->fileInput() ?>
+        <?= $form->field($files, 'file[photo]')->fileInput() ?>
 
         <?= Html::label('Download license/certificate') ?>
-        <?= $form->field($files, 'file[]')->fileInput(['multiple' => '']) ?>
+        <?= $form->field($files, 'file[cert]')->fileInput(['multiple' => 'true']) ?>
 
         <?= Html::label('Verification (copy of ID)') ?>
-        <?= $form->field($files, 'file')->fileInput() ?>
+        <?= $form->field($files, 'file[vercode]')->fileInput() ?>
 
         <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [
             'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',
