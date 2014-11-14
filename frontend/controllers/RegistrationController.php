@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use \common\models\UserLanguage;
+use common\models\Language;
 
 class RegistrationController extends Controller
 {
@@ -32,8 +33,8 @@ class RegistrationController extends Controller
         $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
         $userLanguage = new UserLanguage();
+        $languages = Language::getExistLanguagesArray(); // all exists languages - ao array for widget
         $files = new Files();
-    
        
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
@@ -55,16 +56,38 @@ class RegistrationController extends Controller
                     $guestText = Yii::t("user", " - Please check your email to confirm your account");
                 }
                 Yii::$app->session->setFlash("Register-success", $successText . $guestText);
-            }
-            // section "stars"
+            // section stars
+                /* receive users languages and it`s ratings */
+                if(!empty($post) && isset($post['UserLanguage'])){
+                    $languages = $post['UserLanguage']['language'];
+                    /* user language implementation process */
+                    $this->userLanguageImplements($languages, $user->id);
+                }
+            } 
             
         }
-        return $this->render('performer', ['user'=>$user, 'profile'=>$profile, 'userLanguage'=>$userLanguage, 'files'=>$files]);
+
+        return $this->render('performer', ['user'=>$user, 'profile'=>$profile, 'userLanguage'=>$userLanguage, 'languages'=>$languages, 'files'=>$files]);
+    }
+    
+    protected function userLanguageImplements($choiseLanguages = array(), $user_id = NULL){
+   
+        if(empty($choiseLanguages) || is_null($user_id)){
+            return 0;
+        }
+        foreach($choiseLanguages as $language){
+            if(isset($language[0]) && (int)$language[1] !== 0 ){
+                $model = new UserLanguage;
+                $model->setAttributes([
+                    'user_id'=>$user_id,
+                    'language_id'=>$language[2],
+                    'knowledge'=>$language[1],
+                ]);
+                $model->save();
+            }
+        }
     }
 
-    
-    
-    
     protected function afterRegister($user)
     {
         /** @var \common\modules\user\models\UserKey $userKey */

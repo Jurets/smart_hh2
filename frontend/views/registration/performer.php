@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'labelOptions' => ['class' => 'col-lg-2 control-label'],
                 ],
                 'enableAjaxValidation' => false,
-                'enableClientValidation' => false,
+                'enableClientValidation' => true,
             ]); ?>
 
         <?= $form->field($user, 'username') ?>
@@ -48,9 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA ( +1 )','Canada ( +1 )']) ?>
         <?= $form->field($profile, 'phone') ?>
         <?= Html::label('Pick language and language knowledge') ?>
-        <?= $form->field($userLanguage, 'language[ru]')->checkboxList(['ru'=>'Russia']) ?>
-
-        <?= StarRating::widget(['name' => 'UserLanguage[language][ru][1]',
+        <?php foreach ($languages as $language) { ?>
+        <?php 
+            echo $form->field($userLanguage, 'language['.$language['name'].']')->checkboxList([$language['name']=>Yii::$app->params['languages'][$language['name']]]);
+            echo StarRating::widget(['name' => 'UserLanguage[language]['.$language['name'].'][1]',
                 'pluginOptions' => [
                     'stars' => 5,
                     'min' => 0,
@@ -65,25 +66,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'disabled' => true
                     ],
                 ]
-            ]);?>
-        <?= $form->field($userLanguage, 'language[en]')->checkboxList(['en'=>'English']) ?>
-
-        <?= StarRating::widget(['name' => 'UserLanguage[language][en][1]',
-                'pluginOptions' => [
-                    'stars' => 5,
-                    'min' => 0,
-                    'max' => 5,
-                    'step' => 1,
-                    'size' => 'xs',
-                    'defaultCaption' => '{rating} stars',
-                    'starCaptions'=>[],
-                    'showClear' => false,
-                    'showCaption' => false,
-                    'options' => [
-                        'disabled' => true
-                    ],
-                ]
-            ]);?>
+            ]);
+            echo Html::hiddenInput('UserLanguage[language]['.$language['name'].'][2]',$language['id']);
+        ?>
+        <?php } ?>
 
         <?= Html::label('Do you have PayPal?') ?>
         <?= Html::radioList('checkPaypal',[],['yes','no']) ?>
