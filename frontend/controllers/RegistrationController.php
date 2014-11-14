@@ -56,6 +56,8 @@ class RegistrationController extends Controller
                 }
                 Yii::$app->session->setFlash("Register-success", $successText . $guestText);
             }
+            // section "stars"
+            
         }
         return $this->render('performer', ['user'=>$user, 'profile'=>$profile, 'userLanguage'=>$userLanguage, 'files'=>$files]);
     }

@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'labelOptions' => ['class' => 'col-lg-2 control-label'],
                 ],
                 'enableAjaxValidation' => false,
-                'enableClientValidation' => true,
+                'enableClientValidation' => false,
             ]); ?>
 
         <?= $form->field($user, 'username') ?>
@@ -48,9 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA ( +1 )','Canada ( +1 )']) ?>
         <?= $form->field($profile, 'phone') ?>
         <?= Html::label('Pick language and language knowledge') ?>
-        <?= $form->field($userLanguage, 'language')->checkboxList(['ru'=>'Russia']) ?>
+        <?= $form->field($userLanguage, 'language[ru]')->checkboxList(['ru'=>'Russia']) ?>
 
-        <?= StarRating::widget(['name' => 'rating_ru',
+        <?= StarRating::widget(['name' => 'UserLanguage[language][ru][1]',
                 'pluginOptions' => [
                     'stars' => 5,
                     'min' => 0,
@@ -66,9 +66,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]
             ]);?>
-        <?= $form->field($userLanguage, 'language')->checkboxList(['en'=>'English']) ?>
+        <?= $form->field($userLanguage, 'language[en]')->checkboxList(['en'=>'English']) ?>
 
-        <?= StarRating::widget(['name' => 'rating_en',
+        <?= StarRating::widget(['name' => 'UserLanguage[language][en][1]',
                 'pluginOptions' => [
                     'stars' => 5,
                     'min' => 0,
