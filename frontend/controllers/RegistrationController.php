@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use common\models\Files;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -10,7 +9,11 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use \common\models\UserLanguage;
+use common\models\Files;
 use common\models\Language;
+use yii\web\UploadedFile;
+use common\models\UserDiploma;
+use common\models\UserVerification;
 
 class RegistrationController extends Controller
 {
@@ -48,6 +51,11 @@ class RegistrationController extends Controller
             if ($user->validate() && $profile->validate()) {
                 $role = Yii::$app->getModule('user')->model('Role');
                 $user->setRegisterAttributes($role::EXT_ROLE_PERFORMER, Yii::$app->request->userIP)->save(false);
+                // section only photo uploads
+                if (!is_null(UploadedFile::getInstanceByName('photo'))) {
+                    $photo_id = $files->saveSingleImage($user->id);
+                    $profile->photo = $photo_id;
+                }
                 $profile->setUser($user->id)->save(false);
                 $this->afterRegister($user);
                 $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
@@ -63,11 +71,53 @@ class RegistrationController extends Controller
                     /* user language implementation process */
                     $this->userLanguageImplements($languages, $user->id);
                 }
-            } 
-            
+            // section diploma and ID upload/attach
+                //Diploma
+                if(!is_null(UploadedFile::getInstancesByName('cert'))){
+                    $diplomaIdArray = $files->saveMultyImage($user->id, 'diploma', 'cert');
+                    if(is_array($diplomaIdArray)){
+                        UserDiploma::DiplomaAttachmentProcess($user->id, $diplomaIdArray);   
+                    }
+                }
+                //ID
+                if(!is_null(UploadedFile::getInstancesByName('vercode'))){
+                    $verificationsIdArray = $files->saveMultyImage($user->id, 'verificationID', 'vercode');
+                    if(is_array($verificationsIdArray)){
+                        UserVerification::VerifycationAttachmentProcess($user->id, $verificationsIdArray);
+                    }
+                }
+            }     
         }
-
+        
         return $this->render('performer', ['user'=>$user, 'profile'=>$profile, 'userLanguage'=>$userLanguage, 'languages'=>$languages, 'files'=>$files]);
+    }
+    
+    public function actionCustomer(){
+        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $profile = Yii::$app->getModule("user")->model("Profile");
+        $post = Yii::$app->request->post();
+         if ($user->load($post)) {
+            $profile->load($post);
+            // ajax validate registration
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($user, $profile);
+            }
+            // section normal validate basic registration models
+            if ($user->validate() && $profile->validate()) {
+                $role = Yii::$app->getModule('user')->model('Role');
+                $user->setRegisterAttributes($role::EXT_ROLE_CUSTOMER, Yii::$app->request->userIP)->save(false);
+                $profile->setUser($user->id)->save(false);
+                $this->afterRegister($user);
+                $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                $guestText = "";
+                if (Yii::$app->user->isGuest) {
+                    $guestText = Yii::t("user", " - Please check your email to confirm your account");
+                }
+                Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+            }
+         }
+        return $this->render('customer', ['user'=>$user, 'profile'=>$profile]);
     }
     
     protected function userLanguageImplements($choiseLanguages = array(), $user_id = NULL){
@@ -87,6 +137,8 @@ class RegistrationController extends Controller
             }
         }
     }
+    
+    
 
     protected function afterRegister($user)
     {

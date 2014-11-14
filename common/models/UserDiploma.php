@@ -62,4 +62,22 @@ class UserDiploma extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+    
+    /*
+     * performers registration process to attach user_id and file_id into diploma table
+     * static method: need user_id anyway from outside and files id`s as array
+     */
+    public static function DiplomaAttachmentProcess($user_id, $idArray = array()){
+        if(is_null($user_id)){
+            throw new \yii\web\HttpException("DiplomaAttachmentProcess failure: unknown user_id");
+        }
+        if(empty($idArray)){return 'Array of files id are exists?';}
+        foreach($idArray as $id){
+            $model = new UserDiploma;
+            $model->setAttributes(['user_id'=>$user_id, 'file_id'=>$id]);
+            if(!$model->save()){
+                throw new \yii\web\HttpException("DiplomaAttachmentProcess failure: can`t create a new record in database");
+            }
+        }
+    }
 }

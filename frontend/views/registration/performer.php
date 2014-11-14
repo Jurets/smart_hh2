@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\widgets\StarRating;
+use kartik\widgets\FileInput;
 use yii\captcha\Captcha;
 
 /**
@@ -84,14 +85,52 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'self_description')->textArea(['rows' => 6]) ?>
 
         <?= Html::label('Download your photo') ?>
-        <?= $form->field($files, 'file[photo]')->fileInput() ?>
-
+        <?php //echo $form->field($files, 'file[photo]')->fileInput() ?>
+        <?php 
+            echo FileInput::widget([
+                'name'=>'photo',
+                'options'=>[
+                    'multiple' => false,
+                ],
+                'pluginOptions' => [
+                    'showPreview' => true,
+                    'showCaption' => true,
+                    'showRemove' => true,
+                    'showUpload' => false,
+                ],
+            ]);
+        ?>
         <?= Html::label('Download license/certificate') ?>
-        <?= $form->field($files, 'file[cert]')->fileInput(['multiple' => 'true']) ?>
+        <?php 
+            echo FileInput::widget([
+                'name'=>'cert[]',
+                'options'=>[
+                    'multiple'=>true,
+                ],
+                'pluginOptions' => [
+                    'showPreview' => true,
+                    'showCaption' => true,
+                    'showRemove' => true,
+                    'showUpload' => false,
+                ],
+            ]);
+        ?>
 
         <?= Html::label('Verification (copy of ID)') ?>
-        <?= $form->field($files, 'file[vercode]')->fileInput() ?>
-
+        <?php 
+            echo FileInput::widget([
+                'name'=>'vercode[]',
+                'options'=>[
+                    'multiple' => true,
+                ],
+                'pluginOptions' => [
+                    'showPreview' => true,
+                    'showCaption' => true,
+                    'showRemove' => true,
+                    'showUpload' => false,
+                ],
+            ]);
+        ?>
         <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [
             'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',
         ]) ?>

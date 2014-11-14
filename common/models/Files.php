@@ -25,7 +25,8 @@ class Files extends \yii\db\ActiveRecord
     /**
      * @var UploadedFile|Null file attribute
      */
-    public $file;
+    public $file; // single upload actions
+    public $files = []; // multy upload actions
 
     /**
      * @inheritdoc
@@ -123,7 +124,57 @@ class Files extends \yii\db\ActiveRecord
        return $this->id;
         
     }
-
+    
+    public function saveSingleImage($user_id, $description='photo', $instance='photo'){
+        if(empty($user_id)){
+            throw new \yii\web\HttpException("Invalid user id for \common\models\files  saveSingleImage method");
+        }
+        $this->file = UploadedFile::getInstanceByName($instance);
+        
+        $this->name = $this->file->baseName;
+        $this->size = $this->file->size;
+        $this->code = $this->_getRandomName($this->file->baseName);
+        $this->mimetype = $this->file->type;
+        $this->description = $description;
+        $this->user_id = $user_id;
+        if($this->validate()){
+            if($this->file->saveAs(self::getUploadPath().$this->code.'.'.$this->file->extension)){
+                $this->save(false);
+                return $this->id;
+            }
+        }
+        throw new \yii\web\HttpException($description." uploaded are not success");
+    }
+    
+    public function saveMultyImage($user_id, $description='photo', $instance='photo'){
+        if(empty($user_id)){
+            throw new \yii\web\HttpException("Invalid user id for \common\models\files  saveMultyImage method");
+        }
+        $file_ids = [];
+        $this->files = UploadedFile::getInstancesByName($instance);
+        foreach($this->files as $file){
+            $model = new Files;
+            $model->name = $file->baseName;
+            $model->size = $file->size;
+            $model->code = $this->_getRandomName($file->baseName);
+            $model->mimetype = $file->type;
+            $model->description = $description;
+            $model->user_id = $user_id;
+            if($model->validate()){
+                if($file->saveAs(self::getUploadPath().$model->code.'.'.$file->extension)){
+                    $model->save(false);
+                    $file_ids[] = $model->id;
+                    unset($model);
+                }else{
+                    throw new \yii\web\HttpException('saveMultyImage terminated: save image failure: '.$model->code.' '.$model->name);
+                }
+            }else{
+                throw new \yii\web\HttpException('saveMultyImage terminated: image validation failure: '.$model->code.' '.$model->name);
+            }
+        }
+        return $file_ids;
+    }
+    
     /*
      * Generate random string for name file
      */

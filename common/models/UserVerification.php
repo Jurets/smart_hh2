@@ -43,4 +43,22 @@ class UserVerification extends \yii\db\ActiveRecord
             'file_id' => Yii::t('app', 'ИД файла (картинки)'),
         ];
     }
+    
+    /*
+     * performers registration process to attach user_id and file_id into verifycation table
+     * static method: need user_id anyway from outside and files id`s as array
+     */
+    public static function VerifycationAttachmentProcess($user_id, $idArray = array()){
+        if(is_null($user_id)){
+            throw new \yii\web\HttpException("VerifycationAttachmentProcess failure: unknown user_id");
+        }
+        if(empty($idArray)){return 'Array of files id are exists?';}
+        foreach($idArray as $id){
+            $model = new UserVerification;
+            $model->setAttributes(['user_id'=>$user_id, 'file_id'=>$id]);
+            if(!$model->save()){
+                throw new \yii\web\HttpException("VerifycationAttachmentProcess failure: can`t create a new record in database");
+            }
+        }
+    }
 }
