@@ -85,7 +85,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'toolbar' => [
         '{export}',
-        //'{toggleData}'
         ],
     ]); 
     ?>
