@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </p>
     <?php
-    echo GridView::widget([
+    echo kGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -78,6 +78,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ],
+        'panel' => [
+        'bootstrap' => TRUE,
+        'heading' => Yii::t('app', 'Tickets'),
+        'type'=>'success',
+        ],
+        'toolbar' => [
+        '{export}',
+        //'{toggleData}'
+        ],
     ]); 
     ?>
 
@@ -91,17 +100,11 @@ $this->params['breadcrumbs'][] = $this->title;
 //    'columns' => ['id'],
 //    'panel' => [
 //        'bootstrap' => TRUE,
-//        'heading' => 'qwerty',
+//        'heading' => Yii::t('app', 'Additional operations'),
 //        'type'=>'success',
-//        'before'=>'just string',
-//        'after'=>'1233',
 //    ],
 //    'toolbar' => [
-//        ['content' =>
-//            Html::button('<i class="glyphicon glyphicon-plus"></i>', ['type' => 'button', 'title' => Yii::t('app', 'Add Book'), 'class' => 'btn btn-success', 'onclick' => 'alert("This will launch the book creation form.\n\nDisabled for this demo!");']) . ' ' .
-//            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax' => false, 'class' => 'btn btn-default', 'title' => Yii::t('app', 'Reset Grid')])
-//        ],
-//        '{test}'
+//        '{export}'
 //    ],
 //]);
 ?>
