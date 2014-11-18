@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\Compliant;
+use common\models\Complaint;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -54,7 +54,7 @@ class TicketController extends Controller
      */
     public function actionView($id)
     {
-        $complain = new Compliant;
+        $complain = new Complaint;
         return $this->render('view', [
             'model' => $this->findModel($id),
             'complain' => $complain,
@@ -122,7 +122,11 @@ class TicketController extends Controller
     /* action complain */
     public function actionComplain(){
         if(Yii::$app->request->isAjax){
-            
+            $post = Yii::$app->request->post();
+            $model = new Complaint;
+            $model->attributes = $post;
+            $model->save();
+            echo 'Success';
         }
     } 
     
