@@ -66,6 +66,10 @@ AppAsset::register($this);
                     'active' => $controller_id == 'files',
                 ];
                 $menuItems[] = [
+                    'label' => Yii::t('app', 'Compliants'),
+                    'url' => ['compliant/index'],
+                ];
+                $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post'],
