@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\Compliant;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -33,7 +34,7 @@ class TicketController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Ticket::find(),
+            'query' => Ticket::find()->onCondition(['is_turned_on'=>  Ticket::TURNED_ON]),
         ]);
         
         $list = Yii::$app->params['languages'];
@@ -53,8 +54,10 @@ class TicketController extends Controller
      */
     public function actionView($id)
     {
+        $complain = new Compliant;
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'complain' => $complain,
         ]);
     }
 
@@ -115,6 +118,14 @@ class TicketController extends Controller
      * @return Ticket the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
+    /* action complain */
+    public function actionComplain(){
+        if(Yii::$app->request->isAjax){
+            
+        }
+    } 
+    
     protected function findModel($id)
     {
         if (($model = Ticket::findOne($id)) !== null) {
