@@ -34,7 +34,11 @@ return [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
             ],*/
-        
+       
+    'assetManager' => [
+        'linkAssets' => true,
+    ], 
+
     ],
     'params' => $params,
 ];

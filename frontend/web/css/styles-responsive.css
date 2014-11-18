@@ -1,0 +1,118 @@
+@media (max-width:1200px) {
+    .main-nav ul,
+    .latest-task,
+    .latest-task .tasks-holder .left-column, 
+    .latest-task .tasks-holder .right-column,
+    .how-it-works,
+    .mention {
+        padding:0px 20px;
+    }
+    .category a.icon-items{
+    width:150px;
+    text-align: center;
+    vertical-align:top;
+    margin-bottom:5px;
+    margin-right: 20px;
+ }
+ .content.two-column .left-column{
+    padding-right:0px;    
+}
+.user-item img{
+    margin-right: 8px;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+}
+
+
+@media (max-width: 992px) {
+    .content{
+        padding:30px 30px 30px 50px;
+    }
+    h2{font-size:31px;}
+     .top-nav{
+        float:left;
+    }
+    .tasks-holder .left-column{
+        border-right-color: transparent;
+    }
+    .tasks-holder .right-column{
+        padding-left: 0px;
+    }
+    .category {
+        height:460px;
+    }
+    .category a.icon-items{
+        width:110px;
+        text-align: center;
+        vertical-align: top;
+        margin-bottom:5px;
+        margin-right: 10px;
+    }
+    .category a.icon-items  p{
+        font-size: 12px;
+    }
+    
+    .sidebar{
+        padding-right: 0px;
+    }
+    .content.with-sidebar .sort .left-column{
+        border-color:transparent;
+    }
+    .content.with-sidebar .left-column{
+        padding-right: 0px;
+    }
+    .user-status-all{
+        padding-top: 0px;
+    }
+    .user-item  .user-mark{
+        padding:0px;
+    } 
+    
+    
+}
+
+@media (max-width: 740px) {
+    .content{
+        padding:25px 20px 20px 30px;
+    }
+    .category{
+        height: 400px;
+    }
+    .category a.icon-items{
+       width:100px;
+       display:inline-block;
+    }
+    .user-info-price{
+        float:left;
+    }
+    .main-nav ul,
+    .latest-task,
+    .latest-task .tasks-holder .left-column, 
+    .latest-task .tasks-holder .right-column,
+    .how-it-works,
+    .mention {
+        padding:0px;
+    }
+
+}
+
+
+
+@media (max-width: 646px) {
+    .content{
+        padding:20px;
+    }
+    .category a.icon-items{
+       width:80px;
+       display:inline-block;
+    }
+}
+
+
+
+
