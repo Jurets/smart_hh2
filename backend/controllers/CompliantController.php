@@ -4,7 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Compliant;
-use common\models\User;
+//use common\models\User;
+use common\modules\user\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
@@ -29,18 +30,13 @@ class CompliantController extends Controller
     }
     
     public function actionBann($id){
-        
-        $post = Yii::$app->request->post('bann-reason');
-        
+        /* bann at user model */
+            $post = Yii::$app->request->post('bann-reason');
             $user = User::findOne(['id'=>$id]);
             $user->ban_time = date('Y-m-d H:i:s');
             $user->ban_reason = (empty($post)) ? 'Without reason' : $post;
             $user->save();
-                
-           
-        
-            
-            
+        /* com[lants satisfaction */    
             $compliants = Compliant::findAll(['to_user_id'=>$id, 'satisfaction'=>  Compliant::SATISFACTION_NO]);
             foreach($compliants as $compliant){
                 $compliant->satisfaction = Compliant::SATISFACTION_YES;

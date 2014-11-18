@@ -1,4 +1,16 @@
 <?php
+
+//       WARNING!
+
+/*
+*   This model is obsolete and will be removed soon, do not use it
+*   instead use a model which belongs to the user module 
+**/
+
+
+
+
+
 namespace common\models;
 
 use Yii;
