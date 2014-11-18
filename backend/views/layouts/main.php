@@ -67,7 +67,7 @@ AppAsset::register($this);
                 ];
                 $menuItems[] = [
                     'label' => Yii::t('app', 'Compliants'),
-                    'url' => ['compliant/index'],
+                    'url' => ['/compliant/index'],
                 ];
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
