@@ -26,6 +26,12 @@ class Compliant extends \yii\db\ActiveRecord
     const SATISFACTION_NO = 0;
     const SATISFACTION_YES = 1;
     
+    /* syspect identity categories */
+    const SI_FILTHY_LANGUAGE = 'filthy language';
+    const SI_SEXUAL_HARASSMENT = 'sexual harassment';
+    const SI_SPAM = 'spam';
+    const SI_RACISM = 'racism';
+    
     public static function tableName()
     {
         return 'compliant';
