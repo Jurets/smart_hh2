@@ -27,6 +27,7 @@ foreach($model as $i=>$item){
     echo '<hr>';
 }
 ?>
+<?php echo Html::a('Release', Yii::$app->urlManager->baseUrl . '/complaint/disban?id='.$model[0]->ticket_id, ['class'=>'btn btn-success'])?>
 <?php }else{ ?>
 <h1>No Results</h1>
 <?php } ?>
