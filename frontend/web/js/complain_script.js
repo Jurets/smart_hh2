@@ -6,7 +6,7 @@ $(function(){
             dataType: "html",
             data: jQuery('#complain_sender').serialize(),
             success: function(response){
-                $('#modal_complain_content').html(response);
+                $('#complain_message').html(response);
             },
             error: function(response){
                $('#modal_complain_content').html(response);

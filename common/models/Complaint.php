@@ -93,4 +93,18 @@ class Complaint extends \yii\db\ActiveRecord
                 ->groupBy(['ticket_id'])
                 ->having('COUNT(*) >= 3');
     }
+    public static function howManyComplains($ticket_id){
+        return Complaint::find()
+                ->onCondition(['ticket_id'=>$ticket_id, 'status'=>self::STATUS_OFF])
+                ->count();
+    }
+    public static function getTicketComplains($id){
+        return Complaint::findAll(['ticket_id'=>$id, 'status'=>self::STATUS_OFF]);
+    }
+    public function changeStatus($models, $status = self::STATUS_ON){
+        foreach($models as $model){
+            $model->status = $status;
+            $model->save();
+        }
+    }
 }

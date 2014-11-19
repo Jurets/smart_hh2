@@ -121,15 +121,48 @@ class TicketController extends Controller
     
     /* action complain */
     public function actionComplain(){
-        if(Yii::$app->request->isAjax){
-            $post = Yii::$app->request->post();
-            $model = new Complaint;
-            $model->attributes = $post;
-            $model->save();
-            echo 'Success';
-        }
+       $complain = new Complaint;
+       if(Yii::$app->request->isAjax){
+           $post = Yii::$app->request->post();
+           $complain->attributes = $post;
+           if(!$complain->validate()){
+               return $this->renderErrors($complain->errors);
+           }else{
+               if($this->complainAllreadySend($complain->ticket_id)){
+                   return Yii::t('app', 'You have already complained');
+               }
+               $complain->save(false);
+               $this->turnOffTicket($complain->ticket_id);
+               return Yii::t('app', 'Complain send Success');
+           }
+       }
     } 
     
+    protected function renderErrors($errors){
+        $message = '';
+        foreach ($errors as $error){
+            $message .= $error[0].'<br>';
+        }
+        return $message;
+    }
+    protected function turnOffTicket($ticket_id, $number=3){
+        $count = Complaint::howManyComplains($ticket_id);
+        if($count >= $number){
+            $ticket = Ticket::findOne(['id'=>$ticket_id]);
+            $ticket->is_turned_on = Complaint::STATUS_OFF;
+            $ticket->save();
+        }
+    }
+    protected function complainAllreadySend($ticket_id){
+        if(Complaint::findOne([
+            'ticket_id' => $ticket_id,
+            'status' => Complaint::STATUS_OFF,
+            'from_user_id' => Yii::$app->user->id,
+        ]) !== null){
+            return true;
+        }
+        return false;
+    }
     protected function findModel($id)
     {
         if (($model = Ticket::findOne($id)) !== null) {
