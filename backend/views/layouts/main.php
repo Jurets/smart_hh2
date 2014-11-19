@@ -60,6 +60,11 @@ AppAsset::register($this);
                      'label' => 'Active tickets',
                      'url' => ['/ticket/activetickets'],
                  ];
+
+                 $menuItems[] = [
+                     'label' => 'Category',
+                     'url' => ['/category'],
+                 ];
                 $menuItems[] = [
                     'label' => 'Files', 
                     'url' => ['files'], 

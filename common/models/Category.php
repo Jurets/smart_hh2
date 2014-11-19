@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "category".
@@ -12,6 +13,10 @@ use Yii;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    /**
+     * @var UploadedFile|Null file attribute
+     */
+    public $file;
     /**
      * @inheritdoc
      */
@@ -27,8 +32,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['id', 'parent_id', 'level'], 'integer'],
+            [['name', 'picture'], 'string', 'max' => 255],
+            [['file'], 'file'],
         ];
     }
 
@@ -40,6 +46,9 @@ class Category extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
+            'parent_id' => Yii::t('app', 'ParentId'),
+            'level' => Yii::t('app', 'Level'),
+            'picture' => Yii::t('app', 'Picture'),
         ];
     }
 }
