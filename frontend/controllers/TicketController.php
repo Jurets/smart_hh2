@@ -165,7 +165,7 @@ class TicketController extends Controller
     }
     protected function findModel($id)
     {
-        if (($model = Ticket::findOne($id)) !== null) {
+        if (($model = Ticket::findOne(['id'=>$id, 'is_turned_on'=>  Ticket::TURNED_ON])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
