@@ -182,14 +182,11 @@ class TicketController extends Controller
                 $idTicket = $ticket->id;
                 
                 //$result = Mail::sendToPerformerNotifyAboutClosingTicket($email, $username, $idTicket);
-                $test = Yii::$app->mailer->compose('ticket/mail', ['username'=>$username, 'idTicket'=>$idTicket])
-                        ->setFrom('admin@helpinghunt.com')
-                        ->setTo('localhost@local.test')
-                        ->setSubject('Test subject')
+               Yii::$app->mailer->compose('ticket/mail', ['idTicket'=>$idTicket, 'link'=>'http://google.com'])
+                        ->setTo($email)
+                        ->setSubject('')
                         ->send();
                 
-                
-                //mail('qwerty@test.localhost', 'у-ха=-ха 2 раза', "Не понятно мне что-то...");
                 echo Json::encode(Array(
                     "result" => true,
                     "text" => "The Task Completlly done"

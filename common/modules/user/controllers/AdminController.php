@@ -153,6 +153,13 @@ class AdminController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionBan($id){
+        $user = $this->findModel($id);
+        $user->banManager();
+        $user->save();
+        return $this->redirect(['index']);
+    }
+    
     /**
      * Find the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

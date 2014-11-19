@@ -133,7 +133,6 @@ class TicketController extends Controller
                }
                $complain->save(false);
                        Yii::$app->mailer->compose('complaint/ban', ['ticketId'=>$complain->ticket_id])
-                        ->setFrom('localhost@local.test')
                         ->setTo($complain->ticket->user->email)
                         ->setSubject('ticket ban')
                         ->send();

@@ -535,4 +535,13 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $dropdown;
     }
+    
+     /* invertor bann/unbann */
+    public function banManager(){
+        $this->ban_time = (is_null($this->ban_time)) ? date('Y-m-d H:i:s') : NULL;
+    }
+    /* for check bann status in view */
+    public function isBanned(){
+        return ($this->ban_time === NULL) ? FALSE : TRUE;
+    }
 }
