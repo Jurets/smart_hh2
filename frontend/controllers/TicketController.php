@@ -132,12 +132,21 @@ class TicketController extends Controller
                    return Yii::t('app', 'You have already complained');
                }
                $complain->save(false);
+                       Yii::$app->mailer->compose('complaint/ban', ['ticketId'=>$complain->ticket_id])
+                        ->setFrom('localhost@local.test')
+                        ->setTo($complain->ticket->user->email)
+                        ->setSubject('ticket ban')
+                        ->send();
                $this->turnOffTicket($complain->ticket_id);
                return Yii::t('app', 'Complain send Success');
            }
        }
     } 
-    
+    public function actionTest(){
+        $complain = Complaint::findOne(['id'=>2]);
+        $user_id = $complain->ticket->user->id;
+        var_dump($user_id);
+    }
     protected function renderErrors($errors){
         $message = '';
         foreach ($errors as $error){

@@ -29,6 +29,11 @@ class ComplaintController extends \yii\web\Controller
         $ticket = Ticket::findOne(['id'=>$id]);
         $ticket->is_turned_on = Ticket::TURNED_ON;
         $ticket->save();
+        Yii::$app->mailer->compose('complaint/disban', ['ticketId' => $ticket->id])
+                        ->setFrom('localhost@local.test')
+                        ->setTo($ticket->user->email)
+                        ->setSubject('sorry')
+                        ->send();
         $complaint = new Complaint;
         $complains = Complaint::getTicketComplains($id);
         $complaint->changeStatus($complains);
