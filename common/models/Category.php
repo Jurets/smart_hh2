@@ -32,8 +32,9 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'required'],
-            [['id', 'parent_id', 'level'], 'integer'],
+            [['id', 'parent_id', 'level', 'weight', 'active'], 'integer'],
             [['name', 'picture'], 'string', 'max' => 255],
+
             [['file'], 'file'],
         ];
     }
@@ -49,6 +50,8 @@ class Category extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('app', 'ParentId'),
             'level' => Yii::t('app', 'Level'),
             'picture' => Yii::t('app', 'Picture'),
+            'weight' => Yii::t('app', 'Weight'),
+            'active' => Yii::t('app', 'Active'),
         ];
     }
 }

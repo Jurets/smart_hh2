@@ -30,7 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-
+            'weight',
+            [
+                'attribute' => 'active',
+                'format' => 'html',
+                'value' => function($data) {
+                        if($data->active){
+                            return Html::label('<span class="glyphicon glyphicon-ok"></span>');
+                        }else return Html::label('<span class="glyphicon glyphicon-remove"></span>');
+                         },
+            ],
             ['class' => 'yii\grid\ActionColumn',
                 'template'=>'{subupdate}',
                 'buttons' => [

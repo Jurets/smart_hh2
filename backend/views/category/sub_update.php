@@ -26,10 +26,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 <!--        --><?//= $form->field($model, 'id')->textInput() ?>
 
         <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-<!---->
-<!--        --><?//= $form->field($model, 'parent_id')->textInput() ?>
-<!---->
-<!--        --><?//= $form->field($model, 'level')->textInput() ?>
+
+        <?= $form->field($model, 'weight')->textInput() ?>
+
+        <?= $form->field($model, 'active')->checkbox()?>
 
         <div class="form-group">
             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

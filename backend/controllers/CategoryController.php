@@ -88,8 +88,8 @@ class CategoryController extends Controller
             $model->picture = $model->file->baseName .'.'.$model->file->extension;
 
             if ($model->save()) {
-
-                $model->file->saveAs(Yii::$app->params['upload.path'].DIRECTORY_SEPARATOR. $model->file->baseName . '.' . $model->file->extension);
+                $folderForSaveCategory = '/images/categories/';
+                $model->file->saveAs(Yii::$app->params['upload.path'].$folderForSaveCategory. $model->file->baseName . '.' . $model->file->extension);
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
