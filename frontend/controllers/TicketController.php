@@ -5,7 +5,8 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Ticket;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+#use yii\web\Controller;
+use common\controllers\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
@@ -26,7 +27,7 @@ class TicketController extends Controller
             ],
         ];
     }
-
+    
     /**
      * Lists all Ticket models.
      * @return mixed
