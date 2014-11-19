@@ -32,6 +32,13 @@ class Compliant extends \yii\db\ActiveRecord
     const SI_SPAM = 'spam';
     const SI_RACISM = 'racism';
     
+    public $complains = array(
+        self::SI_FILTHY_LANGUAGE,
+        self::SI_SEXUAL_HARASSMENT,
+        self::SI_RACISM,
+        self::SI_SPAM
+    );
+    
     public static function tableName()
     {
         return 'compliant';

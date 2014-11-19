@@ -71,7 +71,7 @@ AppAsset::register($this);
                     'active' => $controller_id == 'files',
                 ];
                 $menuItems[] = [
-                    'label' => Yii::t('app', 'Compliants'),
+                    'label' => Yii::t('app', 'Complaints'),
                     'url' => ['/compliant/index'],
                 ];
                 $menuItems[] = [
