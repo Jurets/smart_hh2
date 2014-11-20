@@ -25,6 +25,7 @@ AppAsset::register($this);
             <div class="main container">
                 <div class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <?= $this->render('parts/our_header')?>
+                    <?= $this->render('parts/header_login')?>
                 </div>
 
                 <div class="content">
