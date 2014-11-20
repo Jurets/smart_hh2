@@ -7,6 +7,7 @@ return [
     //settings for file uploading
     'upload.path' => '../../frontend/web/upload',
     'upload.url' => '/upload',
+    'images.path' => '../../frontend/web/images',
 
     //system languages
     'languages' => array(

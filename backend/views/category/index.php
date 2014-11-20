@@ -36,9 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function($data) { 
                         if(empty($data->picture)){
-                            return Html::img(Yii::$app->params['upload.url'].'/images/categories/defaultCategory.png', ['width'=>50]);
+                            return Html::img('/images/categories/defaultCategory.png', ['width'=>50]);
                         }
-                        return Html::img(Yii::$app->params['upload.url'].'/images/categories/'.$data->picture, ['width'=>50]); },
+                        return Html::img('/images/categories/'.$data->picture, ['width'=>50]); },
             ],
             'picture',
 
