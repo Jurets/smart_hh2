@@ -535,4 +535,36 @@ class User extends ActiveRecord implements IdentityInterface
 
         return $dropdown;
     }
+    
+     /* invertor bann/unbann */
+    public function banManager(){
+        //$this->ban_time = (is_null($this->ban_time)) ? date('Y-m-d H:i:s') : NULL;
+        if(is_null($this->ban_time)){
+            $this->ban_time = date('Y-m-d H:i:s');
+        Yii::$app->mailer->compose('user/ban')
+                        ->setTo($this->email)
+                        ->setSubject('ban message')
+                        ->send();
+        }else{
+            $this->ban_time = NULL;
+        }
+    }
+    /* for check bann status in view */
+    public function isBanned(){
+        return ($this->ban_time === NULL) ? FALSE : TRUE;
+    }
+    
+    /* user ban service verification */
+    public static function BanSrvVerification(){
+//        if(!Yii::$app->user->id){
+//            throw new \yii\web\HttpException('403', 'Permission denied');
+//        }
+//        if(){
+//            
+//        }
+        
+//        if(is_null(self::findOne(['ban_time'=>NULL, 'id'=>Yii::$app->user->id]))){
+//            throw new \yii\web\HttpException('403', 'Permission denied ban reason');
+//        }
+    }
 }

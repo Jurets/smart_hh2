@@ -66,10 +66,33 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'create_ip',
             // 'create_time',
             // 'update_time',
-            // 'ban_time',
+             'ban_time',
             // 'ban_reason',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+            
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {ban}',
+                'buttons' => [
+                    'ban' => function($url, $model){
+                     if ($model->isBanned()) {
+                        return Html::a('<span class="glyphicon glyphicon-globe"></span>', $url, [
+                                    'title' => Yii::t('app', 'Unban'),
+                                    'data-confirm' => Yii::t('app', 'Are you sure to unban?'),
+                                    'data-pjax' => 0,
+                        ]);
+                    } else {
+                        return Html::a('<span class="glyphicon glyphicon-ban-circle"></span>', $url, [
+                                    'title' => Yii::t('app', 'Ban'),
+                                    'data-confirm' => Yii::t('app', 'Are you sure to ban?'),
+                                    'data-pjax' => 0,
+                        ]);
+                    }
+                }
+                ],
+            ],            
+            
         ],
     ]); ?>
 
