@@ -556,11 +556,15 @@ class User extends ActiveRecord implements IdentityInterface
     
     /* user ban service verification */
     public static function BanSrvVerification(){
-        if(!Yii::$app->user->id){
-            throw new \yii\web\HttpException('403', 'Permission denied');
-        }
-        if(is_null(self::findOne(['ban_time'=>NULL, 'id'=>Yii::$app->user->id]))){
-            throw new \yii\web\HttpException('403', 'Permission denied ban reason');
-        }
+//        if(!Yii::$app->user->id){
+//            throw new \yii\web\HttpException('403', 'Permission denied');
+//        }
+//        if(){
+//            
+//        }
+        
+//        if(is_null(self::findOne(['ban_time'=>NULL, 'id'=>Yii::$app->user->id]))){
+//            throw new \yii\web\HttpException('403', 'Permission denied ban reason');
+//        }
     }
 }

@@ -4,8 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Ticket;
-use yii\data\ActiveDataProvider;
-#use yii\web\Controller;
+#use yii\data\ActiveDataProvider;
+use yii\web\Controller;
 use common\controllers\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
