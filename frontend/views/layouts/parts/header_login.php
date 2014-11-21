@@ -17,7 +17,7 @@
             <a href="#" class=""><img src="/images/icon-letter.png" alt="letter"/><span>1</span> new message</a>
             <a href="#" class=""><img src="/images/icon-bell.png" alt="bell"/><span>115</span> new offers</a>
             <a href="#" class=""><img src="/images/icon-pen.png" alt="pen"/>Edit Profile</a>
-            <a href="#" class=""><img src="/images/icon-logout.png" alt=""/>Log Out</a>
+            <a href="/user/logout" data-method="post" class=""><img src="/images/icon-logout.png" alt=""/>Log Out</a>
         </div>
 
         <select id="language">

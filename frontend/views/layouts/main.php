@@ -20,12 +20,17 @@ AppAsset::register($this);
         <?php $this->beginBody(); ?>
         
         <div class="basis">
+            <?= $this->render('parts/our_header')?>
+
+            <? if (Yii::$app->user->isGuest) {
+                echo $this->render('parts/header');
+            }else echo $this->render('parts/header_login')?>
 
             <!-- main -->
             <div class="main container">
                 <div class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <?= $this->render('parts/our_header')?>
-                    <?= $this->render('parts/header_login')?>
+
+
                 </div>
 
                 <div class="content">

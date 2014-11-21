@@ -3,10 +3,10 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 
 NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => '',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-inverse',
         ],
     ]);
 $menuItems = [

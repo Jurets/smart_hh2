@@ -85,11 +85,12 @@ class CategoryController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstance($model, 'picture');
-            $model->picture = $model->file->baseName .'.'.$model->file->extension;
 
-            if ($model->save()) {
+            if ($model->validate()) {
                 $folderForSaveCategory = '/categories/';
                 $model->file->saveAs(Yii::$app->params['images.path'].$folderForSaveCategory. $model->file->baseName . '.' . $model->file->extension);
+                $model->picture = $model->file->baseName .'.'.$model->file->extension;
+                $model->save();
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
