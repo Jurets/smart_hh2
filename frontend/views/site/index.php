@@ -33,7 +33,7 @@ AppAsset::register($this);
             </ul>
 
             <div class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <? if (Yii::$app->user->isGuest) {
+                <?php if (Yii::$app->user->isGuest) {
                     echo $this->render('/../views/layouts/parts/header');
                 }else echo $this->render('/../views/layouts/parts/header_login')?>
             </div>
