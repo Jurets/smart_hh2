@@ -697,12 +697,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "e845403b920545beb209e8f674dd9c56eebdeed8"
+                "reference": "57f2eb49b3ff6b76b37605cde7439d3e0e72aa1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/e845403b920545beb209e8f674dd9c56eebdeed8",
-                "reference": "e845403b920545beb209e8f674dd9c56eebdeed8",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/57f2eb49b3ff6b76b37605cde7439d3e0e72aa1c",
+                "reference": "57f2eb49b3ff6b76b37605cde7439d3e0e72aa1c",
                 "shasum": ""
             },
             "require": {
@@ -733,20 +733,20 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-17 16:23:56"
+            "time": "2014-11-21 03:54:17"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "175e65fd84dbca518155bb978986b8ac3ed428ba"
+                "reference": "ed68a77ad9209d8aaf4b479dae46f5a37248fca1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/175e65fd84dbca518155bb978986b8ac3ed428ba",
-                "reference": "175e65fd84dbca518155bb978986b8ac3ed428ba",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/ed68a77ad9209d8aaf4b479dae46f5a37248fca1",
+                "reference": "ed68a77ad9209d8aaf4b479dae46f5a37248fca1",
                 "shasum": ""
             },
             "require": {
@@ -779,7 +779,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-14 19:10:10"
+            "time": "2014-11-19 05:28:44"
         },
         {
             "name": "kartik-v/yii2-money",
@@ -787,12 +787,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-money.git",
-                "reference": "d86ee3ede81244f51f751593d386023b698d190c"
+                "reference": "d86c147d87886f8ec175b12bca2d3caaefe37d61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-money/zipball/d86ee3ede81244f51f751593d386023b698d190c",
-                "reference": "d86ee3ede81244f51f751593d386023b698d190c",
+                "url": "https://api.github.com/repos/kartik-v/yii2-money/zipball/d86c147d87886f8ec175b12bca2d3caaefe37d61",
+                "reference": "d86c147d87886f8ec175b12bca2d3caaefe37d61",
                 "shasum": ""
             },
             "require": {
@@ -829,7 +829,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2014-11-10 18:06:01"
+            "time": "2014-11-20 17:35:47"
         },
         {
             "name": "kartik-v/yii2-mpdf",
