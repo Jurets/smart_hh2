@@ -1,3 +1,7 @@
 .sidebar-holder li a img {
 	width: 30px;
 }
+.breadcrumb {
+	background: white !important;
+	padding-left: 0px !important;
+}

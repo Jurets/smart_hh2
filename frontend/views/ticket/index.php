@@ -1,10 +1,22 @@
 <?php
     use frontend\assets\PatchAsset;
     PatchAsset::register($this);
+    
+    use yii\helpers\Html;
+    use yii\widgets\ListView;
+    use yii\widgets\Breadcrumbs;
+    
 ?>
 <div class="content with-sidebar">
                 <div class="breadcrumbs">
-                    <a href="#">Breadcrumbs</a> / <span>Tasks</span>
+                   <?php 
+                      $this->title = Yii::t('app', 'All Task');
+                      $this->params['breadcrumbs'][] = $this->title;
+                      echo Breadcrumbs::widget([
+                        'itemTemplate' => "<li><i>{link}</i></li>\n",
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                      ]); 
+                    ?>
                 </div>
                 <div class="row">
                     
