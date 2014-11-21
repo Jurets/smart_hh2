@@ -22,7 +22,7 @@ AppAsset::register($this);
         <div class="basis">
             <?= $this->render('parts/our_header')?>
 
-            <? if (Yii::$app->user->isGuest) {
+            <?php if (Yii::$app->user->isGuest) {
                 echo $this->render('parts/header');
             }else echo $this->render('parts/header_login')?>
 

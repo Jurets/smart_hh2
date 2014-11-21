@@ -33,7 +33,7 @@ AppAsset::register($this);
             </ul>
 
             <div class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <? if (Yii::$app->user->isGuest) {
+                <?php if (Yii::$app->user->isGuest) {
                     echo $this->render('/../views/layouts/parts/header');
                 }else echo $this->render('/../views/layouts/parts/header_login')?>
             </div>
@@ -219,7 +219,7 @@ AppAsset::register($this);
                 </a>
             </div>
 
-            <a href="#" class="btn">SIGN UP NOW</a>
+            <a href="/registration/customer" class="btn">SIGN UP NOW</a>
 
         </div>
         <div class="right-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -252,7 +252,7 @@ AppAsset::register($this);
                     <p>Make and track payments in our Payments Center.</p>
                 </a>
             </div>
-            <a href="#" class="btn">SIGN UP NOW</a>
+            <a href="/registration/performer" class="btn">SIGN UP NOW</a>
 
         </div>
     </div>
