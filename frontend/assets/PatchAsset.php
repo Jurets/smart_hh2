@@ -10,8 +10,7 @@ class PatchAsset extends AssetBundle
         'css/sidebar-holder-patch.css',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'frontend\assets\AppAsset',
     ];
 }
 ?>

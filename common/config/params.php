@@ -8,6 +8,7 @@ return [
     'upload.path' => '../../frontend/web/upload',
     'upload.url' => '/upload',
     'images.path' => '../../frontend/web/images',
+    'url.categories' =>  '../../frontend/web/images/categories',
 
     //system languages
     'languages' => array(

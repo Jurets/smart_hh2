@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Ticket;
+use common\models\Category;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 #use common\controllers\Controller;
@@ -32,7 +33,7 @@ class TicketController extends Controller
      * Lists all Ticket models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($cid=NULL)
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Ticket::find()->onCondition(['is_turned_on'=>  Ticket::TURNED_ON]),
@@ -41,10 +42,15 @@ class TicketController extends Controller
         $list = Yii::$app->params['languages'];
         $apiKey = Yii::$app->params['apiLanguages'];
 
+        $category = new Category;
+        $categories = $category->categoryOutput($cid);
+        
+        
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'list' => $list,
             'apiKey' => $apiKey,
+            'categories' => $categories,
         ]);
     }
 

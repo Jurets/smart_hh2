@@ -56,7 +56,16 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /* Category standard Output */
-    public static function CategoryOutputSrv($id){
-
+    public function categoryOutput($id){
+        $query = self::find();
+           $query->onCondition(['level'=> 1]);
+           $categories = $query->all();
+           if(!is_null($id)){
+               $categories['subcategories'] = self::findAll([
+                   'parent_id' => (int)$id,
+               ]);
+           }
+        return $categories;
     }
+   
 }

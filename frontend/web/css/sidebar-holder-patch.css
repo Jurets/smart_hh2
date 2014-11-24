@@ -4,4 +4,10 @@
 .breadcrumb {
 	background: white;
 	padding-left: 0px;
+        margin-bottom: 0px;
+        padding-left: 50px;
+        
+}
+.breadcrumbs {
+    margin-bottom: 0px;
 }
