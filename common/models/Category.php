@@ -54,4 +54,9 @@ class Category extends \yii\db\ActiveRecord
             'active' => Yii::t('app', 'Active'),
         ];
     }
+
+    /* Category standard Output */
+    public static function CategoryOutputSrv($id){
+
+    }
 }
