@@ -20,8 +20,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'http://fonts.googleapis.com/css?family=Montserrat:400,700',
         'jquery.bxslider/jquery.bxslider.css',
-        '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',
-        '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css',
+        #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',
+        #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css',
         'css/styles.css',
         'css/styles-responsive.css'
     ];
