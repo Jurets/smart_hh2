@@ -7,7 +7,6 @@
     use yii\widgets\Breadcrumbs;
     
 ?>
-<div class="content with-sidebar">
                 <div class="breadcrumbs">
                    <?php 
                       $this->title = Yii::t('app', 'All Task');
@@ -236,6 +235,4 @@
                     </div>
 
 
-                    <div class="clear"></div>
-                
-            </div>		
+                    <div class="clear"></div>	
