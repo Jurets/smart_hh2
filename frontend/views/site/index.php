@@ -219,7 +219,7 @@ AppAsset::register($this);
                 </a>
             </div>
 
-            <a href="#" class="btn">SIGN UP NOW</a>
+            <a href="/registration/customer" class="btn">SIGN UP NOW</a>
 
         </div>
         <div class="right-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -252,7 +252,7 @@ AppAsset::register($this);
                     <p>Make and track payments in our Payments Center.</p>
                 </a>
             </div>
-            <a href="#" class="btn">SIGN UP NOW</a>
+            <a href="/registration/performer" class="btn">SIGN UP NOW</a>
 
         </div>
     </div>
