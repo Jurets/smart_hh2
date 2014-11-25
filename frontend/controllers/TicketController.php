@@ -6,8 +6,8 @@ use Yii;
 use common\models\Ticket;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
-#use common\controllers\Controller;
+#use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
@@ -28,7 +28,13 @@ class TicketController extends Controller
             ],
         ];
     }
-    
+    public function convensionInit() {
+        return [
+            'Customer' => 'index',
+            'Performer' => 'index view',
+            'Guest' => 'index',
+        ];
+    }
     /**
      * Lists all Ticket models.
      * @return mixed
