@@ -5,7 +5,7 @@ use yii\helpers\Html;
 <ul class="sidebar-holder">
 <?php if(is_array($categories)) { ?>
     
-    <li><a href="<?php Yii::$app->urlManager->baseUrl.'/ticket' ?>"><img src="images/icon-allTask.png" alt="icon"/>All Tasks</a></li>
+    <li><a href="<?php echo Yii::$app->urlManager->baseUrl.'/ticket' ?>"><img src="images/icon-allTask.png" alt="icon"/>All Tasks</a></li>
     
     <?php foreach($categories as $cat_id=>$category) { ?>
     <li>

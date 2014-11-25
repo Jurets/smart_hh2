@@ -24,54 +24,9 @@
                     <div class="right-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
                         <div class="all-task">
                             <h1>ALL Task</h1>
-                            <form class="sort" action="" method="post">
-                                <fieldset>
-                                    <div class="row">
-                                    <div class="left-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                        <p>Sort by Price:</p>
-                                        <select>
-                                            <option>Ascending</option>
-                                            <option>Ascending</option>
-                                        </select>
-                                        and at least
-                                        <input class="small" type="text"/>
-                                        <select class="small">
-                                            <option>USD</option>
-                                            <option>USD</option>
-                                        </select> 
-                                        <div class="group">
-                                            <label for="">Location:</label>
-                                            <input type="text"/>
-                                        </div>
-                                        <div class="group">
-                                            <label for="">Jobs Within:</label>
-                                            <select>
-                                                <option>100</option>
-                                                <option>200</option>
-                                            </select>
-                                        </div>
-                                        <div class="group">
-                                            <label for="">Sort by Finish Date:</label>
-                                            <input class="calendar" type="text"/>
-                                        </div>
-                                        <div class="clear"></div>
-                                        <p class="sort-comment small-text">Seattle, WA or 98124</p>
-                                        <p class="sort-comment">Showing 1 - 10 of 309 results</p>
-                                    </div>
-                                    <div class="right-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                                        <p>Category subcats:</p>
-                                        <input type="checkbox"/><label for="">painting</label><br/>
-                                        <input type="checkbox"/><label for="">furniture assembly</label><br/>
-                                        <input type="checkbox"/><label for="">plumbing</label><br/>
-                                        <input type="checkbox"/><label for="">electrical</label><br/>
-                                        <input type="checkbox"/><label for="">handyman </label><br/>
-                                    </div>
-
-                                </div>
-                            </fieldset>
-                        </form>
-
-
+                            <?php echo $this->render('_search_form', [
+                                'subcategories'=> !empty($categories['subcategories']) ? $categories['subcategories'] : NULL,
+                                ]) ?>
                         <div class="tasks-holder all-tasks">
 
                                 <div class="task-item info-border">

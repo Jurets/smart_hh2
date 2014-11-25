@@ -7,7 +7,7 @@ use common\models\Ticket;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
-use common\components\Controller;
+use common\components\Controller; // with auto ban state control
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;

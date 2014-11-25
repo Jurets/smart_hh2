@@ -15,11 +15,30 @@ class TicketSearch extends Ticket
     /**
      * @inheritdoc
      */
+    
+    /*
+     *  params
+     */
+    
+    
+    /*
+     * Extence params
+     */
+    public $price_filter;
+    public $jobs_within;
+    public $currency;
+    public $location;
+     
+    
     public function rules()
     {
         return [
             [['id', 'user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', /*'performer_id',*/ 'is_positive', 'rate'], 'integer'],
             [['description', 'title', 'created', 'system_key', 'start_day', 'finish_day', 'comment'], 'safe'],
+            /* advanced search for the frontend */
+            [['price_filter', 'jobs_within'], 'integer'],
+            [['currency', 'location', ], 'string'],
+            [['price_filter', 'jobs_within', 'currency', 'location'], 'safe'],
         ];
     }
 
@@ -73,5 +92,15 @@ class TicketSearch extends Ticket
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
+    }
+    /* for frontend only */
+    public function advancedSearch($params){
+        $query = Ticket::find();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        if(!($this->load($params) && $this->validate())){
+            return $dataProvider;
+        }
     }
 }
