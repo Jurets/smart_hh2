@@ -18,8 +18,8 @@ return [
             ]
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'enablePrettyUrl' => false,
+            'showScriptName' => true,
             'rules' => [
             // rules writes in back and front separately
             ],

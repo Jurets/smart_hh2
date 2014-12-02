@@ -1,6 +1,8 @@
 <?php
-//use Yii;
+
 use yii\helpers\Html;
+use yii\helpers\Url;
+
 ?>
 <ul class="sidebar-holder">
 <?php if(is_array($categories)) { ?>
@@ -11,11 +13,12 @@ use yii\helpers\Html;
     <li>
         <?php if($cat_id === 'subcategories') continue;?>
         <?php 
-          echo Html::a(
+            echo Html::a(
                   Html::img(Yii::$app->params['url.categories'].'/'.$category->picture, ['alt'=>'icon']) .
                   Yii::t('app', $category->name),
-                  Yii::$app->urlManager->baseUrl."/ticket?cid=".$category->id
+                  Url::to(['ticket/', 'cid' => $category->id], true)
                   );
+        
         ?>
     </li>
     <?php } ?>
