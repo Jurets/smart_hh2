@@ -18,12 +18,10 @@ return [
             ]
         ],
         'urlManager' => [
-            'enablePrettyUrl' => false,
-            'showScriptName' => true,
             'rules' => [
             // rules writes in back and front separately
             ],
-        ]
+        ],
     ],
     'modules' => [
         'user' => [

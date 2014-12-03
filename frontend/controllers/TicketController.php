@@ -11,6 +11,7 @@ use common\components\Controller; // with auto ban state control
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
+use yii\helpers\Url;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -30,9 +31,9 @@ class TicketController extends Controller
     }
     public function convensionInit() {
         return [
-            'Customer' => 'index',
+            'Customer' => 'index create',
             'Performer' => 'index view',
-            'Guest' => 'index',
+            'Guest' => 'index create',
         ];
     }
     /**
@@ -81,6 +82,9 @@ class TicketController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->isGuest){
+            $this->redirect(Url::to('/user/login'), TRUE);
+        }
         $model = new Ticket();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

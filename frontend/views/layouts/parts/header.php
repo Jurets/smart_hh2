@@ -1,6 +1,12 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+use frontend\assets\PatchAsset;
+PatchAsset::register($this);
+?>
 <div class="header row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <a href="#" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
+        <a href="<?=Yii::$app->urlManager->baseUrl?>" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
     </div>
     <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="top-nav">
@@ -12,9 +18,22 @@
                 </fieldset>
             </form>
             -->
-            <a href="/user/login" class="logIn">Log In</a>
-            <a href="/registration/performer" class="joinNow">Join Now</a>
-
+            <a href="/user/login" class="logIn"><?=Yii::t('app', 'Log In')?></a>
+            <div class="joinNowWrap">
+                <a href="javascript:popupJoinNowOpen()" class="joinNow"><?=Yii::t('app', 'Join Now')?></a>
+                <div class="popUpJoinNow">
+                    
+        <?php echo Html::a(
+                         Html::img(Yii::$app->params['images.path'] . '/icon-close.jpeg', ['width'=>'20px']),
+                         'javascript:javascript:popupJoinNowClose()'
+                        );?>
+                    <br><br>
+                    <?= Html::a(Yii::t('app', 'Join as Customer'), Url::to('registration/customer'), []) ?>
+                    <br>
+                    <?= Html::a(Yii::t('app', 'Join as Performer'), url::to('registration/performer'), []) ?>
+                    <br>
+                </div>
+            </div>
 
             <select id="language">
                 <option value="0" data-imagesrc="/images/language-icon.png">English</option>

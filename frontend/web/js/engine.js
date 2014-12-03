@@ -57,10 +57,10 @@ $(document).ready(function() {
         
 });
     
-   $('.carousel').carousel({
-  interval: 200000,
-  responsive:true
-}) 
+//   $('.carousel').carousel({
+//  interval: 200000,
+//  responsive:true
+//}) 
 });
 
 
