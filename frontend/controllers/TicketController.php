@@ -83,7 +83,10 @@ class TicketController extends Controller
     public function actionCreate()
     {
         if(Yii::$app->user->isGuest){
-            $this->redirect(Url::to('/user/login'), TRUE);
+            if(Yii::$app->urlManager->enablePrettyUrl === TRUE){
+                $this->redirect(Url::to('/user/login'), TRUE);
+            }
+            $this->redirect(Url::to('/?r=user/login'), TRUE);
         }
         $model = new Ticket();
 

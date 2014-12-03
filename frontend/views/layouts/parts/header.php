@@ -6,7 +6,7 @@ PatchAsset::register($this);
 ?>
 <div class="header row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <a href="<?=Yii::$app->urlManager->baseUrl?>" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
+        <a href="<?php echo Yii::$app->homeUrl?>" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
     </div>
     <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <div class="top-nav">

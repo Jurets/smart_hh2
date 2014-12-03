@@ -5,7 +5,7 @@ use Yii;
 
 <div class="header header-login row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
-        <a href="<?php echo Yii::$app->urlManager->baseUrl?>" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
+        <a href="<?php echo Yii::$app->homeUrl?>" class="logo"><img src="/images/logo.png" alt="HelpingHut"/></a>
     </div>
     <div class="top-nav col-xs-12 col-sm-12 col-md-12 col-lg-9">
         <!--
