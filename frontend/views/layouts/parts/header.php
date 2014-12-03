@@ -18,7 +18,7 @@ PatchAsset::register($this);
                 </fieldset>
             </form>
             -->
-            <a href="/user/login" class="logIn"><?=Yii::t('app', 'Log In')?></a>
+            <a href="<?=Url::to(['user/login'],true)?>" class="logIn"><?=Yii::t('app', 'Log In')?></a>
             <div class="joinNowWrap">
                 <a href="javascript:popupJoinNowOpen()" class="joinNow"><?=Yii::t('app', 'Join Now')?></a>
                 <div class="popUpJoinNow">
