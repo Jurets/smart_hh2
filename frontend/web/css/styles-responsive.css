@@ -7,28 +7,37 @@
     .mention {
         padding:0px 20px;
     }
+    .category{
+        height:580px;
+        padding:30px 10px;
+    }
+    .category .bx-wrapper .bx-viewport{
+        padding-left:70px;
+    }
     .category-holder .specialty-item  .icon-items{
-    width:150px;
-    height:110px;
+    width:170px;
+    height:120px;
     vertical-align:top;
     margin-bottom:10px;
-    margin-right: 20px;
-    padding: 20px 0px 0px 27px;
+    padding: 16px 0px 0px 30px;
  }
  .category-holder .specialty-item {
-     width:150px;
+     width:170px;
  }
     .category-holder .specialty-item  .icon-items img{
-        width:90px;
-        height:70px;
+        width:110px;
+        height:80px;
      }
-     .content.two-column .left-column{
+    .content > .row > .left-column{
         padding-right:0px;    
     }
     .user-item img{
         margin-right: 8px;
 }
  
+
+
+
  
  
  
@@ -55,22 +64,21 @@
         height:480px;
     }
     .category-holder .specialty-item  .icon-items{
-    width:100px;
-    height:80px;
+    width:125px;
+    height:90px;
     vertical-align:top;
     margin-bottom:10px;
-    margin-right: 20px;
-    padding: 10px 0px 0px 17px;
+    padding: 15px 0px 0px 20px;
     }
     .category-holder .specialty-item {
-        width:100px;
+        width:125px;
     }
     .category-holder .specialty-item  .icon-items img{
-        width:70px;
-        height:50px;
+        width:80px;
+        height:55px;
     }
     .category-holder .specialty-item p{
-        font-size: 12px;
+        font-size: 14px;
     }
     .sidebar{
         padding-right: 0px;
@@ -87,7 +95,10 @@
     .user-item  .user-mark{
         padding:0px;
     } 
-    
+   .content form.sort .left-column {
+    border-right: none;
+   margin-bottom: 20px;;
+} 
     
 }
 
@@ -96,22 +107,21 @@
         padding:25px 20px 20px 30px;
     }
     .category{
-        height: 420px;
+        height: 485px;
     }
     .category-holder .specialty-item  .icon-items{
-        width:80px;
-        height:60px;
+        width:112px;
+        height:83px;
         vertical-align:top;
         margin-bottom:10px;
-        margin-right: 20px;
-        padding: 15px 0px 0px 15px;
+        padding: 20px 0px 0px 23px;
     }
     .category-holder .specialty-item {
-        width:100px;
+        width:105px;
     }
     .category-holder .specialty-item  .icon-items img{
-        width:50px;
-        height:40px;
+        width:70px;
+        height:47px;
     }        
     .user-info-price{
         float:left;
@@ -135,15 +145,15 @@
     }
     
     .category-holder .specialty-item  .icon-items{
-        width:70px;
-        height:50px;
+        width:80px;
+        height:60px;
         vertical-align:top;
         margin-bottom:10px;
         margin-right: 10px;
-        padding: 3px 0px 0px 15px;
+        padding: 15px 0px 0px 15px;
     }
     .category-holder .specialty-item {
-        width:70px;
+        width:90px;
     }
     .category-holder .specialty-item  .icon-items img{
         width:50px;
@@ -152,9 +162,41 @@
     .category-holder .specialty-item p{
         font-size:12px;
     }
-   
+   .action a {
+    margin-right: 7px;
+    padding-left:3px;
+    padding-right: 3px;
 }
-
+}
+@media (max-width: 572px) {
+    .category{
+        height: 690px;
+    }
+    .category-holder .specialty-item  .icon-items{
+        width:50px;
+        height:42px;
+        vertical-align:top;
+        margin-bottom:10px;
+        margin-right: 10px;
+        padding: 10px 0px 0px 10px;
+        display:inline-block;
+    }
+    .category-holder .specialty-item {
+        width:100%;
+        display: block;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    .category-holder .specialty-item  .icon-items img{
+        width:30px;
+        height:24px;
+    }
+    .category-holder .specialty-item p{
+        font-size:16px;
+        display:inline-block;
+        padding-top:17px;
+    }
+}
 
 
 

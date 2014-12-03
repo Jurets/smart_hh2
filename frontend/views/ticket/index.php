@@ -1,6 +1,6 @@
 <?php
-    use frontend\assets\PatchAsset;
-    PatchAsset::register($this);
+//    use frontend\assets\PatchAsset;
+//    PatchAsset::register($this);
     
     use yii\helpers\Html;
     use yii\widgets\ListView;
