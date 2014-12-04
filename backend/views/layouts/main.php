@@ -68,7 +68,7 @@ AppAsset::register($this);
                  ];
                 $menuItems[] = [
                     'label' => 'Files', 
-                    'url' => [Url::to(['files'], true)], 
+                    'url' => [Url::to(['files/index'], true)], 
                     'active' => $controller_id == 'files',
                 ];
                 $menuItems[] = [
