@@ -47,8 +47,8 @@ AppAsset::register($this);
         <div class="main-nav col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <ul>
                 <li class="active col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#">Helping Hut</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#latestJobs">View latest jobs</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#howItWorks">See how it works</a></li>
+                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#latestJobs" class="scrollto">View latest jobs</a></li>
+                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a class="scrollto" href="#howItWorks">See how it works</a></li>
                 <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#">Need help?</a></li>
             </ul>
         </div>
@@ -61,7 +61,7 @@ AppAsset::register($this);
     <div class="content">
     <a name="latestJobs"></a>
     <div class="latest-task">
-        <h3>Latest Task</h3>
+        <h3 id="latestJobs">Latest Task</h3>
         <div class="tasks-holder row">
             <div class="left-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
@@ -187,7 +187,7 @@ AppAsset::register($this);
 
     <div class="how-it-works row">
         <a name='howItWorks'></a>
-        <h2><span class="red">See</span> how it works</h2>
+        <h2><span id="howItWorks" class="red">See</span> how it works</h2>
         <div class="left-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
             <h4>Looking for a <span class="red">helper</span>?</h4>

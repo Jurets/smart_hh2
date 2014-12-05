@@ -30,6 +30,7 @@ class AppAsset extends AssetBundle
         'jquery.bxslider/jquery.bxslider.min.js',
        # '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js',
         'js/engine.js',
+        'js/softscroll.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
