@@ -285,8 +285,9 @@ class DefaultController extends Controller
         if ($loadedPost) {
             //run validation 
             if ($file->validate() && $profile->validate()) {  
-                //If validation is successful, then we're saving the file:
-               $files_id = $file->saveImage();
+               //If validation is successful, then we're saving the file:
+               //$files_id = $file->saveImage();
+               $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'Files[file]');
                $profile->photo = $files_id;  //put file_id in field 'photo'
             }
             $profile->save(false);           //save profile

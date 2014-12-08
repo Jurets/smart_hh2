@@ -133,12 +133,12 @@ class Files extends \yii\db\ActiveRecord
         
         $this->name = $this->file->baseName;
         $this->size = $this->file->size;
-        $this->code = $this->_getRandomName($this->file->baseName);
+        $this->code = $this->_getRandomName($this->file->baseName).'.'.$this->file->extension;
         $this->mimetype = $this->file->type;
         $this->description = $description;
         $this->user_id = $user_id;
         if($this->validate()){
-            if($this->file->saveAs(self::getUploadPath().$this->code.'.'.$this->file->extension)){
+            if($this->file->saveAs(self::getUploadPath().$this->code)){
                 $this->save(false);
                 return $this->id;
             }
@@ -156,12 +156,12 @@ class Files extends \yii\db\ActiveRecord
             $model = new Files;
             $model->name = $file->baseName;
             $model->size = $file->size;
-            $model->code = $this->_getRandomName($file->baseName);
+            $model->code = $this->_getRandomName($file->baseName).'.'.$file->extension;
             $model->mimetype = $file->type;
             $model->description = $description;
             $model->user_id = $user_id;
             if($model->validate()){
-                if($file->saveAs(self::getUploadPath().$model->code.'.'.$file->extension)){
+                if($file->saveAs(self::getUploadPath().$model->code)){
                     $model->save(false);
                     $file_ids[] = $model->id;
                     unset($model);
@@ -181,6 +181,8 @@ class Files extends \yii\db\ActiveRecord
     private function _getRandomName($filename)
     {
         $filenamehash = md5(time() . $filename);
+        /* patch for store the extencion on code field */
+        $filenamehash = substr($filenamehash, 0, 27); // patch
         return $filenamehash;
     }
 
@@ -226,18 +228,25 @@ class Files extends \yii\db\ActiveRecord
     * build base name by code and mimetype
     * 
     */
+//    private function _baseName() {
+//        $path = self::getUploadPath();
+//        //get extensions (http://www.yiiframework.com/doc-2.0/yii-helpers-basefilehelper.html#$mimeMagicFile-detail)
+//        $exts = FileHelper::getExtensionsByMimeType($this->mimetype);
+//        foreach ($exts as $ext) {
+//            //$file = $path . $this->code . '.' . $ext;
+//            if (is_file($path . $this->code . '.' . $ext))
+//                return $this->code . '.' . $ext;
+//        }
+//        return false;
+//    }
+    /* modified after convulsium */
     private function _baseName() {
         $path = self::getUploadPath();
-        //get extensions (http://www.yiiframework.com/doc-2.0/yii-helpers-basefilehelper.html#$mimeMagicFile-detail)
-        $exts = FileHelper::getExtensionsByMimeType($this->mimetype);
-        foreach ($exts as $ext) {
-            //$file = $path . $this->code . '.' . $ext;
-            if (is_file($path . $this->code . '.' . $ext))
-                return $this->code . '.' . $ext;
+        if(is_file($path . $this->code)){
+            return $this->code;
         }
         return false;
     }
-    
     /**
     *  return path for files uploading
     */
