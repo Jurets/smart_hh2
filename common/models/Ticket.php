@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "ticket".
@@ -52,6 +53,9 @@ class Ticket extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    
+    public $categoryBinds = []; // get and check category instances for category binding when ticket create 
+    
     public static function tableName()
     {
         return 'ticket';
@@ -165,5 +169,25 @@ class Ticket extends \yii\db\ActiveRecord
     public function getActiveTickets(){
         return $this->find()->where(['performer_id'=>Yii::$app->user->id, 'status'=>self::STATUS_NOT_COMPLETED])->all();
         //return $this->find()->where(['performer_id'=>1])->all();
+    }
+    /* prepare categories-subcategories location struct */
+    public function categoryLocate(){
+        $locate = (new Query())
+                ->select('cat.name cat_name, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
+                ->from('category cat')
+                ->leftJoin('category subcat', 'subcat.parent_id = cat.id')
+                ->createCommand()
+                ->queryAll();
+        $compactStruct = [];
+        foreach($locate as $node){
+            if($node['subcat_id'] != NULL ){
+                $compactStruct[$node['cat_id']][$node['cat_name']][] = array(
+                    'subcat_id' => $node['subcat_id'],
+                    'subcat_name' => $node['subcat_name'],
+                );
+            }
+        }
+        //var_dump($compactStruct);die;
+        return $compactStruct;
     }
 }

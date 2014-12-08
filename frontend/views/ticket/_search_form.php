@@ -1,35 +1,53 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
+use kartik\datetime\DateTimePicker;
 ?>
-<form class="sort" action="" method="post">
+<form class="sort" action="<?=Url::to(['ticket/index', ],true)?>" method="get">
                                 <fieldset>
                                     <div class="row">
                                     <div class="left-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <?php echo (isset($_GET['cid'])) ? Html::hiddenInput('cid', (int)$_GET['cid']) : '' ?>
                                         <p>Sort by Price:</p>
-                                        <select>
+                                        <select name="sort">
                                             <option>Ascending</option>
                                             <option>Descending</option>
                                         </select>
                                         and at least
                                         <input class="small" type="text"/>
-                                        <select class="small">
+                                        <select name="currency" class="small">
                                             <option>USD</option>
                                             <option>USD</option>
                                         </select> 
                                         <div class="group">
                                             <label for="">Location:</label>
-                                            <input type="text"/>
+                                            <input name="location" type="text">
                                         </div>
                                         <div class="group">
                                             <label for="">Jobs Within:</label>
-                                            <select>
+                                            <select name="distance">
+                                                <option></option>
+                                                <option>0.5</option>
+                                                <option>1</option>
                                                 <option>100</option>
                                                 <option>200</option>
                                             </select>
                                         </div>
                                         <div class="group">
                                             <label for="">Sort by Finish Date:</label>
-                                            <input class="calendar" type="text"/>
+                                            <!--<input class="calendar" type="text">-->
+                                            <?php
+                                                echo DateTimePicker::widget([
+                                                    'type' => DateTimePicker::TYPE_INPUT,
+                                                    'name' => 'finish_date',
+                                                    'options' => [
+                                                        'format' =>'dd-M-yyyy hh:ii',
+                                                        'style' => 'display:inline',
+                                                    ],
+//                                                    
+//                                                    'language' => 'en',
+                                                ]);
+                                            ?>
                                         </div>
                                         <div class="clear"></div>
                                         <p class="sort-comment small-text">Seattle, WA or 98124</p>
@@ -47,7 +65,8 @@ use yii\helpers\Html;
                                         <?php } ?>
                                         <?php } ?>
                                     </div>
-
+                                        
                                 </div>
                             </fieldset>
+                        <div><?php echo Html::submitButton();?></div>
                         </form>

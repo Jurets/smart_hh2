@@ -89,8 +89,11 @@ class TicketController extends Controller
             $this->redirect(Url::to('/?r=user/login'), TRUE);
         }
         $model = new Ticket();
-
+        $model->categoryLocate();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            // add category_bind insert query
+            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
