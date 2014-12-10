@@ -9,7 +9,9 @@ return [
     'upload.url' => '/uploads',
     'images.path' => '../../frontend/web/images',
     'url.categories' =>  '../../frontend/web/images/categories',
-
+    
+    //slots.quantity: how many categories can choose together when ticket created
+    'slots.quantity' => 4,
     //system languages
     'languages' => array(
             'en' => 'English',

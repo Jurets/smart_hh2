@@ -31,6 +31,8 @@ class AppAsset extends AssetBundle
        # '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js',
         'js/engine.js',
         'js/softscroll.js',
+        // temporary in this section
+        'js/ticket_creation.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

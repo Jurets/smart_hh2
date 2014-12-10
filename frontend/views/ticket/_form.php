@@ -41,6 +41,7 @@ use yii\helpers\Url;
                             <a href="#" class="currency-price">See current prices for this of job</a>
                             <a href="#" class="btn btn-width">PUBLISH</a>                            
                         </fieldset>
+                    <div id="addons"></div>
                     <?php echo Html::endForm();?>
 
                                         
@@ -50,25 +51,21 @@ use yii\helpers\Url;
                     <p class="commentary">You can choose up to 4 categories and 12 subcategories</p>
                     <ol class="select-categories">
                         <li class="number-in-order">
-                        <select>
+                        <select id="slot1">
                             <option>Select if you need</option>
-                            <option>Home &amp; Office repairs</option>
                         </select>
                         </li>
                         <li class="number-in-order">
-                        <select>
+                        <select id="slot2">
                             <option>Select if you need</option>
-                            <option>Home &amp; Office repairs</option>
                         </select>
                         </li><li class="number-in-order">
-                        <select>
+                        <select id='slot3'>
                             <option>Select if you need</option>
-                            <option>Home &amp; Office repairs</option>
                         </select>
                         </li><li class="number-in-order">
-                        <select>
+                        <select id="slot4">
                             <option>Select if you need</option>
-                            <option>Home &amp; Office repairs</option>
                         </select>
                         </li>
                                                 
@@ -76,45 +73,18 @@ use yii\helpers\Url;
                 <ol class="option-categories">
                     
                     <li class="sub-categiries">
-                        <input type="checkbox"  /><label>1. Home &amp; Office repairs</label>  
+                        <input type="checkbox"><label>1. Home &amp; Office repairs</label>  
                         <ul class="select-sub-categories">
-                            <li><input type="checkbox" /><label>painting</label></li>
-                            <li><input type="checkbox" /><label>furniture assembly</label></li>
-                            <li><input type="checkbox" /><label>plumbing</label></li>
-                            <li><input type="checkbox" /><label>electrical</label></li>
-                            <li><input type="checkbox" /><label>handyman</label></li>
+                            <li><input type="checkbox"><label>painting</label></li>
+                            <li><input type="checkbox"><label>furniture assembly</label></li>
+                            <li><input type="checkbox"><label>plumbing</label></li>
+                            <li><input type="checkbox"><label>electrical</label></li>
+                            <li><input type="checkbox"><label>handyman</label></li>
                         </ul>
                     </li>
-                    <li class="sub-categiries">
-                        <input type="checkbox" /><label>2. Health &amp; Beauty</label>
-                        <ul class="select-sub-categories">
-                            <li><input type="checkbox" /><label>painting</label></li>
-                            <li><input type="checkbox" /><label>furniture assembly</label></li>
-                            <li><input type="checkbox" /><label>plumbing</label></li>
-                            <li><input type="checkbox" /><label>electrical</label></li>
-                            <li><input type="checkbox" /><label>handyman</label></li>
-                        </ul>
-                    </li>
-                     <li class="sub-categiries">
-                        <input type="checkbox" /><label>3. Courier Services</label>
-                        <ul class="select-sub-categories">
-                            <li><input type="checkbox" /><label>painting</label></li>
-                            <li><input type="checkbox" /><label>furniture assembly</label></li>
-                            <li><input type="checkbox" /><label>plumbing</label></li>
-                            <li><input type="checkbox" /><label>electrical</label></li>
-                            <li><input type="checkbox" /><label>handyman</label></li>
-                        </ul>
-                    </li>
-                    <li class="sub-categiries">
-                        <input type="checkbox" /><label>4. Health &amp; Beauty</label>
-                        <ul class="select-sub-categories">
-                            <li><input type="checkbox" /><label>painting</label></li>
-                            <li><input type="checkbox" /><label>furniture assembly</label></li>
-                            <li><input type="checkbox" /><label>plumbing</label></li>
-                            <li><input type="checkbox" /><label>electrical</label></li>
-                            <li><input type="checkbox" /><label>handyman</label></li>
-                        </ul>
-                    </li>
+                    <li class="sub-categiries"></li>
+                     <li class="sub-categiries"></li>
+                    <li class="sub-categiries"></li>
             </ol>
                    
                     
@@ -125,3 +95,27 @@ use yii\helpers\Url;
                       
                    
   <!--</div>-->
+  <div style="display:block;">
+      <div id="slotsquantity"><?php echo Yii::$app->params['slots.quantity']?></div>
+  <?php if(isset($categories)) { ?>
+  <?php 
+  $Items = NULL;
+  foreach($categories as $cat_id => $category) { 
+      $Items .=  '<div class="lvl1" style="display:block;font-weight:bold;" id='.$cat_id.'>'.$category['cat_name'];
+      if(count($category) > 1){
+          foreach($category as $i => $subcategory){
+              if(is_string($i)) continue;
+              $Items .= PHP_EOL.'<div class="lvl2" style="font-weight:normal;" id='.$subcategory['subcat_id'].'>'.$subcategory['subcat_name'].'</div>'.PHP_EOL;
+          }
+      }
+      $Items .= '</div>'.PHP_EOL;
+  } 
+  ?>
+  <?php echo $Items; ?>
+  <?php } ?>
+  </div>
+<style>
+    .lvl1{color:red;}
+    .lvl2{color:navy;}
+    </style>
+    

@@ -89,7 +89,7 @@ class TicketController extends Controller
             $this->redirect(Url::to('/?r=user/login'), TRUE);
         }
         $model = new Ticket();
-        $model->categoryLocate();
+        $categories = $model->categoryLocate();
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             // add category_bind insert query
@@ -98,6 +98,7 @@ class TicketController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'categories' => $categories,
             ]);
         }
     }

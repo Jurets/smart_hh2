@@ -173,21 +173,25 @@ class Ticket extends \yii\db\ActiveRecord
     /* prepare categories-subcategories location struct */
     public function categoryLocate(){
         $locate = (new Query())
-                ->select('cat.name cat_name, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
+                ->select('cat.level lvl, cat.name cat_name, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
                 ->from('category cat')
                 ->leftJoin('category subcat', 'subcat.parent_id = cat.id')
                 ->createCommand()
                 ->queryAll();
         $compactStruct = [];
-        foreach($locate as $node){
-            if($node['subcat_id'] != NULL ){
-                $compactStruct[$node['cat_id']][$node['cat_name']][] = array(
-                    'subcat_id' => $node['subcat_id'],
-                    'subcat_name' => $node['subcat_name'],
-                );
-            }
-        }
-        //var_dump($compactStruct);die;
+          foreach($locate as $id=>$node){
+              if($node['subcat_id'] != NULL){
+                  $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
+                  $compactStruct[$node['cat_id']][] = [
+                      'subcat_id' => $node['subcat_id'],
+                      'subcat_name' => $node['subcat_name']
+                  ];
+              }else{
+                  if($node['lvl'] == 1){
+                   $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
+                  }
+              }
+          }
         return $compactStruct;
     }
 }
