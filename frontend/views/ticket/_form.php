@@ -51,29 +51,21 @@ use yii\helpers\Url;
                     <p class="commentary">You can choose up to 4 categories and 12 subcategories</p>
                     <ol class="select-categories">
                         <li class="number-in-order">
-                        <select id="slot1">
-                            <option>Select if you need</option>
-                        </select>
+                        <select id="slot1"></select>
                         </li>
                         <li class="number-in-order">
-                        <select id="slot2">
-                            <option>Select if you need</option>
-                        </select>
+                        <select id="slot2"></select>
                         </li><li class="number-in-order">
-                        <select id='slot3'>
-                            <option>Select if you need</option>
-                        </select>
+                        <select id='slot3'></select>
                         </li><li class="number-in-order">
-                        <select id="slot4">
-                            <option>Select if you need</option>
-                        </select>
+                        <select id="slot4"></select>
                         </li>
                                                 
                     </ol>
                 <ol class="option-categories">
                     
-                    <li class="sub-categiries">
-                        <input type="checkbox"><label>1. Home &amp; Office repairs</label>  
+                    <li class="sub-categiries" id="pnl1">
+<!--                        <input type="checkbox"><label>1. Home &amp; Office repairs</label>  
                         <ul class="select-sub-categories">
                             <li><input type="checkbox"><label>painting</label></li>
                             <li><input type="checkbox"><label>furniture assembly</label></li>
@@ -81,10 +73,10 @@ use yii\helpers\Url;
                             <li><input type="checkbox"><label>electrical</label></li>
                             <li><input type="checkbox"><label>handyman</label></li>
                         </ul>
-                    </li>
-                    <li class="sub-categiries"></li>
-                     <li class="sub-categiries"></li>
-                    <li class="sub-categiries"></li>
+                    </li>-->
+                    <li class="sub-categiries" id="pnl2"></li>
+                     <li class="sub-categiries" id="pnl3"></li>
+                    <li class="sub-categiries" id="pnl4"></li>
             </ol>
                    
                     
@@ -95,7 +87,7 @@ use yii\helpers\Url;
                       
                    
   <!--</div>-->
-  <div style="display:block;">
+  <div style="display:none;">
       <div id="slotsquantity"><?php echo Yii::$app->params['slots.quantity']?></div>
   <?php if(isset($categories)) { ?>
   <?php 
