@@ -41,7 +41,10 @@ use yii\helpers\Url;
                             <a href="#" class="currency-price">See current prices for this of job</a>
                             <a href="#" class="btn btn-width">PUBLISH</a>                            
                         </fieldset>
-                    <div id="addons"></div>
+                    <div id="addon1"></div>
+                    <div id="addon2"></div>
+                    <div id="addon3"></div>
+                    <div id="addon4"></div>
                     <?php echo Html::endForm();?>
 
                                         
