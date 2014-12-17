@@ -127,7 +127,7 @@ class Ticket extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['file_prepare'], 'file', 'extensions' => 'jpg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
+            [['file_prepare'], 'file', 'extensions' => 'jpg,jpeg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
             [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable'], 'required'],
             [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate'], 'integer'],
             [['description', 'comment', 'photo'], 'string'],
@@ -288,7 +288,7 @@ class Ticket extends \yii\db\ActiveRecord {
         $handle = curl_init();
         curl_setopt($handle, CURLOPT_URL, $url);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 0);
         curl_setopt($handle, CURLOPT_TIMEOUT, 5);
         $container = curl_exec($handle);
         curl_close($handle);
