@@ -33,6 +33,7 @@ class AppAsset extends AssetBundle
         'js/softscroll.js',
         // temporary in this section
         'js/ticket_creation.js',
+        'js/googleapi.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

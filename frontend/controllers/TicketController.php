@@ -31,9 +31,9 @@ class TicketController extends Controller
     }
     public function convensionInit() {
         return [
-            'Customer' => 'index create',
+            'Customer' => 'index create review',
             'Performer' => 'index view',
-            'Guest' => 'index create',
+            'Guest' => 'index create', // create action has specify protection - redirect 
         ];
     }
     /**
@@ -82,24 +82,37 @@ class TicketController extends Controller
      */
     public function actionCreate()
     {
+        /* Guest to login section */
         if(Yii::$app->user->isGuest){
             if(Yii::$app->urlManager->enablePrettyUrl === TRUE){
                 $this->redirect(Url::to('/user/login'), TRUE);
             }
             $this->redirect(Url::to('/?r=user/login'), TRUE);
         }
-        $model = new Ticket();
-        $categories = $model->categoryLocate();
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // add category_bind insert query
+        $model = new Ticket();
+        $post = Yii::$app->request->post();
+        if (!empty($post)) {
+            // run creation main service
+            if($model->mainInitService($post))
+                $this->redirect(['review', 'id'=>$model->id]);
+            // redirect to a review
             
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        }
+        
+            $categories = $model->categoryLocate();
             return $this->render('create', [
                 'model' => $model,
                 'categories' => $categories,
             ]);
+        
+    }
+    public function actionReview($id){
+        $model = Ticket::findOne(['id'=>$id]);
+        if(!is_null($model)){
+            return $this->render('review', ['model'=>$model]);
+        }else{
+            throw new \yii\web\HttpException('404');
         }
     }
 

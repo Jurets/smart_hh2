@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 use yii\db\Query;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "ticket".
@@ -27,41 +29,41 @@ use yii\db\Query;
  *
  * @property Category $category
  * @property User $user
+ * 
+ * @property string $photo
  */
-class Ticket extends \yii\db\ActiveRecord
-{
+class Ticket extends \yii\db\ActiveRecord {
+
+    public $file_prepare;
+    public $location;
+
     // bann (is turned on check)
     // Field is_turned_on 
     const TURNED_OFF = 0;
     const TURNED_ON = 1;
-    
     //Field status
     const STATUS_COMPLETED = 0;
     const STATUS_EXPIRED = 1;
     const STATUS_PROCESSING = 2;
     const STATUS_NOT_COMPLETED = 3;
     const STATUS_COMPLETED_WITH_COMMENT = 4;
-    
     //Field is_time_enable
     const STATUS_TIME_OFF = 0;
     const STATUS_TIME_ON = 1;
-    
-    
     const WITHOUT_COMMENT = 0;
     const WITH_COMMENT = 1;
-    
+
     /**
      * @inheritdoc
      */
-    
     public $categoryBinds = []; // get and check category instances for category binding when ticket create 
-    
-    public static function tableName()
-    {
+
+    public static function tableName() {
         return 'ticket';
     }
 
     /* serves as a substitute for native values comfy  (Extensible) */
+
     protected $surrogateStruct = [
         'is_turned_on' => [
             self::TURNED_OFF => 'Banned',
@@ -79,45 +81,57 @@ class Ticket extends \yii\db\ActiveRecord
             self::STATUS_TIME_ON => 'With execution time',
         ],
     ];
+
     /* invertor bann/unbann */
-    public function bannManager(){
+
+    public function bannManager() {
         $this->is_turned_on = ($this->is_turned_on === self::TURNED_OFF) ? self::TURNED_ON : self::TURNED_OFF;
     }
+
     /* for check bann status in view */
-    public function isBanned(){
+
+    public function isBanned() {
         return ($this->is_turned_on === self::TURNED_OFF) ? TRUE : FALSE;
     }
+
     /* (statament:1) handling for surrogateStruct */
-    public function getIsTurnedOn(){
-        return (!is_null($this->is_turned_on)) ? $this->surrogateStruct['is_turned_on'][(int)$this->is_turned_on] : '';
+
+    public function getIsTurnedOn() {
+        return (!is_null($this->is_turned_on)) ? $this->surrogateStruct['is_turned_on'][(int) $this->is_turned_on] : '';
     }
-    public function getStatus(){
-        return (!is_null($this->status)) ? $this->surrogateStruct['status'][(int)$this->status] : '';
+
+    public function getStatus() {
+        return (!is_null($this->status)) ? $this->surrogateStruct['status'][(int) $this->status] : '';
     }
-    public function getIsTimeEnable(){
-        return (!is_null($this->is_time_enable)) ? $this->surrogateStruct['is_time_enable'][(int)$this->is_time_enable] : '';
+
+    public function getIsTimeEnable() {
+        return (!is_null($this->is_time_enable)) ? $this->surrogateStruct['is_time_enable'][(int) $this->is_time_enable] : '';
     }
+
     // Available get the surrogateStruct section (particulary once)
-    public function surrogateStructSectionReader($section='is_turned_on', $first_empty = false){
-       $options = [];
-       if(isset($this->surrogateStruct[$section])){
-           if($first_empty !== false){
-               $options[NULL] ='';
-           }
-           $options = array_merge($options, $this->surrogateStruct[$section]);
-       }
-       return $options;
+    public function surrogateStructSectionReader($section = 'is_turned_on', $first_empty = false) {
+        $options = [];
+        if (isset($this->surrogateStruct[$section])) {
+            if ($first_empty !== false) {
+                $options[NULL] = '';
+            }
+            $options = array_merge($options, $this->surrogateStruct[$section]);
+        }
+        return $options;
     }
+
     /* end of statament:1 */
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
+            [['file_prepare'], 'file', 'extensions' => 'jpg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
             [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable'], 'required'],
             [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate'], 'integer'],
-            [['description', 'comment'], 'string'],
+            [['description', 'comment', 'photo'], 'string'],
+            [['lat','lon'], 'double'],
             [['created', 'start_day', 'finish_day'], 'safe'],
             [['title', 'system_key'], 'string', 'max' => 255]
         ];
@@ -126,8 +140,7 @@ class Ticket extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User'),
@@ -151,27 +164,29 @@ class Ticket extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->hasOne(Category::className(), ['id' => 'id_category']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    public function getUpdateStatuses(){
+
+    public function getUpdateStatuses() {
         return Offer::getTicketStatusUpdate();
     }
-    public function getActiveTickets(){
-        return $this->find()->where(['performer_id'=>Yii::$app->user->id, 'status'=>self::STATUS_NOT_COMPLETED])->all();
+
+    public function getActiveTickets() {
+        return $this->find()->where(['performer_id' => Yii::$app->user->id, 'status' => self::STATUS_NOT_COMPLETED])->all();
         //return $this->find()->where(['performer_id'=>1])->all();
     }
+
     /* prepare categories-subcategories location struct */
-    public function categoryLocate(){
+
+    public function categoryLocate() {
         $locate = (new Query())
                 ->select('cat.level lvl, cat.name cat_name, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
                 ->from('category cat')
@@ -179,19 +194,134 @@ class Ticket extends \yii\db\ActiveRecord
                 ->createCommand()
                 ->queryAll();
         $compactStruct = [];
-          foreach($locate as $id=>$node){
-              if($node['subcat_id'] != NULL){
-                  $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
-                  $compactStruct[$node['cat_id']][] = [
-                      'subcat_id' => $node['subcat_id'],
-                      'subcat_name' => $node['subcat_name']
-                  ];
-              }else{
-                  if($node['lvl'] == 1){
-                   $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
-                  }
-              }
-          }
+        foreach ($locate as $id => $node) {
+            if ($node['subcat_id'] != NULL) {
+                $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
+                $compactStruct[$node['cat_id']][] = [
+                    'subcat_id' => $node['subcat_id'],
+                    'subcat_name' => $node['subcat_name']
+                ];
+            } else {
+                if ($node['lvl'] == 1) {
+                    $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
+                }
+            }
+        }
         return $compactStruct;
     }
+
+    public function ticketUploadFile() {
+        $this->photo = UploadedFile::getInstanceByName('photo');
+
+        if ($this->photo && $this->validate()) {
+            
+        }
+    }
+
+    /* Services */
+    /* enabled with all dependced data */
+
+    public function mainInitService($post) {
+        $this->attributes = $post;
+        $this->user_id = Yii::$app->user->id;
+        $this->location = $post['location'];
+        /* патч для совместимости со старой версией моделей */
+        if (isset($post['category'])) {
+            $this->id_category = (int) array_search(current($post['category']), $post['category']);
+        }
+        $this->is_turned_on = self::TURNED_ON;
+        if (!empty($post['location'])) {
+            $this->calculateLatLon($post['location']);
+        }
+        $this->start_day = date('Y-m-d h:i');
+        if (isset($post['finish_day'])) {
+            $this->finish_day = $post['finish_day'];
+            $this->is_time_enable = self::STATUS_TIME_ON;
+        } else {
+            $this->is_time_enable = self::STATUS_TIME_OFF;
+        }
+        if (UploadedFile::getInstanceByName('photo') !== NULL) {
+            $this->photoPrepare();
+        }
+        if ($this->validationTest()) {
+            $this->save(false);
+            $this->photoUploader();
+            $this->categoryBindService($post['category']);
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+    /* add ticket id (as last insert id) into category_bind */
+
+    protected function categoryBindService($categories) {
+        $dbc = Yii::$app->db;
+        $rows = [];
+        foreach ($categories as $catname => $category) {
+            array_push($rows, [$catname, $this->id]);
+        }
+        $mainCom = $dbc->createCommand()
+                ->batchInsert('category_bind', ['category_id', 'ticket_id'], $rows);
+        $mainCom->execute();
+    }
+
+    /* photoUploadService */
+
+    protected function photoPrepare() {
+        $this->file_prepare = UploadedFile::getInstanceByName('photo');
+        $this->photo = $this->getUniqName($this->file_prepare->baseName) .
+                '.' . $this->file_prepare->extension;
+    }
+
+    protected function photoUploader() {
+        if (!is_null($this->file_prepare))
+            $this->file_prepare->saveAs(Yii::$app->params['upload.path'] . DIRECTORY_SEPARATOR . $this->photo);
+    }
+
+    /* calculate and set longitude-latitude by Google API */
+
+    protected function calculateLatLon($location) {
+        $address = str_replace(' ', '+', $location);
+        $constPartUrl = 'https://maps.googleapis.com/maps/api/geocode/xml?key=' .
+                Yii::$app->params['GoogleAPI'];
+        $url = $constPartUrl . '&address=' . $address;
+        $handle = curl_init();
+        curl_setopt($handle, CURLOPT_URL, $url);
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($handle, CURLOPT_TIMEOUT, 5);
+        $container = curl_exec($handle);
+        curl_close($handle);
+
+        $object = @simplexml_load_string($container);
+        if (isset($object->result->geometry)) {
+            $this->lat = (float)$object->result->geometry->location->lat;
+            $this->lon = (float)$object->result->geometry->location->lng;
+        }
+    }
+
+    /* validation with preparing error message */
+
+    protected function validationTest() {
+        if ($this->validate() == false) {
+            $errDump = '';
+            foreach ($this->errors as $error) {
+                $errDump .= $error[0] . '<br>';
+            }
+            Yii::$app->getSession()->setFlash('error', $errDump);
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /* get unique hash */
+
+    protected function getUniqName($addition) {
+        $str = date('d.m.Y H:i:s') . $addition;
+        $hash_arr = str_split(md5($str), 1);
+        shuffle($hash_arr);
+        $name = join('', $hash_arr);
+        return 'ticket_' . substr($name, 0, 20);
+    }
+
 }

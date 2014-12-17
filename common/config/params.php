@@ -20,5 +20,6 @@ return [
             'es' => 'Spanish'
     ),
     //key for google translater
-    'apiLanguages' => 'AIzaSyAu846bCVJtTMDQBeT11v-pmSr-p_htx8g'
+    'apiLanguages' => 'AIzaSyAu846bCVJtTMDQBeT11v-pmSr-p_htx8g',
+    'GoogleAPI' => 'AIzaSyDCTXvZPumDCqmhN0feLVOzyiAqjS-p1Pc', // temporary samopal helpinrghunt service
 ];

@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use frontend\widgets\Alert;
+use kartik\datetime\DateTimePicker;
+use kartik\widgets\FileInput;
 ?>
 <!--<div class="content">-->
               
@@ -9,15 +12,30 @@ use yii\helpers\Url;
                     
                     <?php echo Html::beginForm(Url::to(['ticket/create'], TRUE), 'post', ['enctype'=>'multipart/form-data','class'=>'create-job with-background'])?>
                         <fieldset>
+                            <?php  echo Alert::widget([
+                                        'alertTypes' => ['error' => 'alert-danger'],
+                                    ]);
+                            ?>
                             <?php echo Html::label(Yii::t('app', 'Title'), 'title')?>
-                            <?php echo Html::textInput('title')?>
+                            <?php echo Html::textInput('title', $model->title)?>
                             <?php echo Html::label(Yii::t('app', 'Choose Date and Time').':', 'finish_day')?>
-                            <?php echo Html::textInput('finish_day')?>                           
+                            <?php //echo Html::textInput('finish_day', $model->finish_day)?>
+                            <?php echo DateTimePicker::widget([
+                                'type' => DateTimePicker::TYPE_INPUT,
+                                'name' => 'finish_day',
+                                'value' => $model->finish_day,
+                                'options' => ['format' =>'dd-M-yyyy hh:ii',
+                                              'style' => 'display:inline',
+                                             ],
+                                'pluginOptions' => [
+                                              'autoclose' => true
+                                             ],
+                            ])?>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
-                            <?php echo Html::textInput('location')?>
+                            <?php echo Html::textInput('location', $model->location)?>
                             <div class="description">    
                                 <?php echo Html::label(Yii::t('app', 'Description'.':'), 'description')?>
-                                <?php echo Html::textarea('description')?>
+                                <?php echo Html::textarea('description', $model->description)?>
                                 <a href="#" class="additional"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Make this information Private</a>
                             </div>
                             <label>Auto-translate to:</label>
@@ -26,14 +44,28 @@ use yii\helpers\Url;
                                 <option>Russian</option>
                             </select>
                             <a href="#" class="btn btn-form">MAKE EDITABLE</a>
-                            <textarea class="translation"></textarea> 
+                            <textarea class="translation" disabled="disabled"></textarea> 
                             <div>
-                                <a href="#" class="btn btn-form left">ATTACH A PHOTO</a>
+<!--                                <a href="#" class="btn btn-form left">ATTACH A PHOTO</a>-->
+                                <?php
+                                echo FileInput::widget([
+                                    'name' => 'photo',
+                                    'options' => [
+                                        'multiple'=>false,
+                                        ],
+                                    'pluginOptions' => [
+                                        'showPreview' => true,
+                                        'showCaption' => false,
+                                        'showRemove' => false,
+                                        'showUpload' => false
+                                    ],
+                                ]);
+                                ?>
                                 <p class="attach-photo">Attach a photo to your description. Max file size: 5 Mb, Allowed extensions: JPG/PNG/GIF</p>                            
                                 <div class="clearfix"></div>
                             </div>
                             <?php echo Html::label(Yii::t('app','Your price for this job').':', 'price')?>
-                            <?php echo Html::textInput('price', NULL, ['class'=>'yourprice']) ?>
+                            <?php echo Html::textInput('price',$model->price, ['class'=>'yourprice']) ?>
                             <select name="currency" class="currency">
                                 <option>USD</option>
                                 <option>USD</option>
@@ -45,6 +77,7 @@ use yii\helpers\Url;
                     <div id="addon2"></div>
                     <div id="addon3"></div>
                     <div id="addon4"></div>
+                    <?php echo Html::submitButton()?>
                     <?php echo Html::endForm();?>
 
                                         
@@ -58,9 +91,11 @@ use yii\helpers\Url;
                         </li>
                         <li class="number-in-order">
                         <select id="slot2"></select>
-                        </li><li class="number-in-order">
+                        </li>
+                        <li class="number-in-order">
                         <select id='slot3'></select>
-                        </li><li class="number-in-order">
+                        </li>
+                        <li class="number-in-order">
                         <select id="slot4"></select>
                         </li>
                                                 

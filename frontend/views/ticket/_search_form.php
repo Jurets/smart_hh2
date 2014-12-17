@@ -44,8 +44,10 @@ use kartik\datetime\DateTimePicker;
                                                         'format' =>'dd-M-yyyy hh:ii',
                                                         'style' => 'display:inline',
                                                     ],
-//                                                    
-//                                                    'language' => 'en',
+                                                    'pluginOptions' => [
+                                                            'autoclose' => true
+                                                     ],
+                                                    //'language' => 'en',
                                                 ]);
                                             ?>
                                         </div>
