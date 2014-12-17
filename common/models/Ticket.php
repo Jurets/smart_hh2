@@ -6,7 +6,7 @@ use Yii;
 use yii\db\Query;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
-
+/*message: curl-adapt : ok*/
 /**
  * This is the model class for table "ticket".
  *
