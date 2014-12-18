@@ -214,8 +214,9 @@ form#search input[type="submit"]{
     padding-top: 3px;
     vertical-align: super !important; 
 }
-.breadcrumbs{
-    margin-bottom: 30px;
+.breadcrumbs, .breadcrumb{
+    margin-bottom: 0px;
+    background-color: white;
 }
 /*slider category*/
 
@@ -1243,7 +1244,7 @@ select{
 .sub-categiries{
     border-bottom:1px solid #e5e5e5;
    // display:inline-block;
-   float:left;
+   /*float:left;*/
    margin-right:30px;
    margin-bottom:20px;
    padding-bottom:20px;   
@@ -1396,4 +1397,25 @@ ol li input:checked + label{
     font-size:14px;
     line-height: 24px;
     
+}
+
+/* patches for a good work */
+.file-input {
+    float: left;
+    overflow-x: auto;
+    border: none;
+}
+.btn-primary {
+    border-color: transparent;
+}
+.job-creator.row > .left-column {
+    padding-right: 25px;
+}
+.breadcrumb {
+    margin-left: 35px;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+.content {
+    padding: 0 50px 50px;
 }

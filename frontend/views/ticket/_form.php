@@ -71,13 +71,12 @@ use kartik\widgets\FileInput;
                                 <option>USD</option>
                             </select>
                             <a href="#" class="currency-price">See current prices for this of job</a>
-                            <a href="#" class="btn btn-width">PUBLISH</a>                            
+                            <?php echo Html::submitButton(Yii::t('app','PUBLISH'), ['class'=>'btn btn-width'])?>
                         </fieldset>
                     <div id="addon1"></div>
                     <div id="addon2"></div>
                     <div id="addon3"></div>
                     <div id="addon4"></div>
-                    <?php echo Html::submitButton()?>
                     <?php echo Html::endForm();?>
 
                                         
