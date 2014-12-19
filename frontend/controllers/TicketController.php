@@ -44,6 +44,9 @@ class TicketController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Ticket::find()->onCondition(['is_turned_on'=>  Ticket::TURNED_ON]),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
         ]);
         
         $list = Yii::$app->params['languages'];

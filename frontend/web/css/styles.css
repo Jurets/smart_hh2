@@ -1419,3 +1419,21 @@ ol li input:checked + label{
 .content {
     padding: 0 50px 50px;
 }
+.file-input.file-input-new {
+    float: none;
+}
+.file-input {
+    float: none;
+}
+.form-control.file-caption.kv-fileinput-caption {
+    height: 44px;
+}
+.form-group.field-user-verifycode {
+    padding-top: 22px;
+}
+label {
+    margin-right: 7px;
+}
+.user-default-register p{
+    margin-bottom: 15px;
+}
