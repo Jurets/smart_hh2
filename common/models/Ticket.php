@@ -261,7 +261,6 @@ class Ticket extends \yii\db\ActiveRecord {
     }
 
     /* add ticket id (as last insert id) into category_bind */
-
     protected function categoryBindService($categories) {
         $dbc = Yii::$app->db;
         $rows = [];
@@ -272,7 +271,13 @@ class Ticket extends \yii\db\ActiveRecord {
                 ->batchInsert('category_bind', ['category_id', 'ticket_id'], $rows);
         $mainCom->execute();
     }
-
+    /* remove old categories when ticket edit */
+    protected function categoryReleaseService() {
+        $dbc = Yii::$app->db;
+        $mainCom = $dbc->createCommand()
+                ->delete('category_bind', ['ticket_id'=>$this->id]);
+        $mainCom->execute();
+    }
     /* photoUploadService */
 
     protected function photoPrepare() {

@@ -32,7 +32,7 @@ class TicketController extends Controller
     }
     public function convensionInit() {
         return [
-            'Customer' => 'index create review',
+            'Customer' => 'index create view update',
             'Performer' => 'index view',
             'Guest' => 'index create', // create action has specify protection - redirect 
         ];
@@ -79,20 +79,7 @@ class TicketController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
-        $complain = new Complaint;
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-            'complain' => $complain,
-        ]);
-    }
-
-    /**
-     * Creates a new Ticket model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
+   
     public function actionCreate()
     {
         /* Guest to login section */
@@ -108,8 +95,7 @@ class TicketController extends Controller
         if (!empty($post)) {
             // run creation main service
             if($model->mainInitService($post))
-                $this->redirect(['review', 'id'=>$model->id]);
-            // redirect to a review
+                $this->redirect(['view', 'id'=>$model->id]);
             
         }
         
@@ -120,10 +106,10 @@ class TicketController extends Controller
             ]);
         
     }
-    public function actionReview($id){
+    public function actionView($id){
         $model = Ticket::findOne(['id'=>$id]);
         if(!is_null($model)){
-            return $this->render('review', ['model'=>$model]);
+            return $this->render('view', ['model'=>$model]);
         }else{
             throw new \yii\web\HttpException('404');
         }
@@ -140,6 +126,7 @@ class TicketController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            //$model->categoryRelea
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

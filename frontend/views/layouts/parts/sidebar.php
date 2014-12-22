@@ -33,3 +33,5 @@ use yii\helpers\Url;
 <?php } ?>    
 </ul>
     
+<a href="<?=Url::to('registration/performer')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'WANNA BE A HELPER'.'?')?></a>
+<a href="<?=Url::to('ticket/create')?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
