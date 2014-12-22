@@ -109,10 +109,13 @@ class TicketSearch extends Ticket {
             foreach($buff as $cat){
                 $category[] = (int)$buff;
             }
+            $query->andWhere(['category_bind.category_id' => $category]);
         }else{
-            $category[] = (int)$get['cid'];
+            if(isset($get['cid'])){
+              $category[] = (int)$get['cid'];
+              $query->andWhere(['category_bind.category_id' => $category]);
+            }
         }
-        $query->andWhere(['category_bind.category_id' => $category]);
         if (isset($get['location']) && !empty($get['location']) && isset($get['distance']) && !empty($get['distance'])) {
             $query->distinct(TRUE);
             $model->calculateLatLon($get['location']);
