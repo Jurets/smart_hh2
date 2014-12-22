@@ -115,7 +115,7 @@ class TicketSearch extends Ticket {
                 $query->andWhere(['category_bind.category_id' => $subcats]);
             }
         }
-        if (isset($get['location']) && isset($get['distance'])) {
+        if (isset($get['location']) && !empty($get['location']) && isset($get['distance']) && !empty($get['distance'])) {
             $model->calculateLatLon($get['location']);
             $mylon = $model->lon;
             $mylat = $model->lat;
