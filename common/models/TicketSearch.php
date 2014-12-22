@@ -95,27 +95,26 @@ class TicketSearch extends Ticket {
         $model = new TicketSearch;
         $query = Ticket::find();
         $query->leftJoin('category_bind', 'ticket.id = ticket_id');
-        $query->orderBy('finish_day ' . $model->getSort($get['sort']));
+        $srt = 'finish_day ' . $model->getSort($get['sort']);
+        $query->orderBy($srt);
         if (!empty($get['least'])) {
             $query->andWhere('price <= :least', [':least' => (int) $get['least']]);
         }
         if (!empty($get['finish_day'])) {
             $query->andWhere('finish_day <= :fd', [':fd' => $get['finish_day']]);
         }
-        if (isset($get['sub'])) {
+        $category = [];
+        if(isset($get['sub']) && !empty($get['sub'])){
             $buff = array_keys($get['sub']);
-            if (isset($get['cid'])) {
-                $buff[] = (int) $get['cid'];
+            foreach($buff as $cat){
+                $category[] = (int)$buff;
             }
-            $subcats = [];
-            foreach ($buff as $sc) {
-                $subcats [] = (int) $sc;
-            }
-            if (!empty($subcats)) {
-                $query->andWhere(['category_bind.category_id' => $subcats]);
-            }
+        }else{
+            $category[] = (int)$get['cid'];
         }
+        $query->andWhere(['category_bind.category_id' => $category]);
         if (isset($get['location']) && !empty($get['location']) && isset($get['distance']) && !empty($get['distance'])) {
+            $query->distinct(TRUE);
             $model->calculateLatLon($get['location']);
             $mylon = $model->lon;
             $mylat = $model->lat;

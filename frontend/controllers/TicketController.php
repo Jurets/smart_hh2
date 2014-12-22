@@ -59,9 +59,7 @@ class TicketController extends Controller
         $category = new Category;
         $categories = $category->categoryOutput($cid);
         
-        $query->andWhere(['is_turned_on'=>  Ticket::TURNED_ON]);
-        $query->distinct(TRUE);
-        
+        $query->andWhere(['is_turned_on'=>  Ticket::TURNED_ON]);        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
