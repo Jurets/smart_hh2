@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\widgets\Breadcrumbs;
+use yii\helpers\Url;
 ?>
 <?php
 $this->title = Yii::t('app', 'All Task');
@@ -16,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="left-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="sidebar">
             <?= $this->render('/layouts/parts/sidebar', ['categories' => $categories]) ?>
-            <a href="#" class="btn btn-big btn-width">WANNA BE A HELPER?</a>
-            <a href="#" class="btn btn-big btn-width btn-red">CREATE A TASK</a>
+            <a href="<?=Url::to('registration/performer')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'WANNA BE A HELPER'.'?')?></a>
+            <a href="<?=Url::to('ticket/create')?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
         </div>
     </div>  
 
