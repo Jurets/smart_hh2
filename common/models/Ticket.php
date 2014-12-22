@@ -83,6 +83,13 @@ class Ticket extends \yii\db\ActiveRecord {
         ],
     ];
 
+    /* signature sort (convension) */
+    protected $sort = [
+        0 => 'ASC',
+        1 => 'DESC',
+    ];
+
+
     /* invertor bann/unbann */
 
     public function bannManager() {
@@ -324,5 +331,8 @@ class Ticket extends \yii\db\ActiveRecord {
         $name = join('', $hash_arr);
         return 'ticket_' . substr($name, 0, 20);
     }
-
+    
+    public function getSort($sort){
+        return $this->sort[(int)$sort];
+    }
 }

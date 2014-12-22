@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use frontend\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -219,7 +220,7 @@ AppAsset::register($this);
                 </a>
             </div>
 
-            <a href="/registration/customer" class="btn">SIGN UP NOW</a>
+            <?= Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/customer'],true),['class'=>'btn']) ?>
 
         </div>
         <div class="right-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -252,8 +253,7 @@ AppAsset::register($this);
                     <p>Make and track payments in our Payments Center.</p>
                 </a>
             </div>
-            <a href="/registration/performer" class="btn">SIGN UP NOW</a>
-
+            <?= Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/performer'],true),['class'=>'btn']) ?>
         </div>
     </div>
     <div class="clear"></div>

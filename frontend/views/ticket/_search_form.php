@@ -10,11 +10,11 @@ use kartik\datetime\DateTimePicker;
                                     <?php echo (isset($_GET['cid'])) ? Html::hiddenInput('cid', (int)$_GET['cid']) : '' ?>
                                         <p>Sort by Price:</p>
                                         <select name="sort">
-                                            <option>Ascending</option>
-                                            <option>Descending</option>
+                                            <option value="0"><?=Yii::t('app', 'Ascending')?></option>
+                                            <option value="1"><?=Yii::t('app', 'Descending')?></option>
                                         </select>
                                         and at least
-                                        <input class="small" type="text"/>
+                                        <input class="small" type="text" name="least">
                                         <select name="currency" class="small">
                                             <option>USD</option>
                                             <option>USD</option>
@@ -39,7 +39,7 @@ use kartik\datetime\DateTimePicker;
                                             <?php
                                                 echo DateTimePicker::widget([
                                                     'type' => DateTimePicker::TYPE_INPUT,
-                                                    'name' => 'finish_date',
+                                                    'name' => 'finish_day',
                                                     'options' => [
                                                         'format' =>'dd-M-yyyy hh:ii',
                                                         'style' => 'display:inline',

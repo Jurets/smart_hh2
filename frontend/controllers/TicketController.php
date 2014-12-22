@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Ticket;
+use common\models\TicketSearch;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
@@ -42,20 +43,31 @@ class TicketController extends Controller
      */
     public function actionIndex($cid=NULL)
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Ticket::find()->onCondition(['is_turned_on'=>  Ticket::TURNED_ON]),
-            'pagination' => [
-                'pageSize' => 5,
-            ],
-        ]);
-        
+        $get = Yii::$app->request->get();
+        $query = Ticket::find();
+        if(isset($get['cid'])){
+            $query->leftJoin('category_bind', 'ticket.id = ticket_id');
+            $query->andFilterWhere(['category_bind.category_id' => (int)$cid]);
+        }
+        if($get && isset($get['sort'])){
+            unset($query);
+            $query = TicketSearch::advancedSearch($get);
+        }
         $list = Yii::$app->params['languages'];
         $apiKey = Yii::$app->params['apiLanguages'];
 
         $category = new Category;
         $categories = $category->categoryOutput($cid);
         
+        $query->andWhere(['is_turned_on'=>  Ticket::TURNED_ON]);
+        $query->distinct(TRUE);
         
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'list' => $list,
