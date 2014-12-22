@@ -98,9 +98,11 @@ class TicketSearch extends Ticket {
         $srt = 'finish_day ' . $model->getSort($get['sort']);
         $query->orderBy($srt);
         if (!empty($get['least'])) {
+            $query->distinct(true);
             $query->andWhere('price <= :least', [':least' => (int) $get['least']]);
         }
         if (!empty($get['finish_day'])) {
+            $query->distinct(true);
             $query->andWhere('finish_day <= :fd', [':fd' => $get['finish_day']]);
         }
         $category = [];
