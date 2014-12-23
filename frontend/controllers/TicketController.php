@@ -32,7 +32,7 @@ class TicketController extends Controller
     }
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update',
+            'Customer' => 'index create view update test',
             'Performer' => 'index view',
             'Guest' => 'index create', // create action has specify protection - redirect 
         ];
@@ -98,13 +98,11 @@ class TicketController extends Controller
                 $this->redirect(['view', 'id'=>$model->id]);
             
         }
-        
             $categories = $model->categoryLocate();
             return $this->render('create', [
                 'model' => $model,
                 'categories' => $categories,
             ]);
-        
     }
     public function actionView($id){
         $model = Ticket::findOne(['id'=>$id]);
@@ -124,15 +122,15 @@ class TicketController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //$model->categoryRelea
+        $post = Yii::$app->request->post();
+        if ($post && $model->mainInitService($post)) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        }
+            $categories = $model->categoryLocate();
             return $this->render('update', [
                 'model' => $model,
+                'categories' => $categories,
             ]);
-        }
     }
 
     /**
@@ -179,9 +177,9 @@ class TicketController extends Controller
        }
     } 
     public function actionTest(){
-        $complain = Complaint::findOne(['id'=>2]);
-        $user_id = $complain->ticket->user->id;
-        var_dump($user_id);
+        $model = new Ticket;
+        $structure = $model->categoryLocate();
+        var_dump($structure);
     }
     protected function renderErrors($errors){
         $message = '';

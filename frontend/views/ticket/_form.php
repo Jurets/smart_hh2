@@ -7,10 +7,10 @@ use kartik\widgets\FileInput;
 ?>
 <!--<div class="content">-->
               
-                       <div class="job-creator row">  
+<div class="job-creator row">  
                 <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                    
-                    <?php echo Html::beginForm(Url::to(['ticket/create'], TRUE), 'post', ['enctype'=>'multipart/form-data','class'=>'create-job with-background'])?>
+                    <?php $action = ($model->isNewRecord) ? Url::to(['ticket/create'], TRUE) : Url::to(['ticket/update', 'id'=>$model->id])?>
+                    <?php echo Html::beginForm($action, 'post', ['enctype'=>'multipart/form-data','class'=>'create-job with-background'])?>
                         <fieldset>
                             <?php  echo Alert::widget([
                                         'alertTypes' => ['error' => 'alert-danger'],
@@ -81,45 +81,8 @@ use kartik\widgets\FileInput;
 
                                         
                 </div>
-                <div class="right-column choice-categories col-xs-12 col-sm-12 col-md-12 col-lg-5">
-                    <p>Choose the categories for you job:</p>
-                    <p class="commentary">You can choose up to 4 categories and 12 subcategories</p>
-                    <ol class="select-categories">
-                        <li class="number-in-order">
-                        <select id="slot1"></select>
-                        </li>
-                        <li class="number-in-order">
-                        <select id="slot2"></select>
-                        </li>
-                        <li class="number-in-order">
-                        <select id='slot3'></select>
-                        </li>
-                        <li class="number-in-order">
-                        <select id="slot4"></select>
-                        </li>
-                                                
-                    </ol>
-                <ol class="option-categories">
-                    
-                    <li class="sub-categiries" id="pnl1">
-<!--                        <input type="checkbox"><label>1. Home &amp; Office repairs</label>  
-                        <ul class="select-sub-categories">
-                            <li><input type="checkbox"><label>painting</label></li>
-                            <li><input type="checkbox"><label>furniture assembly</label></li>
-                            <li><input type="checkbox"><label>plumbing</label></li>
-                            <li><input type="checkbox"><label>electrical</label></li>
-                            <li><input type="checkbox"><label>handyman</label></li>
-                        </ul>
-                    </li>-->
-                    <li class="sub-categiries" id="pnl2"></li>
-                     <li class="sub-categiries" id="pnl3"></li>
-                    <li class="sub-categiries" id="pnl4"></li>
-            </ol>
-                   
-                    
-                    
-               </div>     
-                       </div>                                       
+                <?php echo $this->render('_subcategories_panel')?>
+</div>                                       
                    
                       
                    

@@ -1,7 +1,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=<?=Yii::$app->params['GoogleAPI']?>&sensor=SET_TO_TRUE_OR_FALSE"
   type="text/javascript"></script>
 <?php
-
+use yii\helpers\Url;
 ?>
 
 <?php
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <a href="#" class="btn btn-delete btn-average">DELETE</a>
-                                    <a href="#" class="btn btn-average">EDIT THIS JOB</a>
+                                    <a href="<?=Url::to(['ticket/update', 'id'=>$model->id])?>" class="btn btn-average"><?=Yii::t('app','EDIT THIS JOB')?></a>
                                 </div>
 
                             </div>

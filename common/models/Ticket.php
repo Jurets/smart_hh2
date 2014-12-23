@@ -133,6 +133,9 @@ class Ticket extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
+    /*
+     * Scenarios 
+     */
     public function rules() {
         return [
             [['file_prepare'], 'file', 'extensions' => 'jpg,jpeg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
@@ -234,9 +237,12 @@ class Ticket extends \yii\db\ActiveRecord {
         $this->user_id = Yii::$app->user->id;
         $this->location = $post['location'];
         /* патч для совместимости со старой версией моделей */
+        $category = NULL;
         if (isset($post['category'])) {
-            $this->id_category = (int) array_search(current($post['category']), $post['category']);
+            $category = $post['category'];
+            $this->id_category = (int) array_search(current($category), $category);
         }
+        /* потребуется затем расширить - не известно, можел ли пользователь снова объявлять так тикет при его редактировании */
         $this->is_turned_on = self::TURNED_ON;
         if (!empty($post['location'])) {
             $this->calculateLatLon($post['location']);
@@ -254,7 +260,7 @@ class Ticket extends \yii\db\ActiveRecord {
         if ($this->validationTest()) {
             $this->save(false);
             $this->photoUploader();
-            $this->categoryBindService($post['category']);
+            $this->categoryBindService($category);
             return TRUE;
         }
         return FALSE;
@@ -262,6 +268,7 @@ class Ticket extends \yii\db\ActiveRecord {
 
     /* add ticket id (as last insert id) into category_bind */
     protected function categoryBindService($categories) {
+        if(is_null($categories)){return;}
         $dbc = Yii::$app->db;
         $rows = [];
         foreach ($categories as $catname => $category) {
@@ -272,10 +279,11 @@ class Ticket extends \yii\db\ActiveRecord {
         $mainCom->execute();
     }
     /* remove old categories when ticket edit */
-    protected function categoryReleaseService() {
+    protected function categoryDeleteService() {
         $dbc = Yii::$app->db;
         $mainCom = $dbc->createCommand()
                 ->delete('category_bind', ['ticket_id'=>$this->id]);
+        var_dump($mainCom->sql);return;
         $mainCom->execute();
     }
     /* photoUploadService */
