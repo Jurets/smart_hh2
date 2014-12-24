@@ -105,9 +105,13 @@ use kartik\widgets\FileInput;
   ?>
   <?php echo $Items; ?>
   <?php } ?>
+  <?php if(isset($exists)) { ?>
+      <div id="exists"><?php echo $exists?></div>
+  <?php } ?>
   </div>
 <style>
     .lvl1{color:red;}
     .lvl2{color:navy;}
+    #exists{color:green;font-weight:bold;}
     </style>
     

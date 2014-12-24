@@ -2,10 +2,31 @@ $(function () {
     if ($('select').is('#slot1') === true) {
         SLOTS.initialSystem();
     }
+    if( $('div').is('#exists') === true ) {
+        SLOTS.modulation.slots();
+    }
 });
 // Namespace for ticket creation form
 var SLOTS = {
     slotsQuantity: 0,
+    modulation : {
+        slots: function(){
+            var instruction = JSON.parse($('#exists').html());
+            var currentSlotNumber = 1;
+            for (var category in instruction){
+                this.slotChange(currentSlotNumber, category);
+                currentSlotNumber ++;
+            }
+        },
+        slotChange: function(currentSlotNumber, category){
+            $('#slot'+currentSlotNumber+' option').each(function(){
+                if( $(this).attr('name') == category) {
+                    $(this).attr('selected', 'selected');
+                    $(this).change();
+                }
+            });
+        },
+    },
     catalogue: {
         choisesStorage: [],
         category: {
@@ -43,6 +64,7 @@ var SLOTS = {
                 this.choisesStorage[i] = undefined;
             }
         },
+        // warning!
         slotOnChange: function () {
             /* the key method */
             var choise = $(this).find('option:selected');

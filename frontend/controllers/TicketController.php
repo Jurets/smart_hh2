@@ -34,7 +34,7 @@ class TicketController extends Controller
         return [
             'Customer' => 'index create view update test',
             'Performer' => 'index view',
-            'Guest' => 'index create', // create action has specify protection - redirect 
+            'Guest' => 'index create test', // create action has specify protection - redirect 
         ];
     }
     /**
@@ -127,9 +127,11 @@ class TicketController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
             $categories = $model->categoryLocate();
+            $exists = $model->catsExist();
             return $this->render('update', [
                 'model' => $model,
                 'categories' => $categories,
+                'exists' => $exists,
             ]);
     }
 
@@ -178,8 +180,10 @@ class TicketController extends Controller
     } 
     public function actionTest(){
         $model = new Ticket;
+        $model->id = 22;
         $structure = $model->categoryLocate();
-        var_dump($structure);
+        $exists = $model->catsExist();
+        var_dump($exists);
     }
     protected function renderErrors($errors){
         $message = '';

@@ -199,7 +199,7 @@ class Ticket extends \yii\db\ActiveRecord {
 
     public function categoryLocate() {
         $locate = (new Query())
-                ->select('cat.level lvl, cat.name cat_name, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
+                ->select('cat.level lvl, cat.name cat_name, subcat.parent_id pid, subcat.name subcat_name, cat.id cat_id, subcat.id subcat_id')
                 ->from('category cat')
                 ->leftJoin('category subcat', 'subcat.parent_id = cat.id')
                 ->createCommand()
@@ -210,7 +210,8 @@ class Ticket extends \yii\db\ActiveRecord {
                 $compactStruct[$node['cat_id']]['cat_name'] = $node['cat_name'];
                 $compactStruct[$node['cat_id']][] = [
                     'subcat_id' => $node['subcat_id'],
-                    'subcat_name' => $node['subcat_name']
+                    'subcat_name' => $node['subcat_name'],
+                    'parent_id' => $node['pid']
                 ];
             } else {
                 if ($node['lvl'] == 1) {
@@ -220,7 +221,26 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $compactStruct;
     }
-
+    /* depended from categoryLocate and if updateAction */
+    public function catsExist(){
+        $existence = (new Query())
+                ->select('category_id, parent_id')
+                ->from('category_bind')
+                ->leftJoin('category', 'category.id = category_bind.category_id')
+                ->where(['ticket_id'=>$this->id])
+                ->createCommand()
+                ->queryAll();
+        $choiseStruct = [];
+        foreach ($existence as $element) {
+            if( is_null($element['parent_id']) ){
+                $choiseStruct[(string)$element['category_id']] = [];
+                $choiseStruct[(string)$element['category_id']][] = $element['category_id'];//'enabled';
+            }else{
+                $choiseStruct[(string)$element['parent_id']][] = $element['category_id'];
+            }
+        }
+        return $choiseStruct = json_encode($choiseStruct);
+    }
     public function ticketUploadFile() {
         $this->photo = UploadedFile::getInstanceByName('photo');
 
