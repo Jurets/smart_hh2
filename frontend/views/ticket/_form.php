@@ -48,7 +48,7 @@ use kartik\widgets\FileInput;
                             <div>
 <!--                                <a href="#" class="btn btn-form left">ATTACH A PHOTO</a>-->
                                 <?php
-                                echo FileInput::widget([
+                                $fileInputFeature = [
                                     'name' => 'photo',
                                     'options' => [
                                         'multiple'=>false,
@@ -57,9 +57,15 @@ use kartik\widgets\FileInput;
                                         'showPreview' => true,
                                         'showCaption' => false,
                                         'showRemove' => false,
-                                        'showUpload' => false
+                                        'showUpload' => false,
                                     ],
-                                ]);
+                                ];
+                                if( !empty($model->photo) ){
+                                    $fileInputFeature['pluginOptions']['initialPreview'] = [
+                                        Html::img( Yii::$app->params['upload.url'].DIRECTORY_SEPARATOR.$model->photo, ['class'=>'file-preview-image'] )
+                                    ];
+                                }
+                                echo FileInput::widget($fileInputFeature);
                                 ?>
                                 <p class="attach-photo">Attach a photo to your description. Max file size: 5 Mb, Allowed extensions: JPG/PNG/GIF</p>                            
                                 <div class="clearfix"></div>

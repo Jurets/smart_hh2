@@ -252,7 +252,7 @@ class Ticket extends \yii\db\ActiveRecord {
     /* Services */
     /* enabled with all dependced data */
 
-    public function mainInitService($post) {
+    public function mainInitService($post, $mode_update=FALSE) {
         $this->attributes = $post;
         $this->user_id = Yii::$app->user->id;
         $this->location = $post['location'];
@@ -276,10 +276,15 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         if (UploadedFile::getInstanceByName('photo') !== NULL) {
             $this->photoPrepare();
+        }else{
+            $this->photo = '';
         }
         if ($this->validationTest()) {
             $this->save(false);
             $this->photoUploader();
+            if($mode_update === TRUE){
+                $this->categoryUnbindService();
+            }
             $this->categoryBindService($category);
             return TRUE;
         }
@@ -299,11 +304,10 @@ class Ticket extends \yii\db\ActiveRecord {
         $mainCom->execute();
     }
     /* remove old categories when ticket edit */
-    protected function categoryDeleteService() {
+    protected function categoryUnbindService() {
         $dbc = Yii::$app->db;
         $mainCom = $dbc->createCommand()
                 ->delete('category_bind', ['ticket_id'=>$this->id]);
-        var_dump($mainCom->sql);return;
         $mainCom->execute();
     }
     /* photoUploadService */

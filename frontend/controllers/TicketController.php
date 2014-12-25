@@ -106,6 +106,9 @@ class TicketController extends Controller
     }
     public function actionView($id){
         $model = Ticket::findOne(['id'=>$id]);
+        if(Yii::$app->user->id !== $model->user_id){
+            return $this->redirect('/');
+        }
         if(!is_null($model)){
             return $this->render('view', ['model'=>$model]);
         }else{
@@ -122,8 +125,11 @@ class TicketController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if(Yii::$app->user->id !== $model->user_id){
+            return $this->redirect('/');
+        }
         $post = Yii::$app->request->post();
-        if ($post && $model->mainInitService($post)) {
+        if ($post && $model->mainInitService($post, TRUE)) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
             $categories = $model->categoryLocate();
@@ -217,5 +223,8 @@ class TicketController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    protected function isTicketsOwner(){
+        
     }
 }

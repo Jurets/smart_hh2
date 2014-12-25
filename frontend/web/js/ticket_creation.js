@@ -15,17 +15,29 @@ var SLOTS = {
             var currentSlotNumber = 1;
             for (var category in instruction){
                 this.slotChange(currentSlotNumber, category);
+                this.pnlChange(currentSlotNumber, instruction[category]);
                 currentSlotNumber ++;
             }
         },
         slotChange: function(currentSlotNumber, category){
             $('#slot'+currentSlotNumber+' option').each(function(){
-                if( $(this).attr('name') == category) {
+                if( $(this).attr('name') === category) {
                     $(this).attr('selected', 'selected');
                     $(this).change();
                 }
             });
         },
+        pnlChange: function(currPnl, currObj){
+            for(var i = 0; i < currObj.length; i++){
+                $('#pnl'+currPnl).find('input[type="checkbox"]').each(function(){
+                    if( $(this).attr('name') === 'category['+currObj[i]+']' ){
+                        $(this).attr('checked', 'checked');
+                        $(this).change();
+                    }
+                });
+                
+            }
+        }
     },
     catalogue: {
         choisesStorage: [],
