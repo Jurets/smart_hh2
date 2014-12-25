@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                 </div>
                                 <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <a href="#" class="btn btn-delete btn-average">DELETE</a>
+                                    <a href="<?=  Url::to(['ticket/delete', 'id'=>$model->id])?>" class="btn btn-delete btn-average">DELETE</a>
                                     <a href="<?=Url::to(['ticket/update', 'id'=>$model->id])?>" class="btn btn-average"><?=Yii::t('app','EDIT THIS JOB')?></a>
                                 </div>
 

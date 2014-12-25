@@ -149,8 +149,10 @@ class TicketController extends Controller
      */
     public function actionDelete($id)
     {
+        if(Yii::$app->user->id !== $model->user_id){
+            return $this->redirect('/');
+        }
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

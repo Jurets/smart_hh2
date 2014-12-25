@@ -372,4 +372,8 @@ class Ticket extends \yii\db\ActiveRecord {
     public function getSort($sort){
         return $this->sort[(int)$sort];
     }
+    public function delete() {
+        parent::delete();
+        $this->categoryUnbindService();
+    }
 }
