@@ -104,9 +104,6 @@ class TicketController extends Controller {
 
     public function actionView($id) {
         $model = Ticket::findOne(['id' => $id]);
-        if (Yii::$app->user->id !== $model->user_id) {
-            return $this->redirect('/');
-        }
         if (!is_null($model)) {
             return $this->render('view', ['model' => $model]);
         } else {
