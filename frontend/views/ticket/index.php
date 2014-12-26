@@ -9,7 +9,8 @@ use yii\widgets\Breadcrumbs;
 use yii\helpers\Url;
 ?>
 <?php
-$this->title = Yii::t('app', 'All Task');
+$ticket_title = ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) ) ? $categories[(int)$_GET['cid']-1]->name : Yii::t('app', 'ALL Tasks');
+$this->title = $ticket_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="right-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <div class="all-task">
-            <h1>ALL Task</h1>
+            <h1><?php echo $ticket_title?></h1>
             <?php
             echo $this->render('_search_form', [
                 'subcategories' => !empty($categories['subcategories']) ? $categories['subcategories'] : NULL,

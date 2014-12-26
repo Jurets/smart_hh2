@@ -252,7 +252,7 @@ class Ticket extends \yii\db\ActiveRecord {
     /* Services */
     /* enabled with all dependced data */
 
-    public function mainInitService($post, $mode_update=FALSE) {
+    public function mainInitService($post, $mode_update=FALSE) {       
         $this->attributes = $post;
         $this->user_id = Yii::$app->user->id;
         $this->location = $post['location'];
@@ -277,7 +277,8 @@ class Ticket extends \yii\db\ActiveRecord {
         if (UploadedFile::getInstanceByName('photo') !== NULL) {
             $this->photoPrepare();
         }else{
-            $this->photo = '';
+            // пока без возможности удаления фоторесурса
+            //$this->photo = '';
         }
         if ($this->validationTest()) {
             $this->save(false);
@@ -373,7 +374,7 @@ class Ticket extends \yii\db\ActiveRecord {
         return $this->sort[(int)$sort];
     }
     public function delete() {
-        parent::delete();
         $this->categoryUnbindService();
+        parent::delete();
     }
 }

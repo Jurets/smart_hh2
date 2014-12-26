@@ -17,10 +17,9 @@ use yii\helpers\Url;
 /**
  * TicketController implements the CRUD actions for Ticket model.
  */
-class TicketController extends Controller
-{
-    public function behaviors()
-    {
+class TicketController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,26 +29,27 @@ class TicketController extends Controller
             ],
         ];
     }
+
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update test',
+            'Customer' => 'index create view update test delete',
             'Performer' => 'index view',
             'Guest' => 'index create test', // create action has specify protection - redirect 
         ];
     }
+
     /**
      * Lists all Ticket models.
      * @return mixed
      */
-    public function actionIndex($cid=NULL)
-    {
+    public function actionIndex($cid = NULL) {
         $get = Yii::$app->request->get();
         $query = Ticket::find();
-        if(isset($get['cid'])){
+        if (isset($get['cid'])) {
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
-            $query->andFilterWhere(['category_bind.category_id' => (int)$cid]);
+            $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
         }
-        if($get && isset($get['sort'])){
+        if ($get && isset($get['sort'])) {
             unset($query);
             $query = TicketSearch::advancedSearch($get);
         }
@@ -58,8 +58,8 @@ class TicketController extends Controller
 
         $category = new Category;
         $categories = $category->categoryOutput($cid);
-        
-        $query->andWhere(['is_turned_on'=>  Ticket::TURNED_ON]);        
+
+        $query->andWhere(['is_turned_on' => Ticket::TURNED_ON]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -67,10 +67,10 @@ class TicketController extends Controller
             ],
         ]);
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'list' => $list,
-            'apiKey' => $apiKey,
-            'categories' => $categories,
+                    'dataProvider' => $dataProvider,
+                    'list' => $list,
+                    'apiKey' => $apiKey,
+                    'categories' => $categories,
         ]);
     }
 
@@ -79,39 +79,37 @@ class TicketController extends Controller
      * @param integer $id
      * @return mixed
      */
-   
-    public function actionCreate()
-    {
+    public function actionCreate() {
         /* Guest to login section */
-        if(Yii::$app->user->isGuest){
-            if(Yii::$app->urlManager->enablePrettyUrl === TRUE){
+        if (Yii::$app->user->isGuest) {
+            if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
                 $this->redirect(Url::to('/user/login'), TRUE);
             }
             $this->redirect(Url::to('/?r=user/login'), TRUE);
         }
-        
+
         $model = new Ticket();
         $post = Yii::$app->request->post();
         if (!empty($post)) {
             // run creation main service
-            if($model->mainInitService($post))
-                $this->redirect(['view', 'id'=>$model->id]);
-            
+            if ($model->mainInitService($post))
+                $this->redirect(['view', 'id' => $model->id]);
         }
-            $categories = $model->categoryLocate();
-            return $this->render('create', [
-                'model' => $model,
-                'categories' => $categories,
-            ]);
+        $categories = $model->categoryLocate();
+        return $this->render('create', [
+                    'model' => $model,
+                    'categories' => $categories,
+        ]);
     }
-    public function actionView($id){
-        $model = Ticket::findOne(['id'=>$id]);
-        if(Yii::$app->user->id !== $model->user_id){
+
+    public function actionView($id) {
+        $model = Ticket::findOne(['id' => $id]);
+        if (Yii::$app->user->id !== $model->user_id) {
             return $this->redirect('/');
         }
-        if(!is_null($model)){
-            return $this->render('view', ['model'=>$model]);
-        }else{
+        if (!is_null($model)) {
+            return $this->render('view', ['model' => $model]);
+        } else {
             throw new \yii\web\HttpException('404');
         }
     }
@@ -122,23 +120,22 @@ class TicketController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-        if(Yii::$app->user->id !== $model->user_id){
+        if (Yii::$app->user->id !== $model->user_id) {
             return $this->redirect('/');
         }
         $post = Yii::$app->request->post();
         if ($post && $model->mainInitService($post, TRUE)) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-            $categories = $model->categoryLocate();
-            $exists = $model->catsExist();
-            return $this->render('update', [
-                'model' => $model,
-                'categories' => $categories,
-                'exists' => $exists,
-            ]);
+        $categories = $model->categoryLocate();
+        $exists = $model->catsExist();
+        return $this->render('update', [
+                    'model' => $model,
+                    'categories' => $categories,
+                    'exists' => $exists,
+        ]);
     }
 
     /**
@@ -147,12 +144,19 @@ class TicketController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        if(Yii::$app->user->id !== $model->user_id){
-            return $this->redirect('/');
+    public function actionDelete() {
+        $post = Yii::$app->request->post();
+        $id = NULL;
+        if (isset($post['id']) && !is_null($post['id'])) {
+            $id = (int) $post['id'];
+            $model = $this->findModel($id);
+            if (Yii::$app->user->id !== $model->user_id) {
+                return $this->redirect('/');
+            }else{
+                $model->delete();
+            }
         }
-        $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
@@ -163,70 +167,75 @@ class TicketController extends Controller
      * @return Ticket the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
     /* action complain */
-    public function actionComplain(){
-       $complain = new Complaint;
-       if(Yii::$app->request->isAjax){
-           $post = Yii::$app->request->post();
-           $complain->attributes = $post;
-           if(!$complain->validate()){
-               return $this->renderErrors($complain->errors);
-           }else{
-               if($this->complainAllreadySend($complain->ticket_id)){
-                   return Yii::t('app', 'You have already complained');
-               }
-               $complain->save(false);
-                       Yii::$app->mailer->compose('complaint/ban', ['ticketId'=>$complain->ticket_id])
+    public function actionComplain() {
+        $complain = new Complaint;
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            $complain->attributes = $post;
+            if (!$complain->validate()) {
+                return $this->renderErrors($complain->errors);
+            } else {
+                if ($this->complainAllreadySend($complain->ticket_id)) {
+                    return Yii::t('app', 'You have already complained');
+                }
+                $complain->save(false);
+                Yii::$app->mailer->compose('complaint/ban', ['ticketId' => $complain->ticket_id])
                         ->setTo($complain->ticket->user->email)
                         ->setSubject('ticket ban')
                         ->send();
-               $this->turnOffTicket($complain->ticket_id);
-               return Yii::t('app', 'Complain send Success');
-           }
-       }
-    } 
-    public function actionTest(){
+                $this->turnOffTicket($complain->ticket_id);
+                return Yii::t('app', 'Complain send Success');
+            }
+        }
+    }
+
+    public function actionTest() {
         $model = new Ticket;
         $model->id = 22;
         $structure = $model->categoryLocate();
         $exists = $model->catsExist();
         var_dump($exists);
     }
-    protected function renderErrors($errors){
+
+    protected function renderErrors($errors) {
         $message = '';
-        foreach ($errors as $error){
-            $message .= $error[0].'<br>';
+        foreach ($errors as $error) {
+            $message .= $error[0] . '<br>';
         }
         return $message;
     }
-    protected function turnOffTicket($ticket_id, $number=3){
+
+    protected function turnOffTicket($ticket_id, $number = 3) {
         $count = Complaint::howManyComplains($ticket_id);
-        if($count >= $number){
-            $ticket = Ticket::findOne(['id'=>$ticket_id]);
+        if ($count >= $number) {
+            $ticket = Ticket::findOne(['id' => $ticket_id]);
             $ticket->is_turned_on = Complaint::STATUS_OFF;
             $ticket->save();
         }
     }
-    protected function complainAllreadySend($ticket_id){
-        if(Complaint::findOne([
-            'ticket_id' => $ticket_id,
-            'status' => Complaint::STATUS_OFF,
-            'from_user_id' => Yii::$app->user->id,
-        ]) !== null){
+
+    protected function complainAllreadySend($ticket_id) {
+        if (Complaint::findOne([
+                    'ticket_id' => $ticket_id,
+                    'status' => Complaint::STATUS_OFF,
+                    'from_user_id' => Yii::$app->user->id,
+                ]) !== null) {
             return true;
         }
         return false;
     }
-    protected function findModel($id)
-    {
-        if (($model = Ticket::findOne(['id'=>$id, 'is_turned_on'=>  Ticket::TURNED_ON])) !== null) {
+
+    protected function findModel($id) {
+        if (($model = Ticket::findOne(['id' => $id, 'is_turned_on' => Ticket::TURNED_ON])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    protected function isTicketsOwner(){
+
+    protected function isTicketsOwner() {
         
     }
+
 }

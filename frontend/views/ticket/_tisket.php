@@ -1,4 +1,6 @@
-
+<?php
+use yii\helpers\Url;
+?>
 <div class="task-item info-border">
     <div class="task-info-price">
         <p class="price">&dollar;<?=$model->price?></p>
@@ -6,7 +8,7 @@
         <a href="#" class="btn-small">APPLY</a>
     </div>
     <div class="task-info-meta">
-        <a  href="#" class="title"><?=$model->title?></a>
+        <a  href="<?php echo Url::to(['ticket/view', 'id'=>$model->id]) ?>" class="title"><?=$model->title?></a>
         <p class="text"><?=$model->description?></p>
     </div>
     <div class="clearfix"></div>

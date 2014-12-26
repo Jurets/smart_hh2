@@ -2,6 +2,7 @@
   type="text/javascript"></script>
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 ?>
 
 <?php
@@ -25,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="job-info-holder row">
                                 <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="job-price left">
-                                        <p class="price">$500</p>
+                                        <p class="price"><?php echo '$'. $model->price?></p>
                                         <p class="measurement">week</p>
                                     </div>
                                     <div class="auction">
@@ -33,7 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                 </div>
                                 <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                    <a href="<?=  Url::to(['ticket/delete', 'id'=>$model->id])?>" class="btn btn-delete btn-average">DELETE</a>
+                                    <!--<a href="<?php //echo Url::to(['ticket/delete', 'id'=>$model->id])?>" class="btn btn-delete btn-average">DELETE</a>-->
+                                    <?php
+                                       echo Html::beginForm(Url::to(['ticket/delete']),'post', ['class'=>'left', 'style'=>'margin-right:20px;']);
+                                       echo Html::submitButton(Yii::t('app', 'DELETE'), ['class'=>"btn btn-delete btn-average"]);
+                                       echo Html::hiddenInput('id', $model->id);
+                                       echo Html::endForm();
+                                    ?>
                                     <a href="<?=Url::to(['ticket/update', 'id'=>$model->id])?>" class="btn btn-average"><?=Yii::t('app','EDIT THIS JOB')?></a>
                                 </div>
 

@@ -7,7 +7,7 @@
 .clear{clear:both;display: block; height:0px; font-size:0px;}
 strong, b{ font-weight:bold;}
 em, i{ font-style:italic;}
-a, a:hover{ outline:none; text-decoration:none;}
+a, a:hover, a:focus, a:active{ outline:none; text-decoration:none;}
 a.title:hover, a.more:hover{text-decoration:underline;}
 fieldset{border:none;}
 ul, ol {
@@ -593,7 +593,8 @@ form#search input[type="submit"]{
 .sidebar ul li{
     padding:10px 25px;
 }
-.sidebar ul li:hover{
+.sidebar ul li:hover,
+.sidebar ul li.active{
     background-color: #ffffff;
 }
 .sidebar ul li a{

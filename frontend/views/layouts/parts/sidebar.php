@@ -6,7 +6,7 @@ use yii\helpers\Url;
 ?>
 <ul class="sidebar-holder">
 <?php if(is_array($categories)) { ?>
-    <li>
+    <li class="<?php echo ( isset($_GET['cid']) ) ? '' : 'active' ?>">
         <?php
             echo Html::a(
                   Html::img(Yii::$app->params['url.categories'].'/AllTask.png', 
@@ -18,8 +18,8 @@ use yii\helpers\Url;
     </li>
     
     <?php foreach($categories as $cat_id=>$category) { ?>
-    <li>
         <?php if($cat_id === 'subcategories') continue;?>
+    <li class="<?php echo ( isset($_GET['cid']) && $category->id == $_GET['cid'] ) ? 'active' : '' ?>">
         <?php 
             echo Html::a(
                   Html::img(Yii::$app->params['url.categories'].'/'.$category->picture, ['alt'=>'icon']) .
