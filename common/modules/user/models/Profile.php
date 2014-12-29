@@ -4,6 +4,7 @@ namespace common\modules\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use \common\models\Files as Files;
 
 /**
  * This is the model class for table "tbl_profile".
@@ -109,7 +110,7 @@ class Profile extends ActiveRecord {
 
    public function getPhoto(){
        $result = Yii::$app->params['upload.url'] .DIRECTORY_SEPARATOR.
-            $this->hasOne('\common\models\Files', ['id'=>'photo'])->one()->code;
+            $this->hasOne(Files::className(), ['id'=>'photo'])->one()->code;
        return (!is_null($result)) ? $result : '';
    }
 
