@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use common\models\Files;
+use \yii\helpers\Url;
 /**
  * Default controller for User module
  */
@@ -62,7 +63,7 @@ class DefaultController extends Controller
 //        } else {
 //            return $this->redirect(["/user/account"]);
 //        }
-        
+      return $this->render('index');
     }
 
     /**
