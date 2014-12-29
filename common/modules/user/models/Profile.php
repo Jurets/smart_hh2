@@ -109,8 +109,11 @@ class Profile extends ActiveRecord {
     
 
    public function getPhoto(){
+       var_dump(Files::className());
+       var_dump($this->hasOne(Files::className(), ['id'=>'photo'])->one());
        $result = Yii::$app->params['upload.url'] .DIRECTORY_SEPARATOR.
             $this->hasOne(Files::className(), ['id'=>'photo'])->one()->code;
+       var_dump('-------',$result);die;
        return (!is_null($result)) ? $result : '';
    }
 
