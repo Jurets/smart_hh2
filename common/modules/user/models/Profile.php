@@ -117,7 +117,7 @@ class Profile extends ActiveRecord {
 //    }
     
     public function getFiles(){
-        return $this->hasOne(\common\models\Files::className(), ['user_id' => 'id']);
+        return $this->hasOne(\common\models\Files::className(), ['id' => 'photo']);
     }
     
    public function getPhoto(){

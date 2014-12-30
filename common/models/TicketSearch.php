@@ -94,22 +94,21 @@ class TicketSearch extends Ticket {
     public static function advancedSearch($get) {
         $model = new TicketSearch;
         $query = Ticket::find();
+        $query->distinct(true);
         $query->leftJoin('category_bind', 'ticket.id = ticket_id');
         $srt = 'finish_day ' . $model->getSort($get['sort']);
-        $query->orderBy($srt);
+        
         if (!empty($get['least'])) {
-            $query->distinct(true);
             $query->andWhere('price <= :least', [':least' => (int) $get['least']]);
         }
         if (!empty($get['finish_day'])) {
-            $query->distinct(true);
             $query->andWhere('finish_day <= :fd', [':fd' => $get['finish_day']]);
         }
         $category = [];
         if(isset($get['sub']) && !empty($get['sub'])){
             $buff = array_keys($get['sub']);
             foreach($buff as $cat){
-                $category[] = (int)$buff;
+                $category[] = (int)$cat;
             }
             $query->andWhere(['category_bind.category_id' => $category]);
         }else{
