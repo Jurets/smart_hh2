@@ -60,6 +60,7 @@ class TicketController extends Controller {
         $categories = $category->categoryOutput($cid);
 
         $query->andWhere(['is_turned_on' => Ticket::TURNED_ON]);
+        $query->with('user')->with('user.profile')->with('user.profile.files');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

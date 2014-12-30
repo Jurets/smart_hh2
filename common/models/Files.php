@@ -67,7 +67,6 @@ class Files extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'ид юзера владельца'),
         ];
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */

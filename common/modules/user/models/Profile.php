@@ -20,6 +20,15 @@ use \common\models\Files as Files;
  */
 class Profile extends ActiveRecord {
 
+    private $photo;
+    
+    
+    public function init() {
+        parent::init();
+        $this->photo = Yii::$app->params['upload.url'] .DIRECTORY_SEPARATOR.
+            $this->hasOne(Files::className(), ['id'=>'photo'])->one();
+    }
+
     /**
      * @inheritdoc
      */
@@ -107,11 +116,16 @@ class Profile extends ActiveRecord {
 //                ])->code;
 //    }
     
-
-   public function getPhoto(){      
-       $result = Yii::$app->params['upload.url'] .DIRECTORY_SEPARATOR.
-            $this->hasOne(Files::className(), ['id'=>'photo'])->one()->code;
-       return (!is_null($result)) ? $result : '';
+    public function getFiles(){
+        return $this->hasOne(\common\models\Files::className(), ['user_id' => 'id']);
+    }
+    
+   public function getPhoto(){
+       if( !is_null($this->photo) ){
+           $result = $this->photo->code;
+           return $result;
+       }
+       return '';
    }
 
     /**
