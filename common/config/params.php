@@ -12,6 +12,8 @@ return [
     
     //slots.quantity: how many categories can choose together when ticket created
     'slots.quantity' => 4,
+    //maximum complaints count when ticket not banned
+    'maximum.complaint' => 3,
     //system languages
     'languages' => array(
             'en' => 'English',

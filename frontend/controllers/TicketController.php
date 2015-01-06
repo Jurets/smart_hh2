@@ -189,11 +189,7 @@ class TicketController extends Controller {
     }
 
     public function actionTest() {
-        $model = new Ticket;
-        $model->id = 22;
-        $structure = $model->categoryLocate();
-        $exists = $model->catsExist();
-        var_dump($exists);
+        ;
     }
 
     protected function renderErrors($errors) {
