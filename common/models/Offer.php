@@ -8,22 +8,16 @@ use Yii;
  * This is the model class for table "offer".
  *
  * @property integer $id
- * @property integer $user_id
+ * @property integer $performer_id
  * @property integer $ticket_id
- * @property double $price
- * @property string $offer_date
- * @property integer $status_agree
+ * @property integer $stage
  *
  * @property Ticket $ticket
- * @property User $user
+ * @property User $performer
+ * @property OfferHistory[] $offerHistories
  */
 class Offer extends \yii\db\ActiveRecord
 {
-    /*
-     * Consts section
-     */
-    const DISAGREE = 0;
-    const AGREE = 1;
     /**
      * @inheritdoc
      */
@@ -38,10 +32,8 @@ class Offer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'ticket_id'], 'required'],
-            [['user_id', 'ticket_id', 'status_agree'], 'integer'],
-            [['price'], 'number'],
-            [['offer_date'], 'safe']
+            [['performer_id', 'ticket_id'], 'required'],
+            [['performer_id', 'ticket_id', 'stage'], 'integer']
         ];
     }
 
@@ -52,11 +44,9 @@ class Offer extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'performer_id' => 'Performer ID',
             'ticket_id' => 'Ticket ID',
-            'price' => 'Price',
-            'offer_date' => 'Offer Date',
-            'status_agree' => 'Status Agree',
+            'stage' => 'Stage',
         ];
     }
 
@@ -71,15 +61,16 @@ class Offer extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getPerformer()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'performer_id']);
     }
-    public static function getTicketStatusUpdate(){
-        return Offer::find()
-                ->joinWith('ticket')
-                ->where(['status_agree'=>self::DISAGREE,
-                    'offer.user_id'=>Yii::$app->user->id])
-                ->all();
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOfferHistories()
+    {
+        return $this->hasMany(OfferHistory::className(), ['offer_id' => 'id']);
     }
 }
