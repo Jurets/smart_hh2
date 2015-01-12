@@ -34,7 +34,7 @@ class TicketController extends Controller {
         return [
             'Customer' => 'index create view update test delete',
             'Performer' => 'index view',
-            'Guest' => 'index create test', // create action has specify protection - redirect 
+            'Guest' => 'index create-toLogin test', // if Guest then redirect to login action
         ];
     }
 
@@ -82,12 +82,12 @@ class TicketController extends Controller {
      */
     public function actionCreate() {
         /* Guest to login section */
-        if (Yii::$app->user->isGuest) {
-            if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
-                $this->redirect(Url::to('/user/login'), TRUE);
-            }
-            $this->redirect(Url::to('/?r=user/login'), TRUE);
-        }
+//        if (Yii::$app->user->isGuest) {
+//            if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
+//                $this->redirect(Url::to('/user/login'), TRUE);
+//            }
+//            $this->redirect(Url::to('/?r=user/login'), TRUE);
+//        }
 
         $model = new Ticket();
         $post = Yii::$app->request->post();
