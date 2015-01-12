@@ -8,3 +8,20 @@ use yii\helpers\Url;
 use common\models\Offer;
 use common\models\OfferHistory;
 
+class OfferController extends Controller {
+    
+    public function behaviors() {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
+    
+    public function actionIndex(){
+        
+    }
+}
