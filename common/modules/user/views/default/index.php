@@ -13,10 +13,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="row">
     <div class="left-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="sidebar">
-            <?php echo $this->render('//layouts/parts/sidebar', ['categories' => $categories, 'url_add'=>'/user/']) ?>
+            <?= $this->render('//layouts/parts/sidebar', ['categories' => $categories, 'url_add'=>'/user/']) ?>
         </div>
     </div>
     <div class="right-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
         <h1><?php echo $breadcrumb_title?></h1>
+        <?php
+            echo $this->render('_search_form', [
+                'subcategories' => !empty($categories['subcategories']) ? $categories['subcategories'] : NULL,
+            ])
+        ?>
     </div>
 </div>
