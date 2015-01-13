@@ -9,6 +9,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use common\models\Files;
+use common\models\Category;
 use \yii\helpers\Url;
 /**
  * Default controller for User module
@@ -53,7 +54,7 @@ class DefaultController extends Controller
     /**
      * Display index - debug page, login page, or account page
      */
-    public function actionIndex()
+    public function actionIndex($cid=NULL)
     {
 //        if (defined('YII_DEBUG') && YII_DEBUG) {
 //            $actions = Yii::$app->getModule("user")->getActions();
@@ -63,7 +64,12 @@ class DefaultController extends Controller
 //        } else {
 //            return $this->redirect(["/user/account"]);
 //        }
-      return $this->render('index');
+      $category = new Category;
+      $categories = $category->categoryOutput($cid);
+      return $this->render('index',
+      [
+          'categories' => $categories,
+      ]);
     }
 
     /**
