@@ -12,7 +12,7 @@ use yii\helpers\Url;
                   Html::img(Yii::$app->params['url.categories'].'/AllTask.png', 
                   ['alt'=>'icon']) .
                   Yii::t('app', 'All Tasks'),
-                  Url::to(['ticket/'], true)
+                  Url::to([$url_add], true)
             );
         ?>
     </li>

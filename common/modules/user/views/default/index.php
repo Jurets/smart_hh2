@@ -6,7 +6,7 @@ use yii\helpers\Url;
 ?>
 <?php
 $breadcrumb_title  = Yii::t('app', 'All Users');
-$breadcrumb_title .= ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) ) ? $categories[(int)$_GET['cid']-1]->name : '';
+$breadcrumb_title .= ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) ) ? ' '.$categories[(int)$_GET['cid']-1]->name : '';
 $this->title = $breadcrumb_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
