@@ -24,7 +24,7 @@ use yii\helpers\Url;
             echo Html::a(
                   Html::img(Yii::$app->params['url.categories'].'/'.$category->picture, ['alt'=>'icon']) .
                   Yii::t('app', $category->name),
-                  Url::to(['ticket/', 'cid' => $category->id], true)
+                  Url::to([$url_add, 'cid' => $category->id], true)
                   );
         
         ?>

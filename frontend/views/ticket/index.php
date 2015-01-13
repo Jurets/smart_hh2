@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="left-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
         <div class="sidebar">
-            <?= $this->render('/layouts/parts/sidebar', ['categories' => $categories]) ?>
+            <?= $this->render('/layouts/parts/sidebar', ['categories' => $categories, 'url_add'=>'ticket/']) ?>
         </div>
     </div>  
 
