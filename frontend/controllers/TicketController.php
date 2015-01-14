@@ -9,6 +9,9 @@ use common\models\Category;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
 use common\components\Controller; // with auto ban state control
+
+use common\components\GoogleApiHelper;
+
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
@@ -189,7 +192,10 @@ class TicketController extends Controller {
     }
 
     public function actionTest() {
-        ;
+        echo 'Test is ok';
+        $test = GoogleApiHelper::getLatLon('Россия Москва Храм Василия Блаженного');
+        $test2 = GoogleApiHelper::getSearchSquare('Россия Москва Храм Василия Блаженного', 100);
+        var_dump($test, $test2);
     }
 
     protected function renderErrors($errors) {
