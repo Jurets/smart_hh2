@@ -2,58 +2,88 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<form class="sort" action="<?=Url::to(['ticket/index'], true)?>" method="get">
+<form class="sort" action="<?=Url::to(['/user/index'], true)?>" method="get">
                                     <fieldset>
                                         <div class="group">
-                                            <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
-                                            <select>
-                                                <option>Ascending</option>
-                                                <option>Ascending</option>
-                                            </select>
+                                        <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
+                                        <?php echo Html::dropDownList('sort', 
+                                                NULL,
+                                                [
+                                                    0=>Yii::t('app','Ascending'),
+                                                    1=>Yii::t('app', 'Desceding'),
+                                                ]);
+                                        ?>
                                         </div>
-                                        <?php echo 'and max' // русский язык не влазит ввиду макета ?>
-                                        <input class="small" type="text">
-                                        <select class="small">
-                                            <option>USD</option>
-                                        </select> 
+                                        <?php echo 'and max' // русский язык не влазит ввиду макета - пока без перевода оставлено ?>
+                                        <?php echo Html::textInput('max_amount', NULL, ['class'=>'small']) ?>
+                                        <?php echo Html::dropDownList('currency',
+                                                NULL,
+                                                [
+                                                    0=>Yii::t('app','USD'),
+                                                    // add new currency here
+                                                ],
+                                                ['class'=>'small']
+                                                )
+                                        ?>
                                         <div class="group">
-                                            <label for="">Location:</label>
-                                            <input type="text"/>
+                                        <?php 
+                                            echo Html::label(Yii::t('app','Location'.':'));
+                                            echo Html::textInput('location', NULL);
+                                        ?>
                                         </div>
                                         <div class="group">
-                                            <label for="">Jobs Within:</label>
-                                            <select>
-                                                <option>100</option>
-                                                <option>200</option>
-                                            </select>
+                                        <?php 
+                                            echo Html::label(Yii::t('app','Jobs Within'.':'));
+                                            echo Html::dropDownList('within',
+                                                    NULL, 
+                                                    [
+                                                        0 => 100,
+                                                        1 => 200,
+                                                    ]);
+                                         ?>
                                         </div>
                                         <div class="clearfix"></div>
                                         <div class="group">
-                                            <label for="">Rating:</label>
-                                            <select>
-                                                <option>100</option>
-                                                <option>200</option>
-                                            </select>
+                                        <?php 
+                                            echo Html::label(Yii::t('app', 'Rating'.':'));
+                                            echo Html::dropDownList('rating',
+                                                    NULL,
+                                                    [
+                                                        0 => 100,
+                                                        1 => 200,
+                                                    ]
+                                                    );
+                                         ?>
                                         </div>
                                         <div class="group ">
-                                            <label for="">Done Tasks:</label>
-                                            <select>
-                                                <option>100</option>
-                                                <option>200</option>
-                                            </select>
+                                        <?php
+                                            echo Html::label(Yii::t('app', 'Done Tasks'.':'));
+                                            echo Html::dropDownList('done_tasks',
+                                                    NULL,
+                                                    [
+                                                        0 => 100,
+                                                        1 => 200,
+                                                    ]
+                                                    );
+                                        ?>
                                         </div>
                                         <div class="group">
-                                            <label for="">Created Tasks:</label>
-                                            <select>
-                                                <option>100</option>
-                                                <option>200</option>
-                                            </select>
+                                        <?php
+                                            echo Html::label(Yii::t('app', 'Created Tasks'.':'));
+                                            echo Html::dropDownList('created_tasks',
+                                                    NULL,
+                                                    [
+                                                        0 => 100,
+                                                        1 => 200,
+                                                    ]
+                                                    );
+                                        ?>
                                         </div>
 
 
                                         <div class="clear"></div>
                                         <p class="show">Showing 1 - 10 of 309 results</p>
-
                                         <div class="clear"></div>
                                     </fieldset>
+                                        <?php echo Html::submitButton('submit') ?>
                                 </form>
