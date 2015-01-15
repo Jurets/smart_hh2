@@ -4,6 +4,11 @@ use yii\helpers\Url;
 use kartik\datetime\DateTimePicker;
 ?>
 <form class="sort" action="<?=Url::to(['ticket/index', ],true)?>" method="get">
+    <?php
+    if (Yii::$app->urlManager->enablePrettyUrl != TRUE) {
+       echo '<input type="hidden" name="r" value="ticket">';
+    }
+    ?>
                                 <fieldset>
                                     <div class="row">
                                     <div class="left-column col-xs-12 col-sm-12 col-md-8 col-lg-8">
