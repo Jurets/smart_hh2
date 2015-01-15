@@ -105,7 +105,7 @@ class Controller extends native_Controller {
                             if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
                                 $this->redirect(Url::to('/'.$this->redirectController.'/'.$redirectTo), TRUE);
                             }
-                            $this->redirect(Url::to('/?r='.$this->$this->redirectController.'/'.$redirectTo), TRUE);
+                            $this->redirect(Url::to('/?r='.$this->redirectController.'/'.$redirectTo), TRUE);
                         }
                     }
                 }
