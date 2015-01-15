@@ -2,12 +2,17 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<form class="sort" action="<?=Url::to(['/user/index'], true)?>" method="get">
+<?php
+    $formPrepare = (!empty(Yii::$app->request->get())) ? Yii::$app->request->get() : [];
+    $actionUrlPrepare = (Yii::$app->urlManager->enablePrettyUrl === TRUE) ? '/user/index' : '/?r=user/index';
+    var_dump($formPrepare);
+?>
+<form class="sort" action="<?=Url::to([$actionUrlPrepare], true)?>" method="get">
                                     <fieldset>
                                         <div class="group">
                                         <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
                                         <?php echo Html::dropDownList('sort', 
-                                                NULL,
+                                               isset($formPrepare['sort']) ? (int)$formPrepare['sort'] : NULL,
                                                 [
                                                     0=>Yii::t('app','Ascending'),
                                                     1=>Yii::t('app', 'Desceding'),
