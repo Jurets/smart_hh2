@@ -4,10 +4,12 @@ use yii\helpers\Url;
 ?>
 <?php
     $actionUrlPrepare = (Yii::$app->urlManager->enablePrettyUrl === TRUE) ? '/user/index' : '/?r=user/index';
+    $actionUrl = Url::to([$actionUrlPrepare], true);
+    $actionUrl = str_replace('%3Fr%3D', '', $actionUrl);
     $formPrepare = Yii::$app->request->get();
     var_dump($formPrepare);
 ?>
-<form class="sort" action="<?=Url::to([$actionUrlPrepare], true)?>" method="get">
+<form class="sort" action="<?=$actionUrl?>" method="get">
                                     <fieldset>
                                         <div class="group">
                                         <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
