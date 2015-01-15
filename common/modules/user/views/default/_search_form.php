@@ -7,7 +7,7 @@ var_dump($_GET);
 ?>
 <form class="sort" action="<?=Url::to(['/user/index'], true)?>" method="get">
     <?php
-    if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
+    if (Yii::$app->urlManager->enablePrettyUrl != TRUE) {
        echo '<input type="hidden" name="r" value="user/index">';
     }
     ?>
