@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-    $actionUrlPrepare = (Yii::$app->urlManager->enablePrettyUrl === TRUE) ? '/user/index' : '?r=index';
+    $actionUrlPrepare = (Yii::$app->urlManager->enablePrettyUrl === TRUE) ? '/user/index' : '';
     $formPrepare = Yii::$app->request->get();
     var_dump($formPrepare);
 ?>
