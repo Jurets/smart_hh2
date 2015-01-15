@@ -3,9 +3,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-var_dump(Yii::$app->request->get());die;
-    $formPrepare = (!empty(Yii::$app->request->get())) ? Yii::$app->request->get() : [];
     $actionUrlPrepare = (Yii::$app->urlManager->enablePrettyUrl === TRUE) ? '/user/index' : '/?r=user/index';
+    $formPrepare = Yii::$app->request->get();
     var_dump($formPrepare);
 ?>
 <form class="sort" action="<?=Url::to([$actionUrlPrepare], true)?>" method="get">
