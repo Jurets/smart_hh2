@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-var_dump($_GET);
+//var_dump($_GET);
 ?>
 <form class="sort" action="<?=Url::to(['/user/index'], true)?>" method="get">
     <?php

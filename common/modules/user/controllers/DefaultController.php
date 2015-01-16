@@ -56,16 +56,10 @@ class DefaultController extends Controller
      */
     public function actionIndex($cid=NULL)
     {
-//        if (defined('YII_DEBUG') && YII_DEBUG) {
-//            $actions = Yii::$app->getModule("user")->getActions();
-//            return $this->render('index', ["actions" => $actions]);
-//        } elseif (Yii::$app->user->isGuest) {
-//            return $this->redirect(["/user/login"]);
-//        } else {
-//            return $this->redirect(["/user/account"]);
-//        }
       $category = new Category;
       $categories = $category->categoryOutput($cid);
+      $model = Yii::$app->getModule('user')->model('user');
+      $query = $model->userSearchService();
       return $this->render('index',
       [
           'categories' => $categories,

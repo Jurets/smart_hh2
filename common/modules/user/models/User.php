@@ -554,4 +554,18 @@ class User extends ActiveRecord implements IdentityInterface
         return ($this->ban_time === NULL) ? FALSE : TRUE;
     }
     
+    /* page All Users */
+    public function userSearchService(){
+       $query = User::find();
+       if(!is_null(Yii::$app->user->id)){
+           $query->where('id <> '.Yii::$app->user->id);
+       }
+       return $query;
+    }
+    /* когда закончится проработка логики - убрть этот метод везде */
+    public function testShow($model){
+        foreach($model as $element){
+            echo $element->username . '<br>';
+        }
+    }
 }

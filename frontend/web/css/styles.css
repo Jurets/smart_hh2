@@ -1438,3 +1438,7 @@ label {
 .user-default-register p{
     margin-bottom: 15px;
 }
+.user-info-price .btn-average {
+    width: 100%;
+    padding: 4px 0;
+}
