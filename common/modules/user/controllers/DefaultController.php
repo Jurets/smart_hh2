@@ -8,6 +8,7 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use yii\data\ActiveDataProvider;
 use common\models\Files;
 use common\models\Category;
 use \yii\helpers\Url;
@@ -60,9 +61,16 @@ class DefaultController extends Controller
       $categories = $category->categoryOutput($cid);
       $model = Yii::$app->getModule('user')->model('user');
       $query = $model->userSearchService();
+      $dataProvider = new ActiveDataProvider([
+          'query' => $query,
+          'pagination' => [
+              'pageSize' => 5,
+          ],
+      ]);
       return $this->render('index',
       [
           'categories' => $categories,
+          'dataProvider' => $dataProvider,
       ]);
     }
 

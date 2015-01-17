@@ -1442,3 +1442,7 @@ label {
     width: 100%;
     padding: 4px 0;
 }
+.stars_rating_patch {
+    background: white;
+    font-size: 15px !important;
+}

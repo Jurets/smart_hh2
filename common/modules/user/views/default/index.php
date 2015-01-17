@@ -26,10 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ])
             ?>
             <div class="user-holder">
-                <?php echo $this->render('_user-item', [
-                    
-                ]) ?>
+                <div class="user-item  info-border row">
+                <?php 
+                    echo ListView::widget([
+                        'dataProvider' => $dataProvider,
+                        'itemOptions' => ['class' => ''],
+                        'itemView' => '_user-item',
+                        'viewParams' => [],
+                        'summary' => '',
+                        'pager' => [
+                            'activePageCssClass' => '',
+                            'prevPageLabel' => Yii::t('app', '<span class="color:#0d3f67;">' . 'Page:' . '</span>'),
+                            'nextPageLabel' => '',
+                        ],
+                    ]);
+                ?>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="clear"></div>

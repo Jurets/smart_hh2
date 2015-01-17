@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <?php
-//var_dump($_GET);
+    $get = Yii::$app->request->get();
 ?>
 <form class="sort" action="<?=Url::to(['/user/index'], true)?>" method="get">
     <?php
@@ -15,7 +15,7 @@ use yii\helpers\Url;
                                         <div class="group">
                                         <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
                                         <?php echo Html::dropDownList('sort', 
-                                                NULL,
+                                                isset($get['sort']) ? (int)$get['sort'] : NULL,
                                                 [
                                                     0=>Yii::t('app','Ascending'),
                                                     1=>Yii::t('app', 'Desceding'),
@@ -25,7 +25,7 @@ use yii\helpers\Url;
                                         <?php echo 'and max' // русский язык не влазит ввиду макета - пока без перевода оставлено ?>
                                         <?php echo Html::textInput('max_amount', NULL, ['class'=>'small']) ?>
                                         <?php echo Html::dropDownList('currency',
-                                                NULL,
+                                                isset($get['currency']) ? (int)$get['currency'] : NULL,
                                                 [
                                                     0=>Yii::t('app','USD'),
                                                     // add new currency here
@@ -43,7 +43,7 @@ use yii\helpers\Url;
                                         <?php 
                                             echo Html::label(Yii::t('app','Jobs Within'.':'));
                                             echo Html::dropDownList('within',
-                                                    NULL, 
+                                                    isset($get['within']) ? $get['within'] : NULL, 
                                                     [
                                                         0 => 100,
                                                         1 => 200,
@@ -55,7 +55,7 @@ use yii\helpers\Url;
                                         <?php 
                                             echo Html::label(Yii::t('app', 'Rating'.':'));
                                             echo Html::dropDownList('rating',
-                                                    NULL,
+                                                    isset($get['rating']) ? $get['rating'] : NULL,
                                                     [
                                                         0 => 100,
                                                         1 => 200,
@@ -67,7 +67,7 @@ use yii\helpers\Url;
                                         <?php
                                             echo Html::label(Yii::t('app', 'Done Tasks'.':'));
                                             echo Html::dropDownList('done_tasks',
-                                                    NULL,
+                                                    isset($get['done_tasks']) ? $get['done_tasks'] : NULL,
                                                     [
                                                         0 => 100,
                                                         1 => 200,
@@ -79,7 +79,7 @@ use yii\helpers\Url;
                                         <?php
                                             echo Html::label(Yii::t('app', 'Created Tasks'.':'));
                                             echo Html::dropDownList('created_tasks',
-                                                    NULL,
+                                                    isset($get['created_tasks']) ? $get['created_tasks'] : NULL,
                                                     [
                                                         0 => 100,
                                                         1 => 200,
