@@ -32,7 +32,7 @@ class DefaultController extends Controller
                         'roles'   => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'resend-change', 'cancel', 'logout'],
+                        'actions' => ['account', 'profile','cabinet', 'resend-change', 'cancel', 'logout'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -73,7 +73,19 @@ class DefaultController extends Controller
           'dataProvider' => $dataProvider,
       ]);
     }
-
+    /*
+     * serve User Cabinet
+     */
+    public function actionCabinet(){
+        $post = Yii::$app->request->post();
+        $profile = Yii::$app->user->identity->profile;
+        if(empty($post)){
+            
+        }
+        return $this->render('cabinet', [
+            
+        ]);
+    }
     /**
      * Display login page
      */
