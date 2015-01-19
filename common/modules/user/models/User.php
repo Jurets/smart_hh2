@@ -586,7 +586,7 @@ class User extends ActiveRecord implements IdentityInterface
        }
        // form reaction END
        if(!is_null(Yii::$app->user->id)){
-           $query->andFilterWhere('id <> '.Yii::$app->user->id);
+           $query->andWhere('user.id <> '.Yii::$app->user->id);
        }
        $query->andWhere('role_id <> 1'); // without admin accaunts
        // Order case
