@@ -11,6 +11,11 @@ use yii\helpers\Url;
        echo '<input type="hidden" name="r" value="user/index">';
     }
     ?>
+    <?php
+    if(isset($get['cid'])){
+        echo '<input type="hidden" name="cid" value="'.((int)$get['cid']).'">';
+    }
+    ?>
                                     <fieldset>
                                         <div class="group">
                                         <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
@@ -23,7 +28,9 @@ use yii\helpers\Url;
                                         ?>
                                         </div>
                                         <?php echo 'and max' // русский язык не влазит ввиду макета - пока без перевода оставлено ?>
-                                        <?php echo Html::textInput('max_amount', NULL, ['class'=>'small']) ?>
+                                        <?php echo Html::textInput('max_amount',
+                                                isset($get['max_amount']) ? (float)$get['max_amount'] : NULL,
+                                                ['class'=>'small']) ?>
                                         <?php echo Html::dropDownList('currency',
                                                 isset($get['currency']) ? (int)$get['currency'] : NULL,
                                                 [
@@ -45,8 +52,11 @@ use yii\helpers\Url;
                                             echo Html::dropDownList('within',
                                                     isset($get['within']) ? $get['within'] : NULL, 
                                                     [
-                                                        0 => 100,
-                                                        1 => 200,
+                                                        1 => 1,
+                                                        2 => 2,
+                                                        3 => 3,
+                                                        100 => 100,
+                                                        200 => 200,
                                                     ]);
                                          ?>
                                         </div>
@@ -57,8 +67,8 @@ use yii\helpers\Url;
                                             echo Html::dropDownList('rating',
                                                     isset($get['rating']) ? $get['rating'] : NULL,
                                                     [
-                                                        0 => 100,
-                                                        1 => 200,
+                                                        100 => 100,
+                                                        200 => 200,
                                                     ]
                                                     );
                                          ?>
@@ -69,8 +79,8 @@ use yii\helpers\Url;
                                             echo Html::dropDownList('done_tasks',
                                                     isset($get['done_tasks']) ? $get['done_tasks'] : NULL,
                                                     [
-                                                        0 => 100,
-                                                        1 => 200,
+                                                        100 => 100,
+                                                        200 => 200,
                                                     ]
                                                     );
                                         ?>
@@ -81,8 +91,8 @@ use yii\helpers\Url;
                                             echo Html::dropDownList('created_tasks',
                                                     isset($get['created_tasks']) ? $get['created_tasks'] : NULL,
                                                     [
-                                                        0 => 100,
-                                                        1 => 200,
+                                                        100 => 100,
+                                                        200 => 200,
                                                     ]
                                                     );
                                         ?>

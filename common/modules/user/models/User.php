@@ -10,6 +10,8 @@ use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
 use ReflectionClass;
 
+use common\components\GoogleApiHelper;
+
 /**
  * This is the model class for table "tbl_user".
  *
@@ -556,16 +558,58 @@ class User extends ActiveRecord implements IdentityInterface
     
     /* page All Users */
     public function userSearchService(){
+       $get = Yii::$app->request->get();
        $query = User::find();
+       $query->distinct(TRUE);
+       $query->leftJoin('profile', 'user.id = profile.user_id');
+       // Specialisation search transfer
+       if(isset($get['cid']) && !empty($get['cid'])){
+           $query->leftJoin('user_speciality us', 'us.user_id = user.id');
+           $query->andFilterWhere(['us.category_id'=>(int)$get['cid']]);
+       }
+       // form reaction BEGIN
+       if(isset($get['max_amount']) && !empty($get['max_amount'])){
+           $query->andWhere('profile.hourly_rate <= :ma', [':ma' => (float)$get['max_amount']]);
+       }
+       // Add Ticket Distance Criteria
+       if(isset($get['location']) && !empty($get['location'])){
+           $this->distanceSearch($query, $get);
+       }
+       if(isset($get['rating']) && !empty($get['rating'])){
+           $query->andWhere('profile.rating <= :ra', [':ra' => (int)$get['rating']]);
+       }
+       if(isset($get['done_tasks']) && !empty($get['done_tasks'])){
+           $query->andWhere('profile.done_tasks <= :dt', [':dt' => (int)$get['done_tasks']]);
+       }
+       if(isset($get['created_tasks']) && !empty($get['created_tasks'])){
+           $query->andWhere('profile.created_tasks <= :ct', [':ct' => (int)$get['created_tasks']]);
+       }
+       // form reaction END
        if(!is_null(Yii::$app->user->id)){
-           $query->where('id <> '.Yii::$app->user->id);
+           $query->andFilterWhere('id <> '.Yii::$app->user->id);
+       }
+       $query->andWhere('role_id <> 1'); // without admin accaunts
+       // Order case
+       if(isset($get['sort'])){
+           $query->orderBy('profile.hourly_rate'.$this->getSort($get['sort']));
        }
        return $query;
     }
-    /* когда закончится проработка логики - убрть этот метод везде */
-    public function testShow($model){
-        foreach($model as $element){
-            echo $element->username . '<br>';
+    protected function getSort($sort=0){
+        if((int)$sort === 0){
+            return ' ASC';
+        }
+        return ' DESC';
+    }
+    /* Search service addon for search on the basis of distance */
+    protected function distanceSearch($query, $get){
+        if(isset($get['within']) && !empty($get['within'])){
+            $area = GoogleApiHelper::getSearchSquare($get['location'], (int)$get['within']);
+            if(!is_null($area)){
+               $query->leftJoin('ticket', 'user.id = ticket.user_id');
+               $query->andWhere(['between', 'ticket.lon', $area['lon1'], $area['lon2']]);
+               $query->andWhere(['between', 'ticket.lat', $area['lat1'], $area['lat2']]);
+            }
         }
     }
 }
