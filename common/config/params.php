@@ -8,6 +8,7 @@ return [
     'upload.path' => '../../frontend/web/uploads',
     'upload.url' => '/uploads',
     'images.path' => '../../frontend/web/images',
+    'images.url' => '/images',
     'url.categories' =>  '../../frontend/web/images/categories',
     
     //slots.quantity: how many categories can choose together when ticket created

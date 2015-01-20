@@ -22,10 +22,11 @@ use kartik\widgets\StarRating;
                 'showClear' => FALSE,
                 'showCaption' => true,
                 'stars' => 5,
-                'min' => 1,
-                'max' => 4.4,
+                'min' => 0,
+                'max' => 5,
+                'clearCaption' => '(0 based on 5 votes)',
+                'clearCaptionClass' => 'stars_rating_patch',
                 'starCaptions' => [
-                    0 => '(0 based on 5 votes)',
                     1 => '(1 based on 5 votes)',
                     2 => '(2 based on 5 votes)',
                     3 => '(3 based on 5 votes)',
@@ -33,7 +34,6 @@ use kartik\widgets\StarRating;
                     5 => '(5 based on 5 votes)',
                 ],
                 'starCaptionClasses' => [
-                    0 => 'stars_rating_patch',
                     1 => 'stars_rating_patch',
                     2 => 'stars_rating_patch',
                     3 => 'stars_rating_patch',

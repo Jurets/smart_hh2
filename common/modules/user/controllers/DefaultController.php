@@ -83,7 +83,7 @@ class DefaultController extends Controller
             
         }
         return $this->render('cabinet', [
-            
+            'profile' => $profile,
         ]);
     }
     /**
