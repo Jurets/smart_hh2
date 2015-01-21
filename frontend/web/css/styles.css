@@ -1446,3 +1446,25 @@ label {
     background: white;
     font-size: 15px !important;
 }
+.pop-up {
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 2px;
+    box-shadow: 0 0 2px 3px rgba(204, 204, 204, 0.5);
+    padding: 22px;
+    position: absolute;
+    width: 350px;
+    z-index: 100;
+}
+.pop-up-edit {
+    left: 68%;
+    top: 133px;
+}
+/* pop-up expancion features varriants BEGIN */
+.pop-up-exp1 {
+    
+}
+/* pop-up expancion features varriants END */
+.pop-up-hide {
+    display: none;
+}

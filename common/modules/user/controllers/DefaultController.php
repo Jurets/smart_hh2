@@ -77,11 +77,7 @@ class DefaultController extends Controller
      * serve User Cabinet
      */
     public function actionCabinet(){
-        $post = Yii::$app->request->post();
         $profile = Yii::$app->user->identity->profile;
-        if(empty($post)){
-            
-        }
         return $this->render('cabinet', [
             'profile' => $profile,
         ]);

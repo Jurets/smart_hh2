@@ -1,11 +1,11 @@
 <?php
-
 use kartik\widgets\StarRating;
+use common\components\CabinetWidget;
 ?>
 <div class="user-item">
     <div class="left user-item-info">
         <div class="profile-avatar left">
-<?php $photo = (!empty($profile->files->code)) ? Yii::$app->params['upload.url'] . DIRECTORY_SEPARATOR . $profile->files->code : Yii::$app->params['images.url'] . DIRECTORY_SEPARATOR . 'photo_cap.png' ?>
+            <?php $photo = (!empty($profile->files->code)) ? Yii::$app->params['upload.url'] . DIRECTORY_SEPARATOR . $profile->files->code : Yii::$app->params['images.url'] . DIRECTORY_SEPARATOR . 'photo_cap.png' ?>
             <img class="avatar" src="<?= $photo ?>" alt="avatar">
             <a href="#" class="btn btn-average change-photo">CHANGE PHOTO</a>
         </div>
@@ -20,7 +20,6 @@ use kartik\widgets\StarRating;
             <a href="#" class="user-status"><img src="/images/icon-tel.png" alt=""/><span><img src="/images/icon-on.png" alt="on"/></span></a>
             <a href="#" class="user-status"><img src="/images/icon-phone.png" alt=""/><span><img src="/images/icon-on.png" alt="on"/></span></a>
         </div>
-        <!--<p class="user-mark"><img src="/images/star5.png" alt=""/><span class="vote">(3.5 based on 40 votes)</span></p>-->
         <p class="user-mark">
             <?php
             echo StarRating::widget([
@@ -57,8 +56,11 @@ use kartik\widgets\StarRating;
         <img src="/images/language-icon.png" alt=""/><span class="info-position">United States</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a><br/>
         <span class="measurement">Hourly Rate:</span>
         <?php $hourlyRate = (!empty($profile->hourly_rate)) ? $profile->hourly_rate : 0 ?>
-        <span class="price">&dollar;<?=$hourlyRate?> and up</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-        <!--#include file="pop-up-edit.shtml" -->
+        <span class="price">&dollar;<?= $hourlyRate ?> and up</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+        <?php echo CabinetWidget::widget([
+            'popup' => '/default/popup-layout',
+            'path' => '/default/cabinet'
+        ]);?>
 
     </div>
     <div class="clear"></div>
