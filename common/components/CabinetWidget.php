@@ -21,12 +21,15 @@ class CabinetWidget extends Widget {
         $this->layoutsSetUp();
     }
     public function run(){
-        return $this->render($this->popup, [
-            'title' => $this->layouts[$this->signature]['title'],
-            'form' => $this->layouts[$this->signature]['form'],
-            'dataSet' => $this->layouts[$this->signature]['dataSet'],
-            'destinationClass' => $this->layouts[$this->signature]['destinationClass'],
-        ]);
+        if(isset($this->layouts[$this->signature])) {
+            return $this->render($this->popup, [
+                        'title' => $this->layouts[$this->signature]['title'],
+                        'form' => $this->layouts[$this->signature]['form'],
+                        'dataSet' => $this->layouts[$this->signature]['dataSet'],
+                        'destinationClass' => $this->layouts[$this->signature]['destinationClass'],
+            ]);
+        }
+        return NULL;
     }
     /*  */
     protected function layoutsSetUp(){

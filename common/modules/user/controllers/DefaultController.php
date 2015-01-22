@@ -32,7 +32,7 @@ class DefaultController extends Controller
                         'roles'   => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile','cabinet', 'resend-change', 'cancel', 'logout'],
+                        'actions' => ['account', 'profile','cabinet', 'popup_render', 'resend-change', 'cancel', 'logout'],
                         'allow'   => true,
                         'roles'   => ['@'],
                     ],
@@ -78,9 +78,47 @@ class DefaultController extends Controller
      */
     public function actionCabinet(){
         $profile = Yii::$app->user->identity->profile;
+        
         return $this->render('cabinet', [
             'profile' => $profile,
         ]);
+    }
+    public function actionPopup_render(){
+        $signature = NULL;
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            $signature = $post['signature'];
+        }
+        return $this->renderPartial('popup', [
+            'signature' => $signature,
+        ]);
+
+    }
+    public function actionPopup_runtime(){
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            $this->cabinetServiceChoise($post);
+        }        
+    }
+    /* cabinet choise */
+    private function cabinetServiceChoise($post){
+        ;
+    }
+    // cabinet addons (5 parts)
+    private function cabinetUserItem($post){
+        ;
+    }
+    private function cabinetUserContact($post){
+        ;
+    }
+    private function cabinetSpecialties($post){
+        ;
+    }
+    private function cabinetDiploma($post){
+        ;
+    }
+    private function cabinetDocs($post){
+        ;
     }
     /**
      * Display login page
