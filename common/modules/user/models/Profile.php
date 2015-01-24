@@ -55,6 +55,7 @@ class Profile extends ActiveRecord {
             [['self_description'], 'string', 'max' => 255],
             [['photo'], 'string', 'max' => 255],
             [['country_code'], 'string', 'max' => 255],
+            [['hourly_rate'],'double'],
         ];
     }
 

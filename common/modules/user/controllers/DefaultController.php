@@ -11,35 +11,43 @@ use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use common\models\Files;
 use common\models\Category;
-use \yii\helpers\Url;
+use yii\web\NotFoundHttpException;
+
 /**
  * Default controller for User module
  */
-class DefaultController extends Controller
-{
+class DefaultController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    private $profile; // self user profile here
+
+    public function beforeAction($action) {
+        parent::beforeAction($action);
+        $this->profile = Yii::$app->user->identity->profile;
+        return TRUE;
+    }
+
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'actions' => ['index', 'confirm', 'resend'],
-                        'allow'   => true,
-                        'roles'   => ['?', '@'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile','cabinet', 'popup_render', 'resend-change', 'cancel', 'logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'popup_runtime', 'resend-change', 'cancel', 'logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                     [
                         'actions' => ['login', 'register', 'forgot', 'reset'],
-                        'allow'   => true,
-                        'roles'   => ['?'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -55,78 +63,110 @@ class DefaultController extends Controller
     /**
      * Display index - debug page, login page, or account page
      */
-    public function actionIndex($cid=NULL)
-    {
-      $category = new Category;
-      $categories = $category->categoryOutput($cid);
-      $model = Yii::$app->getModule('user')->model('user');
-      $query = $model->userSearchService();
-      $dataProvider = new ActiveDataProvider([
-          'query' => $query,
-          'pagination' => [
-              'pageSize' => 5,
-          ],
-      ]);
-      return $this->render('index',
-      [
-          'categories' => $categories,
-          'dataProvider' => $dataProvider,
-      ]);
+    public function actionIndex($cid = NULL) {
+        $category = new Category;
+        $categories = $category->categoryOutput($cid);
+        $model = Yii::$app->getModule('user')->model('user');
+        $query = $model->userSearchService();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+        return $this->render('index', [
+                    'categories' => $categories,
+                    'dataProvider' => $dataProvider,
+        ]);
     }
+
     /*
      * serve User Cabinet
      */
-    public function actionCabinet(){
-        $profile = Yii::$app->user->identity->profile;
-        
+
+    public function actionCabinet() {
+
         return $this->render('cabinet', [
-            'profile' => $profile,
+                    'profile' => $this->profile,
         ]);
     }
-    public function actionPopup_render(){
+
+    public function actionPopup_render() {
         $signature = NULL;
-        if(Yii::$app->request->isAjax){
+        $dataSet = NULL;
+        $destinationClass = NULL;
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $signature = $post['signature'];
         }
         return $this->renderPartial('popup', [
-            'signature' => $signature,
+                    'signature' => $signature,
+                    'dataSet' => $dataSet,
+                    'destinationClass' => $destinationClass
         ]);
-
     }
-    public function actionPopup_runtime(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionPopup_runtime() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $this->cabinetServiceChoise($post);
-        }        
+        }
     }
+
     /* cabinet choise */
-    private function cabinetServiceChoise($post){
-        ;
+
+    private function cabinetServiceChoise($post) {
+        switch ($post['signature']) {
+            case 'HourlyRate' :
+                $this->cabinetUserItem($post);
+                break;
+        }
     }
+
     // cabinet addons (5 parts)
-    private function cabinetUserItem($post){
+    private function cabinetUserItem($post) {
+        if (isset($post['hourly_rate'])) {
+            $this->profile->hourly_rate = $post['hourly_rate'];
+            if ($this->profile->validate()) {
+                $this->profile->save(false);
+            } else {
+                throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
+            }
+        }
+        echo $this->renderAjax('_cabinet-user-item', [
+            'profile' => $this->profile,
+        ]);
+    }
+
+    private function cabinetUserContact($post) {
         ;
     }
-    private function cabinetUserContact($post){
+
+    private function cabinetSpecialties($post) {
         ;
     }
-    private function cabinetSpecialties($post){
+
+    private function cabinetDiploma($post) {
         ;
     }
-    private function cabinetDiploma($post){
+
+    private function cabinetDocs($post) {
         ;
     }
-    private function cabinetDocs($post){
-        ;
+
+    protected function renderErrors($errors) {
+        $message = '';
+        foreach ($errors as $error) {
+            $message .= '<p style="color:red;">'. $error[0] . '</p>';
+        }
+        return $message;
     }
+
     /**
      * Display login page
      */
-    public function actionLogin()
-    {
+    public function actionLogin() {
         /** @var \common\modules\user\models\forms\LoginForm $model */
-
         // load post data and login
         $model = Yii::$app->getModule("user")->model("LoginForm");
         if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
@@ -135,23 +175,21 @@ class DefaultController extends Controller
 
         // render
         return $this->render('login', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
     /**
      * Log user out and redirect
      */
-    public function actionLogout()
-    {
+    public function actionLogout() {
         Yii::$app->user->logout();
 
         // redirect
         $logoutRedirect = Yii::$app->getModule("user")->logoutRedirect;
         if ($logoutRedirect === null) {
             return $this->goHome();
-        }
-        else {
+        } else {
             return $this->redirect($logoutRedirect);
         }
     }
@@ -159,14 +197,12 @@ class DefaultController extends Controller
     /**
      * Display registration page
      */
-    public function actionRegister()
-    {
+    public function actionRegister() {
         /** @var \common\modules\user\models\User    $user */
         /** @var \common\modules\user\models\Profile $profile */
         /** @var \common\modules\user\models\Role    $role */
-
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "registeruser"]);
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "registeruser"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
 
         // load post data
@@ -204,8 +240,8 @@ class DefaultController extends Controller
 
         // render
         return $this->render("register", [
-            'user'    => $user,
-            'profile' => $profile,
+                    'user' => $user,
+                    'profile' => $profile,
         ]);
     }
 
@@ -214,10 +250,8 @@ class DefaultController extends Controller
      *
      * @param \common\modules\user\models\User $user
      */
-    protected function afterRegister($user)
-    {
+    protected function afterRegister($user) {
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // determine userKey type to see if we need to send email
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         if ($user->status == $user::STATUS_INACTIVE) {
@@ -246,11 +280,9 @@ class DefaultController extends Controller
     /**
      * Confirm email
      */
-    public function actionConfirm($key)
-    {
+    public function actionConfirm($key) {
         /** @var \common\modules\user\models\UserKey $userKey */
         /** @var \common\modules\user\models\User $user */
-
         // search for userKey
         $success = false;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
@@ -269,19 +301,17 @@ class DefaultController extends Controller
 
         // render
         return $this->render("confirm", [
-            "userKey" => $userKey,
-            "success" => $success
+                    "userKey" => $userKey,
+                    "success" => $success
         ]);
     }
 
     /**
      * Account
      */
-    public function actionAccount()
-    {
+    public function actionAccount() {
         /** @var \common\modules\user\models\User $user */
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // set up user and load post data
         $user = Yii::$app->user->identity;
         $user->setScenario("account");
@@ -316,15 +346,14 @@ class DefaultController extends Controller
 
         // render
         return $this->render("account", [
-            'user' => $user,
+                    'user' => $user,
         ]);
     }
 
     /**
      * Profile
      */
-    public function actionProfile()
-    {
+    public function actionProfile() {
         /** @var \common\modules\user\models\Profile $profile */
         $file = new Files();
         // set up profile and load post data
@@ -340,11 +369,11 @@ class DefaultController extends Controller
         // validate for normal request
         if ($loadedPost) {
             //run validation 
-            if ($file->validate() && $profile->validate()) {  
-               //If validation is successful, then we're saving the file:
-               //$files_id = $file->saveImage();
-               $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'Files[file]');
-               $profile->photo = $files_id;  //put file_id in field 'photo'
+            if ($file->validate() && $profile->validate()) {
+                //If validation is successful, then we're saving the file:
+                //$files_id = $file->saveImage();
+                $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'Files[file]');
+                $profile->photo = $files_id;  //put file_id in field 'photo'
             }
             $profile->save(false);           //save profile
             Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
@@ -353,18 +382,16 @@ class DefaultController extends Controller
 
         // render
         return $this->render("profile", [
-            'profile' => $profile,
-            'files' => $file,
+                    'profile' => $profile,
+                    'files' => $file,
         ]);
     }
 
     /**
      * Resend email confirmation
      */
-    public function actionResend()
-    {
+    public function actionResend() {
         /** @var \common\modules\user\models\forms\ResendForm $model */
-
         // load post data and send email
         $model = Yii::$app->getModule("user")->model("ResendForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendEmail()) {
@@ -375,20 +402,18 @@ class DefaultController extends Controller
 
         // render
         return $this->render("resend", [
-            "model" => $model,
+                    "model" => $model,
         ]);
     }
 
     /**
      * Resend email change confirmation
      */
-    public function actionResendChange()
-    {
+    public function actionResendChange() {
         /** @var \common\modules\user\models\User    $user */
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -405,13 +430,11 @@ class DefaultController extends Controller
     /**
      * Cancel email change
      */
-    public function actionCancel()
-    {
+    public function actionCancel() {
         /** @var \common\modules\user\models\User    $user */
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -432,10 +455,8 @@ class DefaultController extends Controller
     /**
      * Forgot password
      */
-    public function actionForgot()
-    {
+    public function actionForgot() {
         /** @var \common\modules\user\models\forms\ForgotForm $model */
-
         // load post data and send email
         $model = Yii::$app->getModule("user")->model("ForgotForm");
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
@@ -446,18 +467,16 @@ class DefaultController extends Controller
 
         // render
         return $this->render("forgot", [
-            "model" => $model,
+                    "model" => $model,
         ]);
     }
 
     /**
      * Reset password
      */
-    public function actionReset($key)
-    {
+    public function actionReset($key) {
         /** @var \common\modules\user\models\User    $user */
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // check for valid userKey
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByKey($key, $userKey::TYPE_PASSWORD_RESET);
@@ -482,4 +501,5 @@ class DefaultController extends Controller
         // render
         return $this->render('reset', compact("user", "success"));
     }
+
 }

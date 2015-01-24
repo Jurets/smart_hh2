@@ -4,7 +4,9 @@ use common\components\CabinetWidget;
 echo CabinetWidget::widget([
             'popup' => '/default/popup-layout',
             'path' => '/default/cabinet',
-            'signature' => isset($signature) ? $signature : NULL,
+            'signature' => $signature,
+            'dataSet' => $dataSet,
+            'destinationClass' => $destinationClass
         ]);
 
 ?>

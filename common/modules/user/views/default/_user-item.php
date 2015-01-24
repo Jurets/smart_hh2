@@ -1,7 +1,7 @@
 <?php
 use kartik\widgets\StarRating;
 ?>
-<div class="user-item  info-border row">
+<div class="user-item info-border row">
     <div class="user-item-info col-xs-9 col-sm-9 col-md-9 col-lg-10">
         <?php $photo = $model->profile->files; ?>
         <a href="#"><img style="width:116px;" alt="avatar" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $photo->code : '' ?>" class="avatar left"></a>

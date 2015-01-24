@@ -9,7 +9,6 @@ use common\models\Profile;
 class CabinetWidget extends Widget {
     public $popup; // path to popup window layout
     public $path; // const part of pass to form-layouts
-    
     public $signature = NULL; // for choise who trying to render popup window
     public $dataSet = NULL; // data structure (array) from default controller for initialisation form fields if it is need
     public $destinationClass = NULL; // addition to CSS class for change standard size and popup window offset if it is need

@@ -193,9 +193,7 @@ class TicketController extends Controller {
 
     public function actionTest() {
         echo 'Test is ok';
-        $test = GoogleApiHelper::getLatLon('Россия Москва Храм Василия Блаженного');
-        $test2 = GoogleApiHelper::getSearchSquare('Россия Москва Храм Василия Блаженного', 100);
-        var_dump($test, $test2);
+       
     }
 
     protected function renderErrors($errors) {

@@ -56,9 +56,7 @@ use kartik\widgets\StarRating;
         <span class="measurement">Hourly Rate:</span>
         <?php $hourlyRate = (!empty($profile->hourly_rate)) ? $profile->hourly_rate : 0 ?>
         <span class="price">&dollar;<?= $hourlyRate ?> and up</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" data-sign="HourlyRate" aria-hidden="true"></span></a>
-        <div class="pop-up-wrapper">
-            <?php echo $this->render('popup',[]) ?>
-        </div>
+        <div class="pop-up-wrapper"><!-- pop up rendered here --> </div>
 
     </div>
     <div class="clear"></div>
