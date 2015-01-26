@@ -30,49 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-cabinet-content">
     <div class="widget specialties widget-padding">
         <h1 class="left">My <span class="red">7</span> Specialties</h1>
-        <a href="#" class="btn btn-average right">ADD A SPECIALTY</a>
+        <a href="#" data-sign="Specialites" class="btn btn-average right">ADD A SPECIALTY</a>
         <div class="clearfix"></div>
         <div class="specialty-holder text-center">
-            <div class="category-item">
-                <a href="#" class="specialty-item">
-                    <div class="icon-items">
-                        <img src="/images/categories/moving.png" alt="Moving"/>                                            
-                    </div>
-                    <p>Moving</p>                     
-                </a>
-                <a class="delete" href="#"><img src="/images/icon-delete.png"/></a>
-            </div>
-            <div class="category-item">
-                <a href="#" class="specialty-item">
-                    <div class="icon-items">
-                        <img src="/images/categories/events.png" alt="Events"/>                                            
-                    </div>
-                    <p>Events</p>                    
-                </a>
-                <a class="delete" href="#"><img src="/images/icon-delete.png"/></a>
-            </div>
-            <div class="category-item">
-                <a href="#" class="specialty-item">
-                    <div class="icon-items">
-                        <img src="/images/categories/webDisignInternet.png" alt="Web Disign & Internet"/>                                            
-                    </div>
-                    <p>Web Disign &AMP; Internet</p>                     
-                </a>
-                <a class="delete" href="#"><img src="/images/icon-delete.png"/></a>
-            </div>
-            <div class="category-item">
-                <a href="#" class="specialty-item">
-                    <div class="icon-items">
-                        <img src="/images/categories/cooking.png" alt="Cooking"/>                                            
-                    </div>
-                    <p>Cooking</p>                     
-                </a>
-                <a class="delete" href="#"><img src="/images/icon-delete.png"/></a>
-            </div>  
+            <?php echo $this->render('_cabinet-category-item', ['categories'=>$categories]) ?>
         </div>    
-
-
-
     </div>  
     <div class="clearfix"></div>    
 

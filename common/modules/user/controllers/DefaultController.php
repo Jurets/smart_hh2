@@ -91,12 +91,25 @@ class DefaultController extends Controller {
      */
 
     public function actionCabinet() {
-        //$this->enableCsrfValidation = false;
+        $categories = NULL;
         if(Yii::$app->request->isPost){
-            var_dump($_FILES);
+            $post = Yii::$app->request->post();
+            if(isset($post['signature']) && $post['signature'] === 'PhotoUploads'){
+                $file = new Files();
+                if ($file->validate()) {
+                    $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'photo');
+                    $this->profile->photo = $files_id;
+                    $this->profile->save(false);
+                }
+            }
+            if(isset($post['signature']) && $post['signature'] === 'Spesialites'){
+                $category = new Category;
+                $categories = $category->categoryOutput(NULL);                
+            }
         }
         return $this->render('cabinet', [
                     'profile' => $this->profile,
+                    'categories' => $categories,
         ]);
     }
 
