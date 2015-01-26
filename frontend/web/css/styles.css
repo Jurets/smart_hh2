@@ -1462,7 +1462,8 @@ label {
 }
 /* pop-up expancion features varriants BEGIN */
 .pop-up-change_photo {
-    
+    left: 3%;
+    top: 155px;
 }
 .pop-up-english {
 	left: 100%;

@@ -23,6 +23,7 @@ POPUP = {
                 $('.close').click(function () {
                     POPUP.windowErase();
                 });
+               
             }
         });
     },

@@ -44,7 +44,7 @@ class CabinetWidget extends Widget {
             'title' => Yii::t('app', 'Photo Uploads'),
             'form' => $this->path.'/photo_form',
             'dataSet' => NULL,
-            'destinationClass' => NULL,
+            'destinationClass' => 'pop-up-change_photo',
         ];
         $this->layouts['HourlyRate'] = [
             'title' => Yii::t('app', 'Hourly Rate'),
@@ -95,7 +95,7 @@ class CabinetWidget extends Widget {
                         'user_id'=>$userId,
                         'language_id' => 1,
                     ])->one();
-            return $language->knowledge;
+            return (!is_null($language)) ? $language->knowledge : NULL;
         };
         $this->dataSet['Russian'] = function(){
           $language = \common\models\UserLanguage::find()
@@ -103,7 +103,7 @@ class CabinetWidget extends Widget {
                       'user_id' => $this->profile->user->id,
                       'language_id' => 2,
                   ])->one();
-          return $language->knowledge;
+          return (!is_null($language)) ? $language->knowledge : NULL;
         };
         $this->dataSet['AdressMailing'] = function(){
             return $this->profile->adress_mailing;

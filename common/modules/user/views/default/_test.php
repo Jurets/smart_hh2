@@ -1,16 +1,14 @@
 <?php
 use kartik\widgets\FileInput;
 use yii\helpers\Url;
-use yii\helpers\Html;
-/*@var $this yii\web\View*/
+
 ?>
-<form method="post" action="/user/cabinet" enctype="multipart/form-data" data-render="user-item">
+<form id="phf" method="post" enctype="multipart/form-data" action="/user/popup_runtime" data-render="user-item">
     <input type="hidden" name="signature" value="PhotoUploads">
     <fieldset>
         <?php
         echo FileInput::widget([
-            'id' => 'popup-inputFile',
-            'name' => 'photo',
+            'name' => 'photoFile',
             'options' => [
                 'multiple' => false,
             ],
@@ -22,7 +20,6 @@ use yii\helpers\Html;
             ],
         ]);
         ?>
-        <!--<input type="submit" class="btn btn-average btn-width" value="SAVE">-->
-        <?php echo Html::submitButton('Submit', ['class'=>'btn btn-average btn-width']) ?>
+        <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
     </fieldset>
 </form>

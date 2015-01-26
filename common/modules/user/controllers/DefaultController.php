@@ -24,6 +24,7 @@ class DefaultController extends Controller {
     private $profile; // self user profile here
 
     public function beforeAction($action) {
+        $this->enableCsrfValidation = false;
         parent::beforeAction($action);
         $this->profile = isset(Yii::$app->user->identity->profile) ? Yii::$app->user->identity->profile : NULL;
         return TRUE;
@@ -40,7 +41,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'popup_runtime', 'resend-change', 'cancel', 'logout'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +59,11 @@ class DefaultController extends Controller {
                 ],
             ],
         ];
+    }
+    
+    public function actionTest(){
+        $this->getView()->clear();
+        echo $this->renderAjax('_test');
     }
 
     /**
@@ -85,7 +91,10 @@ class DefaultController extends Controller {
      */
 
     public function actionCabinet() {
-
+        //$this->enableCsrfValidation = false;
+        if(Yii::$app->request->isPost){
+            var_dump($_FILES);
+        }
         return $this->render('cabinet', [
                     'profile' => $this->profile,
         ]);
@@ -97,7 +106,7 @@ class DefaultController extends Controller {
             $post = Yii::$app->request->post();
             $signature = $post['signature'];
         }
-        return $this->renderPartial('popup', [
+        return $this->renderAjax('popup', [
                     'signature' => $signature,
         ]);
     }
@@ -106,7 +115,6 @@ class DefaultController extends Controller {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $this->cabinetServiceChoise($post);
-            var_dump($_POST, $_FILES);
         }
     }
 
@@ -150,6 +158,11 @@ class DefaultController extends Controller {
                                 'user_id' => $this->profile->user_id,
                                 'language_id' => 1,
                             ])->one();
+            if(is_null($language)){
+                $language = new \common\models\UserLanguage;
+            }
+            $language->user_id = $this->profile->user_id;
+            $language->language_id = 1;
             $language->knowledge = $post['english'];
             if ($language->validate()) {
                 $language->save(false);
@@ -163,6 +176,11 @@ class DefaultController extends Controller {
                                 'user_id' => $this->profile->user_id,
                                 'language_id' => 2,
                             ])->one();
+            if(is_null($language)){
+                $language = new \common\models\UserLanguage;
+            }
+            $language->user_id = $this->profile->user_id;
+            $language->language_id = 2;
             $language->knowledge = $post['russian'];
             if ($language->validate()) {
                 $language->save(false);
@@ -222,6 +240,8 @@ class DefaultController extends Controller {
     /**
      * Display login page
      */
+       
+    
     public function actionLogin() {
         /** @var \common\modules\user\models\forms\LoginForm $model */
         // load post data and login
