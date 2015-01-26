@@ -4,7 +4,6 @@ $(function () {
 
 POPUP = {
     init: function () {
-        POPUP.windowClose();
         $('[data-sign]').click(function () {
             POPUP.setUpPopUp($(this).attr('data-sign'));
             POPUP.windowShow();
@@ -20,15 +19,18 @@ POPUP = {
             },
             'success': function (responce) {
                 $('.pop-up-wrapper').html(responce);
-                $('.close').click(function () {
-                    POPUP.windowClose();
-                });
                 POPUP.windowSubmitter();
+                $('.close').click(function () {
+                    POPUP.windowErase();
+                });
             }
         });
     },
     windowClose: function () {
         $('.pop-up-edit').addClass('pop-up-hide');
+    },
+    windowErase: function () {
+        $('.pop-up-wrapper').html('');
     },
     windowShow: function () {
         $('.pop-up-edit').removeClass('pop-up-hide');
@@ -38,7 +40,7 @@ POPUP = {
             var form = $(this).parent('fieldset').parent('form');
             POPUP.formSender(form);
         });
-        $('[data-submitter]').parent('fieldset').parent('form').submit(function(){
+        $('[data-submitter]').parent('fieldset').parent('form').submit(function () {
             POPUP.formSender($(this));
             return false;
         });
@@ -56,15 +58,16 @@ POPUP = {
                 POPUP.windowClose();
                 POPUP.init();
                 POPUP.stars_patch();
+                POPUP.windowErase();
             },
-            error: function(responce){
-              var error = responce.responseText;
-              $('.pop-up-errors').html(error.substr(18));
-              
+            error: function (responce) {
+                var error = responce.responseText;
+                $('.pop-up-errors').html(error.substr(18));
+
             }
         });
     },
-    stars_patch: function(){
+    stars_patch: function () {
         $('.person-profile').find('link').attr('href', '');
     }
 };

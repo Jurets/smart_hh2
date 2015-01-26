@@ -6,14 +6,10 @@
  * 3) data-render="name_file_of_partial" - which allows to sign a parent block (as wrapper) for render after ajax request
  *  */
 ?>
-<form method="post" action="/user/popup_runtime" data-render="user-item">
-   <input type="hidden" name="signature" value="HourlyRate">
+<form method="post" action="/user/popup_runtime" data-render="user-contact">
+   <input type="hidden" name="signature" value="Phone">
    <fieldset>
-       <input type="text" name="hourly_rate" value="<?=$dataSet?>">
-      <select class="small">
-        <option>USD</option>
-        <option>USD</option>
-      </select>
+       <input type="text" name="phone" value="<?=$dataSet?>" style="margin-bottom: 15px;">
     <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
    </fieldset>
 </form>

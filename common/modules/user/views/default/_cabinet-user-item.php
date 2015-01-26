@@ -6,7 +6,7 @@ use kartik\widgets\StarRating;
         <div class="profile-avatar left">
             <?php $photo = (!empty($profile->files->code)) ? Yii::$app->params['upload.url'] . DIRECTORY_SEPARATOR . $profile->files->code : Yii::$app->params['images.url'] . DIRECTORY_SEPARATOR . 'photo_cap.png' ?>
             <img class="avatar" src="<?= $photo ?>" alt="avatar">
-            <a href="#" class="btn btn-average change-photo">CHANGE PHOTO</a>
+            <a href="#" data-sign="PhotoUploads" class="btn btn-average change-photo">CHANGE PHOTO</a>
         </div>
         <div>
             <span class="user-name">

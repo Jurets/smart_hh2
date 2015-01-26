@@ -25,7 +25,7 @@ class DefaultController extends Controller {
 
     public function beforeAction($action) {
         parent::beforeAction($action);
-        $this->profile = Yii::$app->user->identity->profile;
+        $this->profile = isset(Yii::$app->user->identity->profile) ? Yii::$app->user->identity->profile : NULL;
         return TRUE;
     }
 
@@ -93,16 +93,12 @@ class DefaultController extends Controller {
 
     public function actionPopup_render() {
         $signature = NULL;
-        $dataSet = NULL;
-        $destinationClass = NULL;
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $signature = $post['signature'];
         }
         return $this->renderPartial('popup', [
                     'signature' => $signature,
-                    'dataSet' => $dataSet,
-                    'destinationClass' => $destinationClass
         ]);
     }
 
@@ -110,6 +106,7 @@ class DefaultController extends Controller {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $this->cabinetServiceChoise($post);
+            var_dump($_POST, $_FILES);
         }
     }
 
@@ -118,7 +115,15 @@ class DefaultController extends Controller {
     private function cabinetServiceChoise($post) {
         switch ($post['signature']) {
             case 'HourlyRate' :
+            case 'PhotoUploads':
                 $this->cabinetUserItem($post);
+                break;
+            case 'english' :
+            case 'russian' :
+            case 'AdressMailing':
+            case 'Phone':
+            case 'BillingAddress':
+                $this->cabinetUserContact($post);
                 break;
         }
     }
@@ -139,7 +144,59 @@ class DefaultController extends Controller {
     }
 
     private function cabinetUserContact($post) {
-        ;
+        if (isset($post['english'])) {
+            $language = \common\models\UserLanguage::find()
+                            ->where([
+                                'user_id' => $this->profile->user_id,
+                                'language_id' => 1,
+                            ])->one();
+            $language->knowledge = $post['english'];
+            if ($language->validate()) {
+                $language->save(false);
+            } else {
+                throw new NotFoundHttpException($this->renderErrors($language->errors), '0');
+            }
+        }
+        if (isset($post['russian'])) {
+            $language = \common\models\UserLanguage::find()
+                            ->where([
+                                'user_id' => $this->profile->user_id,
+                                'language_id' => 2,
+                            ])->one();
+            $language->knowledge = $post['russian'];
+            if ($language->validate()) {
+                $language->save(false);
+            } else {
+                throw new NotFoundHttpException($this->renderErrors($language->errors), '0');
+            }
+        }
+        if(isset($post['adress_mailing'])){
+            $this->profile->adress_mailing = \yii\helpers\Html::encode($post['adress_mailing']);
+            if($this->profile->validate()){
+                $this->profile->save(false);
+            }else{
+                throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
+            }
+        }
+        if(isset($post['phone'])){
+            $this->profile->phone = \yii\helpers\Html::encode($post['phone']);
+            if($this->profile->validate()){
+                $this->profile->save(false);
+            }else{
+                throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
+            }
+        }
+        if(isset($post['adress_billing'])){
+            $this->profile->adress_billing = \yii\helpers\Html::encode($post['adress_billing']);
+            if($this->profile->validate()){
+                $this->profile->save(false);
+            }else{
+                throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
+            }
+        }
+        echo $this->renderPartial('_user-contacts', [
+            'profile' => $this->profile,
+        ]);
     }
 
     private function cabinetSpecialties($post) {
@@ -157,7 +214,7 @@ class DefaultController extends Controller {
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {
-            $message .= '<p style="color:red;">'. $error[0] . '</p>';
+            $message .= '<p style="color:red;">' . $error[0] . '</p>';
         }
         return $message;
     }

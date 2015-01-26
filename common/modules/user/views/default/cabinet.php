@@ -19,22 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="info-2 col-xs-12 col-sm-12 col-md-12 col-lg-6">
-        <div class="row user-contact ">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <p class="title">Languages:</p>
-                <p>English<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-                <p>Russian<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-                <p class="title">Verified Contacts:</p>
-                <p>@ XXX@gmail.com<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-                <p><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>+1(XXX)XXX-XX-XX<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <p class="title">Mailing Address:</p>
-                <p>105130, Moscow, Russian Federation 100 Gagarin St, 50<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-                <p class="title">PayPal:</p>
-                <p>johndoe@gmail.com<a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-            </div>
-        </div>  
+        <?php echo $this->render('_user-contacts', [
+            'profile' => $profile,
+        ]) ?>
     </div>   
 
 </div>

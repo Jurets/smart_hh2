@@ -1464,6 +1464,22 @@ label {
 .pop-up-change_photo {
     
 }
+.pop-up-english {
+	left: 100%;
+	top: 80px;
+}
+.pop-up-mailing {
+	left: 100%;
+	top: 140px;
+}
+.pop-up-phone {
+	left: 100%;
+	top: 160px;
+}
+.pop-up-billing {
+	left: 140%;
+	top: 70px;
+}
 /* pop-up expancion features varriants END */
 .pop-up-hide {
     display: none;
