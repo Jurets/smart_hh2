@@ -16,7 +16,14 @@ use yii\helpers\Url;
                     );
         ?>
         <p>Request people to do what you need.</p>
-        <a href="#" class="btn btn-help">Find a Helper</a>
+        <!--<a href="#" class="btn btn-help">Find a Helper</a>-->
+        <?php
+            echo Html::a(
+                    Yii::t('app', 'Find a Helper'),
+                    Url::to(['/user'],true),
+                    ['class' => 'btn btn-help']
+                    );
+        ?>
         <p>Find someone special for you task</p>
     </div>
 

@@ -12,7 +12,13 @@ use yii\helpers\Url;
         <div class="status">
             <a href="#" class=""><img src="/images/icon-letter.png" alt="letter"/><span>1</span>&nbsp;<?=Yii::t('app', 'new message')?></a>
             <a href="#" class=""><img src="/images/icon-bell.png" alt="bell"/><span>115</span>&nbsp;<?=Yii::t('app', 'new offers')?></a>
-            <a href="<?=Url::to(['user/profile'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>
+            <!--<a href="<?=Url::to(['user/profile'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>-->
+            
+            <?php if(Yii::$app->controller->action->id === 'profile'){ ?>
+            <a href="<?=Url::to(['/user/cabinet'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>
+                <?php }else{ ?>
+            <a href="<?=Url::to(['/user/profile'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Profile')?></a>
+                <?php } ?>
             <a href="<?=Url::to(['/user/logout'],false)?>" data-method="post" class=""><img src="/images/icon-logout.png" alt=""/><?=Yii::t('app', 'Log Out')?></a>
         </div>
 

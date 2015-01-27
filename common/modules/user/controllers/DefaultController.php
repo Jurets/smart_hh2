@@ -239,6 +239,17 @@ class DefaultController extends Controller {
     }
 
     private function cabinetSpecialites($post) {
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            $userSpeciality = new UserSpeciality;
+            $userSpeciality->user_id = Yii::$app->user->id;
+            $userSpeciality->category_id = (int)$post['category_id'];
+            if($userSpeciality->validate()){
+                $userSpeciality->save(false);
+            }else{
+                throw new NotFoundHttpException($this->renderErrors($userSpeciality->errors), '0');
+            }
+        }
         echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
     }
 

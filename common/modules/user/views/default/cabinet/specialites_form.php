@@ -10,7 +10,7 @@
    <input type="hidden" name="signature" value="Specialites">
    <fieldset>
        <?php if(!empty($dataSet)) { ?>
-       <select class="">
+       <select class="" name="category_id">
             <?php foreach($dataSet as $category) { ?>
            <option value="<?=$category->id?>"><?=$category->name?></option>
             <?php } ?>
