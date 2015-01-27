@@ -45,7 +45,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -93,6 +93,20 @@ class DefaultController extends Controller {
     /*
      * serve User Cabinet
      */
+
+    /* AJAX delete categories */
+    public function actionCat_dell(){
+        if(Yii::$app->request->isAjax){
+           $post = Yii::$app->request->post();
+           if(isset($post['id'])){
+               $id = (int)$post['id'];
+               $userSpeciality = UserSpeciality::findOne(['user_id'=>Yii::$app->user->id, 'category_id'=>$id]);
+               $userSpeciality->delete();
+               $this->specialities = $userSpeciality->getUserSpeciality();
+           }
+           echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
+        }
+    }
 
     public function actionCabinet() {
         if(Yii::$app->request->isPost){
@@ -243,9 +257,14 @@ class DefaultController extends Controller {
             $post = Yii::$app->request->post();
             $userSpeciality = new UserSpeciality;
             $userSpeciality->user_id = Yii::$app->user->id;
+            if(!isset($post['category_id']) || (int)$post['category_id'] === 0){
+                echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
+                return TRUE;
+            }
             $userSpeciality->category_id = (int)$post['category_id'];
             if($userSpeciality->validate()){
                 $userSpeciality->save(false);
+                $this->specialities = $userSpeciality->getUserSpeciality();
             }else{
                 throw new NotFoundHttpException($this->renderErrors($userSpeciality->errors), '0');
             }

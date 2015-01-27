@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <div class="user-cabinet-content">
+    
             <?php
             echo $this->render('_cabinet-category-item', [
                 'userSpecialities' => $userSpecialities,

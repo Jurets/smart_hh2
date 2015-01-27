@@ -1,4 +1,8 @@
-<div class="widget specialties widget-padding">
+<?php
+use yii\web\View;
+use yii\helpers\Url;
+?>
+<div class="widget specialties widget-padding spec-wrapping">
     <h1 class="left">My <span class="red"><?= count($userSpecialities) ?></span> Specialties</h1>
     <a href="#" data-sign="Specialites" class="btn btn-average right">ADD A SPECIALTY</a>
     <div class="clearfix"></div>
@@ -13,10 +17,11 @@
                         </div>
                         <p><?= $spec->name ?></p>                     
                     </a>
-                    <a class="delete" href="#"><img src="/images/icon-delete.png"/></a>
+                    <a class="delete" href="#"><img src="/images/icon-delete.png" data-spec-dell="<?=$spec->id?>"></a>
                 </div>
             <?php } ?>
         <?php } ?>
 
     </div>
-
+    
+    <div data-catDellUrl="<?php echo Url::to(['/user/cat_dell'], true)?>"></div>

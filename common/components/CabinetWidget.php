@@ -123,7 +123,7 @@ class CabinetWidget extends Widget {
         };
         $this->dataSet['Specialites'] = function(){
             $category = new Category;
-            return $category->categoryOutput(NULL);
+            return $category->userCategoriesOutput();
         };
     }
 }

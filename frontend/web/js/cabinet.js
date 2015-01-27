@@ -4,10 +4,12 @@ $(function () {
 
 POPUP = {
     init: function () {
+        $('[data-sign]').unbind('click');
         $('[data-sign]').click(function () {
             POPUP.setUpPopUp($(this).attr('data-sign'));
             POPUP.windowShow();
         });
+        POPUP.specDell();
     },
     setUpPopUp: function (param) {
         $.ajax({
@@ -23,8 +25,25 @@ POPUP = {
                 $('.close').click(function () {
                     POPUP.windowErase();
                 });
-               
             }
+        });
+    },
+    specDell: function () {
+        $('[data-spec-dell]').click(function () {
+            var id = $(this).attr('data-spec-dell');
+            var url = $('[data-catDellUrl]').attr('data-catDellUrl');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'html',
+                data: {
+                    'id': id,
+                },
+                success: function (responce) {
+                    $('.user-cabinet-content').html(responce);
+                    POPUP.init();
+                }
+            });
         });
     },
     windowClose: function () {

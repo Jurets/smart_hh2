@@ -70,6 +70,13 @@ class Category extends \yii\db\ActiveRecord
     }
     /* Category User Specialisation */
     public function userCategoriesOutput(){
-        
+        $db = Yii::$app->db;
+        $sql = 'select id, name from category ' .
+               'where level = 1 AND id NOT IN ( '.
+                'select category_id from user_speciality '.
+                'where user_id = '.Yii::$app->user->id .
+                ' )';
+        $structure = $db->createCommand($sql)->queryAll();
+        return $structure;
     }
 }

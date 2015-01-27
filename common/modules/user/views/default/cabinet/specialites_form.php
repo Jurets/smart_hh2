@@ -6,13 +6,13 @@
  * 3) data-render="name_file_of_partial" - which allows to sign a parent block (as wrapper) for render after ajax request
  *  */
 ?>
-<form method="post" action="/user/popup_runtime" data-render="specialties">
+<form method="post" action="/user/popup_runtime" data-render="spec-wrapping">
    <input type="hidden" name="signature" value="Specialites">
    <fieldset>
        <?php if(!empty($dataSet)) { ?>
        <select class="" name="category_id">
             <?php foreach($dataSet as $category) { ?>
-           <option value="<?=$category->id?>"><?=$category->name?></option>
+           <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
             <?php } ?>
        </select>
        <?php } ?>
