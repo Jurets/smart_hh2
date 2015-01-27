@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use common\models\Files;
 use common\models\Category;
+use common\models\UserSpeciality;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -22,11 +23,14 @@ class DefaultController extends Controller {
      * @inheritdoc
      */
     private $profile; // self user profile here
+    private $specialities;
 
     public function beforeAction($action) {
         $this->enableCsrfValidation = false;
         parent::beforeAction($action);
         $this->profile = isset(Yii::$app->user->identity->profile) ? Yii::$app->user->identity->profile : NULL;
+        $speciality = new UserSpeciality;
+        $this->specialities = $speciality->getUserSpeciality();
         return TRUE;
     }
 
@@ -91,7 +95,6 @@ class DefaultController extends Controller {
      */
 
     public function actionCabinet() {
-        $categories = NULL;
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
             if(isset($post['signature']) && $post['signature'] === 'PhotoUploads'){
@@ -107,9 +110,10 @@ class DefaultController extends Controller {
                 $categories = $category->categoryOutput(NULL);                
             }
         }
+        
         return $this->render('cabinet', [
                     'profile' => $this->profile,
-                    'categories' => $categories,
+                    'userSpecialities' => $this->specialities,
         ]);
     }
 
@@ -125,6 +129,7 @@ class DefaultController extends Controller {
     }
 
     public function actionPopup_runtime() {
+        
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $this->cabinetServiceChoise($post);
@@ -145,6 +150,9 @@ class DefaultController extends Controller {
             case 'Phone':
             case 'BillingAddress':
                 $this->cabinetUserContact($post);
+                break;
+            case 'Specialites':
+                $this->cabinetSpecialites($post);
                 break;
         }
     }
@@ -230,8 +238,8 @@ class DefaultController extends Controller {
         ]);
     }
 
-    private function cabinetSpecialties($post) {
-        ;
+    private function cabinetSpecialites($post) {
+        echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
     }
 
     private function cabinetDiploma($post) {

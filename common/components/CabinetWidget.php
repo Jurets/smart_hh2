@@ -4,6 +4,7 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\models\Category;
 
 class CabinetWidget extends Widget {
     public $popup; // path to popup window layout
@@ -83,6 +84,12 @@ class CabinetWidget extends Widget {
             'dataSet' => $this->dataSet['BillingAddress'](),
             'destinationClass' => 'pop-up-billing',
         ];
+        $this->layouts['Specialites'] = [
+             'title' => Yii::t('app', 'My Specialties'),
+             'form' => $this->path.'/specialites_form',
+             'dataSet' => $this->dataSet['Specialites'](),
+             'destinationClass' => NULL,
+        ];
     }
     protected function dataSetVarriantsInit(){
         $this->dataSet['HourlyRate'] = function(){
@@ -113,6 +120,10 @@ class CabinetWidget extends Widget {
         };
         $this->dataSet['BillingAddress'] = function(){
             return $this->profile->adress_billing;
+        };
+        $this->dataSet['Specialites'] = function(){
+            $category = new Category;
+            return $category->categoryOutput(NULL);
         };
     }
 }

@@ -13,21 +13,19 @@ use Yii;
  * @property Category $category
  * @property User $user
  */
-class UserSpeciality extends \yii\db\ActiveRecord
-{
+class UserSpeciality extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'user_speciality';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['user_id', 'category_id'], 'required'],
             [['user_id', 'category_id'], 'integer']
@@ -37,8 +35,7 @@ class UserSpeciality extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'user_id' => Yii::t('app', 'User ID'),
             'category_id' => Yii::t('app', 'Category ID'),
@@ -48,22 +45,21 @@ class UserSpeciality extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    public function getUserSpeciality(){
-        $speciality = UserSpeciality::find()
-                ->leftJoin('category', 'user_speciality.category_id = category.id')
-                ->where('user_speciality.user_id = :uid', [':uid'=>Yii::$app->user->id]);
-        return $speciality->all();
+
+    public function getUserSpeciality() {
+        return Category::find()
+                        ->join('LEFT JOIN', 'user_speciality', 'category_id = id')
+                        ->where(['user_id' => Yii::$app->user->id])->all();
     }
+
 }

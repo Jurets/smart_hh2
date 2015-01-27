@@ -25,18 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>   
 
 </div>
-
-
 <div class="user-cabinet-content">
-    <div class="widget specialties widget-padding">
-        <h1 class="left">My <span class="red">7</span> Specialties</h1>
-        <a href="#" data-sign="Specialites" class="btn btn-average right">ADD A SPECIALTY</a>
-        <div class="clearfix"></div>
-        <div class="specialty-holder text-center">
-            <?php echo $this->render('_cabinet-category-item', ['categories'=>$categories]) ?>
-        </div>    
-    </div>  
-    <div class="clearfix"></div>    
+            <?php
+            echo $this->render('_cabinet-category-item', [
+                'userSpecialities' => $userSpecialities,
+            ])
+            ?>
+ </div>    
+     <div class="clearfix"></div>    
 
 </div>       
 <section>

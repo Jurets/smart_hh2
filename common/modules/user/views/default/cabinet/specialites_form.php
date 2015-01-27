@@ -5,14 +5,17 @@
  * 2) data-submitter attribute for js-submit
  * 3) data-render="name_file_of_partial" - which allows to sign a parent block (as wrapper) for render after ajax request
  *  */
-use yii\helpers\Html;
 ?>
-<form method="post" action="/user/cabinet" data-render="user-item">
-   <input type="hidden" name="signature" value="Spesialites">
+<form method="post" action="/user/popup_runtime" data-render="specialties">
+   <input type="hidden" name="signature" value="Specialites">
    <fieldset>
-<!--      <select class="">
-          <option></option>
-      </select>-->
-    <input type="button" class="btn btn-average btn-width" value="SAVE">
+       <?php if(!empty($dataSet)) { ?>
+       <select class="">
+            <?php foreach($dataSet as $category) { ?>
+           <option value="<?=$category->id?>"><?=$category->name?></option>
+            <?php } ?>
+       </select>
+       <?php } ?>
+    <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
    </fieldset>
 </form>

@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use common\models\UserSpeciality;
 
 /**
  * This is the model class for table "category".
