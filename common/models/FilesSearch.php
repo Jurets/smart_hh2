@@ -39,10 +39,13 @@ class FilesSearch extends Files
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $desc_filter=NULL)
     {
         $query = Files::find();
-
+        if(!is_null($desc_filter) && is_array($desc_filter)){
+            $query->andFilterWhere($desc_filter);
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

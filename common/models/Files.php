@@ -74,7 +74,24 @@ class Files extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserDiploma::className(), ['file_id' => 'id']);
     }
-
+    /* --- */
+    public function getUserFiles($user_id=NULL){
+        $id = (int)$user_id;
+        $models = [
+            'photo' => [],
+            'diploma' => [],
+            'verificationID' => [],
+        ];
+        //return Files::findAll(['user_id'=>(int)$user_id]);
+        $dump = self::findAll(['user_id'=>$id]);
+        if(empty($dump))    return $models;
+        foreach($dump as $model){
+            $models[$model->description][] = $model;
+        }
+        return $models;
+        
+    }
+    
     /*
      * Uploader handler. Save image into the database and
      * return file id which will be saved.
