@@ -194,11 +194,7 @@ class TicketController extends Controller {
                     return Yii::t('app', 'You have already complained');
                 }
                 $complain->save(false);
-                Yii::$app->mailer->compose('complaint/ban', ['ticketId' => $complain->ticket_id])
-                        ->setTo($complain->ticket->user->email)
-                        ->setSubject('ticket ban')
-                        ->send();
-                $this->turnOffTicket($complain->ticket_id);
+                $this->turnOffTicket($complain);
                 return Yii::t('app', 'Complain send Success');
             }
         }
@@ -216,12 +212,16 @@ class TicketController extends Controller {
         return $message;
     }
 
-    protected function turnOffTicket($ticket_id, $number = 3) {
-        $count = Complaint::howManyComplains($ticket_id);
+    protected function turnOffTicket($complain, $number = 3) {
+        $count = Complaint::howManyComplains($complain->ticket_id);
         if ($count >= $number) {
-            $ticket = Ticket::findOne(['id' => $ticket_id]);
+            $ticket = Ticket::findOne(['id' => $complain->ticket_id]);
             $ticket->is_turned_on = Complaint::STATUS_OFF;
             $ticket->save();
+            Yii::$app->mailer->compose('complaint/ban', ['ticketId' => $complain->ticket_id])
+                        ->setTo($complain->ticket->user->email)
+                        ->setSubject('ticket ban')
+                        ->send();
         }
     }
 
