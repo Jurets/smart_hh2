@@ -14,6 +14,7 @@ use kartik\widgets\StarRating;
         </div>
         <?php
         echo StarRating::widget([
+            'id' => 'the-star-rating',
             'name' => 'noname',
             'value' => (is_null($model->profile->rating)) ? 0 : $model->profile->rating,
             'pluginOptions' => [

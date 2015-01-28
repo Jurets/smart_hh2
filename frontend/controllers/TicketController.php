@@ -35,9 +35,9 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update test delete',
-            'Performer' => 'index view',
-            'Guest' => 'index create-toLogin test', // if Guest then redirect to login action
+            'Customer' => 'index create view update test delete review',
+            'Performer' => 'index view review',
+            'Guest' => 'index create-toLogin test review', // if Guest then redirect to login action
         ];
     }
 
@@ -110,6 +110,15 @@ class TicketController extends Controller {
         $model = Ticket::findOne(['id' => $id]);
         if (!is_null($model)) {
             return $this->render('view', ['model' => $model]);
+        } else {
+            throw new \yii\web\HttpException('404');
+        }
+    }
+    public function actionReview($id){
+        $model = Ticket::findOne(['id' => $id]);
+        $user = \common\modules\user\models\User::findOne(['id'=>$model->user_id]);
+        if (!is_null($model)) {
+            return $this->render('review', ['model' => $model, 'user' => $user]);
         } else {
             throw new \yii\web\HttpException('404');
         }

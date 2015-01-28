@@ -8,7 +8,7 @@ use yii\helpers\Url;
         <a href="#" class="btn-small">APPLY</a>
     </div>
     <div class="task-info-meta">
-        <a  href="<?php echo Url::to(['ticket/view', 'id'=>$model->id]) ?>" class="title"><?=$model->title?></a>
+        <a  href="<?php echo Url::to(['ticket/review', 'id'=>$model->id]) ?>" class="title"><?=$model->title?></a>
         <p class="text"><?=$model->description?></p>
     </div>
     <div class="clearfix"></div>
