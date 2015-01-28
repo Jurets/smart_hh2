@@ -1,6 +1,8 @@
 <?php 
 use yii\helpers\Html;
+use yii\helpers\Url;
 ?>
+<div data-complain-url="<?=Url::to(['ticket/complain'],true)?>"></div>
 <div id="complain_message"> </div>
 <br>
 <?php echo Html::beginForm('complain','post', ['id'=>'complain_sender']) ?>
@@ -11,7 +13,7 @@ use yii\helpers\Html;
             $complain->complains[2] => Yii::t('app',$complain->complains[2]),
             $complain->complains[3] => Yii::t('app',$complain->complains[3]),
         ],['class'=>'btn btn-default']) ?>
-        <hr>
+        
         <?php echo Html::label(Yii::t('app', 'Message'))?>
         <br>
         <?php echo Html::textarea('message', '', ['row'=>5])?>
@@ -19,5 +21,4 @@ use yii\helpers\Html;
         <?php echo Html::hiddenInput('ticket_id', $model->id)?>
         <?php echo Html::hiddenInput('from_user_id', Yii::$app->user->id)?>
         <?php echo Html::button(Yii::t('app','Send'),['id'=>'complain_send', 'class' => 'btn btn-success']) ?>
-        <?php //captcha if needed most implement ?>
         <?php echo Html::endForm() ?>

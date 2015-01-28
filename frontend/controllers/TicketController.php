@@ -9,9 +9,7 @@ use common\models\Category;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
 use common\components\Controller; // with auto ban state control
-
 use common\components\GoogleApiHelper;
-
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
@@ -35,8 +33,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update test delete review',
-            'Performer' => 'index view review',
+            'Customer' => 'index create view update test delete review complain',
+            'Performer' => 'index view review complain',
             'Guest' => 'index create-toLogin test review', // if Guest then redirect to login action
         ];
     }
@@ -114,11 +112,17 @@ class TicketController extends Controller {
             throw new \yii\web\HttpException('404');
         }
     }
-    public function actionReview($id){
+
+    public function actionReview($id) {
         $model = Ticket::findOne(['id' => $id]);
-        $user = \common\modules\user\models\User::findOne(['id'=>$model->user_id]);
+        $user = \common\modules\user\models\User::findOne(['id' => $model->user_id]);
         if (!is_null($model)) {
-            return $this->render('review', ['model' => $model, 'user' => $user]);
+            $complain = new Complaint;
+            return $this->render('review', [
+                        'model' => $model,
+                        'user' => $user,
+                        'complain' => $complain
+            ]);
         } else {
             throw new \yii\web\HttpException('404');
         }
@@ -162,7 +166,7 @@ class TicketController extends Controller {
             $model = $this->findModel($id);
             if (Yii::$app->user->id !== $model->user_id) {
                 return $this->redirect('/');
-            }else{
+            } else {
                 $model->delete();
             }
         }
@@ -202,7 +206,6 @@ class TicketController extends Controller {
 
     public function actionTest() {
         echo 'Test is ok';
-       
     }
 
     protected function renderErrors($errors) {

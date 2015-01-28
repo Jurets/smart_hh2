@@ -1485,3 +1485,11 @@ label {
 .pop-up-hide {
     display: none;
 }
+.pos-relativer {
+    position: relative;
+}
+.popup-align-center{
+    top: 50%;
+    left: 50%;
+    margin-left: -152px;
+}

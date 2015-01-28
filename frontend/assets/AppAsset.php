@@ -35,6 +35,7 @@ class AppAsset extends AssetBundle
         'js/ticket_creation.js',
         'js/googleapi.js',
         'js/cabinet.js',
+        'js/complain_script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

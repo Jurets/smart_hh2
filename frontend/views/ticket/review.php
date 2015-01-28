@@ -1,4 +1,5 @@
 <?php
+
 use kartik\widgets\StarRating;
 ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= Yii::$app->params['GoogleAPI'] ?>&sensor=SET_TO_TRUE_OR_FALSE"
@@ -15,7 +16,15 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="job-creator row">  
+<div class="job-creator row">
+    <!-- the pop-up --> 
+    <div id="complain-form" class="pop-up pop-up-edit popup-align-center">
+        <a class="close" href="#">×</a>
+        <p class="title"><?php echo Yii::t('app', 'Send Complain')?></p>
+        <?php echo $this->render('_complain_form', ['model'=>$model,'complain'=>$complain])?>
+    </div>
+        <!-- additional popup may put here  --!>
+    <!-- -->
     <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <h1><?= $model->title ?></h1>  
 
@@ -44,13 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="description">
             <p class="title">Description:</p> <a href="#" class="translate right">Перевести на руссский</a>
-            <?= $model->description ?>
+<?= $model->description ?>
             <a href="#" class="more">Read full description</a>                                 
         </div>
         <div class="location">
             <p class="title">Job Location: 10 Gagarin St, 50/5</p>
 
-            <?php if (!is_null($model->lat) && !is_null($model->lon)) { ?>
+<?php if (!is_null($model->lat) && !is_null($model->lon)) { ?>
                 <div id="GoogleLat" style="display:none;"><?= $model->lat ?> </div>
                 <div id="GoogleLng"style="display:none;"><?= $model->lon ?> </div>
                 <div class="map ">
@@ -58,15 +67,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php } else { ?>
                 <div class="map">no map</div>
-            <?php } ?>
+<?php } ?>
         </div>
     </div>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
 
         <div class="action-reply">
             <a href="#" class="btn btn-average">SET AS DONE</a>
-            <a href="#" class="btn btn-average btn-report">REPORT</a>
-        </div>
+            <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
+        </div>        
         <p class="title">Job creator:</p>
         <div class="widget creator">
             <a href="#"><img class="avatar left" alt="avatar" src="<?= Yii::$app->params['upload.url'] . '/' . $user->profile->files->code ?>" /></a>
@@ -85,38 +94,38 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="mark-creator">
             <!--<img src="/images/star5.png"><span class="vote">(3.5 based on 40 votes)</span>-->
             <?php
-        echo StarRating::widget([
-            'id' => 'the-star-rating',
-            'name' => 'noname',
-            'value' => (is_null($user->profile->rating)) ? 0 : $user->profile->rating,
-            'pluginOptions' => [
-                'readonly' => true,
-                'size' => '',
-                'showClear' => FALSE,
-                'showCaption' => true,
-                'stars' => 5,
-                'min' => 0,
-                'max' => 5,
-                'clearCaption' => '(0 based on 5 votes)',
-                'clearCaptionClass' => 'stars_rating_patch',
-                'starCaptions' => [
-                    1 => '(1 based on 5 votes)',
-                    2 => '(2 based on 5 votes)',
-                    3 => '(3 based on 5 votes)',
-                    4 => '(4 based on 5 votes)',
-                    5 => '(5 based on 5 votes)',
+            echo StarRating::widget([
+                'id' => 'the-star-rating',
+                'name' => 'noname',
+                'value' => (is_null($user->profile->rating)) ? 0 : $user->profile->rating,
+                'pluginOptions' => [
+                    'readonly' => true,
+                    'size' => '',
+                    'showClear' => FALSE,
+                    'showCaption' => true,
+                    'stars' => 5,
+                    'min' => 0,
+                    'max' => 5,
+                    'clearCaption' => '(0 based on 5 votes)',
+                    'clearCaptionClass' => 'stars_rating_patch',
+                    'starCaptions' => [
+                        1 => '(1 based on 5 votes)',
+                        2 => '(2 based on 5 votes)',
+                        3 => '(3 based on 5 votes)',
+                        4 => '(4 based on 5 votes)',
+                        5 => '(5 based on 5 votes)',
+                    ],
+                    'starCaptionClasses' => [
+                        1 => 'stars_rating_patch',
+                        2 => 'stars_rating_patch',
+                        3 => 'stars_rating_patch',
+                        4 => 'stars_rating_patch',
+                        5 => 'stars_rating_patch',
+                    ],
                 ],
-                'starCaptionClasses' => [
-                    1 => 'stars_rating_patch',
-                    2 => 'stars_rating_patch',
-                    3 => 'stars_rating_patch',
-                    4 => 'stars_rating_patch',
-                    5 => 'stars_rating_patch',
-                ],
-            ],
-        ]);
-        ?>
-            
+            ]);
+            ?>
+
         </div>
 
         <div class="reviews-holder">
