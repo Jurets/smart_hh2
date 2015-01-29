@@ -28,9 +28,9 @@ PatchAsset::register($this);
                          'javascript:javascript:popupJoinNowClose()'
                         );?>
                     <br><br>
-                    <?= Html::a(Yii::t('app', 'Join as Customer'), Url::to(['registration/customer'],true),[]) ?>
+                    <?= Html::a(Yii::t('app', 'Join as Customer'), Url::to(['/registration/customer'],true),[]) ?>
                     <br>
-                    <?= Html::a(Yii::t('app', 'Join as Performer'), url::to(['registration/performer'],true), []) ?>
+                    <?= Html::a(Yii::t('app', 'Join as Performer'), url::to(['/registration/performer'],true), []) ?>
                     <br>
                 </div>
             </div>

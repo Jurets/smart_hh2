@@ -483,31 +483,6 @@ class DefaultController extends Controller {
      */
     public function actionProfile($id=NULL) {
         /** @var \common\modules\user\models\Profile $profile */
-//        $file = new Files();
-//        // set up profile and load post data
-//        $profile = Yii::$app->user->identity->profile;
-//        $loadedPost = $profile->load(Yii::$app->request->post());
-//
-//        // validate for ajax request
-//        if ($loadedPost && Yii::$app->request->isAjax) {
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            return ActiveForm::validate($profile);
-//        }
-//
-//        // validate for normal request
-//        if ($loadedPost) {
-//            //run validation 
-//            if ($file->validate() && $profile->validate()) {
-//                //If validation is successful, then we're saving the file:
-//                //$files_id = $file->saveImage();
-//                $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'Files[file]');
-//                $profile->photo = $files_id;  //put file_id in field 'photo'
-//            }
-//            $profile->save(false);           //save profile
-//            Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
-//            return $this->refresh();
-//        }
-
         $id = (int)$id;
         if($id === 0){
             $profile = Yii::$app->user->identity->profile;

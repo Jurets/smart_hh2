@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <div class="user-item  info-border">
             <div class="left user-item-info">
-                <img class="avatar left" src="<?= Yii::$app->params['upload.url'] . '/' . $photos[0]->code ?>" alt="avatar"/>
+                <?php if(empty($photos)===TRUE){$photo='/images/photo_cap.png';}else{$photo=Yii::$app->params['upload.url'] . '/' . $photos[0]->code;} ?>
+                <img class="avatar left" src="<?php echo $photo ?>" alt="avatar">
                 <div><span class="user-name">
 <?php echo is_null($profile->first_name) || is_null($profile->last_name) ? $profile->full_name : $profile->first_name . ' ' . $profile->last_name ?>
                     </span>                                            

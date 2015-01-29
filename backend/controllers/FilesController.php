@@ -41,6 +41,16 @@ class FilesController extends Controller
         ]);
     }
 
+    public function actionSolve($id){
+        $file = $this->findModel($id);
+        //echo '<img src="'.Yii::$app->params['upload.url'].'/'.$file->code.'">';
+        $file->moderate = 1;
+        $file->save();
+        
+        return $this->redirect('index');
+        
+    }
+    
     /**
      * Displays a single Files model.
      * @param integer $id

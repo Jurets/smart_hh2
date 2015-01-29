@@ -42,6 +42,7 @@ class FilesSearch extends Files
     public function search($params, $desc_filter=NULL)
     {
         $query = Files::find();
+        $query->andFilterWhere(['moderate'=>0]);
         if(!is_null($desc_filter) && is_array($desc_filter)){
             $query->andFilterWhere($desc_filter);
         }
@@ -57,7 +58,7 @@ class FilesSearch extends Files
         $query->andFilterWhere([
             'id' => $this->id,
             'size' => $this->size,
-            'user_id' => $this->user_id,
+            'user_id' => $this->user_id
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

@@ -83,7 +83,7 @@ class Files extends \yii\db\ActiveRecord
             'verificationID' => [],
         ];
         //return Files::findAll(['user_id'=>(int)$user_id]);
-        $dump = self::findAll(['user_id'=>$id]);
+        $dump = self::findAll(['user_id'=>$id, 'moderate'=>1]);
         if(empty($dump))    return $models;
         foreach($dump as $model){
             $models[$model->description][] = $model;
@@ -152,6 +152,9 @@ class Files extends \yii\db\ActiveRecord
         $this->code = $this->_getRandomName($this->file->baseName).'.'.$this->file->extension;
         $this->mimetype = $this->file->type;
         $this->description = $description;
+        if($description === 'photo'){
+            $this->moderate = 1;
+        }
         $this->user_id = $user_id;
         if($this->validate()){
             if($this->file->saveAs(self::getUploadPath().$this->code)){

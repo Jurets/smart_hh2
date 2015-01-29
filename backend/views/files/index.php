@@ -16,17 +16,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Files',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?=
+        Html::a(Yii::t('app', 'Create {modelClass}', [
+                    'modelClass' => 'Files',
+                ]), ['create'], ['class' => 'btn btn-success'])
+        ?>
     </p>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'code',
@@ -42,15 +44,37 @@ $this->params['breadcrumbs'][] = $this->title;
                 //        return $model->getFileUrl(); 
                 //},
                 'value' => function ($model, $key, $index, $column) {
-                        return Html::img($model->getFileUrl(), ['width' => '150']);
+                    return Html::img($model->getFileUrl(), ['width' => '150']);
                 },
-                'filter' => '',
-                //'headerOptions' => ['width' => '200px'],
-                //'contentOptions' => ['width' => '200px'],
-                //'options' => ['width' => '200px'],
-            ),
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                        'filter' => '',
+                    //'headerOptions' => ['width' => '200px'],
+                    //'contentOptions' => ['width' => '200px'],
+                    //'options' => ['width' => '200px'],
+                    ),
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {delete} {solve}',
+                        
+                        'buttons' => [
+//                            'view' => function($url, $model) {
+//                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Yii::$app->urlManager->baseUrl . '/files/view?id=' . $model->id, [
+//                                            'title' => Yii::t('app', 'View'),
+//                                            'data-pjax' => 0,
+//                                ]);
+//                            },
+                             
+                             'solve' => function($url, $model) {
+                                  return Html::a('<span class="glyphicon glyphicon-ok"></span>', Yii::$app->urlManager->baseUrl . '/files/solve?id=' . $model->id, [
+                                              'title' => Yii::t('app', 'View'),
+                                              'data-pjax' => 0,
+                                  ]);
+                                
+                            },
+                                ],
+                         
+                            ],
+                        ],
+                    ]);
+                    ?>
 
 </div>
