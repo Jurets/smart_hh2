@@ -1,12 +1,13 @@
 <?php
 use kartik\widgets\StarRating;
+use yii\helpers\Url;
 ?>
 <div class="user-item info-border row">
     <div class="user-item-info col-xs-9 col-sm-9 col-md-9 col-lg-10">
         <?php $photo = $model->profile->files; ?>
         <a href="#"><img style="width:116px;" alt="avatar" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $photo->code : '' ?>" class="avatar left"></a>
         <div class="user-status-all">
-            <a class="user-name" href="#"><?php echo $model->username ?> </a>                                           
+            <a class="user-name" href="<?php echo Url::to(['/user/profile', 'id'=>$model->id],true) ?>"><?php echo $model->username ?> </a>                                           
             <a class="user-status" href="#"><img alt="" src="/images/icon-facebook.png"><span><img src="/images/icon-on.png"></span></a>
             <a class="user-status" href="#"><img alt="" src="/images/icon-in.png"><span><img src="/images/icon-on.png"></span></a>
             <a class="user-status" href="#"><img alt="" src="/images/icon-tel.png"><span><img src="/images/icon-on.png"></span></a>
@@ -14,7 +15,7 @@ use kartik\widgets\StarRating;
         </div>
         <?php
         echo StarRating::widget([
-            'id' => 'the-star-rating',
+            'id' => 'the-star-rating-'.$model->id,
             'name' => 'noname',
             'value' => (is_null($model->profile->rating)) ? 0 : $model->profile->rating,
             'pluginOptions' => [

@@ -61,5 +61,9 @@ class UserSpeciality extends \yii\db\ActiveRecord {
                         ->join('LEFT JOIN', 'user_speciality', 'category_id = id')
                         ->where(['user_id' => Yii::$app->user->id])->all();
     }
-
+    public function getSpecialityByUserId($id){
+        return Category::find()
+                        ->join('LEFT JOIN', 'user_speciality', 'category_id = id')
+                        ->where(['user_id' => (int)$id])->all();
+    }
 }

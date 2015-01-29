@@ -517,6 +517,9 @@ class DefaultController extends Controller {
         }
         $file = new Files;
         $userFilesPrepare = $file->getUserFiles($id);
+        $spec = new UserSpeciality;
+        $userSpecialities = $spec->getSpecialityByUserId($id);
+        
         
         $photos = $userFilesPrepare['photo'];
         $diplomas = $userFilesPrepare['diploma'];
@@ -528,7 +531,8 @@ class DefaultController extends Controller {
                     'profile' => $profile,
                     'photos' => $photos,
                     'diplomas' => $diplomas,
-                    'verificationIDs' => $verificationIDs
+                    'verificationIDs' => $verificationIDs,
+                    'userSpecialities' => $userSpecialities
         ]);
     }
 
