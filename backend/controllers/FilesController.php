@@ -68,18 +68,18 @@ class FilesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new Files();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+//    public function actionCreate()
+//    {
+//        $model = new Files();
+//
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        } else {
+//            return $this->render('create', [
+//                'model' => $model,
+//            ]);
+//        }
+//    }
 
     /**
      * Updates an existing Files model.
@@ -108,8 +108,9 @@ class FilesController extends Controller
      */
     public function actionDelete($id)
     {
+        $diploma = \common\models\UserDiploma::findOne(['file_id'=>$id]);
+        $diploma->delete();
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
