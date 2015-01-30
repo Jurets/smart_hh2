@@ -139,5 +139,10 @@ class Profile extends ActiveRecord {
         $this->user_id = $userId;
         return $this;
     }
+    public function updateOnline(){
+        $this->online = date('Y:m:d H:i:s');
+        $this->save();
+        return $this;
+    }
 
 }
