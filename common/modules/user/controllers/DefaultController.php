@@ -13,6 +13,7 @@ use common\models\Files;
 use common\models\Category;
 use common\models\UserSpeciality;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * Default controller for User module
@@ -111,13 +112,20 @@ class DefaultController extends Controller {
     public function actionCabinet() {
         if(Yii::$app->request->isPost){
             $post = Yii::$app->request->post();
+            // Change Photo without ajax
             if(isset($post['signature']) && $post['signature'] === 'PhotoUploads'){
                 $file = new Files();
-                if ($file->validate()) {
-                    $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'photo');
-                    $this->profile->photo = $files_id;
-                    $this->profile->save(false);
+                if(!is_null(UploadedFile::getInstanceByName('photo'))){
+                    if ($file->validate()) {
+                        $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'photo');
+                        $this->profile->photo = $files_id;
+                        $this->profile->save(false);
+                    }
                 }
+            }
+            // Change Diploma without ajax
+            if(isset($post['signature']) && $post['signature'] === 'Diploma'){
+                $this->cabinetDiploma($post);
             }
             if(isset($post['signature']) && $post['signature'] === 'Spesialites'){
                 $category = new Category;

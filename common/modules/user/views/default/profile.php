@@ -1,11 +1,15 @@
 <?php
-
+use yii\helpers\Url;
 use kartik\widgets\StarRating;
 ?>
 
 <?php
 $breadcrumb_title = Yii::t('app', 'Profile');
 $this->title = $breadcrumb_title;
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'All Users'),
+    'url' => Url::to(['/user']),
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="person-profile row">

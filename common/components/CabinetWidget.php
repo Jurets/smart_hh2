@@ -2,8 +2,6 @@
 namespace common\components;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
-use yii\helpers\Url;
 use common\models\Category;
 
 class CabinetWidget extends Widget {
@@ -89,6 +87,12 @@ class CabinetWidget extends Widget {
              'form' => $this->path.'/specialites_form',
              'dataSet' => $this->dataSet['Specialites'](),
              'destinationClass' => NULL,
+        ];
+        $this->layouts['Diploma'] = [
+            'title' => Yii::t('app', 'My Diplomas'),
+            'form' => $this->path.'/diploma_form',
+            'dataSet' => NULL,
+            'destinationClass' => 'pop-up-diploma',
         ];
     }
     protected function dataSetVarriantsInit(){
