@@ -10,6 +10,7 @@ POPUP = {
             POPUP.windowShow();
         });
         POPUP.specDell();
+        POPUP.diplomaDell();
     },
     setUpPopUp: function (param) {
         $.ajax({
@@ -45,6 +46,22 @@ POPUP = {
                 }
             });
         });
+    },
+    diplomaDell : function(){
+      $('[data-diploma-dell]').click(function(){
+          var id = $(this).attr('data-diploma-dell');
+          var url = $('[data-DiplomaDell]').attr('data-DiplomaDell');
+          $.ajax({
+              url: url,
+              type: 'POST',
+              dataType: 'html',
+              data: {'id':id},
+              success: function(responce) {
+                  $('.diploma-wrapper').html(responce);
+                  POPUP.init();
+              }
+          });
+      });  
     },
     windowClose: function () {
         $('.pop-up-edit').addClass('pop-up-hide');

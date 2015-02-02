@@ -1,5 +1,4 @@
 <?php
-use yii\web\View;
 use yii\helpers\Url;
 ?>
 <div class="widget specialties widget-padding spec-wrapping">

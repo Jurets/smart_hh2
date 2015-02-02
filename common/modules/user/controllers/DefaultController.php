@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use common\models\Files;
+use common\models\UserDiploma;
+use common\models\UserVerification;
 use common\models\Category;
 use common\models\UserSpeciality;
 use yii\web\NotFoundHttpException;
@@ -46,7 +48,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_del', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,8 +67,8 @@ class DefaultController extends Controller {
             ],
         ];
     }
-    
-    public function actionTest(){
+
+    public function actionTest() {
         $this->getView()->clear();
         echo $this->renderAjax('_test');
     }
@@ -96,26 +98,56 @@ class DefaultController extends Controller {
      */
 
     /* AJAX delete categories */
-    public function actionCat_dell(){
-        if(Yii::$app->request->isAjax){
-           $post = Yii::$app->request->post();
-           if(isset($post['id'])){
-               $id = (int)$post['id'];
-               $userSpeciality = UserSpeciality::findOne(['user_id'=>Yii::$app->user->id, 'category_id'=>$id]);
-               $userSpeciality->delete();
-               $this->specialities = $userSpeciality->getUserSpeciality();
-           }
-           echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
+
+    public function actionCat_dell() {
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            if (isset($post['id'])) {
+                $id = (int) $post['id'];
+                $userSpeciality = UserSpeciality::findOne(['user_id' => Yii::$app->user->id, 'category_id' => $id]);
+                $userSpeciality->delete();
+                $this->specialities = $userSpeciality->getUserSpeciality();
+            }
+            echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
         }
     }
-
+    /* Ajax delete Diploma */
+    public function actionDiploma_dell(){
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            if(isset($post['id'])){
+                $id = (int)$post['id'];
+                $diploma = Files::findOne(['user_id'=>Yii::$app->user->id, 'id'=>$id]);
+                $userDiploma = UserDiploma::findOne(['file_id'=>$id]);
+                if(!is_null($diploma) && !is_null($userDiploma)){
+                    $userDiploma->delete();
+                    $diploma->delete();
+                }
+                $renderUserDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
+                echo $this->renderPartial('_table-diploma', ['userDiploma'=>$renderUserDiploma]);
+            }
+        }
+    }
+    /* Ajax delete Verifycations Documents */
+    public function actionVerid_dell(){
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            if(isset($post['id'])){
+                var_dump($post['id']);
+            }
+        }
+    }
     public function actionCabinet() {
-        if(Yii::$app->request->isPost){
+        
+        $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
+        $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
+        
+        if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             // Change Photo without ajax
-            if(isset($post['signature']) && $post['signature'] === 'PhotoUploads'){
+            if (isset($post['signature']) && $post['signature'] === 'PhotoUploads') {
                 $file = new Files();
-                if(!is_null(UploadedFile::getInstanceByName('photo'))){
+                if (!is_null(UploadedFile::getInstanceByName('photo'))) {
                     if ($file->validate()) {
                         $files_id = $file->saveSingleImage(Yii::$app->user->id, 'photo', 'photo');
                         $this->profile->photo = $files_id;
@@ -124,18 +156,26 @@ class DefaultController extends Controller {
                 }
             }
             // Change Diploma without ajax
-            if(isset($post['signature']) && $post['signature'] === 'Diploma'){
+            if (isset($post['signature']) && $post['signature'] === 'Diploma') {
                 $this->cabinetDiploma($post);
+                $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
             }
-            if(isset($post['signature']) && $post['signature'] === 'Spesialites'){
+            // Change Verifycation ID Documents without ajax
+            if(isset($post['signature']) && $post['signature'] === 'Verid'){
+                $this->cabinetVerid($post);
+                $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
+            }
+            if (isset($post['signature']) && $post['signature'] === 'Spesialites') {
                 $category = new Category;
-                $categories = $category->categoryOutput(NULL);                
+                $categories = $category->categoryOutput(NULL);
             }
         }
-        
+
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
+                    'userDiploma' => $userDiploma,
+                    'userVerid' => $userVerid,
         ]);
     }
 
@@ -151,7 +191,7 @@ class DefaultController extends Controller {
     }
 
     public function actionPopup_runtime() {
-        
+
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $this->cabinetServiceChoise($post);
@@ -201,7 +241,7 @@ class DefaultController extends Controller {
                                 'user_id' => $this->profile->user_id,
                                 'language_id' => 1,
                             ])->one();
-            if(is_null($language)){
+            if (is_null($language)) {
                 $language = new \common\models\UserLanguage;
             }
             $language->user_id = $this->profile->user_id;
@@ -219,7 +259,7 @@ class DefaultController extends Controller {
                                 'user_id' => $this->profile->user_id,
                                 'language_id' => 2,
                             ])->one();
-            if(is_null($language)){
+            if (is_null($language)) {
                 $language = new \common\models\UserLanguage;
             }
             $language->user_id = $this->profile->user_id;
@@ -231,27 +271,27 @@ class DefaultController extends Controller {
                 throw new NotFoundHttpException($this->renderErrors($language->errors), '0');
             }
         }
-        if(isset($post['adress_mailing'])){
+        if (isset($post['adress_mailing'])) {
             $this->profile->adress_mailing = \yii\helpers\Html::encode($post['adress_mailing']);
-            if($this->profile->validate()){
+            if ($this->profile->validate()) {
                 $this->profile->save(false);
-            }else{
+            } else {
                 throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
             }
         }
-        if(isset($post['phone'])){
+        if (isset($post['phone'])) {
             $this->profile->phone = \yii\helpers\Html::encode($post['phone']);
-            if($this->profile->validate()){
+            if ($this->profile->validate()) {
                 $this->profile->save(false);
-            }else{
+            } else {
                 throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
             }
         }
-        if(isset($post['adress_billing'])){
+        if (isset($post['adress_billing'])) {
             $this->profile->adress_billing = \yii\helpers\Html::encode($post['adress_billing']);
-            if($this->profile->validate()){
+            if ($this->profile->validate()) {
                 $this->profile->save(false);
-            }else{
+            } else {
                 throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
             }
         }
@@ -261,19 +301,19 @@ class DefaultController extends Controller {
     }
 
     private function cabinetSpecialites($post) {
-        if(Yii::$app->request->isAjax){
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $userSpeciality = new UserSpeciality;
             $userSpeciality->user_id = Yii::$app->user->id;
-            if(!isset($post['category_id']) || (int)$post['category_id'] === 0){
+            if (!isset($post['category_id']) || (int) $post['category_id'] === 0) {
                 echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
                 return TRUE;
             }
-            $userSpeciality->category_id = (int)$post['category_id'];
-            if($userSpeciality->validate()){
+            $userSpeciality->category_id = (int) $post['category_id'];
+            if ($userSpeciality->validate()) {
                 $userSpeciality->save(false);
                 $this->specialities = $userSpeciality->getUserSpeciality();
-            }else{
+            } else {
                 throw new NotFoundHttpException($this->renderErrors($userSpeciality->errors), '0');
             }
         }
@@ -281,11 +321,23 @@ class DefaultController extends Controller {
     }
 
     private function cabinetDiploma($post) {
-        ;
+        if (!is_null(UploadedFile::getInstancesByName('cert'))) {
+            $file = new Files;
+            $diplomaIds = $file->saveMultyImage(Yii::$app->user->id, 'diploma', 'cert');
+            if (is_array($diplomaIds)) {
+                UserDiploma::DiplomaAttachmentProcess(Yii::$app->user->id, $diplomaIds);
+            }
+        }
     }
 
-    private function cabinetDocs($post) {
-        ;
+    private function cabinetVerid($post) {
+        if(!is_null(UploadedFile::getInstancesByName('vercode'))){
+            $file = new Files;
+            $verIds = $file->saveMultyImage(Yii::$app->user->id, 'verificationID', 'vercode');
+            if(is_array($verIds)){
+                UserVerification::VerifycationAttachmentProcess(Yii::$app->user->id, $verIds);                
+            }
+        }
     }
 
     protected function renderErrors($errors) {
@@ -299,8 +351,6 @@ class DefaultController extends Controller {
     /**
      * Display login page
      */
-       
-    
     public function actionLogin() {
         /** @var \common\modules\user\models\forms\LoginForm $model */
         // load post data and login
@@ -489,25 +539,25 @@ class DefaultController extends Controller {
     /**
      * Profile
      */
-    public function actionProfile($id=NULL) {
+    public function actionProfile($id = NULL) {
         /** @var \common\modules\user\models\Profile $profile */
-        $id = (int)$id;
-        if($id === 0){
+        $id = (int) $id;
+        if ($id === 0) {
             $profile = Yii::$app->user->identity->profile;
             $id = Yii::$app->user->id;
-        }else{
-            $profile = \common\modules\user\models\Profile::findOne(['user_id'=>$id]);
+        } else {
+            $profile = \common\modules\user\models\Profile::findOne(['user_id' => $id]);
         }
         $file = new Files;
         $userFilesPrepare = $file->getUserFiles($id);
         $spec = new UserSpeciality;
         $userSpecialities = $spec->getSpecialityByUserId($id);
-        
-        
+
+
         $photos = $userFilesPrepare['photo'];
         $diplomas = $userFilesPrepare['diploma'];
         $verificationIDs = $userFilesPrepare['verificationID'];
-        
+
         // render
         /* variables in view translate as arrays */
         return $this->render("profile", [

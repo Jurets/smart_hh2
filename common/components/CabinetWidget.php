@@ -83,14 +83,20 @@ class CabinetWidget extends Widget {
             'destinationClass' => 'pop-up-billing',
         ];
         $this->layouts['Specialites'] = [
-             'title' => Yii::t('app', 'My Specialties'),
+             'title' => Yii::t('app', 'Specialties'),
              'form' => $this->path.'/specialites_form',
              'dataSet' => $this->dataSet['Specialites'](),
              'destinationClass' => NULL,
         ];
         $this->layouts['Diploma'] = [
-            'title' => Yii::t('app', 'My Diplomas'),
+            'title' => Yii::t('app', 'Diplomas'),
             'form' => $this->path.'/diploma_form',
+            'dataSet' => NULL,
+            'destinationClass' => 'pop-up-diploma',
+        ];
+        $this->layouts['Verid'] = [
+            'title' => Yii::t('app', 'Verification Docs'),
+            'form' => $this->path.'/verid_form',
             'dataSet' => NULL,
             'destinationClass' => 'pop-up-diploma',
         ];

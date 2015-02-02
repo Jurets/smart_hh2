@@ -46,7 +46,6 @@ class FilesController extends Controller
         //echo '<img src="'.Yii::$app->params['upload.url'].'/'.$file->code.'">';
         $file->moderate = 1;
         $file->save();
-        
         return $this->redirect('index');
         
     }
@@ -109,8 +108,11 @@ class FilesController extends Controller
     public function actionDelete($id)
     {
         $diploma = \common\models\UserDiploma::findOne(['file_id'=>$id]);
-        $diploma->delete();
-        $this->findModel($id)->delete();
+        if(!is_null($diploma)){
+            $diploma->delete();
+            $this->findModel($id)->delete();
+        }
+
         return $this->redirect(['index']);
     }
 

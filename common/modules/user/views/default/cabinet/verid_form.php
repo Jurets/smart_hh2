@@ -11,12 +11,12 @@ use yii\helpers\Html;
 /*@var $this yii\web\View*/
 ?>
 <form method="post" action="/user/cabinet" enctype="multipart/form-data">
-    <input type="hidden" name="signature" value="Diploma">
+    <input type="hidden" name="signature" value="Verid">
     <fieldset>
         <?php
         echo FileInput::widget([
-            'id' => 'popup-inputDiplomas'.Yii::$app->user->id,
-            'name' => 'cert[]',
+            'id' => 'popup-inputVerifycationsDocs'.Yii::$app->user->id,
+            'name' => 'vercode[]',
             'options' => [
                 'multiple' => true,
             ],

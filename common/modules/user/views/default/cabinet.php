@@ -39,12 +39,41 @@ $this->params['breadcrumbs'][] = $this->title;
 <section>
     <h1 class="left">My <span class="red">Diplomas</span></h1>
     <a href="#" data-sign="Diploma" class="btn btn-average right">NEW LICENSE / DIPLOMA</a>
-    <?php echo $this->render('_table-diploma',[]) ?>
+    <table class="table table-striped" id="table_diploma">
+        <thead>
+            <tr>
+                <th><?php echo Yii::t('app', '#')?></th>
+                <th><?php echo Yii::t('app','Title')?></th>
+                <th><?php echo Yii::t('app','Type')?></th>
+                <th><?php echo Yii::t('app', 'Size')?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="diploma-wrapper">
+    <?php echo $this->render('_table-diploma',['userDiploma' => $userDiploma,]) ?>
+        </tbody>
+    </table>
+    <div data-DiplomaDell="<?php echo Url::to(['/user/diploma_dell'], true)?>"></div>
 </section>
+
 <section>
     <h1 class="left">My <span class="red">Verification Docs</span></h1>
-    <a href="#" class="btn btn-average right">NEW DOCUMENT</a>
-    <?php echo $this->render('_verificationid-table', []) ?>
+    <a href="#" data-sign="Verid" class="btn btn-average right">NEW DOCUMENT</a>
+    <table class="table table-striped" id="table_verid">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php echo $this->render('_verificationid-table', ['userVerid'=>$userVerid]) ?>
+         </tbody>
+    </table>
+    <div data-VeridDell="<?php echo Url::to(['/user/verid_dell'], true)?>"></div>
 </section>
 
 

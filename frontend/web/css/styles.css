@@ -1070,10 +1070,11 @@ table td a.delete{
 }
 
 td.number-in-order{width:5%}
-td.title{width:60%;}
-td.image{width:15%}
+td.title{min-width:50%;}
+/* 02.02.2015 - PATCH */
+/*td.image{width:15%}
 td.size{width:15%}
-td.delete{width:5%}
+td.delete{width:5%}*/
 
 /*cabinet*/
 .specialty-holder{
@@ -1482,7 +1483,9 @@ label {
 	top: 70px;
 }
 .pop-up-diploma {
-    
+    width: 700px;
+    top: 820px;
+    left: 65%;
 }
 /* pop-up expancion features varriants END */
 .pop-up-hide {
