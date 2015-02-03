@@ -1,5 +1,5 @@
 <?php
-use Yii;
+//use Yii;
 ?>
             <?php if(!empty($userDiploma)) { ?>
               <?php foreach($userDiploma as $ind=>$model) { ?>
