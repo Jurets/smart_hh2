@@ -364,6 +364,8 @@ class DefaultController extends Controller {
         // load post data and login
         $model = Yii::$app->getModule("user")->model("LoginForm");
         if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
+            //Process Login Registration
+            // ...
             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
         }
 
@@ -377,6 +379,9 @@ class DefaultController extends Controller {
      * Log user out and redirect
      */
     public function actionLogout() {
+        
+        //Process Logout Registration
+        
         Yii::$app->user->logout();
 
         // redirect
