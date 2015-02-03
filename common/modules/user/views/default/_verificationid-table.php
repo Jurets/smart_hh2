@@ -15,7 +15,7 @@
             </tr>-->
 
 <?php
-use Yii;
+//use Yii;
 ?>
             <?php if(!empty($userVerid)) { ?>
               <?php foreach($userVerid as $ind=>$model) { ?>
