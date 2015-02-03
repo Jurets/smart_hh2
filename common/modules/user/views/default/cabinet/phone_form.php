@@ -5,8 +5,9 @@
  * 2) data-submitter attribute for js-submit
  * 3) data-render="name_file_of_partial" - which allows to sign a parent block (as wrapper) for render after ajax request
  *  */
+use yii\helpers\Url;
 ?>
-<form method="post" action="/user/popup_runtime" data-render="user-contact">
+<form method="post" action="<?php echo Url::to(['/user/popup_runtime'],true)?>" data-render="user-contact">
    <input type="hidden" name="signature" value="Phone">
    <fieldset>
        <input type="text" name="phone" value="<?=$dataSet?>" style="margin-bottom: 15px;">

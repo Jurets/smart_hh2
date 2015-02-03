@@ -10,7 +10,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 /*@var $this yii\web\View*/
 ?>
-<form method="post" action="/user/cabinet" enctype="multipart/form-data">
+<form method="post" action="<?php echo url::to(['/user/cabinet'],true)?>" enctype="multipart/form-data">
     <input type="hidden" name="signature" value="PhotoUploads">
     <fieldset>
         <?php
