@@ -48,7 +48,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_del', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -132,8 +132,16 @@ class DefaultController extends Controller {
     public function actionVerid_dell(){
         if(Yii::$app->request->isAjax){
             $post = Yii::$app->request->post();
+            $id = (int)$post['id'];
             if(isset($post['id'])){
-                var_dump($post['id']);
+                $verifyDocument = Files::findOne(['user_id'=>Yii::$app->user->id, 'id'=>$id]);
+                $userVerifyDocument = UserVerification::findOne(['file_id'=>$id]);
+                if(!is_null($verifyDocument) && !is_null($userVerifyDocument)){
+                    $userVerifyDocument->delete();
+                    $verifyDocument->delete();
+                }
+               $renderVuerifyId = Files::FindAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
+               echo $this->renderPartial('_verificationid-table', ['userVerid'=>$renderVuerifyId]);
             }
         }
     }

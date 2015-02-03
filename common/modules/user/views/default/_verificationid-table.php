@@ -26,7 +26,7 @@ use Yii;
                     <td class="size"><?php echo round(($model->size/1024),1)?> Kb</td>
                     <td class="size"><?php echo ($model->moderate === 0) ? Yii::t('app', 'under moderate') : Yii::t('app', 'moderated')?></td>
                     <td class="delete">
-                        <a data-diploma-dell="<?=$model->id?>" href="#" class="delete">
+                        <a data-verid-dell="<?=$model->id?>" href="#" class="delete">
                             <img src="/images/icon-delete.png" alt="delete">
                         </a>
                     </td>

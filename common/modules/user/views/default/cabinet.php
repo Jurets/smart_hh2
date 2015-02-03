@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="verid-wrapper">
     <?php echo $this->render('_verificationid-table', ['userVerid'=>$userVerid]) ?>
          </tbody>
     </table>

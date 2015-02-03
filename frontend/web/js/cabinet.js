@@ -8,9 +8,11 @@ POPUP = {
         $('[data-sign]').click(function () {
             POPUP.setUpPopUp($(this).attr('data-sign'));
             POPUP.windowShow();
+            return false;
         });
         POPUP.specDell();
         POPUP.diplomaDell();
+        POPUP.veridDell();
     },
     setUpPopUp: function (param) {
         $.ajax({
@@ -25,6 +27,7 @@ POPUP = {
                 POPUP.windowSubmitter();
                 $('.close').click(function () {
                     POPUP.windowErase();
+                    return false;
                 });
             }
         });
@@ -45,6 +48,7 @@ POPUP = {
                     POPUP.init();
                 }
             });
+           return false; 
         });
     },
     diplomaDell : function(){
@@ -61,6 +65,24 @@ POPUP = {
                   POPUP.init();
               }
           });
+          return false;
+      });  
+    },
+    veridDell : function(){
+      $('[data-verid-dell]').click(function(){
+          var id = $(this).attr('data-verid-dell');
+          var url = $('[data-VeridDell]').attr('data-VeridDell');
+          $.ajax({
+              url: url,
+              type: 'POST',
+              dataType: 'html',
+              data: {'id':id},
+              success: function(responce){
+                  $('.verid-wrapper').html(responce);
+                  POPUP.init();
+              }
+          });
+          return false;
       });  
     },
     windowClose: function () {
@@ -81,6 +103,7 @@ POPUP = {
             POPUP.formSender($(this));
             return false;
         });
+        return false;
     },
     formSender: function (form) {
         var url = form.attr('action');
