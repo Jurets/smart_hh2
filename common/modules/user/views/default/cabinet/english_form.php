@@ -7,7 +7,7 @@
  *  */
 use yii\helpers\Url;
 ?>
-<form method="post" action="<?php Url::to(['/user/popup_runtime'],true)?>" data-render="user-contact">
+<form method="post" action="<?php echo Url::to(['/user/popup_runtime'],true)?>" data-render="user-contact">
    <input type="hidden" name="signature" value="english">
    <fieldset>
        <input type="text" name="english" value="<?=$dataSet?>" style="margin-bottom: 15px;">
