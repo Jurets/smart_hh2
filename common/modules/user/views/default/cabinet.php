@@ -79,3 +79,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="clear"></div>
+
+
+<div data-CallPopup="<?php echo Url::to(['/user/popup_render'])?>"></div>

@@ -16,7 +16,7 @@ POPUP = {
     },
     setUpPopUp: function (param) {
         $.ajax({
-            'url': '/user/popup_render',
+            'url': $('[data-CallPopup]').attr('data-CallPopup'),
             'type': 'POST',
             'dataType': 'html',
             'data': {
