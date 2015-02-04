@@ -65,6 +65,8 @@ class Controller extends native_Controller {
         parent::beforeAction($action);
         $this->redirectController = 'user'; // setup default controller-part for redirect URL
         $this->convensionVerify($action->id);
+        // User Activity Control
+        UserActivity::updateOnlineDate(Yii::$app->user->id);
         return TRUE;
     }
 

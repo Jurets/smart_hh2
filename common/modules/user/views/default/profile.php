@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?=$profile->done_tasks?> tasks created
                         </span></a>
                 </p>
-                <a href="#" class="user-additional-info">Was online 30 minutes ago</a>
+                <a href="#" class="user-additional-info"><?php echo $activityMessage ?></a>
                 <a href="#"  class="user-additional-info">Latest task done 3 days ago</a>
             </div>
             <div class="clear"></div>

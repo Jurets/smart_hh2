@@ -1,26 +1,30 @@
 <?php
-
 namespace common\components;
-
 use Yii;
 use common\modules\user\models\Profile;
 
 class UserActivity {
     /* Component services */
     
-    public static function OnlineMessageProcess($id) {
+    /* get online-offline standard format message */
+    public static function NetworkStatus($id) {
         $obj = new UserActivity($id);
+        if(!$obj->validateService()){return 0;}
         return $obj->checkOnlineOrOffline();
     }
 
-    public static function SetupOnlineProfileParam($id) {
+    /* update online time (online) */
+    public static function updateOnlineDate($id) {
         $obj = new UserActivity($id);
+        if(!$obj->validateService()){return 0;}
         $obj->updateProfileOnline();
     }
 
-    public static function RegisterUserLineStatus($id, $command) {
+    /* change online_status over commands: on/off (1/0)  */
+    public static function changeNetworkStatus($id, $command) {
         $commands = ['on' => 1, 'off' => 0];
         $obj = new UserActivity($id);
+        if(!$obj->validateService()){return 0;}
         $obj->makelineStatus($commands[$command]);
     }
 
@@ -32,7 +36,10 @@ class UserActivity {
     private $userCondition; // means params: online & online_status
     private $currentTimestamp;
 
-    public function __construct($id, $onlineMinutes = 10) {
+    public function __construct($id, $onlineMinutes = NULL) {
+        if(is_null($onlineMinutes)){
+            $onlineMinutes = Yii::$app->params['user.minutes.considered.online'];
+        }
         $this->userId = (int) $id;
         $this->userProfile = Profile::findOne(['user_id'=>$this->userId]);
         $this->userCondition = [];
@@ -40,10 +47,17 @@ class UserActivity {
         $this->onlineMinutes = (int) $onlineMinutes;
         $this->currentTimestamp = date('Y-m-d H:i:s');
     }
-
-    /* временный метод, модифицировать, когда будут пройдены тесты */
-
+    public function validateService(){
+        if ($this->userId === 0) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+    /*  */
     private function setupOnlineParams() {
+          if($this->userId === 0){
+              return 0;
+          }
           $this->userCondition['online'] = $this->userProfile->online;
           $this->userCondition['online_status'] = $this->userProfile->online_status;
     }
@@ -58,7 +72,7 @@ class UserActivity {
     public function checkOnlineOrOffline() {
         $timeDifferent = $this->translateDateTimeToSeconds($this->currentTimestamp) - $this->translateDateTimeToSeconds($this->userCondition['online']);
         if ((int) $this->userCondition['online_status'] === 1) {
-            if ($timeDifferent <= ($this->onlineMinutes * 60)) {
+            if ($timeDifferent <= ($this->onlineMinutes * 60)) { // *60 - features mast be in minutes - translated into seconds automatically
                 return Yii::t('app','online');
             }
         }

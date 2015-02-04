@@ -17,6 +17,8 @@ use common\models\UserSpeciality;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
+use common\components\UserActivity;
+
 /**
  * Default controller for User module
  */
@@ -34,6 +36,8 @@ class DefaultController extends Controller {
         $this->profile = isset(Yii::$app->user->identity->profile) ? Yii::$app->user->identity->profile : NULL;
         $speciality = new UserSpeciality;
         $this->specialities = $speciality->getUserSpeciality();
+        // User Activity Control
+        UserActivity::updateOnlineDate(Yii::$app->user->id);
         return TRUE;
     }
 
@@ -69,8 +73,10 @@ class DefaultController extends Controller {
     }
 
     public function actionTest() {
-        $this->getView()->clear();
-        echo $this->renderAjax('_test');
+//       UserActivity::changeNetworkStatus('2', 'on'); // установка online_status=1
+//       echo UserActivity::NetworkStatus('2'); // вывод готового сообщения для вьюшки
+//       UserActivity::updateOnlineDate('2'); // обновление времени пока юзер онлайн
+        
     }
 
     /**
@@ -365,7 +371,7 @@ class DefaultController extends Controller {
         $model = Yii::$app->getModule("user")->model("LoginForm");
         if ($model->load(Yii::$app->request->post()) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
             //Process Login Registration
-            // ...
+            UserActivity::changeNetworkStatus(Yii::$app->user->id, 'on');
             return $this->goBack(Yii::$app->getModule("user")->loginRedirect);
         }
 
@@ -379,9 +385,8 @@ class DefaultController extends Controller {
      * Log user out and redirect
      */
     public function actionLogout() {
-        
         //Process Logout Registration
-        
+        UserActivity::changeNetworkStatus(Yii::$app->user->id, 'off');
         Yii::$app->user->logout();
 
         // redirect
@@ -561,6 +566,7 @@ class DefaultController extends Controller {
         } else {
             $profile = \common\modules\user\models\Profile::findOne(['user_id' => $id]);
         }
+        $activityMessage = UserActivity::NetworkStatus($id);
         $file = new Files;
         $userFilesPrepare = $file->getUserFiles($id);
         $spec = new UserSpeciality;
@@ -578,7 +584,8 @@ class DefaultController extends Controller {
                     'photos' => $photos,
                     'diplomas' => $diplomas,
                     'verificationIDs' => $verificationIDs,
-                    'userSpecialities' => $userSpecialities
+                    'userSpecialities' => $userSpecialities,
+                    'activityMessage' => $activityMessage,
         ]);
     }
 
