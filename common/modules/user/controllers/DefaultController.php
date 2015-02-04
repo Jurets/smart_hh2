@@ -17,6 +17,10 @@ use common\models\UserSpeciality;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
+/* just test - before logic */
+use common\modules\user\models\Profile;
+use common\models\Review;
+
 use common\components\UserActivity;
 
 /**
@@ -73,10 +77,20 @@ class DefaultController extends Controller {
     }
 
     public function actionTest() {
-//       UserActivity::changeNetworkStatus('2', 'on'); // установка online_status=1
-//       echo UserActivity::NetworkStatus('2'); // вывод готового сообщения для вьюшки
-//       UserActivity::updateOnlineDate('2'); // обновление времени пока юзер онлайн
-        
+        $userList = Profile::find()->all();
+        $users = [];
+        if(is_array($userList) && !empty($userList)){
+            foreach($userList as $user){
+                $users[$user->user_id] = $user->user->username;
+            }
+        }
+        $post = Yii::$app->request->post();
+        if($post){
+            // review mech
+        }
+        return $this->renderPartial('_test', [
+            'users' => $users,
+        ]);        
     }
 
     /**

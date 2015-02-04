@@ -1,25 +1,17 @@
 <?php
 use kartik\widgets\FileInput;
 use yii\helpers\Url;
+use yii\helpers\Html;
+?>
+<?php 
+echo Html::beginForm(Url::to(['test']), 'post');
+echo Html::label('From User').'&nbsp;';
+echo Html::dropDownList('from_user',NULL, $users).'<br><br>';
+echo Html::label('From User').'&nbsp;';
+echo Html::dropDownList('to_user',NULL, $users).'<br><br>';
+echo Html::textarea('message', NULL, ['rows'=>10, 'cols'=>100]);
+echo Html::submitButton();
+echo Html::endForm();
+
 
 ?>
-<form id="phf" method="post" enctype="multipart/form-data" action="/user/popup_runtime" data-render="user-item">
-    <input type="hidden" name="signature" value="PhotoUploads">
-    <fieldset>
-        <?php
-        echo FileInput::widget([
-            'name' => 'photoFile',
-            'options' => [
-                'multiple' => false,
-            ],
-            'pluginOptions' => [
-                'showPreview' => true,
-                'showCaption' => false,
-                'showRemove' => false,
-                'showUpload' => false,
-            ],
-        ]);
-        ?>
-        <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
-    </fieldset>
-</form>
