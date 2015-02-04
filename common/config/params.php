@@ -3,6 +3,7 @@ return [
     'adminEmail' => 'admin@example.com',
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
+    'user.minutes.considered.online' => 30,
     
     //settings for file uploading
     'upload.path' => '../../frontend/web/uploads',
