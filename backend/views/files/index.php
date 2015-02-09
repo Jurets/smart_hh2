@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\FilesSearch */
@@ -54,7 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'class' => 'yii\grid\ActionColumn',
                         'template' => '{view} {delete} {solve}',
-                        
                         'buttons' => [
 //                            'view' => function($url, $model) {
 //                                return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', Yii::$app->urlManager->baseUrl . '/files/view?id=' . $model->id, [
@@ -62,16 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
 //                                            'data-pjax' => 0,
 //                                ]);
 //                            },
-                             
-                             'solve' => function($url, $model) {
-                                  return Html::a('<span class="glyphicon glyphicon-ok"></span>', Yii::$app->urlManager->baseUrl . '/files/solve?id=' . $model->id, [
-                                              'title' => Yii::t('app', 'View'),
-                                              'data-pjax' => 0,
-                                  ]);
-                                
+
+                            'solve' => function($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-ok"></span>',
+                                            Url::to(['files/solve', 'id'=>$model->id]),
+                                                /* Yii::$app->urlManager->baseUrl . '/files/solve?id='.$model->id */ [
+                                            'title' => Yii::t('app', 'View'),
+                                            'data-pjax' => 0,
+                                ]);
                             },
                                 ],
-                         
                             ],
                         ],
                     ]);

@@ -33,9 +33,9 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update test delete review complain',
-            'Performer' => 'index view review complain',
-            'Guest' => 'index create-toLogin test review', // if Guest then redirect to login action
+            'Customer' => 'index create view update test delete review complain renderloginform',
+            'Performer' => 'index view review complain renderloginform',
+            'Guest' => 'index create-toLogin test review renderloginform', // if Guest then redirect to login action
         ];
     }
 
@@ -202,6 +202,10 @@ class TicketController extends Controller {
 
     public function actionTest() {
         echo 'Test is ok';
+    }
+    public function actionRenderloginform(){
+        $model = Yii::$app->getModule("user")->model("LoginForm");
+        echo $this->renderPartial('popup/_login', ['model'=>$model]);
     }
 
     protected function renderErrors($errors) {

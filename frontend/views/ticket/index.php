@@ -13,6 +13,9 @@ $ticket_title = ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) )
 $this->title = $ticket_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<div data-userID="<?php echo Yii::$app->user->id ?>"></div>
+
 <div class="row">
 
     <div class="left-column col-xs-12 col-sm-12 col-md-4 col-lg-4">

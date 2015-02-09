@@ -1499,3 +1499,23 @@ label {
     left: 50%;
     margin-left: -152px;
 }
+.popup-apply {
+    position:absolute;
+    min-width:300px;
+    max-width: 700px;
+    left:50px;
+    background:white;
+    border:1px solid gray;
+}
+.popup-apply-header{
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.popup-apply-content {
+    min-width: 290px;
+    max-width: 690px;
+    float: none;
+    display: block;
+
+}
