@@ -4,22 +4,24 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 ?>
-<div style="border: 1px solid red;">
+<div class="login-popup-form">
 <?php
 
 $form = ActiveForm::begin([
             'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
             'fieldConfig' => [
-                'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-7\">{error}</div>",
-                'labelOptions' => ['class' => 'col-lg-2 control-label'],
+                'template' => "{label}\n<div>{input}</div>\n<div>{error}</div>",
+                'labelOptions' => ['class' => ''],
             ],
         ]);
 ?>
 <?= $form->field($model, 'username') ?>
 <?= $form->field($model, 'password')->passwordInput() ?>
 <?= $form->field($model, 'rememberMe', [
-    'template' => NULL,
+    'template' => '{label}<div class=\"">{input}</div><div>{error}</div>',
 ])->checkbox()
 ?>
+<?php //echo Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
+<?= Html::input('button', 'submit', Yii::t('user', 'Login'), ['class' => 'btn btn-primary'])?>
 </div>

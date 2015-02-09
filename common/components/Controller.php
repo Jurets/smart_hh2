@@ -89,9 +89,19 @@ class Controller extends native_Controller {
         }else{
             if (strpos($extract, '-') !== FALSE) {
                 $this->accessDeniedWithRedirect($extract, $action);
-            } 
+            }
+            $this->accessRetification($extract, $action);
         }
+        
         return TRUE;
+    }
+    /* more strict access verifycation */
+    protected function accessRetification($extract, $action){
+        $buff = explode(' ', $extract);
+        if(array_search($action, $buff) === FALSE){
+           throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page'); 
+        }
+        
     }
     /* provide redirect for action-toUrl */
     protected function accessDeniedWithRedirect($extract, $action){

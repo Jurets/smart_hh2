@@ -1519,3 +1519,13 @@ label {
     display: block;
 
 }
+.login-popup-form  {
+    padding: 25px 45px;
+}
+.login-popup-form input {
+    width: 230px;
+    padding: 5px;
+}
+.login-popup-form .form-horizontal .form-group {
+    margin: 0px;
+}
