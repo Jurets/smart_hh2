@@ -14,11 +14,8 @@ use common\models\UserDiploma;
 use common\models\UserVerification;
 use common\models\Category;
 use common\models\UserSpeciality;
-use common\models\SocialNetwork;
-use common\models\UserSocialNetwork;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
-use yii\helpers\ArrayHelper;
 
 /* just test - before logic */
 use common\modules\user\models\Profile;
@@ -172,20 +169,8 @@ class DefaultController extends Controller {
         
         $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
         $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
-        $socialNetworks = SocialNetwork::find()->all();
-        $userSocialNetworks = UserSocialNetwork::findAll(['user_id' => Yii::$app->user->id]);
-        if(!empty($userSocialNetworks)){
-            $userSocialNetworks = ArrayHelper::index($userSocialNetworks, 'social_network_id');
-        }
-        foreach ($socialNetworks as $socialNetwork){
-            if(empty($userSocialNetworks[$socialNetwork->id])){
-                $newUserSocialNetwork = new UserSocialNetwork();
-                $newUserSocialNetwork->user_id = Yii::$app->user->id;
-                $newUserSocialNetwork->social_network_id = $socialNetwork->id;
-                $userSocialNetworks[$socialNetwork->id] = $newUserSocialNetwork;
-            }
-        }
-        
+
+        $userSocialNetworks = $this->profile->user->getAllSocialNetworks();
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             // Change Photo without ajax
