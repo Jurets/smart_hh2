@@ -10,13 +10,6 @@ use yii\helpers\Url;
 ?>
 
 <?php
-/* ticket upply scripts */
-$this->registerJsFile(Url::to(['js/ticket_apply.js']), [
-    'depends' => [\yii\web\JqueryAsset::className()],
-]);
-?>
-
-<?php
 $ticket_title = ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) ) ? $categories[(int)$_GET['cid']-1]->name : Yii::t('app', 'ALL Tasks');
 $this->title = $ticket_title;
 $this->params['breadcrumbs'][] = $this->title;
