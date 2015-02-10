@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Html;
 use kartik\widgets\StarRating;
 use yii\helpers\Url;
 ?>
@@ -8,10 +9,16 @@ use yii\helpers\Url;
         <a href="#"><img style="width:116px;" alt="avatar" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $photo->code : '' ?>" class="avatar left"></a>
         <div class="user-status-all">
             <a class="user-name" href="<?php echo Url::to(['/user/profile', 'id'=>$model->id],true) ?>"><?php echo $model->username ?> </a>                                           
-            <a class="user-status" href="#"><img alt="" src="/images/icon-facebook.png"><span><img src="/images/icon-on.png"></span></a>
-            <a class="user-status" href="#"><img alt="" src="/images/icon-in.png"><span><img src="/images/icon-on.png"></span></a>
-            <a class="user-status" href="#"><img alt="" src="/images/icon-tel.png"><span><img src="/images/icon-on.png"></span></a>
-            <a class="user-status" href="#"><img alt="" src="/images/icon-phone.png"><span><img src="/images/icon-on.png"></span></a>
+            <?php foreach($model->getAllSocialNetworks() as $userSocialNetwork):?>
+                <a href="#" class="user-status">
+                    <?= Html::img(Yii::$app->params['images.url'].'/'.$userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
+                    <?php if($userSocialNetwork->moderate): ?>
+                        <span>
+                            <?= Html::img(Yii::$app->params['images.url'].'/icon-on.png', ['alt' => 'on']) ?>
+                        </span>
+                    <?php endif; ?>
+                </a>
+            <?php endforeach; ?>
         </div>
         <?php
         echo StarRating::widget([
