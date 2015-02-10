@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\UserSocialNetworkSearch */
@@ -16,24 +17,42 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'User Social Network',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php /*
+          <?= Html::a(Yii::t('app', 'Create {modelClass}', [
+          'modelClass' => 'User Social Network',
+          ]), ['create'], ['class' => 'btn btn-success']) ?> */
+        ?>
     </p>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'social_network_id',
-            'user_id',
+            'socialNetwork.title',
+            'user.email',
             'url:url',
             'moderate',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete} {solve}',
+                'buttons' => [
+                    'solve' => function($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-ok"></span>', Url::to([
+                            'user-social-network/solve',
+                            'user_id' => $model->user_id,
+                            'social_network_id' => $model->social_network_id,
+                                ]),
+                                [
+                                    'title' => Yii::t('app', 'Solve'),
+                                    'data-pjax' => 0,
+                        ]);
+                    },
+                        ],
+                    ],
+                ],
+            ]);
+            ?>
 
 </div>

@@ -105,6 +105,13 @@ class UserSocialNetworkController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    public function actionSolve($social_network_id, $user_id){
+        $model = $this->findModel($social_network_id, $user_id);
+        $model->moderate = 1;
+        $model->save();
+        return $this->redirect(['index']);
+    }
 
     /**
      * Finds the UserSocialNetwork model based on its primary key value.
