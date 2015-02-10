@@ -213,6 +213,12 @@ class DefaultController extends Controller {
                 $category = new Category;
                 $categories = $category->categoryOutput(NULL);
             }
+            if(isset($post['UserSocialNetwork'])){
+                $userSocialNetwork = $userSocialNetworks[$post['UserSocialNetwork']['social_network_id']];
+                $userSocialNetwork->url = $post['UserSocialNetwork']['url'];
+                $userSocialNetwork->moderate = 0;
+                $userSocialNetwork->save();
+            }
         }
         
 
