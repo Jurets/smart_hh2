@@ -30,8 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'socialNetwork.title',
-            'user.email',
+            [
+                'attribute' => 'socialNetwork',
+                'value' => 'socialNetwork.title'
+            ],
+            [
+                'attribute' => 'user',
+                'value' => 'user.email'
+            ],
             'url:url',
             'moderate',
             [

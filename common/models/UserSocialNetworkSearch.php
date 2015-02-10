@@ -12,6 +12,8 @@ use common\models\UserSocialNetwork;
  */
 class UserSocialNetworkSearch extends UserSocialNetwork
 {
+    public $user;
+    public $socialNetwork;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class UserSocialNetworkSearch extends UserSocialNetwork
     {
         return [
             [['social_network_id', 'user_id', 'moderate'], 'integer'],
-            [['url'], 'safe'],
+            [['url', 'user', 'socialNetwork'], 'safe'],
         ];
     }
 
@@ -42,10 +44,20 @@ class UserSocialNetworkSearch extends UserSocialNetwork
     public function search($params)
     {
         $query = UserSocialNetwork::find();
+        $query->joinWith(['user', 'socialNetwork']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['user'] = [
+            'asc' => ['user.email' => SORT_ASC],
+            'desc' => ['user.email' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['socialNetwork'] = [
+            'asc' => ['social_network.title' => SORT_ASC],
+            'desc' => ['social_network.title' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -56,12 +68,12 @@ class UserSocialNetworkSearch extends UserSocialNetwork
         }
 
         $query->andFilterWhere([
-            'social_network_id' => $this->social_network_id,
-            'user_id' => $this->user_id,
             'moderate' => $this->moderate,
         ]);
 
         $query->andFilterWhere(['like', 'url', $this->url]);
+        $query->andFilterWhere(['like', 'user.email', $this->user]);
+        $query->andFilterWhere(['like', 'social_network.title', $this->socialNetwork]);
 
         return $dataProvider;
     }
