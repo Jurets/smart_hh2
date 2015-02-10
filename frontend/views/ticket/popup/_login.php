@@ -5,8 +5,8 @@ use yii\widgets\ActiveForm;
 
 ?>
 <div class="login-popup-form">
+<div class="ajax-login-form-errors"></div>
 <?php
-
 $form = ActiveForm::begin([
             'id' => 'login-form',
             'options' => ['class' => 'form-horizontal'],
@@ -23,5 +23,5 @@ $form = ActiveForm::begin([
 ])->checkbox()
 ?>
 <?php //echo Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
-<?= Html::input('button', 'submit', Yii::t('user', 'Login'), ['class' => 'btn btn-primary'])?>
+<?= Html::input('button', 'submit', Yii::t('user', 'Login'), ['class' => 'btn btn-primary', 'id'=>'ajaxLoginSubmit'])?>
 </div>

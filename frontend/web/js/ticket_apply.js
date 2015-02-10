@@ -25,6 +25,21 @@ UAPPLAY = {
             return false;
         });
     },
+    auth: function(){
+        var action = $('#login-form').attr('action');
+        $.ajax({
+            url: action,
+            type: 'POST',
+            dataType: 'html',
+            data: $('#login-form').serialize(),
+            success: function(rec){
+                console.log(rec);
+            },
+            error: function(){
+                
+            }
+        });
+    },
     drowAuthForm: function(){
         $.ajax({
             url: $('[data-renderLoginForm]').attr('data-renderLoginForm'),
@@ -32,6 +47,9 @@ UAPPLAY = {
             dataType: 'html',
             success: function(rec){
                 UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
+                $('#ajaxLoginSubmit').click(function(){
+                    UAPPLAY.auth();
+                });
             },
         });
     },

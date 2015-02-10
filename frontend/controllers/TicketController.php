@@ -14,6 +14,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
 use yii\helpers\Url;
+use common\components\UserActivity;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -33,9 +34,9 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view update test delete review complain renderloginform',
+            'Customer' => 'index create view review update test delete complain renderloginform',
             'Performer' => 'index view review complain renderloginform',
-            'Guest' => 'index test review renderloginform create-toLogin', // if Guest then redirect to login action
+            'Guest' => 'index test review create-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
 
@@ -106,6 +107,8 @@ class TicketController extends Controller {
 
     public function actionView($id) {
         $model = Ticket::findOne(['id' => $id]);
+        // only owner has access
+        $this->isTicketsOwner($model);
         if (!is_null($model)) {
             return $this->render('view', ['model' => $model]);
         } else {
@@ -203,9 +206,23 @@ class TicketController extends Controller {
     public function actionTest() {
         echo 'Test is ok';
     }
-    public function actionRenderloginform(){
-        $model = Yii::$app->getModule("user")->model("LoginForm");
-        echo $this->renderPartial('popup/_login', ['model'=>$model]);
+
+    public function actionRenderloginform() {
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            $model = Yii::$app->getModule("user")->model("LoginForm");
+            if (empty($post)) {
+                echo $this->renderPartial('popup/_login', ['model' => $model]);
+            } else {
+                // auth
+                if ($model->load($post) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
+                    UserActivity::changeNetworkStatus(Yii::$app->user->id, 'on');
+                }else{
+                    //echo json_encode($model->errors);
+                    var_dump($model->errors);
+                }
+            }
+        }
     }
 
     protected function renderErrors($errors) {
@@ -223,9 +240,9 @@ class TicketController extends Controller {
             $ticket->is_turned_on = Complaint::STATUS_OFF;
             $ticket->save();
             Yii::$app->mailer->compose('complaint/ban', ['ticketId' => $complain->ticket_id])
-                        ->setTo($complain->ticket->user->email)
-                        ->setSubject('ticket ban')
-                        ->send();
+                    ->setTo($complain->ticket->user->email)
+                    ->setSubject('ticket ban')
+                    ->send();
         }
     }
 
@@ -248,8 +265,17 @@ class TicketController extends Controller {
         }
     }
 
-    protected function isTicketsOwner() {
-        
+    protected function isTicketsOwner($model) {
+        if ($model->user_id != Yii::$app->user->id) {
+            throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page');
+        }
     }
-
+    /* work with model loginForm */
+    protected function AuthErrors($model){
+        $errors = '';
+        if(!empty($model->errors)){
+           
+        }
+        return $errors;
+    }
 }
