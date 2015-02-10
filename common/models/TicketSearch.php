@@ -56,6 +56,15 @@ class TicketSearch extends Ticket {
      */
     public function search($params) {
         $query = Ticket::find();
+        
+        $query->andFilterWhere([
+            'not',
+            [
+                'ticket.status' => [
+                    Ticket::STATUS_COMPLETED,
+                ]
+            ]
+        ]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -95,6 +104,14 @@ class TicketSearch extends Ticket {
         $model = new TicketSearch;
         $query = Ticket::find();
         $query->distinct(true);
+        $query->andFilterWhere([
+            'not',
+            [
+                'ticket.status' => [
+                    Ticket::STATUS_COMPLETED,
+                ]
+            ]
+        ]);
         $query->leftJoin('category_bind', 'ticket.id = ticket_id');
         $srt = 'finish_day ' . $model->getSort($get['sort']);
         

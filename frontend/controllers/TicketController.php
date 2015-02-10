@@ -46,7 +46,14 @@ class TicketController extends Controller {
      */
     public function actionIndex($cid = NULL) {
         $get = Yii::$app->request->get();
-        $query = Ticket::find();
+        $query = Ticket::find()->andFilterWhere([
+            'not',
+            [
+                'ticket.status' => [
+                    Ticket::STATUS_COMPLETED,
+                ]
+            ]
+        ]);
         if (isset($get['cid'])) {
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
             $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
