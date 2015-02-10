@@ -6,6 +6,7 @@ use Yii;
 use common\models\Ticket;
 use common\models\User;
 use common\models\TicketSearch;
+use common\models\TicketArchiveSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -206,6 +207,21 @@ class TicketController extends Controller
         $model = new Ticket;
         $updateStatuses = $model->getUpdateStatuses();
         return $this->render('ticketUpdateStatuses',['model'=>$model,'ticketUpdateStatuses'=>$updateStatuses]);
+    }
+    
+    /**
+     * Lists all Ticket models that are in archive.
+     * @return mixed
+     */
+    public function actionArchive()
+    {
+        $searchModel = new TicketArchiveSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('archive', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
     /**
      * Finds the Ticket model based on its primary key value.

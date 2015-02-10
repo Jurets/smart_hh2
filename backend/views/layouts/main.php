@@ -61,6 +61,11 @@ AppAsset::register($this);
                      'label' => 'Active tickets',
                      'url' => ['/ticket/activetickets'],
                  ];
+                 
+                 $menuItems[] = [
+                     'label' => 'Tickets Archive',
+                     'url' => ['/ticket/archive'],
+                 ];
 
                  $menuItems[] = [
                      'label' => 'Category',
@@ -74,6 +79,10 @@ AppAsset::register($this);
                 $menuItems[] = [
                     'label' => Yii::t('app', 'Complaints'),
                     'url' => ['/complaint/index'],
+                ];
+                $menuItems[] = [
+                    'label' => Yii::t('app', 'Social Networks'),
+                    'url' => ['/user-social-network/index'],
                 ];
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
