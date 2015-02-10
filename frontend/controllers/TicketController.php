@@ -214,12 +214,15 @@ class TicketController extends Controller {
             if (empty($post)) {
                 echo $this->renderPartial('popup/_login', ['model' => $model]);
             } else {
-                // auth
+                /* autenticate */
                 if ($model->load($post) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
                     UserActivity::changeNetworkStatus(Yii::$app->user->id, 'on');
+                    $head = $this->renderPartial('/layouts/parts/header_login');
+                    echo json_encode(['usr'=>Yii::$app->user->id, 'head'=>$head]);
                 }else{
-                    //echo json_encode($model->errors);
-                    var_dump($model->errors);
+                    $error = $this->renderErrors($model->errors);
+                    $errJs = ['err' => $error];
+                    echo json_encode($errJs);
                 }
             }
         }
@@ -269,13 +272,5 @@ class TicketController extends Controller {
         if ($model->user_id != Yii::$app->user->id) {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page');
         }
-    }
-    /* work with model loginForm */
-    protected function AuthErrors($model){
-        $errors = '';
-        if(!empty($model->errors)){
-           
-        }
-        return $errors;
     }
 }

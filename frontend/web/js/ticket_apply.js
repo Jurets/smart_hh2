@@ -1,59 +1,80 @@
-$(function(){
+$(function () {
     UAPPLAY.install();
 });
 
 UAPPLAY = {
-    userID : null,
-    
+    userID: null,
     ticketID: null,
     currentPriceBlock: null,
-    
-    install: function(){
-        UAPPLAY.userID = $('[data-userID]').attr('data-userID');
-        $('[data-apply_id]').click(function(){
+    install: function () {
+        $('[data-apply_id]').click(function () {
+            $('.popup-apply').addClass('pop-up-hide');
             UAPPLAY.ticketID = $(this).attr('data-apply_id');
-            UAPPLAY.currentPriceBlock = $('#apply-block-'+UAPPLAY.ticketID);
+            UAPPLAY.currentPriceBlock = $('#apply-block-' + UAPPLAY.ticketID);
             UAPPLAY.currentPriceBlock.find('.popup-apply').removeClass('pop-up-hide');
-            UAPPLAY.currentPriceBlock.find('.popup-apply-header').click(function(){
+            UAPPLAY.currentPriceBlock.find('.popup-apply-header').click(function () {
                 $(this).parent().addClass('pop-up-hide');
             })
-            if(UAPPLAY.userID === ''){
+            UAPPLAY.userID = $('[data-userID]').attr('data-userID');
+            if (UAPPLAY.userID === '') {
                 UAPPLAY.drowAuthForm();
-            }else{
+            } else {
                 UAPPLAY.drowApplyForm();
             }
             return false;
         });
     },
-    auth: function(){
+    flush: function () {
+        $('.popup-apply-content').html('<!---->');
+    },
+    auth: function () {
         var action = $('#login-form').attr('action');
         $.ajax({
             url: action,
             type: 'POST',
             dataType: 'html',
             data: $('#login-form').serialize(),
-            success: function(rec){
-                console.log(rec);
+            success: function (rec) {
+                var responce = $.parseJSON(rec);
+                if (responce.err !== undefined) {
+                    UAPPLAY.currentPriceBlock.find('.ajax-login-form-errors').html(responce.err);
+                } else {
+                    $('[data-userID]').attr('data-userID', responce.usr);
+                    UAPPLAY.currentPriceBlock.find('.popup-apply').addClass('pop-up-hide');
+                    $('#header_refresh').html(responce.head);
+                    
+                    $('#language').ddslick({
+                        onSelected: function (selectedData) {
+
+                            $('#demoDefaultSelection').ddslick({
+                                data: ddData,
+                                defaultSelectedIndex: 1
+                            });
+                        }
+                    });
+                    
+                    UAPPLAY.flush();
+                }
             },
-            error: function(){
-                
+            error: function () {
+                UAPPLAY.currentPriceBlock.find('.ajax-login-form-errors').html('Connection failure');
             }
         });
     },
-    drowAuthForm: function(){
+    drowAuthForm: function () {
         $.ajax({
             url: $('[data-renderLoginForm]').attr('data-renderLoginForm'),
             type: 'POST',
             dataType: 'html',
-            success: function(rec){
+            success: function (rec) {
                 UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
-                $('#ajaxLoginSubmit').click(function(){
+                $('#ajaxLoginSubmit').click(function () {
                     UAPPLAY.auth();
                 });
             },
         });
     },
-    drowApplyForm: function(){
+    drowApplyForm: function () {
         console.log('отрисовываем форму Предложение');
     },
 };
