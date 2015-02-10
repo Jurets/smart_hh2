@@ -76,6 +76,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div data-VeridDell="<?php echo Url::to(['/user/verid_dell'], true)?>"></div>
 </section>
 
+<section>
+    <h1 class="left">My <span class="red">Links To Other Networks</span></h1>
+    <div class="clearfix"></div>
+    <?php foreach($userSocialNetworks as $userSocialNetwork): ?>
+        <?= $this->render('cabinet/social_network_form', ['model' => $userSocialNetwork]) ?>
+    <?php endforeach; ?>
+</section>
+
 
 
 <div class="clear"></div>

@@ -8,9 +8,12 @@ use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
 use yii\helpers\Inflector;
+use yii\helpers\ArrayHelper;
 use ReflectionClass;
 
 use common\components\GoogleApiHelper;
+use common\models\SocialNetwork;
+use common\models\UserSocialNetwork;
 
 /**
  * This is the model class for table "tbl_user".
@@ -611,5 +614,26 @@ class User extends ActiveRecord implements IdentityInterface
                $query->andWhere(['between', 'ticket.lat', $area['lat1'], $area['lat2']]);
             }
         }
+    }
+    /**
+     * Get list of all social networks either related to current user or not.
+     *
+     * @return common\models\UserSocialNetwork[]
+     */
+    public function getAllSocialNetworks(){
+        $socialNetworks = SocialNetwork::find()->all();
+        $userSocialNetworks = UserSocialNetwork::findAll(['user_id' => $this->id]);
+        if(!empty($userSocialNetworks)){
+            $userSocialNetworks = ArrayHelper::index($userSocialNetworks, 'social_network_id');
+        }
+        foreach ($socialNetworks as $socialNetwork){
+            if(empty($userSocialNetworks[$socialNetwork->id])){
+                $newUserSocialNetwork = new UserSocialNetwork();
+                $newUserSocialNetwork->user_id = $this->id;
+                $newUserSocialNetwork->social_network_id = $socialNetwork->id;
+                $userSocialNetworks[$socialNetwork->id] = $newUserSocialNetwork;
+            }
+        }
+        return $userSocialNetworks;
     }
 }

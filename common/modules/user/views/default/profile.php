@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\StarRating;
 ?>
@@ -21,10 +22,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div><span class="user-name">
 <?php echo is_null($profile->first_name) || is_null($profile->last_name) ? $profile->full_name : $profile->first_name . ' ' . $profile->last_name ?>
                     </span>                                            
-                    <a href="#" class="user-status"><img src="/images/icon-facebook.png" alt=""/><span><img src="/images/icon-on.png"</span></a>
-                    <a href="#" class="user-status"><img src="/images/icon-in.png" alt=""/><span><img src="/images/icon-on.png"</span></a>
-                    <a href="#" class="user-status"><img src="/images/icon-tel.png" alt=""/><span><img src="/images/icon-on.png"</span></a>
-                    S<a href="#" class="user-status"><img src="/images/icon-phone.png" alt=""/><span><img src="/images/icon-on.png"</span></a>
+                    <?php foreach ($profile->user->getAllSocialNetworks() as $userSocialNetwork): ?>
+                        <a href="#" class="user-status">
+                            <?= Html::img(Yii::$app->params['images.url'] . '/' . $userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
+                            <?php if ($userSocialNetwork->moderate): ?>
+                                <span>
+                                    <?= Html::img(Yii::$app->params['images.url'] . '/icon-on.png', ['alt' => 'on']) ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
                 <p class="user-mark">
 <!--                    <img src="/images/star5.png" alt=""/>

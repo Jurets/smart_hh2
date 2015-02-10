@@ -169,7 +169,8 @@ class DefaultController extends Controller {
         
         $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
         $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
-        
+
+        $userSocialNetworks = $this->profile->user->getAllSocialNetworks();
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             // Change Photo without ajax
@@ -197,13 +198,21 @@ class DefaultController extends Controller {
                 $category = new Category;
                 $categories = $category->categoryOutput(NULL);
             }
+            if(isset($post['UserSocialNetwork'])){
+                $userSocialNetwork = $userSocialNetworks[$post['UserSocialNetwork']['social_network_id']];
+                $userSocialNetwork->url = $post['UserSocialNetwork']['url'];
+                $userSocialNetwork->moderate = 0;
+                $userSocialNetwork->save();
+            }
         }
+        
 
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
                     'userDiploma' => $userDiploma,
                     'userVerid' => $userVerid,
+                    'userSocialNetworks' => $userSocialNetworks,
         ]);
     }
 
