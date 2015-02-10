@@ -4,7 +4,8 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 <?php
-$this->registerJsFile(Url::to(['/js/ticket_apply.js']), [
+//$this->registerJsFile(Url::to(['/js/ticket_apply.js']), [
+$this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
     'depends' => [\yii\web\JqueryAsset::className()],
 ]);
 ?>

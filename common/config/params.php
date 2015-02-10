@@ -11,6 +11,8 @@ return [
     'images.path' => '../../frontend/web/images',
     'images.url' => '/images',
     'url.categories' =>  '../../frontend/web/images/categories',
+    /* for implementation js directly into view-file */
+    'path.js' => '/frontend/web/js/',
     
     //slots.quantity: how many categories can choose together when ticket created
     'slots.quantity' => 4,
