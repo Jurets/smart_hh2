@@ -35,7 +35,7 @@ class TicketController extends Controller {
     public function convensionInit() {
         return [
             'Customer' => 'index create view review update test delete complain renderloginform',
-            'Performer' => 'index view review complain renderloginform',
+            'Performer' => 'index create view review complain renderloginform',
             'Guest' => 'index test review create-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }

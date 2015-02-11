@@ -255,6 +255,7 @@ class Ticket extends \yii\db\ActiveRecord {
     public function mainInitService($post, $mode_update=FALSE) {       
         $this->attributes = $post;
         $this->user_id = Yii::$app->user->id;
+        $this->status = self::STATUS_NOT_COMPLETED;
         $this->location = $post['location'];
         /* патч для совместимости со старой версией моделей */
         $category = NULL;
