@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use common\models\queries\TicketCommetsQuery;
 
 /**
  * This is the model class for table "ticket_comments".
@@ -19,6 +20,9 @@ use Yii;
  */
 class TicketComments extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 0;
+    const STATUS_READ = 1;
+    
     /**
      * @inheritdoc
      */
@@ -33,7 +37,7 @@ class TicketComments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'ticket_id', 'text'], 'required'],
+            [['text'], 'required'],
             [['user_id', 'ticket_id', 'status'], 'integer'],
             [['text'], 'string'],
             [['date'], 'safe']
@@ -69,5 +73,13 @@ class TicketComments extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    /**
+     * 
+     * @return TicketCommetsQuery
+     */
+    public static function find() {
+        return new TicketCommetsQuery(get_called_class());
     }
 }
