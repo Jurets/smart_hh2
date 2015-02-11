@@ -85,6 +85,7 @@ UAPPLAY = {
             data: {
                 'ticket_id' : UAPPLAY.ticketID,
                 'price' : UAPPLAY.currentPriceBlock.find('#digital_price_part').html(),
+                'render' : '',
             },
             success: function (rec) {
                 UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
