@@ -5,7 +5,7 @@ use common\models\TicketComments;
 
 class TicketCommetsQuery extends ActiveQuery{
     public function newComments(){
-        $this->andWhere(['status' => TicketComments::STATUS_NEW]);
+        $this->andWhere(['ticket_comments.status' => TicketComments::STATUS_NEW]);
         return $this;
     }
     
