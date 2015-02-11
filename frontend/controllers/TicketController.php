@@ -238,7 +238,13 @@ class TicketController extends Controller {
         if(Yii::$app->request->isAjax){
             $post = Yii::$app->request->post();
             $id = (isset($post['ticket_id']) && !is_null($post['ticket_id'])) ? (int)$post['ticket_id'] : NULL;
-            $ticket = Ticket::findOne(['id'=>$id]);
+            if(isset($post['render'])){
+                echo $this->renderPartial('popup/_apply');
+            }else{
+                /* apply */
+                
+                
+            }
         }
     }
     /* _ */

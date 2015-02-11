@@ -62,7 +62,21 @@ UAPPLAY = {
         });
     },
     apply: function () {
-        alert('test apply mech');
+        var action = $('#apply_form').attr('action');
+        $('#apply_form').find('[name=performer_id]').val(UAPPLAY.userID);
+        $('#apply_form').find('[name=ticket_id]').val(UAPPLAY.ticketID);
+        $.ajax({
+            url: action,
+            type: 'POST',
+            dataType: 'html',
+            data: $('#apply_form').serialize(),
+            success: function(rec){
+                console.log(rec);
+            },
+            error: function(rec){
+                
+            },
+        });
     },
     drowAuthForm: function () {
         $.ajax({
@@ -90,7 +104,7 @@ UAPPLAY = {
             success: function (rec) {
                 UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
                 $('#ajaxApplySubmit').click(function(){
-                    
+                    UAPPLAY.apply();
                 });
             },
         })

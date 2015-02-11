@@ -1501,7 +1501,7 @@ label {
 }
 .popup-apply {
     position:absolute;
-    min-width:300px;
+    min-width:365px;
     max-width: 700px;
     left:50px;
     background:white;
@@ -1514,7 +1514,7 @@ label {
     cursor: pointer;
 }
 .popup-apply-content {
-    min-width: 290px;
+    min-width: 380px;
     max-width: 690px;
     float: none;
     display: block;
@@ -1533,4 +1533,18 @@ label {
 }
 .ajax-login-form-errors{
     color: #600;
+}
+.popup-apply-form {
+    min-height: 100px;
+    padding: 30px;
+}
+.apply-form-input{
+    float: left;
+}
+.apply-form-input input {
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+.apply-form-button{
+    float: right;
 }
