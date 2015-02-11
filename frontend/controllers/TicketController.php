@@ -6,6 +6,7 @@ use Yii;
 use common\models\Ticket;
 use common\models\TicketSearch;
 use common\models\Category;
+use common\models\Proposal;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
 use common\components\Controller; // with auto ban state control
@@ -213,7 +214,9 @@ class TicketController extends Controller {
     public function actionTest() {
         echo 'Test is ok';
     }
+
     /* purposal work */
+
     public function actionRenderloginform() {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
@@ -225,8 +228,8 @@ class TicketController extends Controller {
                 if ($model->load($post) && $model->login(Yii::$app->getModule("user")->loginDuration)) {
                     UserActivity::changeNetworkStatus(Yii::$app->user->id, 'on');
                     $head = $this->renderPartial('/layouts/parts/header_login');
-                    echo json_encode(['usr'=>Yii::$app->user->id, 'head'=>$head]);
-                }else{
+                    echo json_encode(['usr' => Yii::$app->user->id, 'head' => $head]);
+                } else {
                     $error = $this->renderErrors($model->errors);
                     $errJs = ['err' => $error];
                     echo json_encode($errJs);
@@ -234,20 +237,65 @@ class TicketController extends Controller {
             }
         }
     }
-    public function actionRenderapplyform(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionRenderapplyform() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
-            $id = (isset($post['ticket_id']) && !is_null($post['ticket_id'])) ? (int)$post['ticket_id'] : NULL;
-            if(isset($post['render'])){
-                echo $this->renderPartial('popup/_apply');
-            }else{
+            $id = (isset($post['ticket_id']) && !is_null($post['ticket_id'])) ? (int) $post['ticket_id'] : NULL;
+            if(is_null($id)){ throw new NotFoundHttpException('unknown proposal'); }
+            $ticket = Ticket::findOne(['id' => $id]);
+            if (isset($post['render'])) {
+                echo $this->renderPartial('popup/_apply', ['price'=>$ticket->price]);
+            } else {
                 /* apply */
-                
-                
+                $from_user_id = (isset($post['performer_id']) && !is_null($post['performer_id'])) ? (int) $post['performer_id'] : NULL;
+                if(is_null($from_user_id)){ throw new NotFoundHttpException('unknown user'); }
+                $this->applyMain($from_user_id, $ticket, $post);
             }
         }
     }
+
     /* _ */
+
+    protected function applyMain($from_user_id, $ticket, $post) {
+        $proposalModel = new Proposal;
+        if($proposalModel->checkProposeExist($ticket->id, $from_user_id)){
+            echo $this->jsonStrMake(['err'=>Yii::t('app','You alredy apply this ticket')]);
+        }else{
+            // create the new propose record
+            if(is_null($ticket->price)){
+                // we getting price from responce
+                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : NULL;
+                if(is_null($price)) {
+                    echo $this->jsonStrMake(['err'=>Yii::t('app','Price can not be empty')]);
+                    return;
+                    //throw new NotFoundHttpException('uncorrect external price'); 
+                    
+                }
+            }else{
+                // getting price from the ticket
+                $price = $ticket->price;
+            }
+            $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
+            echo $this->jsonStrMake(['msg'=>Yii::t('app','Apply this job successfull')]);
+        }
+    }
+    protected function jsonStrMake($arr){
+        if(!is_array($arr)) {  throw new NotFoundHttpException('jsonStrMake param mast be an array'); }
+        return json_encode($arr);
+    }
+    protected function proposalProcess($model, $performer_id, $ticket_id, $price){
+        $model->performer_id = $performer_id;
+        $model->ticket_id = $ticket_id;
+        $model->message = 'test message';
+        $model->price = $price;
+        if($model->validate()){
+            $model->save(false);
+            // TO DO send letter to customer logic
+        }else{
+            throw new NotFoundHttpException('uncorrect external price'); 
+        }
+    }
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {
@@ -293,4 +341,5 @@ class TicketController extends Controller {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page');
         }
     }
+
 }

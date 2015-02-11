@@ -1501,12 +1501,15 @@ label {
 }
 .popup-apply {
     position:absolute;
-    min-width:365px;
+    min-width:300px;
     max-width: 700px;
     left:50px;
     background:white;
     border:1px solid gray;
     z-index: 1;
+}
+.popup-apply-ext1 {
+    min-width: 380px;
 }
 .popup-apply-header{
     float: right;
@@ -1514,7 +1517,7 @@ label {
     cursor: pointer;
 }
 .popup-apply-content {
-    min-width: 380px;
+    min-width: 290px;
     max-width: 690px;
     float: none;
     display: block;
@@ -1534,6 +1537,9 @@ label {
 .ajax-login-form-errors{
     color: #600;
 }
+.ajax-apply-form-errors{
+    color: #600;
+}
 .popup-apply-form {
     min-height: 100px;
     padding: 30px;
@@ -1547,4 +1553,7 @@ label {
 }
 .apply-form-button{
     float: right;
+}
+.apply-return-message{
+    color: #006600;
 }

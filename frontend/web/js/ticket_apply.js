@@ -71,10 +71,12 @@ UAPPLAY = {
             dataType: 'html',
             data: $('#apply_form').serialize(),
             success: function(rec){
-                console.log(rec);
+                var responce = $.parseJSON(rec);
+                UAPPLAY.currentPriceBlock.find('.ajax-apply-form-errors').html(responce.err);
+                UAPPLAY.currentPriceBlock.find('.apply-return-message').html(responce.msg);
             },
             error: function(rec){
-                
+                UAPPLAY.currentPriceBlock.find('.ajax-apply-form-errors').html('Server connection failure');
             },
         });
     },
@@ -98,14 +100,15 @@ UAPPLAY = {
             dataType: 'html',
             data: {
                 'ticket_id' : UAPPLAY.ticketID,
-                'price' : UAPPLAY.currentPriceBlock.find('#digital_price_part').html(),
                 'render' : '',
             },
             success: function (rec) {
                 UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
-                $('#ajaxApplySubmit').click(function(){
+                UAPPLAY.currentPriceBlock.find('.ajaxApplySubmit').unbind('click');
+                UAPPLAY.currentPriceBlock.find('.ajaxApplySubmit').click(function(){
                     UAPPLAY.apply();
                 });
+                $('.popup-apply').addClass('popup-apply-ext1');
             },
         })
     },

@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "proposal".
  *
  * @property integer $id
+ * @property integer $price
  * @property integer $performer_id
  * @property integer $ticket_id
  * @property string $date
@@ -35,6 +36,7 @@ class Proposal extends \yii\db\ActiveRecord
         return [
             [['performer_id', 'ticket_id'], 'required'],
             [['performer_id', 'ticket_id', 'archived'], 'integer'],
+            [['price'], 'double'],
             [['date'], 'safe'],
             [['message'], 'string']
         ];
@@ -69,5 +71,14 @@ class Proposal extends \yii\db\ActiveRecord
     public function getPerformer()
     {
         return $this->hasOne(User::className(), ['id' => 'performer_id']);
+    }
+    /* EXT */
+    public function checkProposeExist($ticket_id, $from_user_id){
+        $propose = $this->findOne([
+            'ticket_id' => $ticket_id,
+            'performer_id' => $from_user_id,
+            'archived' => 0,
+        ]);
+        return is_null($propose) ? false : true;
     }
 }

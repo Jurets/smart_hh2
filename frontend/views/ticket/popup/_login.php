@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 ?>
-<div class="login-popup-form">
+<div class="login-popup-form"><?=yii::t('app', 'Log In')?>
 <div class="ajax-login-form-errors"></div>
 <?php
 $form = ActiveForm::begin([
