@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 
+$currentUser = Yii::$app->user->getIdentity();
 ?>
 <!-- header login -->
 
@@ -10,7 +11,10 @@ use yii\helpers\Url;
     </div>
     <div class="top-nav col-xs-12 col-sm-12 col-md-12 col-lg-9">
         <div class="status">
-            <a href="#" class=""><img src="/images/icon-letter.png" alt="letter"/><span>1</span>&nbsp;<?=Yii::t('app', 'new message')?></a>
+            <a href="#" class=""><img src="/images/icon-letter.png" alt="letter"/>
+            <?= Yii::t('app', '{n, plural, =1{<span>#</span> new message} other{<span>#</span> new messages}}', [
+                'n' => ($currentUser !== null) ? $currentUser->getNewTicketCommentsCount() : '0'
+                ]); ?>
             <a href="#" class=""><img src="/images/icon-bell.png" alt="bell"/><span>115</span>&nbsp;<?=Yii::t('app', 'new offers')?></a>           
             <?php if(Yii::$app->controller->action->id === 'profile'){ ?>
             <a href="<?=Url::to(['/user/cabinet'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>
