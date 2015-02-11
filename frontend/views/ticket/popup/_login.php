@@ -23,5 +23,5 @@ $form = ActiveForm::begin([
 ])->checkbox()
 ?>
 <?php //echo Html::submitButton(Yii::t('user', 'Login'), ['class' => 'btn btn-primary']) ?>
-<?= Html::input('button', 'submit', Yii::t('user', 'Login'), ['class' => 'btn btn-primary', 'id'=>'ajaxLoginSubmit'])?>
+<?= Html::input('button', 'submit', Yii::t('app', 'Login'), ['class' => 'btn btn-primary', 'id'=>'ajaxLoginSubmit'])?>
 </div>

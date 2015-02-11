@@ -61,6 +61,9 @@ UAPPLAY = {
             }
         });
     },
+    apply: function () {
+        alert('test apply mech');
+    },
     drowAuthForm: function () {
         $.ajax({
             url: $('[data-renderLoginForm]').attr('data-renderLoginForm'),
@@ -75,6 +78,20 @@ UAPPLAY = {
         });
     },
     drowApplyForm: function () {
-        console.log('отрисовываем форму Предложение');
+        $.ajax({
+            url: $('[data-renderApplyForm]').attr('data-renderApplyForm'),
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                'ticket_id' : UAPPLAY.ticketID,
+                'price' : UAPPLAY.currentPriceBlock.find('#digital_price_part').html(),
+            },
+            success: function (rec) {
+                UAPPLAY.currentPriceBlock.find('.popup-apply-content').html(rec);
+                $('#ajaxApplySubmit').click(function(){
+                    
+                });
+            },
+        })
     },
 };

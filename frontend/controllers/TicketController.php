@@ -34,8 +34,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform',
-            'Performer' => 'index create view review complain renderloginform',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform',
+            'Performer' => 'index create view review complain renderloginform renderapplyform',
             'Guest' => 'index test review create-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -213,7 +213,7 @@ class TicketController extends Controller {
     public function actionTest() {
         echo 'Test is ok';
     }
-
+    /* purposal work */
     public function actionRenderloginform() {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
@@ -234,7 +234,14 @@ class TicketController extends Controller {
             }
         }
     }
-
+    public function actionRenderapplyform(){
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            $id = (isset($post['ticket_id']) && !is_null($post['ticket_id'])) ? (int)$post['ticket_id'] : NULL;
+            $ticket = Ticket::findOne(['id'=>$id]);
+        }
+    }
+    /* _ */
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {
