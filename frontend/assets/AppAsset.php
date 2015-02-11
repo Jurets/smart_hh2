@@ -28,7 +28,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/ddslick.js',
         'jquery.bxslider/jquery.bxslider.min.js',
-       # '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js',
+        '//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js',
         'js/engine.js',
         'js/softscroll.js',
         // temporary in this section
@@ -36,6 +36,7 @@ class AppAsset extends AssetBundle
         'js/googleapi.js',
         'js/cabinet.js',
         'js/complain_script.js',
+        'js/profile-jobs.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
