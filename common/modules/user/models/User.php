@@ -14,6 +14,7 @@ use ReflectionClass;
 use common\components\GoogleApiHelper;
 use common\models\SocialNetwork;
 use common\models\UserSocialNetwork;
+use common\models\TicketComments;
 
 /**
  * This is the model class for table "tbl_user".
@@ -635,5 +636,23 @@ class User extends ActiveRecord implements IdentityInterface
             }
         }
         return $userSocialNetworks;
+    }
+    
+    /**
+     * Get list of new comments on user's tickets
+     * 
+     * @return TicketComments[]
+     */
+    public function getNewTicketComments(){
+        return TicketComments::find()->byUserTickets($this->id)->newComments()->all();
+    }
+    
+    /**
+     * Get count of new comments on user's tickets
+     * 
+     * @return integer
+     */
+    public function getNewTicketCommentsCount(){
+        return TicketComments::find()->byUserTickets($this->id)->newComments()->count();
     }
 }
