@@ -111,6 +111,73 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="row">
     <div class="reviews left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
+        <h1 class="left">Your Jobs</h1>
+        <p class="user-info right">
+            <a href="#" class="positive">Created</a>
+            <a href="#" class="negative">Applied</a>
+        </p>
+        <div class="clear"></div>
+        <div class="reviews-holder">
+            <div class="task-item info-border">
+                <div class="task-info-price">
+                    <p class="price">&dollar;500</p>
+                    <p class="measurement">week</p>
+                </div>
+                <div class="task-info-meta">
+                    <a  href="#" class="title">Web site development for a law company in Moscow</a>
+                    <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="date-time right">
+                    5:15 JAN 01, 2015 <br/>      
+                    Moscow, RU
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="task-item info-border">
+                <div class="task-info-price">
+                    <p class="price">&dollar;500</p>
+                    <p class="measurement">week</p>
+                </div>
+                <div class="task-info-meta">
+                    <a  href="#" class="title">Web site development for a law company in Moscow</a>
+                    <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="date-time right">
+                    5:15 JAN 01, 2015 <br/>      
+                    Moscow, RU
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="task-item info-border">
+                <div class="task-info-price">
+                    <p class="price">&dollar;500</p>
+                    <p class="measurement">week</p>
+                </div>
+                <div class="task-info-meta">
+                    <a  href="#" class="title">Web site development for a law company in Moscow</a>
+                    <p class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="date-time right">
+                    5:15 JAN 01, 2015 <br/>      
+                    Moscow, RU
+                </div>
+                <div class="clearfix"></div>
+            </div>            
+            <a class="btn btn-width">SHOW MORE</a>       
+        </div>    
+
+    </div>
+    <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
+        <?=$this->render('_profile_spec',['profile'=>$profile,'userSpecialities'=>$userSpecialities])?>
+        <?=$this->render('_profile_diploma',['diplomas' => $diplomas])?>
+    </div> 
+    <div class="reviews left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <h1 class="left"><span class="red">40</span> Reviews</h1>
         <p class="user-info right"> Show:
             <a href="#" class="positive"><img src="/images/icon-positive.png" alt=""/>Positive</a>
@@ -247,12 +314,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>    
 
     </div>    
-
-
-    <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
-        <?=$this->render('_profile_spec',['profile'=>$profile,'userSpecialities'=>$userSpecialities])?>
-        <?=$this->render('_profile_diploma',['diplomas' => $diplomas])?>
-    </div>        
 </div>       
 
 
