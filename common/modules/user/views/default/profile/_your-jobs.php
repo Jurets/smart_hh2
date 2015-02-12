@@ -5,5 +5,5 @@
             <a href="#" class="negative">Applied</a>
         </p>
         <div class="clear"></div>
-        <?= $this->render('_jobs-created') ?>
+        <?= $this->render('_jobs-created', ['dataProvider' => $dataProvider]) ?>
 </div>

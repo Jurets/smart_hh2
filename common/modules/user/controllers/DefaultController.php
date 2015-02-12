@@ -599,6 +599,14 @@ class DefaultController extends Controller {
         $photos = $userFilesPrepare['photo'];
         $diplomas = $userFilesPrepare['diploma'];
         $verificationIDs = $userFilesPrepare['verificationID'];
+        
+        $jobsCreatedQuery = \common\models\Ticket::find()->andWhere(['user_id' => $id]);
+        $jobsCreatedDataProvider = new ActiveDataProvider([
+            'query' => $jobsCreatedQuery,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
 
         // render
         /* variables in view translate as arrays */
@@ -609,6 +617,7 @@ class DefaultController extends Controller {
                     'verificationIDs' => $verificationIDs,
                     'userSpecialities' => $userSpecialities,
                     'activityMessage' => $activityMessage,
+                    'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
         ]);
     }
 
