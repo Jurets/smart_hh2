@@ -604,7 +604,7 @@ class DefaultController extends Controller {
         $jobsCreatedDataProvider = new ActiveDataProvider([
             'query' => $jobsCreatedQuery,
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
         ]);
 
