@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
+use common\models\TicketComments;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -167,5 +168,17 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+    
+    public function actionClearNewComments(){
+        TicketComments::updateAll([
+            'status' => TicketComments::STATUS_READ
+                ],[
+                    'ticket_id' => \common\models\Ticket::find()
+                ->select(['id'])
+                ->where(['user_id' => Yii::$app->user->id])
+                ->column()
+                ]);
+        return $this->renderPartial('/layouts/parts/_new-comments');
     }
 }

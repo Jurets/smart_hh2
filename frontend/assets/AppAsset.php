@@ -37,6 +37,7 @@ class AppAsset extends AssetBundle
         'js/cabinet.js',
         'js/complain_script.js',
         'js/profile-jobs.js',
+        'js/header-login.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
