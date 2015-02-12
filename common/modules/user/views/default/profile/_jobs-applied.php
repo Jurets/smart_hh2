@@ -1,7 +1,7 @@
 <?php
     use yii\widgets\Pjax;
 ?>
-<div class="reviews-holder">
+<div id="jobs-applied-tab" class="reviews-holder tab-pane fade" role="tabpanel">
     <?php Pjax::begin([
         'id' => 'jobs-applied',
         'timeout' => 3000,
