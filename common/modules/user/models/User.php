@@ -656,4 +656,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function getNewTicketCommentsCount(){
         return TicketComments::find()->byUserTickets($this->id)->newComments()->count();
     }
+    
+    public function getTicketsWithNewComments(){
+        return \common\models\Ticket::find()->select([
+            'ticket.id',
+            'ticket.title',
+            'count(*) as comments_count'
+            ])
+                ->joinWith('ticketComments')
+                ->where([
+                    'ticket.user_id' => $this->id,
+                    'ticket_comments.status' => TicketComments::STATUS_NEW,
+                        ])
+                ->groupBy(['ticket.id', 'ticket.title'])
+                ->having('comments_count > 0')
+                ->all();
+    }
 }

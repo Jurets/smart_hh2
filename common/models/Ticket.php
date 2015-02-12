@@ -37,6 +37,7 @@ class Ticket extends \yii\db\ActiveRecord {
 
     public $file_prepare;
     public $location;
+    public $comments_count;
 
     // bann (is turned on check)
     // Field is_turned_on 
@@ -184,6 +185,10 @@ class Ticket extends \yii\db\ActiveRecord {
      */
     public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    public function getTicketComments() {
+        return $this->hasMany(TicketComments::className(), ['ticket_id' => 'id']);
     }
 
     public function getUpdateStatuses() {
