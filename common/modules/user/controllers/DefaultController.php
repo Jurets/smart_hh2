@@ -14,6 +14,7 @@ use common\models\UserDiploma;
 use common\models\UserVerification;
 use common\models\Category;
 use common\models\UserSpeciality;
+use common\models\Ticket;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -600,9 +601,17 @@ class DefaultController extends Controller {
         $diplomas = $userFilesPrepare['diploma'];
         $verificationIDs = $userFilesPrepare['verificationID'];
         
-        $jobsCreatedQuery = \common\models\Ticket::find()->andWhere(['user_id' => $id]);
+        $jobsCreatedQuery = Ticket::find()->andWhere(['user_id' => $id]);
         $jobsCreatedDataProvider = new ActiveDataProvider([
             'query' => $jobsCreatedQuery,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
+            ],
+        ]);
+        
+        $jobsAppliedQuery = Ticket::find()->andWhere(['performer_id' => $id]);
+        $jobsAppliedDataProvider = new ActiveDataProvider([
+            'query' => $jobsAppliedQuery,
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
@@ -618,6 +627,7 @@ class DefaultController extends Controller {
                     'userSpecialities' => $userSpecialities,
                     'activityMessage' => $activityMessage,
                     'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
+                    'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
         ]);
     }
 

@@ -2,8 +2,9 @@
         <h1 class="left">Your Jobs</h1>
         <p class="user-info right">
             <a href="#" class="positive">Created (<?= $jobsCreatedDataProvider->getTotalCount() ?>)</a>
-            <a href="#" class="negative">Applied</a>
+            <a href="#" class="negative">Applied (<?= $jobsAppliedDataProvider->getTotalCount() ?>)</a>
         </p>
         <div class="clear"></div>
         <?= $this->render('_jobs-created', ['dataProvider' => $jobsCreatedDataProvider]) ?>
+        <?= $this->render('_jobs-applied', ['dataProvider' => $jobsAppliedDataProvider]) ?>
 </div>

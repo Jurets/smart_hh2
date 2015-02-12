@@ -110,7 +110,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <div class="row">
-    <?= $this->render('profile/_your-jobs',['jobsCreatedDataProvider' => $jobsCreatedDataProvider]) ?>
+    <?= $this->render('profile/_your-jobs',[
+        'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
+        'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
+            ]) ?>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
         <?=$this->render('_profile_spec',['profile'=>$profile,'userSpecialities'=>$userSpecialities])?>
         <?=$this->render('_profile_diploma',['diplomas' => $diplomas])?>
