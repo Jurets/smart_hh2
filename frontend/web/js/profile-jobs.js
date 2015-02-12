@@ -1,6 +1,6 @@
 ProfileJobs = {
     init: function(){
-        $('.created-jobs-container .btn').on('click', ProfileJobs.showMoreHandler);
+        $('.created-jobs-container').on('click', '.btn', ProfileJobs.showMoreHandler);
     },
     showMoreHandler: function(e){
         e.preventDefault();

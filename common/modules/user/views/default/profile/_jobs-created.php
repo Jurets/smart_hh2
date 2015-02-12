@@ -1,4 +1,11 @@
+<?php
+    use yii\widgets\Pjax;
+?>
 <div class="reviews-holder">
+    <?php Pjax::begin([
+        'id' => 'jobs-created',
+        'timeout' => 3000,
+        ]); ?>
     <?= \common\modules\user\widgets\JobsListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => ''],
@@ -12,5 +19,6 @@
         ],
     ])
     ?>
+    <?php Pjax::end(); ?>
 </div>    
 
