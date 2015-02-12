@@ -118,6 +118,10 @@ class TicketController extends Controller {
         // only owner has access
         $this->isTicketsOwner($model);
         if (!is_null($model)) {
+            
+            
+            
+            
             return $this->render('view', ['model' => $model]);
         } else {
             throw new \yii\web\HttpException('404');
@@ -211,8 +215,12 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest() {
-        echo 'Test is ok';
+    public function actionTest($id=11) {
+        $model = Ticket::findOne(['id' => $id]); // получаем сперва тикет
+        $proposeModel = new Proposal; // выходим на модель предложений
+        $proposes = $proposeModel->getAllProposes($model->id);
+        var_dump($proposes);
+        
     }
 
     /* purposal work */
@@ -256,7 +264,9 @@ class TicketController extends Controller {
     }
 
     /* _ */
-
+    protected function setupProposalData(){
+        
+    }
     protected function applyMain($from_user_id, $ticket, $post) {
         $proposalModel = new Proposal;
         if($proposalModel->checkProposeExist($ticket->id, $from_user_id)){

@@ -81,4 +81,11 @@ class Proposal extends \yii\db\ActiveRecord
         ]);
         return is_null($propose) ? false : true;
     }
+    public function getAllProposes($ticket_id){
+        return self::findAll([
+            'ticket_id' => $ticket_id,
+            'archived' => 0,
+        ]);
+        
+    }
 }
