@@ -219,7 +219,10 @@ class TicketController extends Controller {
         $model = Ticket::findOne(['id' => $id]); // получаем сперва тикет
         $proposeModel = new Proposal; // выходим на модель предложений
         $proposes = $proposeModel->getAllProposes($model->id);
-        var_dump($proposes);
+        return $this->render('view', [
+            'model' => $model,
+            'proposal' =>$proposes,
+        ]);
         
     }
 

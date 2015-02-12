@@ -4,6 +4,8 @@ namespace common\models;
 
 use Yii;
 
+use common\modules\user\models\User;
+
 /**
  * This is the model class for table "proposal".
  *

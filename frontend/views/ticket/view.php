@@ -70,122 +70,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="#" class="btn btn-average">SET AS DONE</a>
                                 <a href="#" class="btn btn-average btn-report">REPORT</a>
                             </div>
-                            <h6><span class="red">13</span> Replies</h6>
+                            <h6><span class="red"><?=empty($proposal) ? 0 : count($proposal)?></span> <?=Yii::t('app','Replies')?></h6>
 
                             <div class="reviews-holder">
 
-
-
-                                <div class="reviews-item row">
-                                    <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <img class="avatar left" src="images/avatar-user.png" alt="avatar"/>
-                                        <div><span class="user-name">Alex B.</span>                                           
-                                            <div class="date-time">
-                                                JAN 1, 2015 15:15
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-                                        <p class="user-mark"><span>Rated:</span><img src="images/star5.png" alt=""/></p>
-                                        <p>Completed <span class="number-jobs">540 jobs</span></p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <p class="red">Alex offered a higher price: $1000</p>
-                                        Hey Bill, check out my position!
-                                        <div class="comment-action">
-                                            <a href="#" class="btn btn-average">ACCEPT</a>
-                                            <a href="#" class="btn btn-average btn-dark">MAKE ANOTHER OFFER</a>
-                                        </div>
-                                    </div>
-                                </div> 
-
-
-                                <div class="reviews-item row">
-                                    <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <img class="avatar left" src="images/avatar-user.png" alt="avatar"/>
-                                        <div><span class="user-name">Alex B.</span>                                           
-                                            <div class="date-time">
-                                                JAN 1, 2015 15:15
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-                                        <p class="user-mark"><span>Rated:</span><img src="images/star5.png" alt=""/></p>
-                                        <p>Completed <span class="number-jobs">540 jobs</span></p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        Hey Bill, check out my position!
-                                        <div class="comment-action">
-                                            <a href="#" class="btn btn-average">ACCEPT</a>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="reviews-item row">
-                                    <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <img class="avatar left" src="images/avatar-user.png" alt="avatar"/>
-                                        <div><span class="user-name">Alex B.</span>                                           
-                                            <div class="date-time">
-                                                JAN 1, 2015 15:15
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-                                        <p class="user-mark"><span>Rated:</span><img src="images/star5.png" alt=""/></p>
-                                        <p>Completed <span class="number-jobs">540 jobs</span></p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        Hey Bill, check out my position!
-                                        <div class="comment-action">
-                                            <a href="#" class="btn btn-average">ACCEPT</a>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="reviews-item row">
-                                    <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <img class="avatar left" src="images/avatar-user.png" alt="avatar"/>
-                                        <div><span class="user-name">Alex B.</span>                                           
-                                            <div class="date-time">
-                                                JAN 1, 2015 15:15
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-                                        <p class="user-mark"><span>Rated:</span><img src="images/star5.png" alt=""/></p>
-                                        <p>Completed <span class="number-jobs">540 jobs</span></p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        Hey Bill, check out my position!
-                                        <div class="comment-action">
-                                            <a href="#" class="btn btn-average">ACCEPT</a>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <div class="reviews-item row">
-                                    <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                        <img class="avatar left" src="images/avatar-user.png" alt="avatar"/>
-                                        <div><span class="user-name">Alex B.</span>                                           
-                                            <div class="date-time">
-                                                JAN 1, 2015 15:15
-                                            </div>
-                                        </div> 
-                                    </div>
-                                    <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-                                        <p class="user-mark"><span>Rated:</span><img src="images/star5.png" alt=""/></p>
-                                        <p>Completed <span class="number-jobs">540 jobs</span></p>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        Hey Bill, check out my position!
-                                        <div class="comment-action">
-                                            <a href="#" class="btn btn-average">ACCEPT</a>
-                                        </div>
-                                    </div>
-                                </div> 
-
+<?php if(!empty($proposal)) { ?>
+        <?php foreach($proposal as $propose) { ?>
+             <?php if(is_null($model->price)){ ?>
+                 <?php echo $this->render('_reviews-without-price',['model'=>$model, 'propose'=>$propose]) ?>
+             <?php } else { ?>
+                 <?php echo $this->render('_reviews-with-price',['model'=>$model, 'propose'=>$propose]) ?>
+             <?php } ?>
+        <?php } ?>
+<?php } ?>
+                                
                                 <a class="btn btn-width">SHOW MORE</a>
                             </div>
 
