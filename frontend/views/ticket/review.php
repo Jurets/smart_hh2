@@ -78,7 +78,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>        
         <p class="title">Job creator:</p>
         <div class="widget creator">
-            <a href="#"><img class="avatar left" alt="avatar" src="<?= Yii::$app->params['upload.url'] . '/' . $user->profile->files->code ?>" /></a>
+            <?php $avatar = $user->profile->files ?>
+            <a href="#"><img class="avatar left" alt="avatar" src="<?= (!is_null($avatar)) ? Yii::$app->params['upload.url'] . '/' . $avatar->code : ''?>" /></a>
+            
             <a href="#" class="name-creator">
                 <?php
                 if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {

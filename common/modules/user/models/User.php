@@ -593,6 +593,7 @@ class User extends ActiveRecord implements IdentityInterface
            $query->andWhere('user.id <> '.Yii::$app->user->id);
        }
        $query->andWhere('role_id <> 1'); // without admin accaunts
+       $query->andWhere('status=:status', [':status'=>1]);
        // Order case
        if(isset($get['sort'])){
            $query->orderBy('profile.hourly_rate'.$this->getSort($get['sort']));
