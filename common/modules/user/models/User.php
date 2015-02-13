@@ -84,6 +84,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public $verifyCode;
     
+    private $_bellNotifications;
     /**
      * @inheritdoc
      */
@@ -675,61 +676,69 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     public function getBellNotifications(){
-        $newProposals = (new Query())
-                ->select([
-                    'ticket.id',
-                    'title',
-                    'date' => 'MAX(proposal.date)',
-                    'type' => "('bell_proposal')",
-                    'proposal_count' => 'count(*)'
+        if ($this->_bellNotifications === null) {
+            $newProposals = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'title',
+                        'date' => 'MAX(proposal.date)',
+                        'type' => "('bell_proposal')",
+                        'proposal_count' => 'count(*)'
                     ])
-                ->from('proposal')
-                ->innerJoin('ticket', 'proposal.ticket_id=ticket.id')
-                ->where([
-                    'ticket.user_id' => $this->id,
-                    'proposal.archived' => 0
-                ])
-                ->groupBy([
-                    'ticket.id',
-                    'title',
-                    'type'
-                ])
-                ->having('proposal_count > 0')
-                ->all();
-        $rottenTickets = (new Query())
-                ->select([
-                    'ticket.id',
-                    'title',
-                    'date' => 'finish_day',
-                    'type' => "('bell_rotten')"
-                ])
-                ->from('ticket')
-                ->where([
-                    'user_id' => $this->id,
-                    'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
-                    'is_turned_on' => 1,
-                ])
-                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod',
-                        [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
-                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
-                ->all();
-        $fdUpTickets = (new Query())
-                ->select([
-                    'ticket.id',
-                    'title',
-                    'date' => 'finish_day',
-                    'type' => "('bell_fd_up')"
-                ])
-                ->from('ticket')
-                ->where([
-                    'performer_id' => $this->id,
-                    'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
-                    'is_turned_on' => 1,
-                ])
-                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod',
-                        [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
-                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
-                ->all();
-        return $newProposals;
+                    ->from('proposal')
+                    ->innerJoin('ticket', 'proposal.ticket_id=ticket.id')
+                    ->where([
+                        'ticket.user_id' => $this->id,
+                        'proposal.archived' => 0
+                    ])
+                    ->groupBy([
+                        'ticket.id',
+                        'title',
+                        'type'
+                    ])
+                    ->having('proposal_count > 0')
+                    ->all();
+            $rottenTickets = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'title',
+                        'date' => 'finish_day',
+                        'type' => "('bell_rotten')"
+                    ])
+                    ->from('ticket')
+                    ->where([
+                        'user_id' => $this->id,
+                        'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
+                        'is_turned_on' => 1,
+                    ])
+                    ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod', [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
+                    ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
+                    ->all();
+            $fdUpTickets = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'title',
+                        'date' => 'finish_day',
+                        'type' => "('bell_fd_up')"
+                    ])
+                    ->from('ticket')
+                    ->where([
+                        'performer_id' => $this->id,
+                        'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
+                        'is_turned_on' => 1,
+                    ])
+                    ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod', [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
+                    ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
+                    ->all();
+            $this->_bellNotifications = array_merge($newProposals, $rottenTickets, $fdUpTickets);
+            if (!empty($this->_bellNotifications)) {
+                yii\helpers\ArrayHelper::multisort($this->_bellNotifications, 'date', SORT_DESC);
+            }
+        }
+        return $this->_bellNotifications;
+    }
+    
+    public function getBellNotificationsCount(){
+        return count($this->getBellNotifications());
     }
 }
