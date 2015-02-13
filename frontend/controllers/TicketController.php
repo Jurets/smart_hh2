@@ -115,17 +115,14 @@ class TicketController extends Controller {
 
     public function actionView($id) {
         $model = Ticket::findOne(['id' => $id]);
-        // only owner has access
+        $this->checkTicketExistence($model);
         $this->isTicketsOwner($model);
-        if (!is_null($model)) {
-            
-            
-            
-            
-            return $this->render('view', ['model' => $model]);
-        } else {
-            throw new \yii\web\HttpException('404');
-        }
+        $proposeModel = new Proposal; // get a proposal model
+        $proposes = $proposeModel->getAllProposes($model->id);
+        return $this->render('view', [
+                    'model' => $model,
+                    'proposal' => $proposes,
+        ]);
     }
 
     public function actionReview($id) {
@@ -215,15 +212,14 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id=11) {
-        $model = Ticket::findOne(['id' => $id]); // получаем сперва тикет
-        $proposeModel = new Proposal; // выходим на модель предложений
+    public function actionTest($id = 11) {
+        $model = Ticket::findOne(['id' => $id]); // got a ticket
+        $proposeModel = new Proposal; // get a proposal model
         $proposes = $proposeModel->getAllProposes($model->id);
         return $this->render('view', [
-            'model' => $model,
-            'proposal' =>$proposes,
+                    'model' => $model,
+                    'proposal' => $proposes,
         ]);
-        
     }
 
     /* purposal work */
@@ -253,62 +249,78 @@ class TicketController extends Controller {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $id = (isset($post['ticket_id']) && !is_null($post['ticket_id'])) ? (int) $post['ticket_id'] : NULL;
-            if(is_null($id)){ throw new NotFoundHttpException('unknown proposal'); }
+            if (is_null($id)) {
+                throw new NotFoundHttpException('unknown proposal');
+            }
             $ticket = Ticket::findOne(['id' => $id]);
             if (isset($post['render'])) {
-                echo $this->renderPartial('popup/_apply', ['price'=>$ticket->price]);
+                echo $this->renderPartial('popup/_apply', ['price' => $ticket->price]);
             } else {
                 /* apply */
                 $from_user_id = (isset($post['performer_id']) && !is_null($post['performer_id'])) ? (int) $post['performer_id'] : NULL;
-                if(is_null($from_user_id)){ throw new NotFoundHttpException('unknown user'); }
+                if (is_null($from_user_id)) {
+                    throw new NotFoundHttpException('unknown user');
+                }
                 $this->applyMain($from_user_id, $ticket, $post);
             }
         }
     }
 
     /* _ */
-    protected function setupProposalData(){
+
+    protected function setupProposalData() {
         
     }
+
+    protected function checkTicketExistence($model) {
+        if (is_null($model))
+            throw new \yii\web\HttpException('404');
+        return TRUE;
+    }
+
     protected function applyMain($from_user_id, $ticket, $post) {
         $proposalModel = new Proposal;
-        if($proposalModel->checkProposeExist($ticket->id, $from_user_id)){
-            echo $this->jsonStrMake(['err'=>Yii::t('app','You alredy apply this ticket')]);
-        }else{
+        if ($proposalModel->checkProposeExist($ticket->id, $from_user_id)) {
+            echo $this->jsonStrMake(['err' => Yii::t('app', 'You alredy apply this ticket')]);
+        } else {
             // create the new propose record
-            if(is_null($ticket->price)){
+            if (is_null($ticket->price)) {
                 // we getting price from responce
                 $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : NULL;
-                if(is_null($price)) {
-                    echo $this->jsonStrMake(['err'=>Yii::t('app','Price can not be empty')]);
+                if (is_null($price)) {
+                    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
                     return;
                     //throw new NotFoundHttpException('uncorrect external price'); 
-                    
                 }
-            }else{
+            } else {
                 // getting price from the ticket
                 $price = $ticket->price;
             }
             $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
-            echo $this->jsonStrMake(['msg'=>Yii::t('app','Apply this job successfull')]);
+            echo $this->jsonStrMake(['msg' => Yii::t('app', 'Apply this job successfull')]);
         }
     }
-    protected function jsonStrMake($arr){
-        if(!is_array($arr)) {  throw new NotFoundHttpException('jsonStrMake param mast be an array'); }
+
+    protected function jsonStrMake($arr) {
+        if (!is_array($arr)) {
+            throw new NotFoundHttpException('jsonStrMake param mast be an array');
+        }
         return json_encode($arr);
     }
-    protected function proposalProcess($model, $performer_id, $ticket_id, $price){
+
+    protected function proposalProcess($model, $performer_id, $ticket_id, $price) {
         $model->performer_id = $performer_id;
         $model->ticket_id = $ticket_id;
         $model->message = 'test message';
         $model->price = $price;
-        if($model->validate()){
+        if ($model->validate()) {
             $model->save(false);
             // TO DO send letter to customer logic
-        }else{
-            throw new NotFoundHttpException('uncorrect external price'); 
+        } else {
+            throw new NotFoundHttpException('uncorrect external price');
         }
     }
+
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {
