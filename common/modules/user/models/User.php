@@ -675,7 +675,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
     
     public function getBellNotifications(){
-        return $proposalQuery = (new Query())
+        $newProposals = (new Query())
                 ->select([
                     'ticket.id',
                     'title',
@@ -696,5 +696,23 @@ class User extends ActiveRecord implements IdentityInterface
                 ])
                 ->having('proposal_count > 0')
                 ->all();
+        $rottenTickets = (new Query())
+                ->select([
+                    'ticket.id',
+                    'title',
+                    'date' => 'finish_day',
+                    'type' => "('bell_rotten')"
+                ])
+                ->from('ticket')
+                ->where([
+                    'user_id' => $this->id,
+                    'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
+                    'is_turned_on' => 1,
+                ])
+                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod',
+                        [':rottenPeriod' => 1])
+                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
+                ->all();
+        return $newProposals;
     }
 }
