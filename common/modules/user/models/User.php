@@ -710,7 +710,24 @@ class User extends ActiveRecord implements IdentityInterface
                     'is_turned_on' => 1,
                 ])
                 ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod',
-                        [':rottenPeriod' => 1])
+                        [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
+                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
+                ->all();
+        $fdUpTickets = (new Query())
+                ->select([
+                    'ticket.id',
+                    'title',
+                    'date' => 'finish_day',
+                    'type' => "('bell_fd_up')"
+                ])
+                ->from('ticket')
+                ->where([
+                    'performer_id' => $this->id,
+                    'status' => [\common\models\Ticket::STATUS_NOT_COMPLETED],
+                    'is_turned_on' => 1,
+                ])
+                ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) <= :rottenPeriod',
+                        [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
                 ->andWhere('TIMESTAMPDIFF(DAY,CURRENT_TIMESTAMP,finish_day) >= 0')
                 ->all();
         return $newProposals;
