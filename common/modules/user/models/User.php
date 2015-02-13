@@ -4,6 +4,7 @@ namespace common\modules\user\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 use yii\web\IdentityInterface;
 use yii\swiftmailer\Mailer;
 use yii\swiftmailer\Message;
@@ -670,6 +671,30 @@ class User extends ActiveRecord implements IdentityInterface
                         ])
                 ->groupBy(['ticket.id', 'ticket.title'])
                 ->having('comments_count > 0')
+                ->all();
+    }
+    
+    public function getBellNotifications(){
+        return $proposalQuery = (new Query())
+                ->select([
+                    'ticket.id',
+                    'title',
+                    'date' => 'MAX(proposal.date)',
+                    'type' => "('bell_proposal')",
+                    'proposal_count' => 'count(*)'
+                    ])
+                ->from('proposal')
+                ->innerJoin('ticket', 'proposal.ticket_id=ticket.id')
+                ->where([
+                    'ticket.user_id' => $this->id,
+                    'proposal.archived' => 0
+                ])
+                ->groupBy([
+                    'ticket.id',
+                    'title',
+                    'type'
+                ])
+                ->having('proposal_count > 0')
                 ->all();
     }
 }
