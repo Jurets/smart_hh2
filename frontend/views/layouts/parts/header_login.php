@@ -13,7 +13,9 @@ use yii\helpers\Html;
             <span id="new-comments-container">
                 <?= $this->render('_new-comments') ?>
             </span>
-            <a href="#" class=""><img src="/images/icon-bell.png" alt="bell"/><span><?= Yii::$app->user->getIdentity()->getBellNotificationsCount() ?></span>&nbsp;<?=Yii::t('app', 'new offers')?></a>           
+            <span id="bell-container">
+                <?= $this->render('_bell') ?>
+            </span>
             <?php if(Yii::$app->controller->action->id === 'profile'){ ?>
             <a href="<?=Url::to(['/user/cabinet'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>
                 <?php }else{ ?>
