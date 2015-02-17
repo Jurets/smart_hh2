@@ -6,6 +6,7 @@ use Yii;
 use common\models\Ticket;
 use common\models\TicketSearch;
 use common\models\Category;
+use common\modules\user\models\User;
 use common\models\Proposal;
 use yii\data\ActiveDataProvider;
 #use yii\web\Controller;
@@ -16,6 +17,7 @@ use yii\filters\VerbFilter;
 use common\models\Complaint;
 use yii\helpers\Url;
 use common\components\UserActivity;
+use common\models\Offer;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -35,9 +37,9 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform',
-            'Performer' => 'index create view review complain renderloginform renderapplyform',
-            'Guest' => 'index test review create-toLogin renderloginform', // if Guest then redirect to login action
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement',
+            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement',
+            'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
 
@@ -91,14 +93,6 @@ class TicketController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        /* Guest to login section */
-//        if (Yii::$app->user->isGuest) {
-//            if (Yii::$app->urlManager->enablePrettyUrl === TRUE) {
-//                $this->redirect(Url::to('/user/login'), TRUE);
-//            }
-//            $this->redirect(Url::to('/?r=user/login'), TRUE);
-//        }
-
         $model = new Ticket();
         $post = Yii::$app->request->post();
         if (!empty($post)) {
@@ -114,7 +108,7 @@ class TicketController extends Controller {
     }
 
     public function actionView($id) {
-        $model = Ticket::findOne(['id' => $id]);
+        $model = $this->findModel($id);
         $this->checkTicketExistence($model);
         $this->isTicketsOwner($model);
         $proposeModel = new Proposal; // get a proposal model
@@ -124,16 +118,43 @@ class TicketController extends Controller {
                     'proposal' => $proposes,
         ]);
     }
-
+    public function actionPriceagreement(){
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            $id = isset($post['ticket_id']) ? int($post['ticket_id']) : NULL;
+            $model = $this->findModel($id);
+            $this->checkTicketExistence($model);
+            // TO DO : CustomerSign & PerformerSign
+            
+        }
+    }
     public function actionReview($id) {
-        $model = Ticket::findOne(['id' => $id]);
-        $user = \common\modules\user\models\User::findOne(['id' => $model->user_id]);
+        $model = $this->findModel($id);
+        $this->checkTicketExistence($model);
+        $user = User::findOne(['id' => $model->user_id]);
         if (!is_null($model)) {
             $complain = new Complaint;
+            $offerModel = new Offer;
+            $offer = $offerModel->findCurrentOffer(Yii::$app->user->id, $model->id);
+            if(!is_null($offer)){
+                $buff = $offer->getOfferHistoryLast();
+                $price = is_null($buff) ? NULL : $buff->price;
+                $stage = is_null($offer) ? NULL : $offer->stage;
+            }else{
+                $proposalModel = new Proposal;
+                $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
+                if(!is_null($propose)){
+                    $price = $propose->price;
+                }else{
+                    $price = $model->price;
+                }
+            }
             return $this->render('review', [
                         'model' => $model,
                         'user' => $user,
-                        'complain' => $complain
+                        'complain' => $complain,
+                        'price' => $price,
+                        'stage' => isset($stage) ? $stage : NULL,
             ]);
         } else {
             throw new \yii\web\HttpException('404');
@@ -148,9 +169,7 @@ class TicketController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        if (Yii::$app->user->id !== $model->user_id) {
-            return $this->redirect('/');
-        }
+        $this->isTicketsOwner($model);
         $post = Yii::$app->request->post();
         if ($post && $model->mainInitService($post, TRUE)) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -165,9 +184,7 @@ class TicketController extends Controller {
     }
 
     /**
-     * Deletes an existing Ticket model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     
      * @return mixed
      */
     public function actionDelete() {
@@ -176,11 +193,9 @@ class TicketController extends Controller {
         if (isset($post['id']) && !is_null($post['id'])) {
             $id = (int) $post['id'];
             $model = $this->findModel($id);
-            if (Yii::$app->user->id !== $model->user_id) {
-                return $this->redirect('/');
-            } else {
-                $model->delete();
-            }
+            $this->isTicketsOwner($model);
+            $model->delete();
+            $this->redirect('/');
         }
 
         return $this->redirect(['index']);
@@ -212,14 +227,10 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id = 11) {
-        $model = Ticket::findOne(['id' => $id]); // got a ticket
-        $proposeModel = new Proposal; // get a proposal model
-        $proposes = $proposeModel->getAllProposes($model->id);
-        return $this->render('view', [
-                    'model' => $model,
-                    'proposal' => $proposes,
-        ]);
+    public function actionTest($id=NULL) {
+        $offerModel = new Offer;
+        $offer = $offerModel->findCurrentOffer(Yii::$app->user->id, $id);
+        //return $this->render('test');
     }
 
     /* purposal work */
@@ -268,10 +279,6 @@ class TicketController extends Controller {
 
     /* _ */
 
-    protected function setupProposalData() {
-        
-    }
-
     protected function checkTicketExistence($model) {
         if (is_null($model))
             throw new \yii\web\HttpException('404');
@@ -311,7 +318,7 @@ class TicketController extends Controller {
     protected function proposalProcess($model, $performer_id, $ticket_id, $price) {
         $model->performer_id = $performer_id;
         $model->ticket_id = $ticket_id;
-        $model->message = 'test message';
+        $model->message = Yii::t('app', 'check out my position');
         $model->price = $price;
         if ($model->validate()) {
             $model->save(false);
@@ -363,7 +370,7 @@ class TicketController extends Controller {
 
     protected function isTicketsOwner($model) {
         if ($model->user_id != Yii::$app->user->id) {
-            throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page');
+            throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
         }
     }
 

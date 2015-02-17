@@ -1,5 +1,9 @@
 <?php
 use kartik\rating\StarRating;
+
+$this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.js', [
+    'depends' => [\yii\web\JqueryAsset::className()],
+]);
 ?>
 <div class="reviews-item row">
     <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -46,12 +50,18 @@ use kartik\rating\StarRating;
             ]);  
             ?>
         </p>
-        <p>Completed <span class="number-jobs">540 jobs</span></p>
+        <p>Completed <span class="number-jobs"><?=$propose->performer->profile->done_tasks?> jobs</span></p>
     </div>
     <div class="clearfix"></div>
     <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <p class="red"><?php echo $propose->performer->username?> offered a higher price: $<?php echo $propose->price?></p>
-        <?php echo $propose->message ?>
+        <?php
+            $userFirstName = $propose->ticket->user->profile->first_name;
+            $treatment = Yii::t('app', 'Hey') . ' ';
+            $treatment .=  is_null($userFirstName) ? $propose->ticket->user->username : $userFirstName;
+            $treatment .= ', '. $propose->message .'!';
+            echo $treatment;
+        ?> 
         <div class="comment-action">
             <a href="#" class="btn btn-average">ACCEPT</a>
             <a href="#" class="btn btn-average btn-dark">MAKE ANOTHER OFFER</a>

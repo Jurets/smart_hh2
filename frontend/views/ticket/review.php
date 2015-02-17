@@ -1,6 +1,7 @@
 <?php
 
 use kartik\widgets\StarRating;
+use common\models\Offer;
 ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= Yii::$app->params['GoogleAPI'] ?>&sensor=SET_TO_TRUE_OR_FALSE"
 type="text/javascript"></script>
@@ -9,21 +10,25 @@ type="text/javascript"></script>
 use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
-
+<?php
+$this->registerJsFile(Yii::$app->params['path.js'].'performer_ticket_management.js', [
+    'depends' => [\yii\web\JqueryAsset::className()],
+]);
+?>
 <?php
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+<div data-Stage="<?=$stage?>"></div>
 <div class="job-creator row">
     <!-- the pop-up --> 
     <div id="complain-form" class="pop-up pop-up-edit popup-align-center">
         <a class="close" href="#">×</a>
-        <p class="title"><?php echo Yii::t('app', 'Send Complain')?></p>
-        <?php echo $this->render('_complain_form', ['model'=>$model,'complain'=>$complain])?>
+        <p class="title"><?php echo Yii::t('app', 'Send Complain') ?></p>
+        <?php echo $this->render('_complain_form', ['model' => $model, 'complain' => $complain]) ?>
     </div>
-        <!-- additional popup may put here  --!>
+    <!-- additional popup may put here  --!>
     <!-- -->
     <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <h1><?= $model->title ?></h1>  
@@ -38,28 +43,43 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="job-info-holder row">
             <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="job-price left">
-                    <p class="price"><?= $model->price ?></p>
+                    <p class="price"><?= $price ?></p>
                     <p class="measurement">week</p>
                 </div>
                 <div class="auction">
-                    Ready to raise on:<br/><span class="red">&dollar;1</span>
+                    <?php if(is_null($model->price)) {?>
+                    Ready to raise on:<br/><span class="red">&dollar;<?=is_null($price)?0:$price?></span>
+                    <?php } ?>
                 </div>
             </div>
             <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <a href="#" class="btn btn-average">APPLY</a>
-                <a href="#" class="btn btn-average">OFFER PRICE</a>
+                <?php if(is_null($stage) || ($stage >= Offer::STAGE_COUNTEROFFER && $stage <= Offer::STAGE_LAST_ANSWER)) { ?>
+                <a href="#" id="apply_button" class="btn btn-average">APPLY</a>
+                <?php }?>
+                <?php if(is_null($model->price) && $stage < Offer::STAGE_LAST_ANSWER){?>
+                <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
+                <?php } ?>
+                
+                
+                <div id="popup-OfferPrice" class="pos-relativer pop-up-hide">
+                    <div class="popup-offer-price">
+                        <div class="popup-offer-header">x</div>
+                        <div class="popup-offer-price-content"><!--render form here--></div>
+                    </div>
+                </div>
+                
+                
             </div>
-
         </div>
         <div class="description">
             <p class="title">Description:</p> <a href="#" class="translate right">Перевести на руссский</a>
-<?= $model->description ?>
+            <?= $model->description ?>
             <a href="#" class="more">Read full description</a>                                 
         </div>
         <div class="location">
             <p class="title">Job Location: 10 Gagarin St, 50/5</p>
 
-<?php if (!is_null($model->lat) && !is_null($model->lon)) { ?>
+            <?php if (!is_null($model->lat) && !is_null($model->lon)) { ?>
                 <div id="GoogleLat" style="display:none;"><?= $model->lat ?> </div>
                 <div id="GoogleLng"style="display:none;"><?= $model->lon ?> </div>
                 <div class="map ">
@@ -67,20 +87,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php } else { ?>
                 <div class="map">no map</div>
-<?php } ?>
+            <?php } ?>
         </div>
     </div>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
 
         <div class="action-reply">
-            <a href="#" class="btn btn-average">SET AS DONE</a>
+            <?php if($model->performer_id === Yii::$app->user->id) { ?>
+            <a href="#" class="btn btn-average" id="set_as_done">SET AS DONE</a>
+            <?php } ?>
             <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
         </div>        
         <p class="title">Job creator:</p>
         <div class="widget creator">
             <?php $avatar = $user->profile->files ?>
-            <a href="#"><img class="avatar left" alt="avatar" src="<?= (!is_null($avatar)) ? Yii::$app->params['upload.url'] . '/' . $avatar->code : ''?>" /></a>
-            
+            <a href="#"><img class="avatar left" alt="avatar" src="<?= (!is_null($avatar)) ? Yii::$app->params['upload.url'] . '/' . $avatar->code : '' ?>" /></a>
+
             <a href="#" class="name-creator">
                 <?php
                 if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {
@@ -243,7 +265,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="task-item active">
                 <div class="task-info-price">
-                    <p class="price">&dollar;500</p>
+                    <p class="price">&dollar;$price</p>
                     <p class="measurement">week</p>
                     <a href="#" class="btn btn-small">APPLY</a>
                 </div>

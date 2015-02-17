@@ -3,6 +3,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\models\Ticket;
 ?>
 
 <?php
@@ -17,16 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                             <span class="date-time">
-                                Created JAN 1, 2015 15:15
+                                Created <?=$model->created?>
                             </span>
                             <span class="deadline">
-                                Deadline: <span class="red">Tomorrow</span>
+                                Deadline: <span class="red"><!--Tomorrow--></span>
                             </span>  
 
                             <div class="job-info-holder row">
                                 <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="job-price left">
-                                        <p class="price"><?php echo '$'. $model->price?></p>
+                                        <p class="price"><?php echo '$'. is_null($model->price) ? 0 : $model->price?></p>
                                         <p class="measurement">week</p>
                                     </div>
                                     <div class="auction">
@@ -66,10 +67,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                         <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
+                            <?php if($model->status === Ticket::STATUS_PROCESSING){ ?>
                             <div class="action-reply">
                                 <a href="#" class="btn btn-average">SET AS DONE</a>
-                                <a href="#" class="btn btn-average btn-report">REPORT</a>
                             </div>
+                            <?php } ?>
                             <h6><span class="red"><?=empty($proposal) ? 0 : count($proposal)?></span> <?=Yii::t('app','Replies')?></h6>
 
                             <div class="reviews-holder">

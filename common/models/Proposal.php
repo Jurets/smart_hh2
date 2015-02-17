@@ -83,6 +83,14 @@ class Proposal extends \yii\db\ActiveRecord
         ]);
         return is_null($propose) ? false : true;
     }
+    /* for price into review */
+    public function findPropose($ticket_id, $from_user_id){
+        return $this->findOne([
+            'ticket_id' => $ticket_id,
+            'performer_id' => $from_user_id,
+            'archived' => 0,
+        ]);
+    }
     public function getAllProposes($ticket_id){
         return self::findAll([
             'ticket_id' => $ticket_id,

@@ -1523,6 +1523,21 @@ label {
     display: block;
 
 }
+.popup-offer-price{
+    z-index: 1;
+    border: 1px solid silver;
+    position:absolute;
+    top:5px;
+    background:white;
+    left:103px;
+    width:300px;
+    height:100px;
+}
+.popup-offer-header{
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}
 .login-popup-form  {
     padding: 25px 45px;
     z-index: 100;
