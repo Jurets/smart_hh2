@@ -37,8 +37,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply',
+            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply',
             'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -132,6 +132,7 @@ class TicketController extends Controller {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
         $user = User::findOne(['id' => $model->user_id]);
+        $applied = false;
         if (!is_null($model)) {
             $complain = new Complaint;
             $offerModel = new Offer;
@@ -145,6 +146,7 @@ class TicketController extends Controller {
                 $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
                 if(!is_null($propose)){
                     $price = $propose->price;
+                    $applied = true;
                 }else{
                     $price = $model->price;
                 }
@@ -155,6 +157,7 @@ class TicketController extends Controller {
                         'complain' => $complain,
                         'price' => $price,
                         'stage' => isset($stage) ? $stage : NULL,
+                        'applied' => $applied
             ]);
         } else {
             throw new \yii\web\HttpException('404');
@@ -276,6 +279,22 @@ class TicketController extends Controller {
             }
         }
     }
+    
+    public function actionApply() {
+        $post = Yii::$app->request->post();
+        $id = (isset($post['ticket_id'])) ? (int) $post['ticket_id'] : null;
+        if (is_null($id)) {
+            throw new NotFoundHttpException('unknown proposal');
+        }
+        $ticket = Ticket::findOne(['id' => $id]);
+        /* apply */
+        $from_user_id = (isset($post['performer_id'])) ? (int) $post['performer_id'] : Yii::$app->user->id;
+        if (is_null($from_user_id)) {
+            throw new NotFoundHttpException('unknown user');
+        }
+        $this->applyMain($from_user_id, $ticket, $post);
+        $this->redirect(['review', 'id' => $id]);
+    }
 
     /* _ */
 
@@ -293,12 +312,13 @@ class TicketController extends Controller {
             // create the new propose record
             if (is_null($ticket->price)) {
                 // we getting price from responce
-                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : NULL;
-                if (is_null($price)) {
-                    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
-                    return;
+                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : 0;
+                //if (is_null($price)) {
+                    //TODO what about free tickets?
+                //    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
+                //    return;
                     //throw new NotFoundHttpException('uncorrect external price'); 
-                }
+                //}
             } else {
                 // getting price from the ticket
                 $price = $ticket->price;

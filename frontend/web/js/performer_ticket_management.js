@@ -10,5 +10,10 @@ PERFORMER = {
         }else{
             PERFORMER.direction = '';
         }
+        
+        $('#apply_button').on('click', PERFORMER.submitApply);
+    },
+    submitApply: function(){
+        $(this).closest('form').submit();
     }
 }

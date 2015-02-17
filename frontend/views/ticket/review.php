@@ -53,8 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <?php if(is_null($stage) || ($stage >= Offer::STAGE_COUNTEROFFER && $stage <= Offer::STAGE_LAST_ANSWER)) { ?>
-                <a href="#" id="apply_button" class="btn btn-average">APPLY</a>
+                <?php if((!$applied) && (is_null($stage) || ($stage >= Offer::STAGE_COUNTEROFFER && $stage <= Offer::STAGE_LAST_ANSWER))) { ?>
+                    <?= Html::beginForm(['ticket/apply'], 'post', ['style' => 'display:inline;']) ?>
+                    <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
+                    <a href="#" id="apply_button" class="btn btn-average">APPLY</a>
+                    <?= Html::endForm() ?>
                 <?php }?>
                 <?php if(is_null($model->price) && $stage < Offer::STAGE_LAST_ANSWER){?>
                 <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
