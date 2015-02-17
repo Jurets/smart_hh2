@@ -13,7 +13,7 @@ use yii\helpers\Url;
                 <?= Yii::t('app', 'Offer Price') ?>
                 <div class="ajax-offer-price-form-errors"></div>
                 <div class="offer-form-return-message"></div>
-                <?php echo Html::beginForm(Url::to(['offer-price']), 'post', ['id' => 'offer_price_form']); ?>
+                <?php echo Html::beginForm(Url::to(['ticket/offer-price']), 'post', ['id' => 'offer_price_form']); ?>
                 <?php
                 // Hidden Fields
                 echo Html::hiddenInput('performer_id', Yii::$app->user->id);
@@ -23,7 +23,7 @@ use yii\helpers\Url;
                 <?= Html::input('text', 'price', $model->price); ?>
                 </div>
                 <div class="apply-form-button">
-                <?php echo Html::button(yii::t('app', 'Submit'), ['class' => 'btn btn-primary']); ?>
+                <?php echo Html::input('submit', 'submit', yii::t('app', 'Submit'), ['class' => 'btn btn-primary']); ?>
                 </div>
                 <?php echo Html::endForm(); ?>
                 <div>&nbsp;</div>

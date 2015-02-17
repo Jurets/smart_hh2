@@ -59,10 +59,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="#" id="apply_button" class="btn btn-average">APPLY</a>
                     <?= Html::endForm() ?>
                 <?php }?>
-                <?php if(is_null($model->price) && $stage < Offer::STAGE_LAST_ANSWER){?>
+                <?php if(is_null($model->price) && ((!$applied) || ((!is_null($stage)) && ($stage < Offer::STAGE_LAST_ANSWER)))){?>
                 <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
-                <?php } ?>
                 <?= $this->render('popup/_offer-price', ['model' => $model]) ?>
+                <?php } ?>
             </div>
         </div>
         <div class="description">

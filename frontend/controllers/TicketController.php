@@ -37,8 +37,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price',
+            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price',
             'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -135,8 +135,7 @@ class TicketController extends Controller {
         $applied = false;
         if (!is_null($model)) {
             $complain = new Complaint;
-            $offerModel = new Offer;
-            $offer = $offerModel->findCurrentOffer(Yii::$app->user->id, $model->id);
+            $offer = Offer::findCurrentOffer(Yii::$app->user->id, $model->id);
             if(!is_null($offer)){
                 $buff = $offer->getOfferHistoryLast();
                 $price = is_null($buff) ? NULL : $buff->price;
@@ -231,8 +230,7 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id=NULL) {
-        $offerModel = new Offer;
-        $offer = $offerModel->findCurrentOffer(Yii::$app->user->id, $id);
+        $offer = Offer::findCurrentOffer(Yii::$app->user->id, $id);
         //return $this->render('test');
     }
 
@@ -295,6 +293,27 @@ class TicketController extends Controller {
         $this->applyMain($from_user_id, $ticket, $post);
         $this->redirect(['review', 'id' => $id]);
     }
+    
+    public function actionOfferPrice(){
+                $post = Yii::$app->request->post();
+        $id = (isset($post['ticket_id'])) ? (int) $post['ticket_id'] : null;
+        if (is_null($id)) {
+            throw new NotFoundHttpException('unknown proposal');
+        }
+        $ticket = Ticket::findOne(['id' => $id]);
+        /* apply */
+        $from_user_id = (isset($post['performer_id'])) ? (int) $post['performer_id'] : Yii::$app->user->id;
+        if (is_null($from_user_id)) {
+            throw new NotFoundHttpException('unknown user');
+        }
+        $offer = Offer::findCurrentOffer($from_user_id, $id);
+        if(is_null($offer)){
+            $this->applyMain($from_user_id, $ticket, $post);
+        }else{
+            $this->offerPriceLastAnswer();
+        }
+        $this->redirect(['review', 'id' => $id]);
+    }
 
     /* _ */
 
@@ -326,6 +345,10 @@ class TicketController extends Controller {
             $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
             echo $this->jsonStrMake(['msg' => Yii::t('app', 'Apply this job successfull')]);
         }
+    }
+    
+    protected function offerPriceLastAnswer(){
+        //TODO implement last answer
     }
 
     protected function jsonStrMake($arr) {

@@ -85,7 +85,7 @@ class Offer extends \yii\db\ActiveRecord {
     }
     
     /* search live offer record */
-    public function findCurrentOffer($performer_id, $ticket_id){
+    public static function findCurrentOffer($performer_id, $ticket_id){
         return self::find()
                 ->where(['performer_id'=>$performer_id, 'ticket_id'=>$ticket_id])
                 //->andWhere('stage < '.self::STAGE_AGREE)
