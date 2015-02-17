@@ -19,6 +19,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'performer_ticket_management.
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$isOwnTicket = $model->user_id === Yii::$app->user->id;
 ?>
 <div data-Stage="<?=$stage?>"></div>
 <div class="job-creator row">
@@ -29,11 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo $this->render('_complain_form', ['model' => $model, 'complain' => $complain]) ?>
     </div>
     <!-- additional popup may put here  --!>
-    <?= $this->render('popup/_set-as-done', [
-        'model' => new common\models\Review(),
-        'ticket' => $model
+    <?php if ($isOwnTicket): ?>
+        <?=
+        $this->render('popup/_set-as-done', [
+            'model' => new common\models\Review(),
+            'ticket' => $model
         ])
-    ?>
+        ?>
+<?php endif; ?>
     <!-- -->
     <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <h1><?= $model->title ?></h1>  
@@ -92,9 +96,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
 
         <div class="action-reply">
-            <?php $isOwnTicket = $model->user_id === Yii::$app->user->id; ?>
-            <?php if(($isOwnTicket || $model->performer_id === Yii::$app->user->id) && $model->status !== common\models\Ticket::STATUS_COMPLETED) { ?>
-            <a href="#" class="btn btn-average" id="set_as_done">SET AS DONE</a>
+            <?php if(
+                    ($isOwnTicket || ($model->performer_id === Yii::$app->user->id && $model->status !== common\models\Ticket::STATUS_DONE_BY_PERFORMER))
+                    && $model->status !== common\models\Ticket::STATUS_COMPLETED) { ?>
+            <?= Html::beginForm(['ticket/set-as-done'],'post',['style' => 'display:inline;']) ?>
+                <?= Html::hiddenInput('ticket_id', $model->id); ?>
+                <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="<?= $isOwnTicket ? '1' : '0'?>">SET AS DONE</a>
+            <?= Html::endForm() ?>
             <?php } ?>
             <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
         </div>        

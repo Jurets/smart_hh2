@@ -13,7 +13,7 @@ PERFORMER = {
         
         $('#apply_button').on('click', PERFORMER.submitApply);
         $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
-        $('#set_as_done').on('click', PERFORMER.showSetAsDonePopup);
+        $('#set_as_done').on('click', PERFORMER.setAsDone);
         $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);
     },
     submitApply: function(){
@@ -27,5 +27,12 @@ PERFORMER = {
     },
     closePopup: function () {
                 $(this).parent().addClass('pop-up-hide');
+    },
+    setAsDone: function(){
+        if($(this).attr('data-is-own-ticket') == '1'){
+            PERFORMER.showSetAsDonePopup();
+            return false;
+        }
+        $(this).closest('form').submit();
     }
 };

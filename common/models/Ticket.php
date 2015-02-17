@@ -49,6 +49,7 @@ class Ticket extends \yii\db\ActiveRecord {
     const STATUS_PROCESSING = 2;
     const STATUS_NOT_COMPLETED = 3;
     const STATUS_COMPLETED_WITH_COMMENT = 4;
+    const STATUS_DONE_BY_PERFORMER = 5;
     //Field is_time_enable
     const STATUS_TIME_OFF = 0;
     const STATUS_TIME_ON = 1;

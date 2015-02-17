@@ -317,17 +317,22 @@ class TicketController extends Controller {
     
     public function actionSetAsDone(){
         $post = Yii::$app->request->post();
+        $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
+        $ticket = Ticket::findOne($ticketId);
         if(isset($post['isOwnTicket']) && $post['isOwnTicket']){
-            $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
-            $ticket = Ticket::findOne($ticketId);
             $this->isTicketsOwner($ticket);
             $review = new \common\models\Review();
             $review->load($post);
             $review->save();
             $ticket->status = Ticket::STATUS_COMPLETED;
-            $ticket->save();
-            $this->redirect(['ticket/review', 'id' => $ticket->id]);
+        }else{
+            if($ticket->performer_id != Yii::$app->user->id){
+                throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
+            }
+            $ticket->status = Ticket::STATUS_DONE_BY_PERFORMER;
         }
+        $ticket->save();
+        $this->redirect(['ticket/review', 'id' => $ticket->id]);
     }
 
     /* _ */
