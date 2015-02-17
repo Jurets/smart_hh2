@@ -13,13 +13,17 @@ PERFORMER = {
         
         $('#apply_button').on('click', PERFORMER.submitApply);
         $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
-        $('#popup-OfferPrice .popup-apply-header').click(PERFORMER.closePopup);
+        $('#set_as_done').on('click', PERFORMER.showSetAsDonePopup);
+        $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);
     },
     submitApply: function(){
         $(this).closest('form').submit();
     },
     showOfferPricePopup: function(){
         $('#popup-OfferPrice .popup-apply').removeClass('pop-up-hide');
+    },
+    showSetAsDonePopup: function(){
+        $('#set-as-done-popup').removeClass('pop-up-hide');
     },
     closePopup: function () {
                 $(this).parent().addClass('pop-up-hide');

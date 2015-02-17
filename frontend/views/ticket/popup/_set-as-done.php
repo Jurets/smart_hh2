@@ -1,12 +1,9 @@
 <?php
-
 use yii\helpers\Html;
-use yii\helpers\Url;
 ?>
-<div id="set-as-done-form" class="pop-up pop-up-edit popup-align-center">
+<div id="set-as-done-popup" class="pop-up pop-up-edit popup-align-center pop-up-hide">
     <a class="close" href="#">×</a>
     <p class="title"><?php echo Yii::t('app', 'Set As Done') ?></p>
-    <div id="complain_message"> </div>
     <br>
     <?php
     $form = yii\widgets\ActiveForm::begin([
