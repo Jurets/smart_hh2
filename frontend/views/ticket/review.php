@@ -62,16 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if(is_null($model->price) && $stage < Offer::STAGE_LAST_ANSWER){?>
                 <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
                 <?php } ?>
-                
-                
-                <div id="popup-OfferPrice" class="pos-relativer pop-up-hide">
-                    <div class="popup-offer-price">
-                        <div class="popup-offer-header">x</div>
-                        <div class="popup-offer-price-content"><!--render form here--></div>
-                    </div>
-                </div>
-                
-                
+                <?= $this->render('popup/_offer-price', ['model' => $model]) ?>
             </div>
         </div>
         <div class="description">

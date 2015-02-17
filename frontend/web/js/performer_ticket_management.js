@@ -12,8 +12,16 @@ PERFORMER = {
         }
         
         $('#apply_button').on('click', PERFORMER.submitApply);
+        $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
+        $('#popup-OfferPrice .popup-apply-header').click(PERFORMER.closePopup);
     },
     submitApply: function(){
         $(this).closest('form').submit();
+    },
+    showOfferPricePopup: function(){
+        $('#popup-OfferPrice .popup-apply').removeClass('pop-up-hide');
+    },
+    closePopup: function () {
+                $(this).parent().addClass('pop-up-hide');
     }
-}
+};
