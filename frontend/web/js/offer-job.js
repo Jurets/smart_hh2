@@ -1,7 +1,7 @@
 OfferJob = {
     init: function(){
-        $('.user-holder').on('click', '.offer-job-button', OfferJob.loadOfferJobPopup);
-        $('#offer-job-pop-up-container').on('click', '.close', OfferJob.closePopup)
+        $('.user-holder,.user-info-prise-wrapper').on('click', '.offer-job-button', OfferJob.loadOfferJobPopup);
+        $('#offer-job-pop-up-container').on('click', '.close', OfferJob.closePopup);
     },
     loadOfferJobPopup: function(){
         $button = $(this);

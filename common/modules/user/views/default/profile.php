@@ -95,7 +95,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="user-info-price">
                     <span class="measurement">Hourly Rate</span><br/>
                     <span class="price">&dollar;<?=is_null($profile->hourly_rate) ? 0 : $profile->hourly_rate?> and up</span>
-                    <a href="#" class="btn btn-width">OFFER A JOB</a>
+                    <a href="#" class="btn btn-width offer-job-button"
+                       data-user-id="<?= $profile->user_id ?>"
+                       data-url="<?= Url::to(['/user/default/get-offer-job-popup'])?>">
+                        OFFER A JOB
+                    </a>
+                </div>
+                <div id="offer-job-pop-up-container">
                 </div>
             </div>
             <div class="user-contact col-xs-6 col-sm-4 col-md-4 col-lg-6">
