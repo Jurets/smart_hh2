@@ -343,8 +343,13 @@ class TicketController extends Controller {
         if(($ticket !== null) && ($ticket->user_id == Yii::$app->user->id)){
             $comment->status = \common\models\TicketComments::STATUS_READ;
         }
-        $comment->save();
-        $this->redirect(['ticket/review', 'id' => $comment->ticket_id]);
+        if($comment->save() && !is_null($comment->answer_to)){
+        \common\models\TicketComments::updateAll([
+            'status' => \common\models\TicketComments::STATUS_READ
+                ], ['id' => $comment->answer_to]);
+        }
+        $redirectUrl = isset($post['redirect']) ? $post['redirect'] : 'ticket/review';
+        $this->redirect([$redirectUrl, 'id' => $comment->ticket_id]);
     }
 
     /* _ */

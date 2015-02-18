@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="map">no map</div>
                                 <?php } ?>
                             </div>
-
+                            <?= $this->render('view/_comments', ['model' => $model]) ?>
                         </div>
                         <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
                             <?php if($model->status === Ticket::STATUS_PROCESSING){ ?>

@@ -39,7 +39,7 @@ class TicketComments extends \yii\db\ActiveRecord
     {
         return [
             [['text'], 'required'],
-            [['user_id', 'ticket_id', 'status'], 'integer'],
+            [['user_id', 'ticket_id', 'status', 'answer_to'], 'integer'],
             [['text'], 'string'],
             [['date'], 'safe']
         ];

@@ -1,3 +1,4 @@
 $(function(){
-   alert('123');
+    //What about console.log?
+   //alert('123');
 })
