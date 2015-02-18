@@ -27,7 +27,8 @@ use common\modules\user\models\User;
  * @property string $comment
  * @property integer $is_positive
  * @property integer $rate
- *
+ * @property string $updated_at
+ * 
  * @property Category $category
  * @property User $user
  * 
@@ -383,5 +384,9 @@ class Ticket extends \yii\db\ActiveRecord {
     public function delete() {
         $this->categoryUnbindService();
         parent::delete();
+    }
+    public function beforeSave($insert) {
+        $this->updated_at = date('Y-m-d H:i:s');
+        return parent::beforeSave($insert);
     }
 }
