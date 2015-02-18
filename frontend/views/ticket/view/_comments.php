@@ -6,9 +6,9 @@ $newComment = new \common\models\TicketComments();
 <div class="comments">
     <p class="title"><?= empty($comments) ? 'No comments' : 'Comments:' ?></p>
     <?php foreach ($comments as $comment): ?>
-        <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['comment']]) ?>
+        <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['comment'], 'showDeleteButton' => true]) ?>
         <?php if (isset($comment['answer'])): ?>
-            <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['answer']]) ?>
+            <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['answer'], 'showDeleteButton' => true]) ?>
         <?php endif; ?>
         <?php if ($comment['comment']->status == \common\models\TicketComments::STATUS_NEW): ?>
             <div id="reply-to-<?= $comment['comment']->id ?>" class="reply-to">

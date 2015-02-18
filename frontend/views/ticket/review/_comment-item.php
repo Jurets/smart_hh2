@@ -12,6 +12,12 @@
         </div> 
     </div>
     <div class="text-right right col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <?php if(isset($showDeleteButton) && $showDeleteButton): ?>
+            <?= yii\helpers\Html::beginForm(['ticket/delete-comment']) ?>
+            <?= yii\helpers\Html::hiddenInput('comment_id', $model->id) ?>
+            <?= yii\helpers\Html::submitButton(Yii::t('app', 'Delete'), ['class' => 'btn btn-delete']) ?>
+            <?= yii\helpers\Html::endForm() ?>
+        <?php endif; ?>
     </div>
     <div class="clearfix"></div>
     <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
