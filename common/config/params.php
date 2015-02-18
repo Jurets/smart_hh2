@@ -29,5 +29,8 @@ return [
     'apiLanguages' => 'AIzaSyAu846bCVJtTMDQBeT11v-pmSr-p_htx8g',
     'GoogleAPI' => 'AIzaSyDCTXvZPumDCqmhN0feLVOzyiAqjS-p1Pc', // temporary samopal helpinrghunt service
     'profile.jobs.pageSize' => 10,
-    'bell.rottenTicketDays' => 1
+    //rotten period in days
+    'bell.rottenTicketDays' => 1,
+    //autoclose period in hours
+    'ticket.autoClosePeriod' => 24
 ];
