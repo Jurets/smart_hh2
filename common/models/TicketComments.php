@@ -14,6 +14,7 @@ use common\models\queries\TicketCommetsQuery;
  * @property string $text
  * @property integer $status
  * @property string $date
+ * @property integer $answer_to
  *
  * @property Ticket $ticket
  * @property User $user

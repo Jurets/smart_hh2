@@ -37,6 +37,7 @@ use common\modules\user\models\User;
  */
 class Ticket extends \yii\db\ActiveRecord {
 
+    private $_commentHierarchy;
     public $file_prepare;
     public $location;
     public $comments_count;
@@ -390,4 +391,19 @@ class Ticket extends \yii\db\ActiveRecord {
         $this->updated_at = date('Y-m-d H:i:s');
         return parent::beforeSave($insert);
     }
+    
+    public function getCommentsHierarchy() {
+        if ($this->_commentHierarchy === null) {
+            $this->_commentHierarchy = [];
+            foreach ($this->ticketComments as $comment) {
+                if (is_null($comment->answer_to)) {
+                    $this->_commentHierarchy[$comment->id]['comment'] = $comment;
+                } else {
+                    $this->_commentHierarchy[$comment->answer_to]['answer'] = $comment;
+                }
+            }
+        }
+        return $this->_commentHierarchy;
+    }
+
 }
