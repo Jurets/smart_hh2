@@ -57,7 +57,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -744,6 +744,10 @@ class DefaultController extends Controller {
 
         // render
         return $this->render('reset', compact("user", "success"));
+    }
+    
+    public function actionOfferJob(){
+        echo "K:";
     }
 
 }

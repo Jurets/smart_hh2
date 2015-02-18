@@ -1575,3 +1575,7 @@ label {
 .reviews-item.answer{
     padding-left: 50px;
 }
+.offer-job-list{
+    max-height: 600px;
+    overflow: auto;
+}
