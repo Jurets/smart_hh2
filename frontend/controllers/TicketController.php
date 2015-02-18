@@ -143,7 +143,7 @@ class TicketController extends Controller {
                 $buff = $offer->getOfferHistoryLast();
                 $price = is_null($buff) ? NULL : $buff->price;
                 $stage = is_null($offer) ? NULL : $offer->stage;
-                $applied = true;
+                //$applied = true;
             }else{
                 $proposalModel = new Proposal;
                 $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
