@@ -328,9 +328,11 @@ class TicketController extends Controller {
             $review->load($post);
             $review->save();
             $ticket->status = Ticket::STATUS_COMPLETED;
+            Offer::updateAll(['stage' => Offer::ARCHIVED], ['ticket_id' => $ticket->id]);
+            Proposal::updateAll(['archived' => 1], ['ticket_id' => $ticket->id]);
         }else{
             if($ticket->performer_id != Yii::$app->user->id){
-                throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
+                throw new \yii\web\HttpException('403', 'Permission denied. You are not allowed to execute this action');
             }
             $ticket->status = Ticket::STATUS_DONE_BY_PERFORMER;
         }
