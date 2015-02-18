@@ -772,8 +772,6 @@ class DefaultController extends Controller {
     public function actionGetOfferJobPopup() {
         $post = Yii::$app->request->post();
         $performerId = isset($post['user_id']) ? $post['user_id'] : null;
-        //TODO remove this assignment
-        $performerId = 1;
         if (is_null($performerId)) {
             $tickets = [];
         } else {
@@ -790,8 +788,7 @@ class DefaultController extends Controller {
                     ])
                     ->all();
         }
-        //TODO change to renderPartial
-        return $this->render('popup/_offer-job', [
+        return $this->renderPartial('popup/_offer-job', [
             'tickets' => $tickets,
             'userId' => $performerId
         ]);

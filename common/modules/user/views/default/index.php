@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div id="offer-job-pop-up-container">
-                <?= $this->render('popup/_offer-job') ?>
             </div>
         </div>
     </div>

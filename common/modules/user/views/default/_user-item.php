@@ -65,6 +65,10 @@ use yii\helpers\Url;
     <div class="user-info-price col-xs-3 col-sm-3 col-md-3 col-lg-2">
         <p class="measurement"><?=Yii::t('app', 'Hourly Rate')?>:</p>
         <p class="price">$<?=(is_null($model->profile->hourly_rate))? 0 : $model->profile->hourly_rate?></p>
-        <a class="btn btn-average" href="#">OFFER A JOB</a>
+        <a class="btn btn-average offer-job-button" href="#"
+           data-user-id="<?= $model->id ?>"
+           data-url="<?= Url::to(['/user/default/get-offer-job-popup'])?>">
+            OFFER A JOB
+        </a>
     </div>                                
 </div>
