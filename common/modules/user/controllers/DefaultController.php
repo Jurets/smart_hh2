@@ -747,7 +747,26 @@ class DefaultController extends Controller {
     }
     
     public function actionOfferJob(){
-        echo "K:";
+        $post = Yii::$app->request->post();
+        if(isset($post['tickets']) && isset($post['user_id'])){
+            foreach($post['tickets'] as $ticketId){
+                $ticket = Ticket::findOne($ticketId);
+                if($ticket === null){
+                    continue;
+                }
+                $offer = new \common\models\Offer();
+                $offer->ticket_id = $ticketId;
+                $offer->performer_id = $post['user_id'];
+                $offer->stage = \common\models\Offer::STAGE_OWNER_OFFER;
+                if($offer->save()){
+                    $offerHistory = new \common\models\OfferHistory();
+                    $offerHistory->offer_id = $offer->id;
+                    $offerHistory->price = is_null($ticket->price) ? 0 : $ticket->price;
+                    $offerHistory->save();
+                }
+            }
+        }
+        $this->redirect(['/user']);
     }
     
     public function actionGetOfferJobPopup() {

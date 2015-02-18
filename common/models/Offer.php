@@ -22,6 +22,7 @@ class Offer extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
+    const STAGE_OWNER_OFFER = 0; //ticket owner offers a job
     const STAGE_COUNTEROFFER = 1; // first stage
     const STAGE_LAST_ANSWER = 2; // performer has last chance
     const STAGE_AGREE = 3; // performer can work with this ticket
