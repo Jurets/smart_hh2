@@ -37,8 +37,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment',
+            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment',
             'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -333,6 +333,18 @@ class TicketController extends Controller {
         }
         $ticket->save();
         $this->redirect(['ticket/review', 'id' => $ticket->id]);
+    }
+    
+    public function actionAddComment(){
+        $post = Yii::$app->request->post();
+        $comment = new \common\models\TicketComments();
+        $comment->load($post);
+        $ticket = Ticket::findOne($comment->ticket_id);
+        if(($ticket !== null) && ($ticket->user_id == Yii::$app->user->id)){
+            $comment->status = \common\models\TicketComments::STATUS_READ;
+        }
+        $comment->save();
+        $this->redirect(['ticket/review', 'id' => $comment->ticket_id]);
     }
 
     /* _ */
