@@ -57,7 +57,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -749,5 +749,32 @@ class DefaultController extends Controller {
     public function actionOfferJob(){
         echo "K:";
     }
-
+    
+    public function actionGetOfferJobPopup() {
+        $post = Yii::$app->request->post();
+        $performerId = isset($post['user_id']) ? $post['user_id'] : null;
+        //TODO remove this assignment
+        $performerId = 1;
+        if (is_null($performerId)) {
+            $tickets = [];
+        } else {
+            $tickets = Ticket::find()
+                    ->where([
+                        'and',
+                        ['ticket.status' => [Ticket::STATUS_NOT_COMPLETED],
+                            'ticket.user_id' => Yii::$app->user->id],
+                        ['not exists', (new \yii\db\Query)->select('offer.id')->from('offer')->where([
+                                'and',
+                                'offer.ticket_id=ticket.id',
+                                ['offer.performer_id' => $performerId]
+                            ])]
+                    ])
+                    ->all();
+        }
+        //TODO change to renderPartial
+        return $this->render('popup/_offer-job', [
+            'tickets' => $tickets,
+            'userId' => $performerId
+        ]);
+    }
 }
