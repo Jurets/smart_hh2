@@ -1,4 +1,4 @@
-$(function(){
+$(function () {
     //What about console.log?
-   //alert('123');
-})
+    //alert('123');
+});

@@ -113,9 +113,12 @@ class TicketController extends Controller {
         $this->isTicketsOwner($model);
         $proposeModel = new Proposal; // get a proposal model
         $proposes = $proposeModel->getAllProposes($model->id);
+        $get = Yii::$app->request->get();
+        $isAutoFocus = isset($get['reply']) && $get['reply'];
         return $this->render('view', [
                     'model' => $model,
                     'proposal' => $proposes,
+                    'isAutoFocus' => $isAutoFocus
         ]);
     }
     public function actionPriceagreement(){

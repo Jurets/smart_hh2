@@ -16,7 +16,7 @@ $allNewTicketsCommentsCount = ($currentUser !== null) ? $currentUser->getNewTick
     <?php if ($allNewTicketsCommentsCount): ?>
     <ul class="dropdown-menu" role="menu">
     <?php foreach ($currentUser->getTicketsWithNewComments() as $ticket): ?>
-            <li><a href="<?= Url::to(['/ticket/view', 'id' => $ticket['id']]) ?>"><?= Html::encode($ticket['title']) ?> <span class="red">+<?= Html::encode($ticket['comments_count']) ?></span></a></li>
+            <li><a href="<?= Url::to(['/ticket/view', 'id' => $ticket['id'], 'reply' => true]) ?>"><?= Html::encode($ticket['title']) ?> <span class="red">+<?= Html::encode($ticket['comments_count']) ?></span></a></li>
     <?php endforeach; ?>
         <li><span class="btn btn-width btn-average" id="clear-comments-btn" data-url="<?= Url::to(['/site/clear-new-comments']) ?>">Clear</span></li>
     </ul>

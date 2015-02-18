@@ -10,6 +10,11 @@ use common\models\Ticket;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+if($isAutoFocus){
+    $this->registerJsFile(Yii::$app->params['path.js'].'view-reply-autofocus.js', [
+    'depends' => [\yii\web\JqueryAsset::className()],
+]);
+}
 ?>
 
                     <div class="job-creator row">                    

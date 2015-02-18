@@ -11,7 +11,7 @@ $newComment = new \common\models\TicketComments();
             <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['answer']]) ?>
         <?php endif; ?>
         <?php if ($comment['comment']->status == \common\models\TicketComments::STATUS_NEW): ?>
-            <div id="reply-to-<?= $comment['comment']->id ?>">
+            <div id="reply-to-<?= $comment['comment']->id ?>" class="reply-to">
                 <p class="title">Write a Reply:</p>
                 <?php
                 $form = yii\widgets\ActiveForm::begin([
