@@ -92,6 +92,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                 <div class="map">no map</div>
             <?php } ?>
         </div>
+        <?= $this->render('review/_comments', ['model' =>$model]) ?>
     </div>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
 
@@ -264,7 +265,8 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
 
     </div> 
     <div class="clearfix"></div> 
-</div>     
+</div>
+
 
 <div class="latest-task">
     <h3>Similar Tasks</h3>

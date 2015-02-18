@@ -31,6 +31,7 @@ use common\modules\user\models\User;
  * 
  * @property Category $category
  * @property User $user
+ * @property TicketComments[] $ticketComments
  * 
  * @property string $photo
  */

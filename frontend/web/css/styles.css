@@ -1572,3 +1572,6 @@ label {
 .apply-return-message{
     color: #006600;
 }
+.reviews-item.answer{
+    padding-left: 50px;
+}
