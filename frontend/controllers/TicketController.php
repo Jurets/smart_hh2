@@ -143,6 +143,7 @@ class TicketController extends Controller {
                 $buff = $offer->getOfferHistoryLast();
                 $price = is_null($buff) ? NULL : $buff->price;
                 $stage = is_null($offer) ? NULL : $offer->stage;
+                $applied = true;
             }else{
                 $proposalModel = new Proposal;
                 $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
@@ -313,7 +314,7 @@ class TicketController extends Controller {
         if(is_null($offer)){
             $this->applyMain($from_user_id, $ticket, $post);
         }else{
-            $this->offerPriceLastAnswer();
+            $this->offerPriceLastAnswer($offer, $from_user_id, $post);
         }
         $this->redirect(['review', 'id' => $id]);
     }
@@ -403,8 +404,15 @@ class TicketController extends Controller {
         }
     }
     
-    protected function offerPriceLastAnswer(){
-        //TODO implement last answer
+    protected function offerPriceLastAnswer($offer, $performerId, $post){
+        $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : 0;
+        $offer->stage = Offer::STAGE_LAST_ANSWER;
+        if($offer->save()){
+            $offerHistory = new \common\models\OfferHistory();
+            $offerHistory->offer_id = $offer->id;
+            $offerHistory->price = $price;
+            $offerHistory->save();
+        }
     }
 
     protected function jsonStrMake($arr) {
