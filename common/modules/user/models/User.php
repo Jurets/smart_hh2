@@ -749,8 +749,27 @@ class User extends ActiveRecord implements IdentityInterface
                             ->where('inner_oh.offer_id=offer.id')
                     ])
                     ->all();
+            $acceptedByOwner = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'ticket.title',
+                        'date' => 'offer_history.date',
+                        'type' => "('bell_accepted_by_owner')",
+                    ])
+                    ->from('offer_history')
+                    ->innerJoin('offer', 'offer_history.offer_id=offer.id')
+                    ->innerJoin('ticket', 'offer.ticket_id=ticket.id')
+                    ->where([
+                        'offer.performer_id' => $this->id,
+                        'offer.stage' => \common\models\Offer::STAGE_AGREE,
+                        'date' => (new Query())
+                            ->select('MAX(inner_oh.date)')
+                            ->from(['inner_oh' => 'offer_history'])
+                            ->where('inner_oh.offer_id=offer.id')
+                    ])
+                    ->all();
             
-            $this->_bellNotifications = array_merge($newProposals, $rottenTickets, $fdUpTickets, $offeredJobs);
+            $this->_bellNotifications = array_merge($newProposals, $rottenTickets, $fdUpTickets, $offeredJobs, $acceptedByOwner);
             if (!empty($this->_bellNotifications)) {
                 yii\helpers\ArrayHelper::multisort($this->_bellNotifications, 'date', SORT_DESC);
             }
