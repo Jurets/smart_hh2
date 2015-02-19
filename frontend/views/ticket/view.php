@@ -80,13 +80,15 @@ if($isAutoFocus){
                             <h6><span class="red"><?=empty($proposal) ? 0 : count($proposal)?></span> <?=Yii::t('app','Replies')?></h6>
 
                             <div class="reviews-holder">
-                            <?= $this->render('popup/_offer-price', ['model' => $model, 'nextStage' => \common\models\Offer::STAGE_COUNTEROFFER]) ?>
+                                <?php if($model->canAcceptOffer()): ?>
+                                    <?= $this->render('popup/_offer-price', ['model' => $model, 'nextStage' => \common\models\Offer::STAGE_COUNTEROFFER]) ?>
+                                <?php endif; ?>
 
-<?php if(!empty($proposal)): ?>
-        <?php foreach($proposal as $propose): ?>
-                 <?= $this->render('_replies-without-price',['model' => $model, 'propose' => $propose]) ?>
-        <?php endforeach; ?>
-<?php endif; ?>
+                                <?php if(!empty($proposal)): ?>
+                                        <?php foreach($proposal as $propose): ?>
+                                                 <?= $this->render('_replies-without-price',['model' => $model, 'propose' => $propose]) ?>
+                                        <?php endforeach; ?>
+                                <?php endif; ?>
                                 
                                 <a class="btn btn-width">SHOW MORE</a>
                             </div>

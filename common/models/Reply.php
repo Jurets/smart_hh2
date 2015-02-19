@@ -22,4 +22,8 @@ interface Reply {
      * @return string
      */
     public function getMessage();
+    /**
+     * @return boolean
+     */
+    public function canOfferPrice();
 }

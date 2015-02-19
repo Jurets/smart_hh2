@@ -106,4 +106,11 @@ class Offer extends \yii\db\ActiveRecord implements Reply{
         return $this->getOfferHistoryLast()->price;
     }
 
+    public function canOfferPrice() {
+        return $this->stage !== Offer::STAGE_AGREE
+                && $this->stage !== Offer::STAGE_COUNTEROFFER
+                && $this->stage !== Offer::STAGE_LAST_ANSWER
+                && $this->stage !== Offer::ARCHIVED;
+    }
+
 }

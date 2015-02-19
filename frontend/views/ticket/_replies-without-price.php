@@ -72,8 +72,10 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                 <?= Html::hiddenInput('price', $propose->price) ?>
                 <a href="#" class="btn btn-average accept-offer">ACCEPT</a>
             <?= Html::endForm() ?>
+                <?php if($propose->canOfferPrice()): ?>
+                    <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>">MAKE ANOTHER OFFER</a>
+                <?php endif; ?>
             <?php endif;?>
-                <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>">MAKE ANOTHER OFFER</a>
         </div>
     </div>
 </div> 

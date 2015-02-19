@@ -475,5 +475,5 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $this->_canAcceptOffer;
     }
-
+    
 }

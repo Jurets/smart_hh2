@@ -111,4 +111,8 @@ class Proposal extends \yii\db\ActiveRecord implements Reply
         return $this->price;
     }
 
+    public function canOfferPrice() {
+        return true;
+    }
+
 }
