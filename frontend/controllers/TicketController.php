@@ -37,7 +37,7 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer',
             'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment',
             'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
@@ -373,6 +373,43 @@ class TicketController extends Controller {
             }
         }
         $this->redirect($redirect);
+    }
+    
+    public function actionAcceptOffer(){
+        $post = Yii::$app->request->post();
+        $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
+        $performerId = isset($post['performer_id']) ? $post['performer_id'] : null;
+        $price = isset($post['price']) ? $post['price'] : null;
+        if($ticketId === null || $performerId === null){
+            throw new \yii\web\HttpException('404');
+        }
+        $ticket = Ticket::findOne($ticketId);
+        $this->checkTicketExistence($ticket);
+        $this->isTicketsOwner($ticket);
+        $performer = User::findOne($performerId);
+        if($performer === null){
+            throw new \yii\web\HttpException('404');
+        }
+        $offer = Offer::findOne([
+            'ticket_id' => $ticketId,
+            'performer_id' => $performerId
+        ]);
+        if($offer === null){
+            $offer = new Offer();
+            $offer->ticket_id = $ticketId;
+            $offer->performer_id = $performerId;
+        }
+        $offer->stage = Offer::STAGE_AGREE;
+        if($offer->save()){
+            $offerHistory = new \common\models\OfferHistory();
+            $offerHistory->offer_id = $offer->id;
+            $offerHistory->price = $price;
+            $offerHistory->note = Yii::t('app', 'agreed');
+            $offerHistory->save();            
+        }
+        $ticket->performer_id = $performerId;
+        $ticket->save();
+        $this->redirect(['ticket/view', 'id' => $ticket->id]);
     }
 
     /* _ */

@@ -81,15 +81,11 @@ if($isAutoFocus){
 
                             <div class="reviews-holder">
 
-<?php if(!empty($proposal)) { ?>
-        <?php foreach($proposal as $propose) { ?>
-             <?php if(is_null($model->price)){ ?>
-                 <?php echo $this->render('_replies-without-price',['model'=>$model, 'propose'=>$propose]) ?>
-             <?php } else { ?>
-                 <?php echo $this->render('_replies-with-price',['model'=>$model, 'propose'=>$propose]) ?>
-             <?php } ?>
-        <?php } ?>
-<?php } ?>
+<?php if(!empty($proposal)): ?>
+        <?php foreach($proposal as $propose): ?>
+                 <?= $this->render('_replies-without-price',['model' => $model, 'propose' => $propose]) ?>
+        <?php endforeach; ?>
+<?php endif; ?>
                                 
                                 <a class="btn btn-width">SHOW MORE</a>
                             </div>

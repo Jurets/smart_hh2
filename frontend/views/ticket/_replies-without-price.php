@@ -1,6 +1,8 @@
 <?php
 use kartik\rating\StarRating;
-
+use yii\helpers\Html;
+/*@var $model \common\models\Ticket*/
+/*@var $propose \common\models\Reply*/
 $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.js', [
     'depends' => [\yii\web\JqueryAsset::className()],
 ]);
@@ -54,7 +56,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
     </div>
     <div class="clearfix"></div>
     <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <p class="red"><?php echo $propose->performer->username?> offered a higher price: $<?php echo $propose->price?></p>
+        <p class="red"><?php echo $propose->performer->username?> offered a price: $<?php echo $propose->price?></p>
         <?php
             $userFirstName = $propose->ticket->user->profile->first_name;
             $treatment = Yii::t('app', 'Hey') . ' ';
@@ -63,7 +65,12 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
             echo $treatment;
         ?> 
         <div class="comment-action">
-            <a href="#" class="btn btn-average">ACCEPT</a>
+            <?= Html::beginForm(['ticket/accept-offer'],'post',['style' => 'display:inline']) ?>
+                <?= Html::hiddenInput('ticket_id', $model->id) ?>
+                <?= Html::hiddenInput('performer_id', $propose->performer_id) ?>
+                <?= Html::hiddenInput('price', $propose->price) ?>
+                <a href="#" class="btn btn-average accept-offer">ACCEPT</a>
+            <?= Html::endForm() ?>
             <a href="#" class="btn btn-average btn-dark">MAKE ANOTHER OFFER</a>
         </div>
     </div>
