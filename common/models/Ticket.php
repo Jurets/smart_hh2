@@ -429,8 +429,6 @@ class Ticket extends \yii\db\ActiveRecord {
                     'not in',
                     'stage',
                     [
-                        Offer::STAGE_AGREE,
-                        Offer::STAGE_REFUSING,
                         Offer::ARCHIVED,
                         Offer::STAGE_OWNER_OFFER,
                     ]
@@ -445,7 +443,6 @@ class Ticket extends \yii\db\ActiveRecord {
                         'not in',
                         'stage',
                         [
-                            Offer::STAGE_AGREE,
                             Offer::STAGE_REFUSING,
                             Offer::ARCHIVED,
                             Offer::STAGE_OWNER_OFFER,

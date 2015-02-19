@@ -11,7 +11,7 @@ PERFORMER = {
             PERFORMER.direction = '';
         }
         
-        $('#apply_button').on('click', PERFORMER.submitApply);
+        $('#apply_button,#accept_offer_button').on('click', PERFORMER.submitApply);
         $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
         $('#set_as_done').on('click', PERFORMER.setAsDone);
         $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);

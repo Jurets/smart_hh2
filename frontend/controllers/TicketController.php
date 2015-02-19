@@ -37,8 +37,8 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer',
+            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
             'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -418,6 +418,40 @@ class TicketController extends Controller {
         $ticket->performer_id = $performerId;
         $ticket->save();
         $this->redirect(['ticket/view', 'id' => $ticket->id]);
+    }
+    
+    public function actionPerformerAcceptOffer(){
+        $post = Yii::$app->request->post();
+        $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
+        $performerId = isset($post['performer_id']) ? $post['performer_id'] : Yii::$app->user->id;
+        $price = isset($post['price']) ? $post['price'] : null;
+        if($ticketId === null || $performerId === null){
+            throw new \yii\web\HttpException('404');
+        }
+        $ticket = Ticket::findOne($ticketId);
+        $this->checkTicketExistence($ticket);
+        $performer = User::findOne($performerId);
+        if($performer === null){
+            throw new \yii\web\HttpException('404');
+        }
+        $offer = Offer::findOne([
+            'ticket_id' => $ticketId,
+            'performer_id' => $performerId
+        ]);
+        if($offer === null){
+            throw new \yii\web\HttpException('404');
+        }
+        $offer->stage = Offer::STAGE_AGREE;
+        if($offer->save()){
+            $offerHistory = new \common\models\OfferHistory();
+            $offerHistory->offer_id = $offer->id;
+            $offerHistory->price = $price;
+            $offerHistory->note = Yii::t('app', 'agreed');
+            $offerHistory->save();            
+        }
+        $ticket->performer_id = $performerId;
+        $ticket->save();
+        $this->redirect(['ticket/review', 'id' => $ticket->id]);
     }
 
     /* _ */
