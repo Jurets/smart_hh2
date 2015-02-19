@@ -468,19 +468,10 @@ class TicketController extends Controller {
             echo $this->jsonStrMake(['err' => Yii::t('app', 'You alredy apply this ticket')]);
         } else {
             // create the new propose record
-            if (is_null($ticket->price)) {
                 // we getting price from responce
-                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : 0;
-                //if (is_null($price)) {
-                    //TODO what about free tickets?
-                //    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
-                //    return;
-                    //throw new NotFoundHttpException('uncorrect external price'); 
-                //}
-            } else {
-                // getting price from the ticket
-                $price = $ticket->price;
-            }
+                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0)
+                        ? (float) $post['price']
+                        : (!is_null($ticket->price) ? $ticket->price : 0);
             $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
             echo $this->jsonStrMake(['msg' => Yii::t('app', 'Apply this job successfull')]);
         }

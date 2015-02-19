@@ -795,6 +795,28 @@ class User extends ActiveRecord implements IdentityInterface
                     ->andWhere('TIMESTAMPDIFF(DAY,date,CURRENT_TIMESTAMP) < :rottenPeriod', [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
                     ->andWhere('TIMESTAMPDIFF(DAY,date,CURRENT_TIMESTAMP) >= 0')
                     ->all();
+            $performerOfferedNewPrice = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'ticket.title',
+                        'user.username',
+                        'offer_history.price',
+                        'date' => 'offer_history.date',
+                        'type' => "('bell_performer_offered_new_price')",
+                    ])
+                    ->from('offer_history')
+                    ->innerJoin('offer', 'offer_history.offer_id=offer.id')
+                    ->innerJoin('ticket', 'offer.ticket_id=ticket.id')
+                    ->innerJoin('user', 'offer.performer_id=user.id')
+                    ->where([
+                        'ticket.user_id' => $this->id,
+                        'offer.stage' => \common\models\Offer::STAGE_LAST_ANSWER,
+                        'date' => (new Query())
+                            ->select('MAX(inner_oh.date)')
+                            ->from(['inner_oh' => 'offer_history'])
+                            ->where('inner_oh.offer_id=offer.id')
+                    ])
+                    ->all();
             
             $this->_bellNotifications = array_merge(
                     $newProposals,
@@ -803,7 +825,8 @@ class User extends ActiveRecord implements IdentityInterface
                     $offeredJobs,
                     $acceptedByOwner,
                     $doneByPerformer,
-                    $newReview
+                    $newReview,
+                    $performerOfferedNewPrice
                     );
             if (!empty($this->_bellNotifications)) {
                 yii\helpers\ArrayHelper::multisort($this->_bellNotifications, 'date', SORT_DESC);
