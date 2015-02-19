@@ -20,7 +20,7 @@ use common\modules\user\models\User;
  * @property Ticket $ticket
  * @property User $performer
  */
-class Proposal extends \yii\db\ActiveRecord
+class Proposal extends \yii\db\ActiveRecord implements Reply
 {
     /**
      * @inheritdoc
@@ -98,4 +98,17 @@ class Proposal extends \yii\db\ActiveRecord
         ]);
         
     }
+
+    public function getDate() {
+        return $this->date;
+    }
+
+    public function getMessage() {
+        return $this->message;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
 }

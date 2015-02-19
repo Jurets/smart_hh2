@@ -762,6 +762,7 @@ class DefaultController extends Controller {
                     $offerHistory = new \common\models\OfferHistory();
                     $offerHistory->offer_id = $offer->id;
                     $offerHistory->price = is_null($ticket->price) ? 0 : $ticket->price;
+                    $offerHistory->note = Yii::t('app', 'check out this job');
                     $offerHistory->save();
                 }
             }

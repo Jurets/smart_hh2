@@ -38,6 +38,7 @@ use common\modules\user\models\User;
 class Ticket extends \yii\db\ActiveRecord {
 
     private $_commentHierarchy;
+    private $_replies;
     public $file_prepare;
     public $location;
     public $comments_count;
@@ -404,6 +405,58 @@ class Ticket extends \yii\db\ActiveRecord {
             }
         }
         return $this->_commentHierarchy;
+    }
+    
+    /**
+     * Get all replies to ticket including proposals and offers
+     * @return Reply[] 
+     */
+    public function getReplies() {
+        if ($this->_replies === null) {
+            $proposals = Proposal::find()
+                    ->where([
+                        'ticket_id' => $this->id,
+                        'archived' => 0
+                    ])
+                    ->andWhere([
+                'not exists',
+                (new \yii\db\Query)
+                ->select('offer.id')
+                ->from('offer')
+                ->where('offer.performer_id=proposal.performer_id')
+                ->andWhere([
+                    'not in',
+                    'stage',
+                    [
+                        Offer::STAGE_AGREE,
+                        Offer::STAGE_REFUSING,
+                        Offer::ARCHIVED,
+                        Offer::STAGE_OWNER_OFFER
+                    ]
+                ])
+            ])
+                    ->all();
+            $offers = Offer::find()
+                    ->where([
+                'ticket_id' => $this->id,
+            ])
+                    ->andWhere([
+                        'not in',
+                        'stage',
+                        [
+                            Offer::STAGE_AGREE,
+                            Offer::STAGE_REFUSING,
+                            Offer::ARCHIVED,
+                            Offer::STAGE_OWNER_OFFER
+                        ]
+                    ])
+                    ->all();
+            $this->_replies = array_merge($proposals, $offers);
+            if (!empty($this->_replies)) {
+                yii\helpers\ArrayHelper::multisort($this->_replies, 'date', SORT_DESC);
+            }
+        }
+        return $this->_replies;
     }
 
 }

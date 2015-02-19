@@ -19,7 +19,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
         <p class="user-mark"><span>Rated:</span>
             <?php
               echo StarRating::widget([
-                'id' => 'the-star-rating'.$propose->performer->id,
+                //'id' => 'the-star-rating'.$propose->performer->id,
                 'name' => 'noname',
                 'value' => (is_null($propose->performer->profile->rating)) ? 0 : $propose->performer->profile->rating,
                 'pluginOptions' => [

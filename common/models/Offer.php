@@ -17,7 +17,7 @@ use common\modules\user\models\User;
  * @property User $performer
  * @property OfferHistory[] $offerHistories
  */
-class Offer extends \yii\db\ActiveRecord {
+class Offer extends \yii\db\ActiveRecord implements Reply{
 
     /**
      * @inheritdoc
@@ -84,7 +84,7 @@ class Offer extends \yii\db\ActiveRecord {
                         ->limit(1)
                         ->one();
     }
-    
+       
     /* search live offer record */
     public static function findCurrentOffer($performer_id, $ticket_id){
         return self::find()
@@ -93,5 +93,17 @@ class Offer extends \yii\db\ActiveRecord {
                 ->one();
         
     }
-    
+
+    public function getDate() {
+        return $this->getOfferHistoryLast()->date;
+    }
+
+    public function getMessage() {
+        return $this->getOfferHistoryLast()->note;
+    }
+
+    public function getPrice() {
+        return $this->getOfferHistoryLast()->price;
+    }
+
 }
