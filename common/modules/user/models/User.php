@@ -768,8 +768,29 @@ class User extends ActiveRecord implements IdentityInterface
                             ->where('inner_oh.offer_id=offer.id')
                     ])
                     ->all();
+            $doneByPerformer = (new Query())
+                    ->select([
+                        'ticket.id',
+                        'title',
+                        'date' => 'updated_at',
+                        'type' => "('bell_done_by_performer')"
+                    ])
+                    ->from('ticket')
+                    ->where([
+                        'user_id' => $this->id,
+                        'status' => \common\models\Ticket::STATUS_DONE_BY_PERFORMER,
+                        'is_turned_on' => 1,
+                    ])
+                    ->all();
             
-            $this->_bellNotifications = array_merge($newProposals, $rottenTickets, $fdUpTickets, $offeredJobs, $acceptedByOwner);
+            $this->_bellNotifications = array_merge(
+                    $newProposals,
+                    $rottenTickets,
+                    $fdUpTickets,
+                    $offeredJobs,
+                    $acceptedByOwner,
+                    $doneByPerformer
+                    );
             if (!empty($this->_bellNotifications)) {
                 yii\helpers\ArrayHelper::multisort($this->_bellNotifications, 'date', SORT_DESC);
             }
