@@ -18,7 +18,11 @@ use yii\helpers\Url;
                 // Hidden Fields
                 echo Html::hiddenInput('performer_id', Yii::$app->user->id);
                 echo Html::hiddenInput('ticket_id', $model->id);
+                if(isset($nextStage)){
+                    echo Html::hiddenInput('stage', $nextStage);
+                }
                 ?>
+                <?= Html::hiddenInput('redirect', 'review') ?>
                 <div class="apply-form-input">
                 <?= Html::input('text', 'price', $model->price); ?>
                 </div>

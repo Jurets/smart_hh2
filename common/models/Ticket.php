@@ -432,7 +432,7 @@ class Ticket extends \yii\db\ActiveRecord {
                         Offer::STAGE_AGREE,
                         Offer::STAGE_REFUSING,
                         Offer::ARCHIVED,
-                        Offer::STAGE_OWNER_OFFER
+                        Offer::STAGE_OWNER_OFFER,
                     ]
                 ])
             ])
@@ -448,7 +448,8 @@ class Ticket extends \yii\db\ActiveRecord {
                             Offer::STAGE_AGREE,
                             Offer::STAGE_REFUSING,
                             Offer::ARCHIVED,
-                            Offer::STAGE_OWNER_OFFER
+                            Offer::STAGE_OWNER_OFFER,
+                            Offer::STAGE_COUNTEROFFER,
                         ]
                     ])
                     ->all();

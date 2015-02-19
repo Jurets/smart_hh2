@@ -73,7 +73,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                 <a href="#" class="btn btn-average accept-offer">ACCEPT</a>
             <?= Html::endForm() ?>
             <?php endif;?>
-            <a href="#" class="btn btn-average btn-dark">MAKE ANOTHER OFFER</a>
+                <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>">MAKE ANOTHER OFFER</a>
         </div>
     </div>
 </div> 

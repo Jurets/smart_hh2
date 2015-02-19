@@ -302,7 +302,7 @@ class TicketController extends Controller {
     }
     
     public function actionOfferPrice(){
-                $post = Yii::$app->request->post();
+        $post = Yii::$app->request->post();
         $id = (isset($post['ticket_id'])) ? (int) $post['ticket_id'] : null;
         if (is_null($id)) {
             throw new NotFoundHttpException('unknown proposal');
@@ -314,12 +314,20 @@ class TicketController extends Controller {
             throw new NotFoundHttpException('unknown user');
         }
         $offer = Offer::findCurrentOffer($from_user_id, $id);
-        if(is_null($offer) || $offer->stage === Offer::STAGE_OWNER_OFFER){
+        $proposalModel = new Proposal;
+        $propose = $proposalModel->findPropose($id, $from_user_id);
+        if(is_null($propose)){
             $this->applyMain($from_user_id, $ticket, $post);
         }else{
+            if(is_null($offer)){
+                $offer = new Offer();
+                $offer->ticket_id = $id;
+                $offer->performer_id = $from_user_id;
+            }
             $this->offerPriceLastAnswer($offer, $from_user_id, $post);
         }
-        $this->redirect(['review', 'id' => $id]);
+        $redirectUrl = isset($post['redirect']) ? $post['redirect'] : 'ticket/review';
+        $this->redirect([$redirectUrl, 'id' => $id]);
     }
     
     public function actionSetAsDone(){
@@ -446,11 +454,12 @@ class TicketController extends Controller {
     
     protected function offerPriceLastAnswer($offer, $performerId, $post){
         $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : 0;
-        $offer->stage = Offer::STAGE_LAST_ANSWER;
+        $offer->stage = isset($post['stage']) ? $post['stage'] : Offer::STAGE_LAST_ANSWER;
         if($offer->save()){
             $offerHistory = new \common\models\OfferHistory();
             $offerHistory->offer_id = $offer->id;
             $offerHistory->price = $price;
+            $offerHistory->note = Yii::t('app', 'I offer new price');
             $offerHistory->save();
         }
     }

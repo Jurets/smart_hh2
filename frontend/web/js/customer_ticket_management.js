@@ -2,19 +2,23 @@ $(function(){
     CUSTOMER.init();
 });
 CUSTOMER = {
-    init : function(){
+    init: function(){
         $('.accept-offer').on('click', CUSTOMER.submitAccept);
-//        $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
-//        $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);
+        $('.make-another-offer').on('click', CUSTOMER.showOfferPricePopup);
+        $('#popup-OfferPrice .popup-apply-header').click(CUSTOMER.closePopup);
     },
     submitAccept: function(){
         $(this).closest('form').submit();
         return false;
     },
     showOfferPricePopup: function(){
-        $('#popup-OfferPrice .popup-apply').removeClass('pop-up-hide');
+        $popup = $('#popup-OfferPrice .popup-apply');
+        performerId = $(this).attr('data-performer-id');
+        $popup.find('input[name=performer_id]').val(performerId);
+        $popup.find('input[name=redirect]').val('view');
+        $popup.removeClass('pop-up-hide');
     },
     closePopup: function () {
-                $(this).parent().addClass('pop-up-hide');
+        $(this).parent().addClass('pop-up-hide');
     }
 };
