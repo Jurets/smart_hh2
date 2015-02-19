@@ -39,6 +39,7 @@ class Ticket extends \yii\db\ActiveRecord {
 
     private $_commentHierarchy;
     private $_replies;
+    private $_canAcceptOffer;
     public $file_prepare;
     public $location;
     public $comments_count;
@@ -457,6 +458,21 @@ class Ticket extends \yii\db\ActiveRecord {
             }
         }
         return $this->_replies;
+    }
+    
+    public function canAcceptOffer(){
+        if($this->_canAcceptOffer === null){
+            $this->_canAcceptOffer = $this->is_turned_on
+                    && $this->status !== Ticket::STATUS_COMPLETED
+                    && $this->status !== Ticket::STATUS_DONE_BY_PERFORMER
+                    && !(Offer::find()
+                    ->where([
+                        'ticket_id' => $this->id,
+                        'stage' => Offer::STAGE_AGREE
+                    ])
+                    ->exists());
+        }
+        return $this->_canAcceptOffer;
     }
 
 }

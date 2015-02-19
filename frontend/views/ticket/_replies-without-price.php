@@ -65,12 +65,14 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
             echo $treatment;
         ?> 
         <div class="comment-action">
+            <?php if($model->canAcceptOffer()): ?>
             <?= Html::beginForm(['ticket/accept-offer'],'post',['style' => 'display:inline']) ?>
                 <?= Html::hiddenInput('ticket_id', $model->id) ?>
                 <?= Html::hiddenInput('performer_id', $propose->performer_id) ?>
                 <?= Html::hiddenInput('price', $propose->price) ?>
                 <a href="#" class="btn btn-average accept-offer">ACCEPT</a>
             <?= Html::endForm() ?>
+            <?php endif;?>
             <a href="#" class="btn btn-average btn-dark">MAKE ANOTHER OFFER</a>
         </div>
     </div>
