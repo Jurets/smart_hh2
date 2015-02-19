@@ -32,7 +32,7 @@ if($isAutoFocus){
                             <div class="job-info-holder row">
                                 <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="job-price left">
-                                        <p class="price"><?php echo '$'. is_null($model->price) ? 0 : $model->price?></p>
+                                        <p class="price">$<?= is_null($model->price) ? 0 : $model->price?></p>
                                         <p class="measurement">week</p>
                                     </div>
                                     <div class="auction">

@@ -139,17 +139,19 @@ class TicketController extends Controller {
         if (!is_null($model)) {
             $complain = new Complaint;
             $offer = Offer::findCurrentOffer(Yii::$app->user->id, $model->id);
+            $proposalModel = new Proposal;
+            $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
+            if(!is_null($propose)){
+                $applied = true;
+            }
             if(!is_null($offer)){
                 $buff = $offer->getOfferHistoryLast();
                 $price = is_null($buff) ? NULL : $buff->price;
                 $stage = is_null($offer) ? NULL : $offer->stage;
                 //$applied = true;
             }else{
-                $proposalModel = new Proposal;
-                $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
                 if(!is_null($propose)){
                     $price = $propose->price;
-                    $applied = true;
                 }else{
                     $price = $model->price;
                 }
@@ -311,7 +313,7 @@ class TicketController extends Controller {
             throw new NotFoundHttpException('unknown user');
         }
         $offer = Offer::findCurrentOffer($from_user_id, $id);
-        if(is_null($offer)){
+        if(is_null($offer) || $offer->stage === Offer::STAGE_OWNER_OFFER){
             $this->applyMain($from_user_id, $ticket, $post);
         }else{
             $this->offerPriceLastAnswer($offer, $from_user_id, $post);
