@@ -782,6 +782,19 @@ class User extends ActiveRecord implements IdentityInterface
                         'is_turned_on' => 1,
                     ])
                     ->all();
+            //TODO Need to review this
+            $newReview = (new Query())
+                    ->select([
+                        'date' => 'date',
+                        'type' => "('bell_new_review')"
+                    ])
+                    ->from('review')
+                    ->where([
+                        'to_user_id' => $this->id,
+                    ])
+                    ->andWhere('TIMESTAMPDIFF(DAY,date,CURRENT_TIMESTAMP) < :rottenPeriod', [':rottenPeriod' => Yii::$app->params['bell.rottenTicketDays']])
+                    ->andWhere('TIMESTAMPDIFF(DAY,date,CURRENT_TIMESTAMP) >= 0')
+                    ->all();
             
             $this->_bellNotifications = array_merge(
                     $newProposals,
@@ -789,7 +802,8 @@ class User extends ActiveRecord implements IdentityInterface
                     $fdUpTickets,
                     $offeredJobs,
                     $acceptedByOwner,
-                    $doneByPerformer
+                    $doneByPerformer,
+                    $newReview
                     );
             if (!empty($this->_bellNotifications)) {
                 yii\helpers\ArrayHelper::multisort($this->_bellNotifications, 'date', SORT_DESC);
