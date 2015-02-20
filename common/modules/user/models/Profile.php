@@ -15,6 +15,8 @@ use \common\models\Files as Files;
  * @property string  $update_time
  * @property string  $full_name
  * @property string  $first_name
+ * @property string  $zip_mailing
+ * @property string  $zip_billing
  *
  * @property User    $user
  */
@@ -56,6 +58,7 @@ class Profile extends ActiveRecord {
             [['photo'], 'string', 'max' => 255],
             [['country_code'], 'string', 'max' => 255],
             [['hourly_rate'],'double'],
+            [['zip_mailing', 'zip_billing'], 'integer'],
         ];
     }
 
@@ -75,6 +78,8 @@ class Profile extends ActiveRecord {
             'phone' => Yii::t('user', 'Phone'),
             'adress_mailing' => Yii::t('user', 'Adress mailing'),
             'adress_billing' => Yii::t('user', 'Adress billing'),
+            'zip_mailing' => Yii::t('user', 'ZIP code mailing'),
+            'zip_billing' => Yii::t('user', 'ZIP code billing'),            
             'paypal' => Yii::t('user', 'Paypal'),
             'another_payment' => Yii::t('user', 'Another payment'),
             'self_description' => Yii::t('user', 'Self description'),

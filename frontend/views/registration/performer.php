@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::label('or input another payment') ?>
         <?= $form->field($profile, 'another_payment') ?>
 
-
+        <?= $form->field($profile, 'zip_mailing') ?>
         <?= $form->field($profile, 'adress_mailing') ?>
 
         <?= $form->field($profile, 'self_description')->textArea(['rows' => 6]) ?>

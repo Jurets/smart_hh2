@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($profile, 'first_name') ?>            
             <?= $form->field($profile, 'last_name') ?>            
             <?= $form->field($profile, 'phone') ?>
+            <?= $form->field($profile, 'zip_billing') ?>
             <?= $form->field($profile, 'adress_billing')->textarea(['rows'=>4]) ?>
             <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [
                     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
