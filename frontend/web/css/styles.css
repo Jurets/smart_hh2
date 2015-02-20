@@ -1579,3 +1579,6 @@ label {
     max-height: 600px;
     overflow: auto;
 }
+.reviews .reviews-holder .star-rating{
+    display:inline;
+}
