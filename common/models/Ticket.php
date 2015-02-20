@@ -483,5 +483,21 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $this->_canAcceptOffer;
     }
-    
+    public function getSimilarTasks() {
+        return Ticket::find()
+                ->innerJoin('category_bind', 'ticket.id=category_bind.ticket_id')
+                ->where([
+                    'is_turned_on' => 1,
+                    'status' => Ticket::STATUS_NOT_COMPLETED,
+                ])
+                ->andWhere(['in', 'category_bind.category_id', (new Query)
+                    ->select(['cb.category_id'])
+                    ->from(['cb' => 'category_bind'])
+                    ->where('cb.ticket_id=:ticketId', [':ticketId' => $this->id])
+                    ])
+                ->orderBy(['created' => SORT_DESC])
+                ->limit(8)
+                ->all();
+    }
+
 }

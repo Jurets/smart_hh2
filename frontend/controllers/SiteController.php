@@ -69,6 +69,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $latestTasks = \common\models\Ticket::find()
+                ->where([
+                    'is_turned_on' => 1,
+                    'status' => \common\models\Ticket::STATUS_NOT_COMPLETED,
+                    ])
                 ->orderBy(['created' => SORT_DESC])
                 ->limit(8)
                 ->all();
