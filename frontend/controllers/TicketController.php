@@ -338,6 +338,7 @@ class TicketController extends Controller {
             $this->isTicketsOwner($ticket);
             $review = new \common\models\Review();
             $review->load($post);
+            $review->ticket_id = $ticketId;
             $review->save();
             $ticket->status = Ticket::STATUS_COMPLETED;
             Offer::updateAll(['stage' => Offer::ARCHIVED], ['ticket_id' => $ticket->id]);
