@@ -13,9 +13,11 @@ use Yii;
  * @property string $date
  * @property string $message
  * @property integer $rating
- *
+ * @property integer $ticket_id
+ * 
  * @property User $toUser
  * @property User $fromUser
+ * @property Ticket $ticket
  */
 class Review extends \yii\db\ActiveRecord
 {
@@ -34,7 +36,7 @@ class Review extends \yii\db\ActiveRecord
     {
         return [
             [['from_user_id', 'to_user_id'], 'required'],
-            [['from_user_id', 'to_user_id', 'rating'], 'integer'],
+            [['from_user_id', 'to_user_id', 'rating', 'ticket_id'], 'integer'],
             [['date'], 'safe'],
             [['message'], 'string']
         ];
@@ -69,5 +71,12 @@ class Review extends \yii\db\ActiveRecord
     public function getFromUser()
     {
         return $this->hasOne(User::className(), ['id' => 'from_user_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTicket(){
+        return $this->hasOne(Ticket::className(), ['id' => 'ticket_id']);
     }
 }

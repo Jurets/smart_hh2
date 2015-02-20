@@ -32,6 +32,7 @@ use common\modules\user\models\User;
  * @property Category $category
  * @property User $user
  * @property TicketComments[] $ticketComments
+ * @property Review[] $reviews
  * 
  * @property string $photo
  */
@@ -192,9 +193,19 @@ class Ticket extends \yii\db\ActiveRecord {
     public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */    
     public function getTicketComments() {
         return $this->hasMany(TicketComments::className(), ['ticket_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */ 
+    public function getReviews(){
+        return $this->hasMany(Review::className(), ['ticket_id' => 'id']);
     }
 
     public function getUpdateStatuses() {
