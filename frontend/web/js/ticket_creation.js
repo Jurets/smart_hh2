@@ -110,7 +110,7 @@ var SLOTS = {
         panelProceed: function (addr, slot) {
             var matrix = '';
             var source = SLOTS.catalogue.category.signCollection[addr];
-            matrix = matrix + '<input type="checkbox" name="' + SLOTS.catalogue.category.name + '[' + source.id + ']">' + '<label>' + slot + '. ' + source.value + '</label>\n';
+            matrix = matrix + '<input class="main-category" type="checkbox" name="' + SLOTS.catalogue.category.name + '[' + source.id + ']">' + '<label>' + slot + '. ' + source.value + '</label>\n';
             matrix = matrix + '<ul class="select-sub-categories">\n';
             var buffer = $('#' + source.id).find('.lvl2');
             for (var i = 0; i < buffer.size(); i++) {
@@ -139,6 +139,7 @@ var SLOTS = {
         SLOTS.catalogue.category.categoryInit();
         SLOTS.catalogue.category.renderSlots();
         SLOTS.catalogue.slotInit();
+        SLOTS.bindCheckboxHandlers()
     },
     copyer: function (obj) {
         var buff = {};
@@ -146,6 +147,26 @@ var SLOTS = {
             buff[tar] = obj[tar];
         }
         return buff;
+    },
+    bindCheckboxHandlers: function(){
+        $('.option-categories').on('change', 'input:checkbox', SLOTS.handleCheckboxChange)
+    },
+    handleCheckboxChange: function(e){
+        $checkbox = $(this);
+        $selectedSubcategories = $checkbox
+                .closest('.sub-categiries')
+                .find('.select-sub-categories input:checked');
+        selectedSubcategoriesCount = $selectedSubcategories.length;
+        if($checkbox.hasClass('main-category')
+                && selectedSubcategoriesCount
+                && !$checkbox.is(':checked')){
+            $selectedSubcategories.prop('checked', false);
+        }else if ($checkbox.is(':checked')){
+            $checkbox
+                    .closest('.sub-categiries')
+                    .find('input.main-category')
+                    .prop('checked', true);
+        }
     }
 };
 
