@@ -49,7 +49,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'first_name') ?>            
         <?= $form->field($profile, 'last_name') ?>          
         <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA ( +1 )','Canada ( +1 )']) ?>
-        <?= $form->field($profile, 'phone') ?>
+        <?= $form->field($profile, 'phone')->widget(\yii\widgets\MaskedInput::classname(), [
+            'mask' => '999-999-9999',
+        ]) ?>
         <?= Html::label('Pick language and language knowledge') ?>
         <?php foreach ($languages as $language) { ?>
         <?php 

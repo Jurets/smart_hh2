@@ -34,7 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($user, 'email') ?>
             <?= $form->field($profile, 'first_name') ?>            
             <?= $form->field($profile, 'last_name') ?>            
-            <?= $form->field($profile, 'phone') ?>
+            <?= $form->field($profile, 'country_code')->dropDownList(['', 'USA ( +1 )','Canada ( +1 )']) ?>
+            <?= $form->field($profile, 'phone')->widget(\yii\widgets\MaskedInput::classname(), [
+                'mask' => '999-999-9999',
+            ]) ?>
             <?= $form->field($profile, 'zip_billing') ?>
             <?= $form->field($profile, 'adress_billing')->textarea(['rows'=>4]) ?>
             <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [

@@ -50,6 +50,7 @@ class Profile extends ActiveRecord {
             [['first_name'], 'string', 'max' => 255],
             [['last_name'], 'string', 'max' => 255],
             [['phone'], 'string', 'max' => 64],
+            [['phone'], 'match', 'pattern' => '/^\d{3}-\d{3}-\d{4}$/'],
             [['adress_mailing'], 'string', 'max' => 255],
             [['adress_billing'], 'string', 'max' => 255],
             [['paypal'], 'string', 'max' => 64],
