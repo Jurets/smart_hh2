@@ -6,7 +6,7 @@
         'id' => 'jobs-applied',
         'timeout' => 3000,
         ]); ?>
-    <?= \common\modules\user\widgets\JobsListView::widget([
+    <?= \frontend\widgets\ShowMoreListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => ''],
         //TODO: item view could be changed

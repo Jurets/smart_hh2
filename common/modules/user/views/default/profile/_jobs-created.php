@@ -6,7 +6,7 @@
         'id' => 'jobs-created',
         'timeout' => 3000,
         ]); ?>
-    <?= \common\modules\user\widgets\JobsListView::widget([
+    <?= \frontend\widgets\ShowMoreListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => ''],
         'itemView' => '_jobs-created-item',
