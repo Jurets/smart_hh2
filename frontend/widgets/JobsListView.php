@@ -1,9 +1,9 @@
 <?php
 
 
-namespace common\modules\user\widgets;
+namespace frontend\widgets;
 
-class JobsListView extends \yii\widgets\ListView{
+class ShowMoreListView extends \yii\widgets\ListView{
     public $layout = "{items} \n {pager}";
     public $showMoreBeginTemplate = "<a class='btn btn-width'>SHOW MORE</a>\n<div class='collapse'>";
     public $showMoreEndTemplate = '</div>';
