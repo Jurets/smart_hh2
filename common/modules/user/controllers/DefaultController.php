@@ -616,6 +616,33 @@ class DefaultController extends Controller {
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
         ]);
+        
+        $positiveReviewsQuery = Review::find()
+                ->where([
+                    'to_user_id' => $id,
+                ])
+                ->andWhere('rating>=:minRating', [
+            'minRating' => Yii::$app->params['profile.reviews.minPositiveRating']
+        ]);
+        $positiveReviewDataProvider = new ActiveDataProvider([
+            'query' => $positiveReviewsQuery,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['profile.reviews.pageSize'],
+            ],
+        ]);
+        $negativeReviewsQuery = Review::find()
+                ->where([
+                    'to_user_id' => $id,
+                ])
+                ->andWhere('rating<:minRating', [
+            'minRating' => Yii::$app->params['profile.reviews.minPositiveRating']
+        ]);
+        $negativeReviewDataProvider = new ActiveDataProvider([
+            'query' => $negativeReviewsQuery,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['profile.reviews.pageSize'],
+            ],
+        ]);
 
         // render
         /* variables in view translate as arrays */
@@ -628,6 +655,8 @@ class DefaultController extends Controller {
                     'activityMessage' => $activityMessage,
                     'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
                     'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
+                    'positiveReviewDataProvider' => $positiveReviewDataProvider,
+                    'negativeReviewDataProvider' => $negativeReviewDataProvider,
         ]);
     }
 
