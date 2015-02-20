@@ -22,6 +22,11 @@ class TwoColumnTasks extends \yii\base\Widget{
         if($size === 0){
             return;
         }
+
+        $this->getView()->registerJsFile(\Yii::$app->params['path.js'] . 'ticket_apply.js', [
+                    'depends' => [\yii\web\JqueryAsset::className()],
+        ]);
+
         if($size === 1){
             $this->_columns[] = $this->tasks;
             return;

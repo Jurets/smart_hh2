@@ -1,5 +1,6 @@
 <div class="latest-task">
     <h3 id="latestJobs"><?= $caption ?></h3>
+    <div data-userID="<?php echo Yii::$app->user->id ?>"></div>
     <div class="tasks-holder row">
         <?php foreach ($columns as $index => $tasks): ?>
             <div class="<?= $index % 2 == 0 ? 'left-column' : 'right-column' ?> col-xs-12 col-sm-12 col-md-6 col-lg-6">

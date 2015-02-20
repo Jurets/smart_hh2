@@ -3,16 +3,17 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
-<?php
-$this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
-    'depends' => [\yii\web\JqueryAsset::className()],
-]);
-?>
 <div class="task-item">
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
         <p class="price">&dollar;<span><?= empty($model->price) ? '...' : $model->price?></span></p>
         <p class="measurement">week</p>
         <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
+        <div class="pos-relativer">
+            <div class="popup-apply pop-up-hide">
+                <div class="popup-apply-header">x</div>
+                <div class="popup-apply-content"><!-- render apply form --></div>
+            </div>
+        </div>
     </div>
     <div class="task-info-meta">
         <a  href="<?php echo Url::to(['ticket/review', 'id' => $model->id]) ?>" class="title"><?= Html::encode($model->title) ?></a>
@@ -22,6 +23,6 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
     <div class="clear"></div>
 </div>
 
-<div data-renderLoginForm="<?=URL::to(['renderloginform'])?>"></div>
-<div data-renderApplyForm="<?=URL::to(['renderapplyform'])?>"></div>
+<div data-renderLoginForm="<?=URL::to(['/ticket/renderloginform'])?>"></div>
+<div data-renderApplyForm="<?=URL::to(['/ticket/renderapplyform'])?>"></div>
 <div data-loginFormURLAction="<?=Url::to(['/user/login'])?>"></div>

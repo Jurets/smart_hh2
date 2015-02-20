@@ -32,7 +32,7 @@ AppAsset::register($this);
                 <li><img class="img" src="images/picture-index.jpg" title="Happy trees" /></li>
             </ul>
 
-            <div class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="header_refresh" class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <?php if (Yii::$app->user->isGuest) {
                     echo $this->render('/../views/layouts/parts/header');
                 }else echo $this->render('/../views/layouts/parts/header_login')?>
