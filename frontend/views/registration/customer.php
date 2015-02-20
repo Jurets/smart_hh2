@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($user, 'newPassword')->passwordInput() ?>
             <?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
             <?= $form->field($user, 'email') ?>
+            <?= $form->field($profile, 'first_name') ?>            
+            <?= $form->field($profile, 'last_name') ?>            
             <?= $form->field($profile, 'phone') ?>
             <?= $form->field($profile, 'adress_billing')->textarea(['rows'=>4]) ?>
             <?= $form->field($user, 'verifyCode')->widget(Captcha::className(), [

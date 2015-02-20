@@ -68,7 +68,7 @@ class Profile extends ActiveRecord {
             'user_id' => Yii::t('user', 'User ID'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'full_name' => Yii::t('user', 'Full Name'),
+            'full_name' => Yii::t('user', 'Real Name'),
             //Add new fields:
             'first_name' => Yii::t('user', 'First name'),
             'last_name' => Yii::t('user', 'Last name'),
@@ -144,5 +144,8 @@ class Profile extends ActiveRecord {
         $this->save();
         return $this;
     }
-
+    public function beforeSave($insert) {
+        $this->full_name = $this->first_name . ' ' . $this->last_name;
+        return parent::beforeSave($insert);
+    }
 }
