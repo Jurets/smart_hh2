@@ -248,6 +248,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->hasMany(UserAuth::className(), ['user_id' => 'id']);
     }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserSocialNetworks()
+    {
+        return $this->hasMany(UserSocialNetwork::className(), ['user_id' => 'id']);
+    }
 
     /**
      * @inheritdoc

@@ -15,7 +15,7 @@ use kartik\widgets\StarRating;
                 echo (!is_null($profile->first_name) && !is_null($profile->last_name)) ? $profile->first_name . ' ' . $profile->last_name : $profile->user->username;
                 ?>
             </span>                                            
-            <?php foreach($profile->user->getAllSocialNetworks() as $userSocialNetwork):?>
+            <?php foreach($profile->user->userSocialNetworks as $userSocialNetwork):?>
                 <a href="#" class="user-status">
                     <?= Html::img(Yii::$app->params['images.url'].'/'.$userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
                     <?php if($userSocialNetwork->moderate): ?>
