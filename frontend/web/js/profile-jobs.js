@@ -1,15 +1,19 @@
 ProfileJobs = {
     init: function(){
-        $('.created-jobs-container').on('click', '.btn', ProfileJobs.showMoreHandler);
+        $('.tabs-container').on('click', '.btn', ProfileJobs.showMoreHandler);
         
-        $('.created-jobs-container .user-info a').click(function (e) {
+        $('.tabs-container .user-info a').click(function (e) {
             e.preventDefault();
             $(this).tab('show');
         });
         
-        $('.created-jobs-container a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $('.tabs-container a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             $newActiveTab = $(e.target);
-            $('.created-jobs-container a[data-toggle="tab"]').removeClass('positive').addClass('negative');
+            $newActiveTab
+                    .closest('.tabs-container')
+                    .find('a[data-toggle="tab"]')
+                    .removeClass('positive')
+                    .addClass('negative');
             $newActiveTab.removeClass('negative').addClass('positive');
         });
     },
