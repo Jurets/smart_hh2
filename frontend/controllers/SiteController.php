@@ -68,7 +68,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->renderPartial('index');
+        $latestTasks = \common\models\Ticket::find()
+                ->orderBy(['created' => SORT_DESC])
+                ->limit(8)
+                ->all();
+        return $this->renderPartial('index', ['latestTasks' => $latestTasks]);
     }
 
     public function actionLogin()
