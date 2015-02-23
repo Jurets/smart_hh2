@@ -81,6 +81,15 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                 <?php } ?>
             </div>
         </div>
+        <?php if ($model->photo !== null): ?>
+            <div>
+                <?=
+                Html::img(Yii::$app->params['upload.url'] . '/' . $model->photo, [
+                    'width' => 581,
+                ])
+                ?>
+            </div>
+        <?php endif; ?>
         <div class="description">
             <p class="title">Description:</p> <a href="#" class="translate right">Перевести на руссский</a>
             <?= nl2br(\yii\helpers\HtmlPurifier::process($model->description)) ?>

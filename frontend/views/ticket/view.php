@@ -51,6 +51,13 @@ if($isAutoFocus){
                                 </div>
 
                             </div>
+                            <?php if($model->photo !== null): ?>
+                                <div>
+                                    <?= Html::img(Yii::$app->params['upload.url'] . '/' . $model->photo,[
+                                        'width' => 581,
+                                    ])?>
+                                </div>
+                            <?php endif; ?>
                             <div class="description">
                                 <p class="title">Description:</p>
                                 <?= nl2br(\yii\helpers\HtmlPurifier::process($model->description)) ?>

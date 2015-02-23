@@ -497,6 +497,7 @@ class Ticket extends \yii\db\ActiveRecord {
                     ->from(['cb' => 'category_bind'])
                     ->where('cb.ticket_id=:ticketId', [':ticketId' => $this->id])
                     ])
+                ->andWhere(['not', ['ticket.id' => $this->id]])
                 ->orderBy(['created' => SORT_DESC])
                 ->limit(8)
                 ->all();
