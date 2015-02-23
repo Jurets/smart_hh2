@@ -666,6 +666,8 @@ class User extends ActiveRecord implements IdentityInterface
         return TicketComments::find()
                 ->byUserTickets($this->id)
                 ->newComments()
+                ->joinWith('ticket')
+                ->andWhere(['not', ['ticket.status' => \common\models\Ticket::STATUS_COMPLETED]])
                 ->andWhere(['answer_to' => null])
                 ->count();
     }
@@ -676,7 +678,12 @@ class User extends ActiveRecord implements IdentityInterface
      * @return integer
      */
     public function getNewRepliesCommentsCount(){
-        return TicketComments::find()->replies($this->id)->newComments()->count();
+        return TicketComments::find()
+                ->replies($this->id)
+                ->newComments()
+                ->joinWith('ticket')
+                ->andWhere(['not', ['ticket.status' => \common\models\Ticket::STATUS_COMPLETED]])
+                ->count();
     }
     
     public function getTicketsWithNewComments(){
@@ -691,6 +698,7 @@ class User extends ActiveRecord implements IdentityInterface
                     'ticket_comments.status' => TicketComments::STATUS_NEW,
                     'ticket_comments.answer_to' => null,
                         ])
+                ->andWhere(['not', ['ticket.status' => \common\models\Ticket::STATUS_COMPLETED]])
                 ->groupBy(['ticket.id', 'ticket.title'])
                 ->having('comments_count > 0')
                 ->all();
@@ -707,6 +715,7 @@ class User extends ActiveRecord implements IdentityInterface
                     'parent.user_id' => $this->id,
                     'ticket_comments.status' => TicketComments::STATUS_NEW,
                         ])
+                ->andWhere(['not', ['ticket.status' => \common\models\Ticket::STATUS_COMPLETED]])
                 ->groupBy(['ticket.id', 'ticket.title'])
                 ->having('comments_count > 0')
                 ->all();

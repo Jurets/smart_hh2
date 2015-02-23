@@ -601,7 +601,9 @@ class DefaultController extends Controller {
         $diplomas = $userFilesPrepare['diploma'];
         $verificationIDs = $userFilesPrepare['verificationID'];
         
-        $jobsCreatedQuery = Ticket::find()->andWhere(['user_id' => $id]);
+        $jobsCreatedQuery = Ticket::find()
+                ->andWhere(['user_id' => $id])
+                ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]]);
         $jobsCreatedDataProvider = new ActiveDataProvider([
             'query' => $jobsCreatedQuery,
             'pagination' => [
@@ -609,7 +611,9 @@ class DefaultController extends Controller {
             ],
         ]);
         
-        $jobsAppliedQuery = Ticket::find()->andWhere(['performer_id' => $id]);
+        $jobsAppliedQuery = Ticket::find()
+                ->andWhere(['performer_id' => $id])
+                ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]]);
         $jobsAppliedDataProvider = new ActiveDataProvider([
             'query' => $jobsAppliedQuery,
             'pagination' => [

@@ -111,6 +111,9 @@ class TicketController extends Controller {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
         $this->isTicketsOwner($model);
+        if($model->status === Ticket::STATUS_COMPLETED){
+            throw new \yii\web\HttpException('404', Yii::t('app', 'This task is done.'));
+        }        
         //$proposeModel = new Proposal; // get a proposal model
         //$proposes = $proposeModel->getAllProposes($model->id);
         $proposes = $model->getReplies();
@@ -137,6 +140,9 @@ class TicketController extends Controller {
     public function actionReview($id) {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
+        if($model->status === Ticket::STATUS_COMPLETED){
+            throw new \yii\web\HttpException('404', Yii::t('app', 'This task is done.'));
+        }
         $user = User::findOne(['id' => $model->user_id]);
         $applied = false;
         if (!is_null($model)) {
