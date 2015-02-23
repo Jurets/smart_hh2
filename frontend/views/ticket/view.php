@@ -53,7 +53,7 @@ if($isAutoFocus){
                             </div>
                             <div class="description">
                                 <p class="title">Description:</p>
-                                <?=$model->description?>
+                                <?= nl2br(\yii\helpers\HtmlPurifier::process($model->description)) ?>
                                 <a href="#" class="more">Read full description</a>                                 
                             </div>
                             <div class="location">

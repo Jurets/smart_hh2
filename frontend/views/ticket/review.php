@@ -83,7 +83,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
         </div>
         <div class="description">
             <p class="title">Description:</p> <a href="#" class="translate right">Перевести на руссский</a>
-            <?= $model->description ?>
+            <?= nl2br(\yii\helpers\HtmlPurifier::process($model->description)) ?>
             <a href="#" class="more">Read full description</a>                                 
         </div>
         <div class="location">
