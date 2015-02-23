@@ -24,7 +24,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
 <div data-Stage="<?=$stage?>"></div>
 <div class="job-creator row">
     <!-- the pop-up --> 
-    <div id="complain-form" class="pop-up pop-up-edit popup-align-center">
+    <div id="complain-form" class="pop-up pop-up-edit popup-align-center pop-up-hide">
         <a class="close" href="#">×</a>
         <p class="title"><?php echo Yii::t('app', 'Send Complain') ?></p>
         <?php echo $this->render('_complain_form', ['model' => $model, 'complain' => $complain]) ?>
