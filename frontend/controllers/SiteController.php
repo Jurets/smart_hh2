@@ -181,12 +181,20 @@ class SiteController extends Controller
     public function actionClearNewComments(){
         TicketComments::updateAll([
             'status' => TicketComments::STATUS_READ
-                ],[
-                    'ticket_id' => \common\models\Ticket::find()
-                ->select(['id'])
-                ->where(['user_id' => Yii::$app->user->id])
-                ->column()
-                ]);
+                ], [
+            'ticket_id' => \common\models\Ticket::find()
+                    ->select(['id'])
+                    ->where(['user_id' => Yii::$app->user->id])
+                    ->column()
+        ]);
+        TicketComments::updateAll([
+            'status' => TicketComments::STATUS_READ
+                ], [
+            'ticket_comments.id' => \common\models\TicketComments::find()
+                    ->select(['ticket_comments.id'])
+                    ->replies(Yii::$app->user->id)
+                    ->column()
+        ]);
         return $this->renderPartial('/layouts/parts/_new-comments');
     }
 }

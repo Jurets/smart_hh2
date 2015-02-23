@@ -199,7 +199,7 @@ class Ticket extends \yii\db\ActiveRecord {
      * @return \yii\db\ActiveQuery
      */    
     public function getTicketComments() {
-        return $this->hasMany(TicketComments::className(), ['ticket_id' => 'id'])->orderBy(['date' => SORT_ASC]);
+        return $this->hasMany(TicketComments::className(), ['ticket_id' => 'id'])->orderBy(['ticket_comments.date' => SORT_ASC]);
     }
     
     /**

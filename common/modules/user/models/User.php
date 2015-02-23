@@ -663,11 +663,24 @@ class User extends ActiveRecord implements IdentityInterface
      * @return integer
      */
     public function getNewTicketCommentsCount(){
-        return TicketComments::find()->byUserTickets($this->id)->newComments()->count();
+        return TicketComments::find()
+                ->byUserTickets($this->id)
+                ->newComments()
+                ->andWhere(['answer_to' => null])
+                ->count();
+    }
+    
+    /**
+     * Get count of new comments on user's tickets
+     * 
+     * @return integer
+     */
+    public function getNewRepliesCommentsCount(){
+        return TicketComments::find()->replies($this->id)->newComments()->count();
     }
     
     public function getTicketsWithNewComments(){
-        return \common\models\Ticket::find()->select([
+        $newComments =  \common\models\Ticket::find()->select([
             'ticket.id',
             'ticket.title',
             'count(*) as comments_count'
@@ -676,10 +689,28 @@ class User extends ActiveRecord implements IdentityInterface
                 ->where([
                     'ticket.user_id' => $this->id,
                     'ticket_comments.status' => TicketComments::STATUS_NEW,
+                    'ticket_comments.answer_to' => null,
                         ])
                 ->groupBy(['ticket.id', 'ticket.title'])
                 ->having('comments_count > 0')
                 ->all();
+        $newReplies =  \common\models\Ticket::find()->select([
+            'ticket.id',
+            'ticket.title',
+            'count(*) as comments_count'
+            ])
+                ->joinWith('ticketComments')
+                ->joinWith(['ticketComments.parent' => function ($q) {
+                        $q->from('ticket_comments parent');
+                    }])
+                ->where([
+                    'parent.user_id' => $this->id,
+                    'ticket_comments.status' => TicketComments::STATUS_NEW,
+                        ])
+                ->groupBy(['ticket.id', 'ticket.title'])
+                ->having('comments_count > 0')
+                ->all();
+        return ['newComments' => $newComments, 'newReplies' => $newReplies];
     }
     
     public function getBellNotifications(){

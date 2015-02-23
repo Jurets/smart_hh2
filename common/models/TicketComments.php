@@ -77,6 +77,14 @@ class TicketComments extends \yii\db\ActiveRecord
     }
     
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(TicketComments::className(), ['id' => 'answer_to']);
+    }
+    
+    /**
      * 
      * @return TicketCommetsQuery
      */

@@ -357,10 +357,6 @@ class TicketController extends Controller {
         $post = Yii::$app->request->post();
         $comment = new \common\models\TicketComments();
         $comment->load($post);
-        $ticket = Ticket::findOne($comment->ticket_id);
-        if(($ticket !== null) && ($ticket->user_id == Yii::$app->user->id)){
-            $comment->status = \common\models\TicketComments::STATUS_READ;
-        }
         if($comment->save() && !is_null($comment->answer_to)){
         \common\models\TicketComments::updateAll([
             'status' => \common\models\TicketComments::STATUS_READ
