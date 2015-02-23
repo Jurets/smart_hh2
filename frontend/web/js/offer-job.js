@@ -4,9 +4,9 @@ OfferJob = {
         $('#offer-job-pop-up-container').on('click', '.close', OfferJob.closePopup);
     },
     loadOfferJobPopup: function(){
-        $button = $(this);
-        userId = $button.attr('data-user-id');
-        url = $button.attr('data-url');
+        var $button = $(this);
+        var userId = $button.attr('data-user-id');
+        var url = $button.attr('data-url');
         $('#offer-job-pop-up-container').load(url, {user_id: userId});
         return false;
     },

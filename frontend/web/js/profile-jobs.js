@@ -8,7 +8,7 @@ ProfileJobs = {
         });
         
         $('.tabs-container a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            $newActiveTab = $(e.target);
+            var $newActiveTab = $(e.target);
             $newActiveTab
                     .closest('.tabs-container')
                     .find('a[data-toggle="tab"]')

@@ -151,12 +151,12 @@ var SLOTS = {
     bindCheckboxHandlers: function(){
         $('.option-categories').on('change', 'input:checkbox', SLOTS.handleCheckboxChange)
     },
-    handleCheckboxChange: function(e){
-        $checkbox = $(this);
-        $selectedSubcategories = $checkbox
+    handleCheckboxChange: function(){
+        var $checkbox = $(this);
+        var $selectedSubcategories = $checkbox
                 .closest('.sub-categiries')
                 .find('.select-sub-categories input:checked');
-        selectedSubcategoriesCount = $selectedSubcategories.length;
+        var selectedSubcategoriesCount = $selectedSubcategories.length;
         if($checkbox.hasClass('main-category')
                 && selectedSubcategoriesCount
                 && !$checkbox.is(':checked')){

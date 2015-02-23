@@ -13,6 +13,9 @@ use yii\helpers\Url;
                 <?= Yii::t('app', 'Offer Price') ?>
                 <div class="ajax-offer-price-form-errors"></div>
                 <div class="offer-form-return-message"></div>
+                <div class="offer-price-greater-zero" style="display:none;">
+                    <?= Yii::t('app', 'Price should be a number greater than 0') ?>
+                </div>
                 <?php echo Html::beginForm(Url::to(['ticket/offer-price']), 'post', ['id' => 'offer_price_form']); ?>
                 <?php
                 // Hidden Fields

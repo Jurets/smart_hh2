@@ -491,16 +491,23 @@ class TicketController extends Controller {
         } else {
             // create the new propose record
                 // we getting price from responce
-                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0)
+                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] > 0)
                         ? (float) $post['price']
-                        : (!is_null($ticket->price) ? $ticket->price : 0);
+                        : (!is_null($ticket->price) ? $ticket->price : null);
+                if (is_null($price)) {
+                    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
+                    return;                
+                }
             $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
             echo $this->jsonStrMake(['msg' => Yii::t('app', 'Apply this job successfull')]);
         }
     }
     
     protected function offerPriceLastAnswer($offer, $performerId, $post){
-        $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : 0;
+        $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : null;
+        if($price === null){
+            return;
+        }
         $offer->stage = isset($post['stage']) ? $post['stage'] : Offer::STAGE_LAST_ANSWER;
         if($offer->save()){
             $offerHistory = new \common\models\OfferHistory();

@@ -15,8 +15,13 @@ PERFORMER = {
         $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
         $('#set_as_done').on('click', PERFORMER.setAsDone);
         $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);
+        $('#offer_price_form').on('submit', PERFORMER.submitOfferPrice);
     },
     submitApply: function(){
+        if($(this).attr('data-need-price') === '1'){
+            PERFORMER.showOfferPricePopup();
+            return false;
+        }
         $(this).closest('form').submit();
     },
     showOfferPricePopup: function(){
@@ -34,5 +39,14 @@ PERFORMER = {
             return false;
         }
         $(this).closest('form').submit();
+    },
+    submitOfferPrice: function(e){
+        var price = $(this).find('input[name=price]').val();
+        if(price > 0){
+            $('#popup-OfferPrice .offer-price-greater-zero').hide();
+            return;
+        }
+        $('#popup-OfferPrice .offer-price-greater-zero').show();
+        e.preventDefault();
     }
 };
