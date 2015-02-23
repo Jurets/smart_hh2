@@ -438,6 +438,7 @@ class Ticket extends \yii\db\ActiveRecord {
                 ->select('offer.id')
                 ->from('offer')
                 ->where('offer.performer_id=proposal.performer_id')
+                ->andWhere(['ticket_id' => $this->id])
                 ->andWhere([
                     'not in',
                     'stage',

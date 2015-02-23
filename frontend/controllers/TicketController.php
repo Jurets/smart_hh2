@@ -116,10 +116,12 @@ class TicketController extends Controller {
         $proposes = $model->getReplies();
         $get = Yii::$app->request->get();
         $isAutoFocus = isset($get['reply']) && $get['reply'];
+        $complain = new Complaint;
         return $this->render('view', [
                     'model' => $model,
                     'proposal' => $proposes,
-                    'isAutoFocus' => $isAutoFocus
+                    'isAutoFocus' => $isAutoFocus,
+                    'complain' => $complain
         ]);
     }
     public function actionPriceagreement(){

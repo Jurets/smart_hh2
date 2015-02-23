@@ -15,9 +15,29 @@ if($isAutoFocus){
     'depends' => [\yii\web\JqueryAsset::className()],
 ]);
 }
+$this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.js', [
+    'depends' => [\yii\web\JqueryAsset::className()],
+]);
 ?>
 
-                    <div class="job-creator row">                    
+                    <div class="job-creator row">
+                        <?php if($model->status === Ticket::STATUS_DONE_BY_PERFORMER): ?>
+                        <div class="alert alert-danger"><?= Yii::t('app' , 'Performer claims this work as done') ?> 
+                                    <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="1"><?= Yii::t('app', 'CONFIRM') ?></a>
+                                    <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
+                        </div>
+                        <?php endif; ?>
+                        <div id="complain-form" class="pop-up pop-up-edit popup-align-center pop-up-hide">
+                            <a class="close" href="#">×</a>
+                            <p class="title"><?php echo Yii::t('app', 'Send Complain') ?></p>
+                            <?php echo $this->render('_complain_form', ['model' => $model, 'complain' => $complain]) ?>
+                        </div>
+        <?=
+        $this->render('popup/_set-as-done', [
+            'model' => new common\models\Review(),
+            'ticket' => $model
+        ])
+        ?>                        
                         <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <h1><?=$model->title?></h1>
 
@@ -81,9 +101,14 @@ if($isAutoFocus){
                             <?= $this->render('view/_comments', ['model' => $model]) ?>
                         </div>
                         <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
-                            <?php if($model->status === Ticket::STATUS_PROCESSING){ ?>
+                            <?php if($model->status !== Ticket::STATUS_COMPLETED
+                                    && $model->status !== Ticket::STATUS_DONE_BY_PERFORMER){ ?>
                             <div class="action-reply">
-                                <a href="#" class="btn btn-average">SET AS DONE</a>
+                                    <?= Html::beginForm(['ticket/set-as-done'], 'post', ['style' => 'display:inline;']) ?>
+                                    <?= Html::hiddenInput('ticket_id', $model->id); ?>
+                                    <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="1">SET AS DONE</a>
+                                    <?= Html::endForm() ?>
+                                    <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
                             </div>
                             <?php } ?>
                             <h6><span class="red"><?=empty($proposal) ? 0 : count($proposal)?></span> <?=Yii::t('app','Replies')?></h6>

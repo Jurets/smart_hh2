@@ -3,9 +3,6 @@ use kartik\rating\StarRating;
 use yii\helpers\Html;
 /*@var $model \common\models\Ticket*/
 /*@var $propose \common\models\Reply*/
-$this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.js', [
-    'depends' => [\yii\web\JqueryAsset::className()],
-]);
 ?>
 <div class="reviews-item row">
     <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">

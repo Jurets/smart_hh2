@@ -5,7 +5,8 @@ CUSTOMER = {
     init: function(){
         $('.accept-offer').on('click', CUSTOMER.submitAccept);
         $('.make-another-offer').on('click', CUSTOMER.showOfferPricePopup);
-        $('#popup-OfferPrice .popup-apply-header').click(CUSTOMER.closePopup);
+        $('#popup-OfferPrice .popup-apply-header, .close').click(CUSTOMER.closePopup);
+        $('#set_as_done').on('click', CUSTOMER.showSetAsDonePopup);
     },
     submitAccept: function(){
         $(this).closest('form').submit();
@@ -20,5 +21,9 @@ CUSTOMER = {
     },
     closePopup: function () {
         $(this).parent().addClass('pop-up-hide');
+    },
+    showSetAsDonePopup: function(){
+        $('#set-as-done-popup').removeClass('pop-up-hide');
+        return false;
     }
 };
