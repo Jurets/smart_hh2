@@ -113,4 +113,11 @@ class Offer extends \yii\db\ActiveRecord implements Reply{
                 && $this->stage !== Offer::ARCHIVED;
     }
 
+    public function beforeDelete() {
+        if(parent::beforeDelete()){
+            OfferHistory::deleteAll(['offer_id' => $this->id]);
+            return true;
+        }
+        return false;
+    }
 }

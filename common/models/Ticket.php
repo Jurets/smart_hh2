@@ -503,5 +503,19 @@ class Ticket extends \yii\db\ActiveRecord {
                 ->limit(8)
                 ->all();
     }
+    
+    public function beforeDelete() {
+        if(parent::beforeDelete()){
+            OfferHistory::deleteAll([
+                'offer_id' => (new Query)
+                    ->select('id')
+                    ->from('offer')
+                    ->where(['ticket_id' => $this->id])
+                ]);
+            Offer::deleteAll(['ticket_id' => $this->id]);
+            return true;
+        }
+        return false;
+    }
 
 }

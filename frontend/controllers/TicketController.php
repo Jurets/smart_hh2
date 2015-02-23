@@ -39,7 +39,7 @@ class TicketController extends Controller {
         return [
             'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer',
             'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
-            'Guest' => 'index test create-toLogin review-toLogin renderloginform', // if Guest then redirect to login action
+            'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
 

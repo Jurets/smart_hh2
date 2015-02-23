@@ -62,10 +62,12 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                 <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <!--<a href="<?php //echo Url::to(['ticket/delete', 'id'=>$model->id])?>" class="btn btn-delete btn-average">DELETE</a>-->
                                     <?php
-                                       echo Html::beginForm(Url::to(['ticket/delete']),'post', ['class'=>'left', 'style'=>'margin-right:20px;']);
-                                       echo Html::submitButton(Yii::t('app', 'DELETE'), ['class'=>"btn btn-delete btn-average"]);
-                                       echo Html::hiddenInput('id', $model->id);
-                                       echo Html::endForm();
+                                       if($model->performer_id === null){
+                                           echo Html::beginForm(Url::to(['ticket/delete']),'post', ['class'=>'left', 'style'=>'margin-right:20px;']);
+                                           echo Html::submitButton(Yii::t('app', 'DELETE'), ['class'=>"btn btn-delete btn-average"]);
+                                           echo Html::hiddenInput('id', $model->id);
+                                           echo Html::endForm();
+                                       }
                                     ?>
                                     <a href="<?=Url::to(['ticket/update', 'id'=>$model->id])?>" class="btn btn-average"><?=Yii::t('app','EDIT THIS JOB')?></a>
                                 </div>

@@ -87,7 +87,7 @@ class Controller extends native_Controller {
         if (strpos($extract, $action) === FALSE) {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to view the page');
         }else{
-            if (strpos($extract, '-') !== FALSE) {
+            if (strpos($extract, '->') !== FALSE) {
                 $this->accessDeniedWithRedirect($extract, $action);
             }
             $this->accessRetification($extract, $action);
@@ -107,10 +107,10 @@ class Controller extends native_Controller {
     protected function accessDeniedWithRedirect($extract, $action){
         $items = explode(' ', $extract);
                 foreach ($items as $item) {
-                    if (strpos($item, '-') === FALSE) {
+                    if (strpos($item, '->') === FALSE) {
                         continue;
                     } else {
-                        $buff = explode('-', $item);
+                        $buff = explode('->', $item);
                         $targetAction = $buff[0];
                         if ($targetAction === $action) {
                             $redirectTo = strtolower(substr($buff[1], 2));
