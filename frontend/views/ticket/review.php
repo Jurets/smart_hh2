@@ -56,9 +56,9 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     <p class="measurement">week</p>
                 </div>
                 <div class="auction">
-                    <?php if(is_null($model->price)) {?>
-                    Ready to raise on:<br/><span class="red">&dollar;<?=is_null($price)?0:$price?></span>
-                    <?php } ?>
+                    <?php if(!empty($newPrice)): ?>
+                        <?= $newPrice['message'] ?>:<br/><span class="red">&dollar;<?=is_null($newPrice['price']) ? 0 : $newPrice['price']?></span>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
