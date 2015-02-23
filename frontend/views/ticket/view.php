@@ -57,7 +57,9 @@ if($isAutoFocus){
                                 <a href="#" class="more">Read full description</a>                                 
                             </div>
                             <div class="location">
-                                <p class="title">Job Location: 10 Gagarin St, 50/5</p>
+                                <?php if($model->job_location !== null): ?>
+                                <p class="title">Job Location: <?= Html::encode($model->job_location) ?></p>
+                                <?php endif; ?>
                                 
                                 <?php if( !is_null($model->lat) && !is_null($model->lon) ) { ?>
                                 <div id="GoogleLat" style="display:none;"><?=$model->lat?> </div>

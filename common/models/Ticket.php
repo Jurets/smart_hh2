@@ -28,6 +28,7 @@ use common\modules\user\models\User;
  * @property integer $is_positive
  * @property integer $rate
  * @property string $updated_at
+ * @property string $job_location
  * 
  * @property Category $category
  * @property User $user
@@ -289,6 +290,7 @@ class Ticket extends \yii\db\ActiveRecord {
         $this->is_turned_on = self::TURNED_ON;
         if (!empty($post['location'])) {
             $this->calculateLatLon($post['location']);
+            $this->job_location = $post['location'];
         }
         $this->start_day = date('Y-m-d h:i');
         if (isset($post['finish_day'])) {
