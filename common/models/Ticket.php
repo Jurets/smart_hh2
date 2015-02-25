@@ -518,4 +518,10 @@ class Ticket extends \yii\db\ActiveRecord {
         return false;
     }
 
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($this->status === Ticket::STATUS_DONE_BY_PERFORMER && $this->is_turned_on){
+            Yii::$app->notification->addDoneByPerformerNotification($this->id, $this->user_id);
+        }
+    }
 }

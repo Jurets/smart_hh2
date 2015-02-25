@@ -62,6 +62,16 @@ class Notification extends \yii\base\Component{
         return $notification->save();
     }
     
+    public function addDoneByPerformerNotification($entityId, $userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_DONE_BY_PERFORMER, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/view', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $notification->message = Yii::t('app','Performer has done a job. Please write a review: {title}',[
+            'title' => Html::encode($ticket['title']),
+        ]);
+        return $notification->save();
+    }
+    
     public function getUnread($userId=null){
         if ($this->_notifications === null) {
             if ($userId === null) {
