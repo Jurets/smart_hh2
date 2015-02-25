@@ -28,7 +28,8 @@ use kartik\widgets\FileInput;
                                               'style' => 'display:inline',
                                              ],
                                 'pluginOptions' => [
-                                              'autoclose' => true
+                                              'autoclose' => true,
+                                              'startDate' => date('Y-m-d'),
                                              ],
                             ])?>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
