@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if(empty($photos)===TRUE){$photo='/images/photo_cap.png';}else{$photo=Yii::$app->params['upload.url'] . '/' . $photos[0]->code;} ?>
                 <img class="avatar left" src="<?php echo $photo ?>" alt="avatar">
                 <div><span class="user-name">
-<?php echo is_null($profile->first_name) || is_null($profile->last_name) ? $profile->full_name : $profile->first_name . ' ' . $profile->last_name ?>
+                    <?= Html::encode(ContactsHelper::getFullName($profile)) ?>
                     </span>                                            
                     <?php foreach ($profile->user->userSocialNetworks as $userSocialNetwork): ?>
                         <a href="#" class="user-status">

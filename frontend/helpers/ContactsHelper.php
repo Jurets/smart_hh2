@@ -101,4 +101,13 @@ class ContactsHelper {
             return \Yii::$app->params['languages'][$name];
         }, $languages));
     }
+    
+    public static function getFullName(\common\modules\user\models\Profile $profile){
+        $firstName = trim($profile->first_name);
+        $lastName = trim($profile->last_name);
+        $fullName = trim($profile->full_name);
+        return (empty($firstName)|| empty($lastName))
+            ? (!empty($fullName)? $fullName : $profile->user->username)
+            : $firstName . ' ' . $lastName;
+    }
 }
