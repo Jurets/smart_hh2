@@ -22,6 +22,9 @@ return [
             // rules writes in back and front separately
             ],
         ],
+        'notification' => [
+            'class' => 'common\components\Notification',
+        ]
     ],
     'modules' => [
         'user' => [

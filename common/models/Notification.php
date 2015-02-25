@@ -21,6 +21,18 @@ use Yii;
  */
 class Notification extends \yii\db\ActiveRecord
 {
+    const TYPE_BELL_ACCEPTED_BY_OWNER = 'bell_accepted_by_owner';
+    const TYPE_BELL_DONE_BY_PERFORMER = 'bell_done_by_performer';
+    const TYPE_BELL_FD_UP = 'bell_fd_up';
+    const TYPE_BELL_NEW_REVIEW = 'bell_new_review';
+    const TYPE_BELL_OFFERED_JOBS = 'bell_offered_jobs';
+    const TYPE_BELL_OWNER_OFFERED_NEW_PRICE = 'bell_owner_offered_new_price';
+    const TYPE_BELL_PERFORMER_OFFERED_NEW_PRICE = 'bell_performer_offered_new_price';
+    const TYPE_BELL_PROPOSAL = 'bell_proposal';
+    const TYPE_BELL_ROTTEN = 'bell_rotten';
+    
+    
+    public $proposal_count;
     /**
      * @inheritdoc
      */
@@ -67,5 +79,9 @@ class Notification extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    public static function find() {
+        return new queries\NotificationQuery(get_called_class());
     }
 }
