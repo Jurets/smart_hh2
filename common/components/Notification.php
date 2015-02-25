@@ -52,6 +52,16 @@ class Notification extends \yii\base\Component{
         return $notification->save();
     }
     
+    public function addAcceptedByOwnerNotification($entityId, $userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_ACCEPTED_BY_OWNER, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/review', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $notification->message = Yii::t('app','You have been accepted for a job: {title}',[
+            'title' => Html::encode($ticket['title']),
+        ]);
+        return $notification->save();
+    }
+    
     public function getUnread($userId=null){
         if ($this->_notifications === null) {
             if ($userId === null) {
