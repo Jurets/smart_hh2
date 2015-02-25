@@ -120,6 +120,11 @@ class TicketController extends Controller {
         $get = Yii::$app->request->get();
         $isAutoFocus = isset($get['reply']) && $get['reply'];
         $complain = new Complaint;
+        $this->on(Controller::EVENT_AFTER_ACTION, [Yii::$app->notification, 'handleNotificationRead'], [
+            'userId' => Yii::$app->user->id,
+            'entity' => 'ticket',
+            'entityId' => $id,
+        ]);
         return $this->render('view', [
                     'model' => $model,
                     'proposal' => $proposes,

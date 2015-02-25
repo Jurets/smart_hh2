@@ -64,4 +64,20 @@ class Notification extends \yii\base\Component{
         return count($this->getUnread($userId));
     }
     
+    public function markNotificationsAsRead($entityId, $entity='ticket', $userId=null){
+        if ($userId === null) {
+            $userId = $this->userId;
+        }
+        NotificationModel::updateAll(['is_read' => 1], [
+            'user_id' => $userId,
+            'entity' => $entity,
+            'entity_id' => $entityId,
+        ]);
+    }
+    
+    public function handleNotificationRead(yii\base\Event $event){
+        $data = $event->data;
+        $this->markNotificationsAsRead($data['entityId'], $data['entity'], $data['userId']);
+    }
+    
 }
