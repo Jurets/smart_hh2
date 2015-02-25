@@ -7,6 +7,7 @@ use common\models\Notification as NotificationModel;
 class Notification extends \yii\base\Component{
     
     public $userId;
+    protected $_notifications;
     
     public function init() {
         parent::init();
@@ -28,31 +29,39 @@ class Notification extends \yii\base\Component{
         $notification = $this->createNotification(NotificationModel::TYPE_BELL_PROPOSAL, $userId, 'ticket', $entityId);
         $notification->link = Url::to(['/ticket/view', 'id' => $entityId]);
         $ticket = \common\models\Ticket::findOne($entityId);
-        $notification->message = $ticket->title . Yii::t('app','has new proposals');
+        $notification->message = $ticket->title . ' ' . Yii::t('app','has new proposals');
+        return $notification->save();
     }
     
     public function getUnread($userId=null){
-        if($userId === null){
-            $userId = $this->userId;
-        }
-        $newProposalNotification = NotificationModel::find()
-                ->select([
-                    'date' => 'MAX(notification.date)',
-                    'type',
-                    'message',
-                    'link',
-                    'proposal_count' => 'count(*)',
-                ])
-                ->byUser($userId)
-                ->unread()
-                ->andWhere([
-                    'entity' => 'ticket',
-                    'type' => NotificationModel::TYPE_BELL_PROPOSAL,
+        if ($this->_notifications === null) {
+            if ($userId === null) {
+                $userId = $this->userId;
+            }
+            $newProposalNotification = NotificationModel::find()
+                    ->select([
+                        'date' => 'MAX(notification.date)',
+                        'type',
+                        'message',
+                        'link',
+                        'proposal_count' => 'count(*)',
                     ])
-                ->groupBy(['entity_id', 'link', 'type', 'message'])
-                ->having('proposal_count > 0')
-                ->all();
-        return $newProposalNotification;
+                    ->byUser($userId)
+                    ->unread()
+                    ->andWhere([
+                        'entity' => 'ticket',
+                        'type' => NotificationModel::TYPE_BELL_PROPOSAL,
+                    ])
+                    ->groupBy(['entity_id', 'link', 'type', 'message'])
+                    ->having('proposal_count > 0')
+                    ->all();
+            $this->_notifications = $newProposalNotification;
+        }
+        return $this->_notifications;
+    }
+    
+    public function getUnreadCount($userId=null){
+        return count($this->getUnread($userId));
     }
     
 }

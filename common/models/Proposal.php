@@ -114,5 +114,12 @@ class Proposal extends \yii\db\ActiveRecord implements Reply
     public function canOfferPrice() {
         return true;
     }
+    
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($insert){
+            Yii::$app->notification->addNewProposalsNotification($this->ticket_id, $this->ticket->user_id);
+        }
+    }
 
 }

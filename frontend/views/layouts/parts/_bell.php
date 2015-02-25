@@ -1,6 +1,5 @@
 <?php
-$currentUser = Yii::$app->user->getIdentity();
-$bellNotificationCount = ($currentUser !== null) ? $currentUser->getBellNotificationsCount() : 0;
+    $bellNotificationCount = Yii::$app->notification->getUnreadCount();
 ?>
 <a href="#" class="" <?= $bellNotificationCount ? 'data-toggle="dropdown"' : '' ?>>
     <img src="/images/icon-bell.png" alt="bell"/>
@@ -9,8 +8,8 @@ $bellNotificationCount = ($currentUser !== null) ? $currentUser->getBellNotifica
 </a>
 <?php if($bellNotificationCount): ?>
     <ul class="dropdown-menu" role="menu">
-    <?php foreach ($currentUser->getBellNotifications() as $ticket): ?>
-            <?= $this->render('bell/' . $ticket['type'], ['ticket' => $ticket]) ?>
+    <?php foreach (Yii::$app->notification->getUnread() as $notification): ?>
+            <?= $this->render('bell/' . $notification['type'], ['notification' => $notification]) ?>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>
