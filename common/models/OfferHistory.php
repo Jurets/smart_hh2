@@ -71,6 +71,24 @@ class OfferHistory extends \yii\db\ActiveRecord
                 case Offer::STAGE_AGREE:
                     Yii::$app->notification->addAcceptedByOwnerNotification($this->offer->ticket_id, $this->offer->performer_id);
                     break;
+                case Offer::STAGE_LAST_ANSWER:
+                    Yii::$app->notification
+                        ->addPerformerOfferedNewPriceNotification(
+                            $this->offer->ticket_id,
+                            $this->offer->performer_id,
+                            $this->price,
+                            $this->offer->ticket->user_id
+                        );
+                    break;
+                case Offer::STAGE_COUNTEROFFER:
+                   Yii::$app->notification
+                        ->addOwnerOfferedNewPriceNotification(
+                            $this->offer->ticket_id,
+                            $this->offer->ticket->user_id,
+                            $this->price,
+                            $this->offer->performer_id
+                        );
+                    break;
             }
         }
     }

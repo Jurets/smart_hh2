@@ -75,7 +75,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                         <a href="#" id="accept_offer_button" class="btn btn-average">ACCEPT</a>
                         <?= Html::endForm() ?>
                     <?php } ?>
-                <?php if((!$applied) || ((!is_null($stage)) && ($stage < Offer::STAGE_LAST_ANSWER))){?>
+                <?php if($model->canAcceptOffer() && ((!$applied) || ((!is_null($stage)) && ($stage < Offer::STAGE_LAST_ANSWER)))){?>
                 <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
                 <?= $this->render('popup/_offer-price', ['model' => $model]) ?>
                 <?php } ?>

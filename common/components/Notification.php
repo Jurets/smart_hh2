@@ -79,6 +79,34 @@ class Notification extends \yii\base\Component{
         return $notification->save();
     }
     
+    public function addPerformerOfferedNewPriceNotification($entityId, $performerId, $price, $userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_PERFORMER_OFFERED_NEW_PRICE, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/view', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $performer = \common\modules\user\models\User::findOne($performerId);
+        $notification->message = Html::encode($performer['username'])
+                . ' ' . Yii::t('app','offered new price for job')
+                . ' "' . Html::encode($ticket['title'])
+                . '": <span class="red">$'
+                . Html::encode($price)
+                . '</span>';
+        return $notification->save();
+    }
+    
+    public function addOwnerOfferedNewPriceNotification($entityId, $ownerId, $price, $userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_OWNER_OFFERED_NEW_PRICE, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/review', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $owner = \common\modules\user\models\User::findOne($ownerId);
+        $notification->message = Html::encode($owner['username'])
+                . ' ' . Yii::t('app','offered new price for job')
+                . ' "' . Html::encode($ticket['title'])
+                . '": <span class="red">$'
+                . Html::encode($price)
+                . '</span>';
+        return $notification->save();
+    }
+    
     public function getUnread($userId=null){
         if ($this->_notifications === null) {
             if ($userId === null) {
