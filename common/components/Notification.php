@@ -2,6 +2,7 @@
 namespace common\components;
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use common\models\Notification as NotificationModel;
 
 class Notification extends \yii\base\Component{
@@ -33,6 +34,24 @@ class Notification extends \yii\base\Component{
         return $notification->save();
     }
     
+    public function addRottenNotification($entityId, $userId=null){
+        //TODO implement
+    }
+    
+    public function addFdUpNotification($entityId, $userId=null){
+        //TODO implement
+    }
+    
+    public function addOfferedJobsNotification($entityId, $userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_OFFERED_JOBS, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/review', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $notification->message = Yii::t('app','You have a new job offer: {title}',[
+            'title' => Html::encode($ticket['title']),
+        ]);
+        return $notification->save();
+    }
+    
     public function getUnread($userId=null){
         if ($this->_notifications === null) {
             if ($userId === null) {
@@ -55,7 +74,15 @@ class Notification extends \yii\base\Component{
                     ->groupBy(['entity_id', 'link', 'type', 'message'])
                     ->having('proposal_count > 0')
                     ->all();
-            $this->_notifications = $newProposalNotification;
+            $otherNotifications = NotificationModel::find()
+                    ->byUser($userId)
+                    ->unread()
+                    ->andWhere(['not', ['type' => NotificationModel::TYPE_BELL_PROPOSAL]])
+                    ->all();
+            $this->_notifications = array_merge($newProposalNotification, $otherNotifications);
+            if (!empty($this->_notifications)) {
+                yii\helpers\ArrayHelper::multisort($this->_notifications, 'date', SORT_DESC);
+            }
         }
         return $this->_notifications;
     }

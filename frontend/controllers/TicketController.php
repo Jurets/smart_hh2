@@ -186,6 +186,11 @@ class TicketController extends Controller {
                     $price = $model->price;
                 }
             }
+            $this->on(Controller::EVENT_AFTER_ACTION, [Yii::$app->notification, 'handleNotificationRead'], [
+                'userId' => Yii::$app->user->id,
+                'entity' => 'ticket',
+                'entityId' => $id,
+            ]);
             return $this->render('review', [
                         'model' => $model,
                         'user' => $user,

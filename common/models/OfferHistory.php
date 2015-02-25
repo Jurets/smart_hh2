@@ -60,4 +60,13 @@ class OfferHistory extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Offer::className(), ['id' => 'offer_id']);
     }
+    
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($insert){
+            if($this->offer->stage === Offer::STAGE_OWNER_OFFER){
+                Yii::$app->notification->addOfferedJobsNotification($this->offer->ticket_id, $this->offer->performer_id);
+            }
+        }
+    }
 }
