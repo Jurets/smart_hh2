@@ -112,10 +112,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p class=""><?= Html::encode($languages) ?></p>
                 <?php endif; ?>
                 <p class="title">Verified Contacts:</p>
-                <p class=""><?= Html::encode(ContactsHelper::getEmail($profile->user)) ?></p>
+                <p class=""><?= Html::encode(ContactsHelper::getEmail($profile->user, $canViewContacts)) ?></p>
                 <p class=""><img src="" alt="" />
                     <?php if(!empty($profile->phone)):?>
-                        +<?=  Html::encode($profile->country_code) ?> <?= Html::encode(ContactsHelper::getPhone($profile)) ?>
+                        +<?=  Html::encode($profile->country_code) ?> <?= Html::encode(ContactsHelper::getPhone($profile, $canViewContacts)) ?>
                     <?php endif; ?>
                 </p>
             </div>

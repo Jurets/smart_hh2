@@ -57,10 +57,11 @@ class ContactsHelper {
     /**
      * 
      * @param \common\modules\user\models\User $user
+     * @param boolean $hidden* 
      * @return string
      */
-    public static function getEmail(\common\modules\user\models\User $user){
-        $canView = self::checkUser($user);
+    public static function getEmail(\common\modules\user\models\User $user, $hidden=null){
+        $canView = $hidden === null ? self::checkUser($user) : $hidden;
         if($canView){
             return $user->email;
         }
@@ -69,12 +70,13 @@ class ContactsHelper {
     }
     
     /**
-     * 
+     *
      * @param \common\modules\user\models\Profile $profile
+     * @param boolean $hidden
      * @return string
      */
-    public static function getPhone(\common\modules\user\models\Profile $profile){
-        $canView = self::checkUser($profile->user);
+    public static function getPhone(\common\modules\user\models\Profile $profile, $hidden=null){
+        $canView = $hidden === null ? self::checkUser($user) : $hidden;
         $phoneShown = self::preparePhone($profile->phone);
         if($canView){
             return $phoneShown;

@@ -653,6 +653,15 @@ class DefaultController extends Controller {
             'entity' => 'review',
             'entityId' => null,
         ]);
+        
+        $canViewContacts = ($id === Yii::$app->user->id)
+                || (Ticket::find()
+                    ->where([
+                        'user_id' => Yii::$app->user->id,
+                        'performer_id' => $id,
+                    ])
+                    ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]])
+                    ->exists());
         // render
         /* variables in view translate as arrays */
         return $this->render("profile", [
@@ -666,6 +675,7 @@ class DefaultController extends Controller {
                     'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
                     'positiveReviewDataProvider' => $positiveReviewDataProvider,
                     'negativeReviewDataProvider' => $negativeReviewDataProvider,
+                    'canViewContacts' => $canViewContacts,
         ]);
     }
 
