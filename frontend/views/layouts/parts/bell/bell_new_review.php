@@ -1,12 +1,11 @@
 <?php
 
-use yii\helpers\Url;
 use yii\helpers\Html;
+/*@var $notification \common\models\Notification*/
 ?>
 <li>
-    <a href="<?= Url::to(['/user/default/profile']) ?>">
-        <?= Html::encode($ticket['date'])?>:
-        
-        <?= Yii::t('app','You have a new review!')?>
+    <a href="<?= $notification->link ?>">
+        <?= Html::encode($notification->date)?>:
+        <?= Html::encode($notification->message) ?>
     </a>
 </li>

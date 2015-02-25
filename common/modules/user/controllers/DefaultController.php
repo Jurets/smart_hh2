@@ -648,6 +648,11 @@ class DefaultController extends Controller {
             ],
         ]);
 
+        $this->on(Controller::EVENT_AFTER_ACTION, [Yii::$app->notification, 'handleNotificationRead'], [
+            'userId' => Yii::$app->user->id,
+            'entity' => 'review',
+            'entityId' => null,
+        ]);
         // render
         /* variables in view translate as arrays */
         return $this->render("profile", [

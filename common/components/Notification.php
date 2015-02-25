@@ -72,6 +72,13 @@ class Notification extends \yii\base\Component{
         return $notification->save();
     }
     
+    public function addNewReviewNotification($userId=null){
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_NEW_REVIEW, $userId, 'review');
+        $notification->link = Url::to(['/user/default/profile']);
+        $notification->message = Yii::t('app','You have a new review!');
+        return $notification->save();
+    }
+    
     public function getUnread($userId=null){
         if ($this->_notifications === null) {
             if ($userId === null) {

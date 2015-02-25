@@ -79,4 +79,11 @@ class Review extends \yii\db\ActiveRecord
     public function getTicket(){
         return $this->hasOne(Ticket::className(), ['id' => 'ticket_id']);
     }
+    
+    public function afterSave($insert, $changedAttributes) {
+        parent::afterSave($insert, $changedAttributes);
+        if($insert){
+            Yii::$app->notification->addNewReviewNotification($this->to_user_id);
+        }
+    }
 }
