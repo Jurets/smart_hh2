@@ -14,5 +14,9 @@ class NotificationQuery extends ActiveQuery{
         $this->andWhere(['notification.user_id' => $user_id]);
         return $this;
     }
-
+    
+    public function past(){
+        $this->andWhere('notification.date<CURRENT_TIMESTAMP');
+        return $this;
+    }
 }

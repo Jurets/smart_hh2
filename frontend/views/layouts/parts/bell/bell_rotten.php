@@ -1,13 +1,11 @@
 <?php
 
-use yii\helpers\Url;
 use yii\helpers\Html;
+/*@var $notification \common\models\Notification*/
 ?>
 <li>
-    <a href="<?= Url::to(['/ticket/view', 'id' => $ticket['id']]) ?>">
-        <?= Yii::t('app','Your job {title} is on {date}',[
-            'title' => Html::encode($ticket['title']),
-            'date' => Html::encode($ticket['date']),
-        ])?>
+    <a href="<?= $notification->link ?>">
+        <?= Html::encode($notification->date)?>:
+        <?= $notification->message ?>
     </a>
 </li>

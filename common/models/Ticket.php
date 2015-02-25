@@ -520,6 +520,23 @@ class Ticket extends \yii\db\ActiveRecord {
 
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
+        if($insert){
+            Yii::$app->notification->addRottenNotification($this->id, $this->user_id);
+        }
+        if( array_key_exists ( 'performer_id' , $changedAttributes )
+                && $changedAttributes['performer_id'] !== $this->performer_id){
+            Yii::$app->notification->addFdUpNotification($this->id, $this->performer_id);
+        }
+        if($this->status !== Ticket::STATUS_NOT_COMPLETED){
+            $types = [
+                Notification::TYPE_BELL_FD_UP,
+                Notification::TYPE_BELL_ROTTEN,
+            ];
+            if($this->status === Ticket::STATUS_COMPLETED){
+                $types = null;
+            }
+            Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
+        }
         if($this->status === Ticket::STATUS_DONE_BY_PERFORMER && $this->is_turned_on){
             Yii::$app->notification->addDoneByPerformerNotification($this->id, $this->user_id);
         }

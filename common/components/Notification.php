@@ -35,11 +35,27 @@ class Notification extends \yii\base\Component{
     }
     
     public function addRottenNotification($entityId, $userId=null){
-        //TODO implement
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_ROTTEN, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/view', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $notification->message = Yii::t('app','Your job {title} is on {date}',[
+            'title' => Html::encode($ticket['title']),
+            'date' => Html::encode($ticket['finish_day']),
+        ]);
+        $notification->date = date('Y-m-d H:i:s', strtotime('-' . Yii::$app->params['bell.rottenTicketDays'] . ' day', strtotime($ticket->finish_day)));
+        return $notification->save();
     }
     
     public function addFdUpNotification($entityId, $userId=null){
-        //TODO implement
+        $notification = $this->createNotification(NotificationModel::TYPE_BELL_FD_UP, $userId, 'ticket', $entityId);
+        $notification->link = Url::to(['/ticket/review', 'id' => $entityId]);
+        $ticket = \common\models\Ticket::findOne($entityId);
+        $notification->message = Yii::t('app','Don\'t miss a job You apllied to: {title} is on {date}',[
+            'title' => Html::encode($ticket['title']),
+            'date' => Html::encode($ticket['finish_day']),
+        ]);
+        $notification->date = date('Y-m-d H:i:s', strtotime('-' . Yii::$app->params['bell.rottenTicketDays'] . ' day', strtotime($ticket->finish_day)));
+        return $notification->save();
     }
     
     public function addOfferedJobsNotification($entityId, $userId=null){
@@ -132,6 +148,7 @@ class Notification extends \yii\base\Component{
             $otherNotifications = NotificationModel::find()
                     ->byUser($userId)
                     ->unread()
+                    ->past()
                     ->andWhere(['not', ['type' => NotificationModel::TYPE_BELL_PROPOSAL]])
                     ->all();
             $this->_notifications = array_merge($newProposalNotification, $otherNotifications);
@@ -146,15 +163,23 @@ class Notification extends \yii\base\Component{
         return count($this->getUnread($userId));
     }
     
-    public function markNotificationsAsRead($entityId, $entity='ticket', $userId=null){
-        if ($userId === null) {
-            $userId = $this->userId;
-        }
-        NotificationModel::updateAll(['is_read' => 1], [
-            'user_id' => $userId,
+    public function markNotificationsAsRead($entityId, $entity='ticket', $userId=null, $past=true, $types=null){
+        $equalsCondition = [
             'entity' => $entity,
             'entity_id' => $entityId,
-        ]);
+        ];
+        if ($userId !== null) {
+            $equalsCondition['user_id'] = $userId;
+        }
+        if($types !== null){
+            $equalsCondition['type'] = $types;
+        }
+        $condition = $past ? [
+            'and',
+            $equalsCondition,
+            'date<CURRENT_TIMESTAMP'
+        ] : $equalsCondition;
+        NotificationModel::updateAll(['is_read' => 1], $condition);
     }
     
     public function handleNotificationRead(yii\base\Event $event){
