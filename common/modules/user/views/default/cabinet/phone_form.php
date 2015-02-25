@@ -10,7 +10,14 @@ use yii\helpers\Url;
 <form method="post" action="<?php echo Url::to(['/user/popup_runtime'],true)?>" data-render="user-contact">
    <input type="hidden" name="signature" value="Phone">
    <fieldset>
-       <input type="text" name="phone" value="<?=$dataSet?>" style="margin-bottom: 15px;">
+       <?=
+       \yii\widgets\MaskedInput::widget([
+           'name' => 'phone',
+           'value' => $dataSet,
+           'mask' => '999-999-9999',
+           'options' => ['style' => 'margin-bottom: 15px;'],
+       ])
+       ?>
     <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
    </fieldset>
 </form>

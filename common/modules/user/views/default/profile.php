@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\StarRating;
+use frontend\helpers\ContactsHelper;
 ?>
 
 <?php
@@ -105,11 +106,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="user-contact col-xs-6 col-sm-4 col-md-4 col-lg-6">
-                <p class="title">Languages:</p>
-                <p class="">English, Russian</p>
+                <?php $languages = ContactsHelper::getLanguages($profile->user); ?>
+                <?php if(!empty($languages)): ?>
+                    <p class="title">Languages:</p>
+                    <p class=""><?= Html::encode($languages) ?></p>
+                <?php endif; ?>
                 <p class="title">Verified Contacts:</p>
-                <p class="">@XXXX@gmail.com</p>
-                <p class=""><img src="" alt="" />+1 (XXX) XXX-XX-XX</p>
+                <p class=""><?= Html::encode(ContactsHelper::getEmail($profile->user)) ?></p>
+                <p class=""><img src="" alt="" />
+                    <?php if(!empty($profile->phone)):?>
+                        +<?=  Html::encode($profile->country_code) ?> <?= Html::encode(ContactsHelper::getPhone($profile)) ?>
+                    <?php endif; ?>
+                </p>
             </div>
         </div>  
     </div>   
