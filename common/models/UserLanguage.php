@@ -43,9 +43,9 @@ class UserLanguage extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'ИД юзера'),
-            'language_id' => Yii::t('app', 'ИД языка'),
-            'knowledge' => Yii::t('app', 'уровень владения (от 1 до 5)'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'language_id' => Yii::t('app', 'Language ID'),
+            'knowledge' => Yii::t('app', 'Knowledge Level (1 to 5)'),
         ];
     }
 

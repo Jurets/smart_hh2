@@ -40,7 +40,7 @@ class Language extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'название языка'),
+            'name' => Yii::t('app', 'Language Title'),
         ];
     }
 
