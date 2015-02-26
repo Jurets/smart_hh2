@@ -29,6 +29,21 @@ class RegistrationController extends Controller
             ],
         ];
     }
+    
+    public function behaviors() {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['customer', 'performer'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actionPerformer()
     {
