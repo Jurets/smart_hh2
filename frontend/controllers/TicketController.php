@@ -462,10 +462,18 @@ class TicketController extends Controller {
         if($ticketId === null || $performerId === null || $price === null){
             throw new \yii\web\HttpException('404');
         }
+        $ticket = Ticket::findOne($ticketId);
+        $this->checkTicketExistence($ticket);
+        $this->isTicketsOwner($ticket);
+        /*@var $paypal \common\components\Paypal*/
+        $paypal = Yii::$app->paypal;
+        $payment = $paypal->createPayment($ticket, $performerId, $price);
+        $paypalLink = $payment->getApprovalLink();
         return $this->renderAjax('popup/_paypal', [
             'ticketId' => $ticketId,
             'performerId' => $performerId,
-            'price' => $price
+            'price' => $price,
+            'paypalLink' => $paypalLink,
                 ]);
     }
     

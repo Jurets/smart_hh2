@@ -26,7 +26,7 @@ return [
             'class' => 'common\components\Notification',
         ],
         'paypal' => [
-            'class' => 'marciocamello\Paypal',
+            'class' => 'common\components\Paypal',
             'clientId' => 'you_client_id',
             'clientSecret' => 'you_client_secret',
             'isProduction' => false,
@@ -36,7 +36,7 @@ return [
                 'http.Retry' => 1,
                 'mode' => \marciocamello\Paypal::MODE_SANDBOX, // development (sandbox) or production (live) mode
                 'log.LogEnabled' => YII_DEBUG ? 1 : 0,
-                'log.FileName' => '@runtime/logs/paypal.log',
+                'log.FileName' => '@frontend/runtime/logs/paypal.log',
                 'log.LogLevel' => \marciocamello\Paypal::LOG_LEVEL_FINE,
             ]
         ],
