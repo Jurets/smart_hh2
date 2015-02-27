@@ -37,7 +37,7 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer',
+            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer render-paypal-popup',
             'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
@@ -452,6 +452,21 @@ class TicketController extends Controller {
         $ticket->performer_id = $performerId;
         $ticket->save();
         $this->redirect(['ticket/view', 'id' => $ticket->id]);
+    }
+    
+    public function actionRenderPaypalPopup(){
+        $post = Yii::$app->request->post();
+        $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
+        $performerId = isset($post['performer_id']) ? $post['performer_id'] : null;
+        $price = isset($post['price']) ? $post['price'] : null;
+        if($ticketId === null || $performerId === null || $price === null){
+            throw new \yii\web\HttpException('404');
+        }
+        return $this->renderAjax('popup/_paypal', [
+            'ticketId' => $ticketId,
+            'performerId' => $performerId,
+            'price' => $price
+                ]);
     }
     
     public function actionPerformerAcceptOffer(){

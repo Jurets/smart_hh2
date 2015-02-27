@@ -108,4 +108,7 @@ the installed application. You only need to do these once for all.
    yoursite.ex/
    yoursite.ex/admin
 
+Paypal extension issue: namespace contains "-" symbol;
+namespace marciocamello/yii2-paypal should be changed to marciocamello in
+vandor/marciocamello/yii2-paypal/Paypal.php
 

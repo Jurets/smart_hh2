@@ -38,6 +38,10 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
             'ticket' => $model
         ])
         ?>                        
+                        <div id="paypal-popup" class="pop-up pop-up-edit popup-align-center pop-up-hide">
+                            <a class="close" href="#">×</a>
+                            <div class="popup-content"></div>
+                        </div>
                         <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
                             <h1><?=$model->title?></h1>
 

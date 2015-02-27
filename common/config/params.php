@@ -34,5 +34,7 @@ return [
     //rotten period in days
     'bell.rottenTicketDays' => 1,
     //autoclose period in hours
-    'ticket.autoClosePeriod' => 24
+    'ticket.autoClosePeriod' => 24,
+    //paypal fee in percents
+    'paypal.fee' => 7,
 ];
