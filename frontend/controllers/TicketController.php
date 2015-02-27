@@ -37,8 +37,13 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer render-paypal-popup',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
+            'Customer' => 'index create view review update test delete complain'
+            . ' renderloginform renderapplyform priceagreement apply'
+            . ' offer-price set-as-done add-comment delete-comment accept-offer'
+            . ' performer-accept-offer render-paypal-popup execute-payment',
+            'Performer' => 'index create view review update test complain'
+            . ' delete complain renderloginform renderapplyform priceagreement'
+            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -474,7 +479,7 @@ class TicketController extends Controller {
             'performerId' => $performerId,
             'price' => $price,
             'paypalLink' => $paypalLink,
-                ]);
+        ]);
     }
     
     public function actionPerformerAcceptOffer(){
@@ -509,6 +514,19 @@ class TicketController extends Controller {
         $ticket->performer_id = $performerId;
         $ticket->save();
         $this->redirect(['ticket/review', 'id' => $ticket->id]);
+    }
+    
+    public function actionExecutePayment($success){
+        if($success){
+            $paymentId = Yii::$app->request->get('paymentId');
+            $payerID = Yii::$app->request->get('PayerID');
+            if($paymentId === null || $payerID === null){
+                throw new \yii\web\HttpException('400', 'Wrong parameters');
+            }
+            return 'OK';
+        }else{
+            return 'NOT OK';
+        }
     }
 
     /* _ */
