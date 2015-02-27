@@ -4,7 +4,7 @@ use yii\helpers\Html;
 ?>
 <div class="task-item info-border">
     <div class="task-info-price">
-        <p class="price">&dollar;<span><?= empty($model->price) ? '...' : $model->price?></span></p>
+        <p class="price">&dollar;<span><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
         <p class="measurement">week</p>
     </div>
     <div class="task-info-meta">

@@ -12,7 +12,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
 
 <div class="task-item info-border">
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
-        <p class="price">&dollar;<span id="digital_price_part"><?= empty($model->price) ? '...' : $model->price?></span></p>
+        <p class="price">&dollar;<span id="digital_price_part"><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
         <p class="measurement">week</p>
         <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
         <div class="pos-relativer">
