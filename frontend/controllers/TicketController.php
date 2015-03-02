@@ -523,6 +523,11 @@ class TicketController extends Controller {
             if($paymentId === null || $payerID === null){
                 throw new \yii\web\HttpException('400', 'Wrong parameters');
             }
+            /*@var $paypal \common\components\Paypal*/
+            $paypal = Yii::$app->paypal;
+            if($paypal->executePayment($paymentId, $payerID)){
+                
+            }
             return 'OK';
         }else{
             return 'NOT OK';

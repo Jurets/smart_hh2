@@ -20,6 +20,7 @@ use PayPal\Api\Item;
 use PayPal\Api\ItemList;
 use PayPal\Api\RedirectUrls;
 use PayPal\Rest\ApiContext;
+use PayPal\Api\PaymentExecution;
 
 
 class Paypal extends \marciocamello\Paypal{
@@ -142,10 +143,43 @@ class Paypal extends \marciocamello\Paypal{
                 ->setTransactions([$transaction]);
         try {
             $payment->create($this->_apiContext);
-        } catch (\yii\base\Exception $ex) {
+        } catch (\Exception $ex) {
             Yii::error($ex->getMessage());
         }
         
         return $payment;
+    }
+    
+    /**
+     * 
+     * @param string $paymentId
+     * @param string $payerId
+     * @return \PayPal\Api\Payment|boolean
+     */
+    public function executePayment($paymentId, $payerId){
+        $payment = Payment::get($paymentId, $this->_apiContext);
+        
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+        
+        try{
+            $result = $payment->execute($execution, $this->_apiContext);
+            
+        } catch (\Exception $ex) {
+            Yii::error($ex->getMessage());
+            return false;
+        }
+        return $result;
+    }
+    
+    /**
+     * 
+     * @param Payment $result
+     */
+    public function processResult($result, $offer, ){
+        if($result->getState() !== 'approved'){
+            return false;
+        }
+        
     }
 }
