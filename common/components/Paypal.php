@@ -176,7 +176,7 @@ class Paypal extends \marciocamello\Paypal{
      * 
      * @param Payment $result
      */
-    public function processResult($result, $offer, ){
+    public function processResult($result, $offer){
         if($result->getState() !== 'approved'){
             return false;
         }
