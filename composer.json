@@ -27,7 +27,8 @@
         "kartik-v/yii2-editable": "dev-master",
         "kartik-v/mpdf": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
-        "kartik-v/yii2-grid": "dev-master"
+        "kartik-v/yii2-grid": "dev-master",
+        "marciocamello/yii2-paypal": "dev-master"
         
     },
     "require-dev": {

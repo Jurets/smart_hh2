@@ -67,7 +67,11 @@ use yii\helpers\Html;
                 <?= Html::hiddenInput('ticket_id', $model->id) ?>
                 <?= Html::hiddenInput('performer_id', $propose->performer_id) ?>
                 <?= Html::hiddenInput('price', $propose->price) ?>
-                <a href="#" class="btn btn-average accept-offer">ACCEPT</a>
+                <a href="#" class="btn btn-average accept-offer"
+                   data-ticket-id="<?= $model->id ?>"
+                   data-performer-id="<?= $propose->performer_id ?>"
+                   data-price="<?= $propose->price ?>"
+                   data-url="<?= \yii\helpers\Url::to(['/ticket/render-paypal-popup'])?>">ACCEPT</a>
             <?= Html::endForm() ?>
                 <?php if($propose->canOfferPrice()): ?>
                     <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>">MAKE ANOTHER OFFER</a>

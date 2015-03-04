@@ -71,7 +71,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     <?php if ($model->canAcceptOffer() && $stage === Offer::STAGE_COUNTEROFFER) { ?>
                         <?= Html::beginForm(['ticket/performer-accept-offer'], 'post', ['style' => 'display:inline;']) ?>
                         <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
-                        <?= Html::hiddenInput('price', $price) ?>
+                        <?= Html::hiddenInput('price', $offers_price) ?>
                         <a href="#" id="accept_offer_button" class="btn btn-average">ACCEPT</a>
                         <?= Html::endForm() ?>
                     <?php } ?>

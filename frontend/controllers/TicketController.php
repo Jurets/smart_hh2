@@ -37,8 +37,13 @@ class TicketController extends Controller {
 
     public function convensionInit() {
         return [
-            'Customer' => 'index create view review update test delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment accept-offer performer-accept-offer',
-            'Performer' => 'index create view review update test complain delete complain renderloginform renderapplyform priceagreement apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
+            'Customer' => 'index create view review update test delete complain'
+            . ' renderloginform renderapplyform priceagreement apply'
+            . ' offer-price set-as-done add-comment delete-comment accept-offer'
+            . ' performer-accept-offer render-paypal-popup execute-payment',
+            'Performer' => 'index create view review update test complain'
+            . ' delete complain renderloginform renderapplyform priceagreement'
+            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -111,9 +116,9 @@ class TicketController extends Controller {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
         $this->isTicketsOwner($model);
-        if($model->status === Ticket::STATUS_COMPLETED){
+        if ($model->status === Ticket::STATUS_COMPLETED) {
             throw new \yii\web\HttpException('404', Yii::t('app', 'This task is done.'));
-        }        
+        }
         //$proposeModel = new Proposal; // get a proposal model
         //$proposes = $proposeModel->getAllProposes($model->id);
         $proposes = $model->getReplies();
@@ -132,20 +137,21 @@ class TicketController extends Controller {
                     'complain' => $complain
         ]);
     }
-    public function actionPriceagreement(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionPriceagreement() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $id = isset($post['ticket_id']) ? int($post['ticket_id']) : NULL;
             $model = $this->findModel($id);
             $this->checkTicketExistence($model);
             // TO DO : CustomerSign & PerformerSign
-            
         }
     }
+
     public function actionReview($id) {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
-        if($model->status === Ticket::STATUS_COMPLETED){
+        if ($model->status === Ticket::STATUS_COMPLETED) {
             throw new \yii\web\HttpException('404', Yii::t('app', 'This task is done.'));
         }
         $user = User::findOne(['id' => $model->user_id]);
@@ -155,15 +161,16 @@ class TicketController extends Controller {
             $offer = Offer::findCurrentOffer(Yii::$app->user->id, $model->id);
             $proposalModel = new Proposal;
             $propose = $proposalModel->findPropose($model->id, Yii::$app->user->id);
-            if(!is_null($propose)){
+            if (!is_null($propose)) {
                 $applied = true;
             }
             $newPrice = [];
-            if(!is_null($offer)){
+            if (!is_null($offer)) {
                 $buff = $offer->getOfferHistoryLast();
                 $stage = is_null($offer) ? NULL : $offer->stage;
                 $newPrice['price'] = is_null($buff) ? NULL : $buff->price;
-                switch($stage){
+                $price = is_null($buff) ? $model->price : $buff->price;
+                switch ($stage) {
                     case Offer::STAGE_OWNER_OFFER:
                     case Offer::STAGE_COUNTEROFFER:
                         $newPrice['message'] = Yii::t('app', 'Owner offered');
@@ -178,11 +185,12 @@ class TicketController extends Controller {
                         $newPrice['message'] = Yii::t('app', 'Ready to raise on');
                 }
                 //$applied = true;
-            }else{
-                if(!is_null($propose)){
+            } else {
+                if (!is_null($propose)) {
                     $newPrice['price'] = $propose->price;
+                    $price = $propose->price;
                     $newPrice['message'] = Yii::t('app', 'You offered');
-                }else{
+                } else {
                     $price = $model->price;
                 }
             }
@@ -196,6 +204,7 @@ class TicketController extends Controller {
                         'user' => $user,
                         'complain' => $complain,
                         'price' => $model->price,
+                        'offers_price' => $price,
                         'newPrice' => $newPrice,
                         'stage' => isset($stage) ? $stage : NULL,
                         'applied' => $applied
@@ -228,7 +237,7 @@ class TicketController extends Controller {
     }
 
     /**
-     
+
      * @return mixed
      */
     public function actionDelete() {
@@ -271,8 +280,16 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id=NULL) {
-        $offer = Offer::findCurrentOffer(Yii::$app->user->id, $id);
+    public function actionTest($id = NULL) {
+        $session = Yii::$app->session;
+        if (isset($session['ticket_id']) && isset($session['performer_id']) && isset($session['current_price'])) {
+            var_dump($session['ticket_id'], $session['performer_id'], $session['current_price']);
+            $this->flushPaymentSessionRec();
+        } else {
+            echo 'session pp-rec setup...';
+            $this->setPaymentSessionRec('18', '4', '222');
+        }
+        //$offer = Offer::findCurrentOffer(Yii::$app->user->id, $id);
         //return $this->render('test');
     }
 
@@ -319,7 +336,7 @@ class TicketController extends Controller {
             }
         }
     }
-    
+
     public function actionApply() {
         $post = Yii::$app->request->post();
         $id = (isset($post['ticket_id'])) ? (int) $post['ticket_id'] : null;
@@ -335,8 +352,8 @@ class TicketController extends Controller {
         $this->applyMain($from_user_id, $ticket, $post);
         $this->redirect(['review', 'id' => $id]);
     }
-    
-    public function actionOfferPrice(){
+
+    public function actionOfferPrice() {
         $post = Yii::$app->request->post();
         $id = (isset($post['ticket_id'])) ? (int) $post['ticket_id'] : null;
         if (is_null($id)) {
@@ -351,10 +368,10 @@ class TicketController extends Controller {
         $offer = Offer::findCurrentOffer($from_user_id, $id);
         $proposalModel = new Proposal;
         $propose = $proposalModel->findPropose($id, $from_user_id);
-        if(is_null($propose)){
+        if (is_null($propose)) {
             $this->applyMain($from_user_id, $ticket, $post);
-        }else{
-            if(is_null($offer)){
+        } else {
+            if (is_null($offer)) {
                 $offer = new Offer();
                 $offer->ticket_id = $id;
                 $offer->performer_id = $from_user_id;
@@ -364,12 +381,12 @@ class TicketController extends Controller {
         $redirectUrl = isset($post['redirect']) ? $post['redirect'] : 'ticket/review';
         $this->redirect([$redirectUrl, 'id' => $id]);
     }
-    
-    public function actionSetAsDone(){
+
+    public function actionSetAsDone() {
         $post = Yii::$app->request->post();
         $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
         $ticket = Ticket::findOne($ticketId);
-        if(isset($post['isOwnTicket']) && $post['isOwnTicket']){
+        if (isset($post['isOwnTicket']) && $post['isOwnTicket']) {
             $this->isTicketsOwner($ticket);
             $review = new \common\models\Review();
             $review->load($post);
@@ -379,8 +396,8 @@ class TicketController extends Controller {
             Offer::updateAll(['stage' => Offer::ARCHIVED], ['ticket_id' => $ticket->id]);
             Proposal::updateAll(['archived' => 1], ['ticket_id' => $ticket->id]);
             $redirect = ['ticket/index'];
-        }else{
-            if($ticket->performer_id != Yii::$app->user->id){
+        } else {
+            if ($ticket->performer_id != Yii::$app->user->id) {
                 throw new \yii\web\HttpException('403', 'Permission denied. You are not allowed to execute this action');
             }
             $ticket->status = Ticket::STATUS_DONE_BY_PERFORMER;
@@ -389,103 +406,184 @@ class TicketController extends Controller {
         $ticket->save();
         $this->redirect($redirect);
     }
-    
-    public function actionAddComment(){
+
+    public function actionAddComment() {
         $post = Yii::$app->request->post();
         $comment = new \common\models\TicketComments();
         $comment->load($post);
-        if($comment->save() && !is_null($comment->answer_to)){
-        \common\models\TicketComments::updateAll([
-            'status' => \common\models\TicketComments::STATUS_READ
-                ], ['id' => $comment->answer_to]);
+        if ($comment->save() && !is_null($comment->answer_to)) {
+            \common\models\TicketComments::updateAll([
+                'status' => \common\models\TicketComments::STATUS_READ
+                    ], ['id' => $comment->answer_to]);
         }
         $redirectUrl = isset($post['redirect']) ? $post['redirect'] : 'ticket/review';
         $this->redirect([$redirectUrl, 'id' => $comment->ticket_id]);
     }
-    
-    public function actionDeleteComment(){
+
+    public function actionDeleteComment() {
         $post = Yii::$app->request->post();
         $id = isset($post['comment_id']) ? $post['comment_id'] : null;
         $redirect = ['ticket/index'];
-        if($id !== null){
+        if ($id !== null) {
             $comment = \common\models\TicketComments::findOne($id);
-            if($comment !== null){
+            if ($comment !== null) {
                 $redirect = ['ticket/view', 'id' => $comment->ticket_id];
                 $comment->delete();
             }
         }
         $this->redirect($redirect);
     }
-    
-    public function actionAcceptOffer(){
+
+    public function actionAcceptOffer() {
         $post = Yii::$app->request->post();
         $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
         $performerId = isset($post['performer_id']) ? $post['performer_id'] : null;
         $price = isset($post['price']) ? $post['price'] : null;
-        if($ticketId === null || $performerId === null){
+        if ($ticketId === null || $performerId === null) {
             throw new \yii\web\HttpException('404');
         }
         $ticket = Ticket::findOne($ticketId);
         $this->checkTicketExistence($ticket);
         $this->isTicketsOwner($ticket);
         $performer = User::findOne($performerId);
-        if($performer === null){
+        if ($performer === null) {
             throw new \yii\web\HttpException('404');
         }
         $offer = Offer::findOne([
-            'ticket_id' => $ticketId,
-            'performer_id' => $performerId
+                    'ticket_id' => $ticketId,
+                    'performer_id' => $performerId
         ]);
-        if($offer === null){
+        if ($offer === null) {
             $offer = new Offer();
             $offer->ticket_id = $ticketId;
             $offer->performer_id = $performerId;
         }
         $offer->stage = Offer::STAGE_AGREE;
-        if($offer->save()){
+        if ($offer->save()) {
             $offerHistory = new \common\models\OfferHistory();
             $offerHistory->offer_id = $offer->id;
             $offerHistory->price = $price;
             $offerHistory->note = Yii::t('app', 'agreed');
-            $offerHistory->save();            
+            $offerHistory->save();
         }
         $ticket->performer_id = $performerId;
         $ticket->save();
         $this->redirect(['ticket/view', 'id' => $ticket->id]);
     }
-    
-    public function actionPerformerAcceptOffer(){
+
+    public function actionRenderPaypalPopup() {
+        $post = Yii::$app->request->post();
+        $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
+        $performerId = isset($post['performer_id']) ? $post['performer_id'] : null;
+        $price = isset($post['price']) ? $post['price'] : null;
+        if ($ticketId === null || $performerId === null || $price === null) {
+            throw new \yii\web\HttpException('404');
+        }
+        $ticket = Ticket::findOne($ticketId);
+        $this->checkTicketExistence($ticket);
+        $this->isTicketsOwner($ticket);
+        // put payment rec into session
+        $this->setPaymentSessionRec($ticketId, $performerId, $price);
+        /* @var $paypal \common\components\Paypal */
+        $paypal = Yii::$app->paypal;
+        $payment = $paypal->createPayment($ticket, $performerId, $price);
+        $paypalLink = $payment->getApprovalLink();
+        return $this->renderAjax('popup/_paypal', [
+                    'ticketId' => $ticketId,
+                    'performerId' => $performerId,
+                    'price' => $price,
+                    'paypalLink' => $paypalLink,
+        ]);
+    }
+
+    public function actionPerformerAcceptOffer() {
         $post = Yii::$app->request->post();
         $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
         $performerId = isset($post['performer_id']) ? $post['performer_id'] : Yii::$app->user->id;
         $price = isset($post['price']) ? $post['price'] : null;
-        if($ticketId === null || $performerId === null){
+        if ($ticketId === null || $performerId === null) {
             throw new \yii\web\HttpException('404');
         }
         $ticket = Ticket::findOne($ticketId);
         $this->checkTicketExistence($ticket);
         $performer = User::findOne($performerId);
-        if($performer === null){
+        if ($performer === null) {
             throw new \yii\web\HttpException('404');
         }
         $offer = Offer::findOne([
-            'ticket_id' => $ticketId,
-            'performer_id' => $performerId
+                    'ticket_id' => $ticketId,
+                    'performer_id' => $performerId
         ]);
-        if($offer === null){
+        if ($offer === null) {
             throw new \yii\web\HttpException('404');
         }
-        $offer->stage = Offer::STAGE_AGREE;
-        if($offer->save()){
+        //$offer->stage = Offer::STAGE_AGREE;
+        $offer->stage = Offer::STAGE_LAST_ANSWER;
+        if ($offer->save()) {
             $offerHistory = new \common\models\OfferHistory();
             $offerHistory->offer_id = $offer->id;
             $offerHistory->price = $price;
             $offerHistory->note = Yii::t('app', 'agreed');
-            $offerHistory->save();            
+            $offerHistory->save();
         }
         $ticket->performer_id = $performerId;
         $ticket->save();
         $this->redirect(['ticket/review', 'id' => $ticket->id]);
+    }
+
+    public function actionExecutePayment($success) {
+        if ($success) {
+            $paymentId = Yii::$app->request->get('paymentId');
+            $payerID = Yii::$app->request->get('PayerID');
+            if ($paymentId === null || $payerID === null) {
+                throw new \yii\web\HttpException('400', 'Wrong parameters');
+            }
+            /* @var $paypal \common\components\Paypal */
+            $paypal = Yii::$app->paypal;
+            if ($paypal->executePayment($paymentId, $payerID)) {
+                
+            }
+            /* assign performer_id to a ticket & e.t.c */
+
+            $sessionRec = $this->getPaymentSessionRec();
+            $ticketId = isset($sessionRec['ticket_id']) ? $sessionRec['ticket_id'] : null;
+            $performerId = isset($sessionRec['performer_id']) ? $sessionRec['performer_id'] : null;
+            $price = isset($sessionRec['current_price']) ? $sessionRec['current_price'] : null;
+            if ($ticketId === null || $performerId === null) {
+                throw new \yii\web\HttpException('404');
+            }
+            $ticket = Ticket::findOne($ticketId);
+            $this->checkTicketExistence($ticket);
+            $this->isTicketsOwner($ticket);
+            $performer = User::findOne($performerId);
+            if ($performer === null) {
+                throw new \yii\web\HttpException('404');
+            }
+            $offer = Offer::findOne([
+                        'ticket_id' => $ticketId,
+                        'performer_id' => $performerId
+            ]);
+            if ($offer === null) {
+                $offer = new Offer();
+                $offer->ticket_id = $ticketId;
+                $offer->performer_id = $performerId;
+            }
+            $offer->stage = Offer::STAGE_AGREE;
+            if ($offer->save()) {
+                $offerHistory = new \common\models\OfferHistory();
+                $offerHistory->offer_id = $offer->id;
+                $offerHistory->price = $price;
+                $offerHistory->note = Yii::t('app', 'agreed');
+                $offerHistory->save();
+            }
+            $ticket->performer_id = $performerId;
+            $ticket->save();
+            $this->redirect(['ticket/view', 'id' => $ticket->id]);
+            /*_*/
+            //return 'OK';
+        } else {
+            return 'NOT OK';
+        }
     }
 
     /* _ */
@@ -502,26 +600,24 @@ class TicketController extends Controller {
             echo $this->jsonStrMake(['err' => Yii::t('app', 'You alredy apply this ticket')]);
         } else {
             // create the new propose record
-                // we getting price from responce
-                $price = (isset($post['price']) && !empty($post['price']) && $post['price'] > 0)
-                        ? (float) $post['price']
-                        : (!is_null($ticket->price) ? $ticket->price : null);
-                if (is_null($price)) {
-                    echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
-                    return;                
-                }
+            // we getting price from responce
+            $price = (isset($post['price']) && !empty($post['price']) && $post['price'] > 0) ? (float) $post['price'] : (!is_null($ticket->price) ? $ticket->price : null);
+            if (is_null($price)) {
+                echo $this->jsonStrMake(['err' => Yii::t('app', 'Price can not be empty')]);
+                return;
+            }
             $this->proposalProcess($proposalModel, $from_user_id, $ticket->id, $price);
             echo $this->jsonStrMake(['msg' => Yii::t('app', 'Apply this job successfull')]);
         }
     }
-    
-    protected function offerPriceLastAnswer($offer, $performerId, $post){
+
+    protected function offerPriceLastAnswer($offer, $performerId, $post) {
         $price = (isset($post['price']) && !empty($post['price']) && $post['price'] != 0) ? (float) $post['price'] : null;
-        if($price === null){
+        if ($price === null) {
             return;
         }
         $offer->stage = isset($post['stage']) ? $post['stage'] : Offer::STAGE_LAST_ANSWER;
-        if($offer->save()){
+        if ($offer->save()) {
             $offerHistory = new \common\models\OfferHistory();
             $offerHistory->offer_id = $offer->id;
             $offerHistory->price = $price;
@@ -593,6 +689,35 @@ class TicketController extends Controller {
     protected function isTicketsOwner($model) {
         if ($model->user_id != Yii::$app->user->id) {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
+        }
+    }
+
+    protected function setPaymentSessionRec($ticket_id, $performer_id, $current_price) {
+        $session = Yii::$app->session;
+        $session['ticket_id'] = (int) $ticket_id;
+        $session['performer_id'] = (int) $performer_id;
+        $session['current_price'] = $current_price;
+    }
+
+    protected function getPaymentSessionRec() {
+        $session = Yii::$app->session;
+        if (isset($session['ticket_id']) && isset($session['performer_id']) && isset($session['current_price'])) {
+            return [
+                'ticket_id' => $session['ticket_id'],
+                'performer_id' => $session['performer_id'],
+                'current_price' => $session['current_price'],
+            ];
+        }
+        return FALSE;
+    }
+
+    protected function flushPaymentSessionRec() {
+        $session = Yii::$app->session;
+        $to_destroy = ['ticket_id', 'performer_id', 'current_price'];
+        foreach ($to_destroy as $param) {
+            if (isset($param)) {
+                unset($session[$param]);
+            }
         }
     }
 
