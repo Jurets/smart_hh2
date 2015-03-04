@@ -169,6 +169,7 @@ class TicketController extends Controller {
                 $buff = $offer->getOfferHistoryLast();
                 $stage = is_null($offer) ? NULL : $offer->stage;
                 $newPrice['price'] = is_null($buff) ? NULL : $buff->price;
+                $price = is_null($buff) ? $model->price : $buff->price;
                 switch ($stage) {
                     case Offer::STAGE_OWNER_OFFER:
                     case Offer::STAGE_COUNTEROFFER:
@@ -187,6 +188,7 @@ class TicketController extends Controller {
             } else {
                 if (!is_null($propose)) {
                     $newPrice['price'] = $propose->price;
+                    $price = $propose->price;
                     $newPrice['message'] = Yii::t('app', 'You offered');
                 } else {
                     $price = $model->price;
@@ -202,6 +204,7 @@ class TicketController extends Controller {
                         'user' => $user,
                         'complain' => $complain,
                         'price' => $model->price,
+                        'offers_price' => $price,
                         'newPrice' => $newPrice,
                         'stage' => isset($stage) ? $stage : NULL,
                         'applied' => $applied
