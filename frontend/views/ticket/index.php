@@ -10,6 +10,7 @@ use yii\helpers\Url;
 ?>
 
 <?php
+echo '&nbsp;'. Html::a( Yii::t('app', 'Switch to users'), Url::to(['/user']), ['class'=>'btn-small'] );
 $ticket_title = ( isset($_GET['cid']) && isset($categories[(int)$_GET['cid']]) ) ? $categories[(int)$_GET['cid']-1]->name : Yii::t('app', 'ALL Tasks');
 $this->title = $ticket_title;
 $this->params['breadcrumbs'][] = $this->title;

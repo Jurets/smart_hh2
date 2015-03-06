@@ -66,10 +66,7 @@ class TicketController extends Controller {
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
             $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
         }
-        if ($get && isset($get['sort'])) {
-            unset($query);
-            $query = TicketSearch::advancedSearch($get);
-        }
+        
         $list = Yii::$app->params['languages'];
         $apiKey = Yii::$app->params['apiLanguages'];
 
@@ -78,6 +75,13 @@ class TicketController extends Controller {
 
         $query->andWhere(['is_turned_on' => Ticket::TURNED_ON]);
         $query->with('user')->with('user.profile')->with('user.profile.files');
+        $query->orderBy(['start_day'=>SORT_DESC]);
+        
+        if ($get && isset($get['sort'])) {
+            unset($query);
+            $query = TicketSearch::advancedSearch($get);
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [

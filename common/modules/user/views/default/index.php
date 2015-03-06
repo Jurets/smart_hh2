@@ -7,6 +7,7 @@ use yii\helpers\Url;
 ?>
 <?php
 $breadcrumb_title = Yii::t('app', 'All Users');
+echo Html::a( Yii::t('app', 'Switch to tickets'), Url::to(['/ticket']), ['class'=>'btn-small'] );
 $breadcrumb_title .= ( isset($_GET['cid']) && isset($categories[(int) $_GET['cid']]) ) ? ' ' . $categories[(int) $_GET['cid'] - 1]->name : '';
 $this->title = $breadcrumb_title;
 $this->params['breadcrumbs'][] = $this->title;

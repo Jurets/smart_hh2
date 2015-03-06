@@ -113,7 +113,7 @@ class TicketSearch extends Ticket {
             ]
         ]);
         $query->leftJoin('category_bind', 'ticket.id = ticket_id');
-        $srt = 'finish_day ' . $model->getSort($get['sort']);
+        $srt = ($model->getSort($get['sort']) == 'DESC') ? SORT_DESC : SORT_ASC;
         
         if (!empty($get['least'])) {
             $query->andWhere('price <= :least', [':least' => (int) $get['least']]);
@@ -149,6 +149,7 @@ class TicketSearch extends Ticket {
             $query->andWhere(['between', 'lon', $lon1, $lon2]);
             $query->andWhere(['between', 'lat', $lat1, $lat2]);
         }
+        $query->orderBy(['price' => $srt]);
         return $query;
     }
 
