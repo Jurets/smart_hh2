@@ -85,6 +85,10 @@ AppAsset::register($this);
                     'url' => ['/user-social-network/index'],
                 ];
                 $menuItems[] = [
+                    'label' => Yii::t('app', 'Footer'),
+                    'url' => ['/footer-content'],
+                ];
+                $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post'],

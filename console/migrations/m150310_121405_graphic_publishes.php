@@ -14,6 +14,7 @@ class m150310_121405_graphic_publishes extends Migration
         ],
         'ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
+        $this->insert('graphic_publishes', ['image'=>'']);
         $this->insert('graphic_publishes', ['image'=>'facebook.png']);
         $this->insert('graphic_publishes', ['image'=>'twitter.png']);
         $this->insert('graphic_publishes', ['image'=>'google.png']);

@@ -9,7 +9,7 @@ class m150310_132435_footer_content extends Migration
     {
         $this->createTable('footer_content', [
             'id' => 'pk',
-            'title' => Schema::TYPE_STRING . ' DEFAULT NULL COMMENT "destination where reference must be rendered"',
+            'title' => Schema::TYPE_STRING . ' NOT NULL COMMENT "destination where reference must be rendered"',
             'lang' => Schema::TYPE_INTEGER . ' NOT NULL COMMENT "foreign key to the language"',
             'reference' => Schema::TYPE_STRING . ' DEFAULT NULL COMMENT "url to target page"',
             'img' => Schema::TYPE_INTEGER . ' NOT NULL COMMENT "reference image wrapper FK to graphic publishes"',
