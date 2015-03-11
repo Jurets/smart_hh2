@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use common\components\FooterContentManager;
+
 /**
  * FooterContentController implements the CRUD actions for FooterContent model.
  */
@@ -30,6 +32,10 @@ class FooterContentController extends Controller
      * Lists all FooterContent models.
      * @return mixed
      */
+    public function actionTest(){
+        $FCM = new FooterContentManager;
+        $FCM->testOutput();
+    }
     public function actionIndex()
     {
         $searchModel = new FooterContentSearch();
