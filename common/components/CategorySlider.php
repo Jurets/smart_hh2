@@ -58,7 +58,8 @@ class CategorySlider extends Widget
                 
                 $this->multiplicitySwitch($catArrSize, $it, $category);
             }
-            $this->layout .= '</div>'.PHP_EOL;
+            //$this->layout .= '</div>'.PHP_EOL;
+            //$this->layout .= '</li>' . PHP_EOL;
             $this->layout .= '</ul>'.PHP_EOL;
         }else{
             // init empty slider

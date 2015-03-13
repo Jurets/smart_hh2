@@ -350,7 +350,7 @@ form#search input[type="submit"]{
 
 /*landing*/
 .category{
-    height: 694px;
+    height: 692px;
     background:url("../images/landing-bg.jpg") no-repeat right top;
     padding: 20px 40px;
 }
