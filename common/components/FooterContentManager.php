@@ -15,10 +15,13 @@ namespace common\components;
 
 use common\models\FooterContent;
 use common\models\Language;
+use Yii;
 
 class FooterContentManager {
     protected $modelsList;
     protected $normalizeStruct;
+    protected $categoryStruct;
+    
     public function  __construct($language="en"){
         $language = Language::findOne(['name' => $language]);
         $languageId = (!is_null($language)) ? $language->id : NULL;
@@ -33,7 +36,9 @@ class FooterContentManager {
                 $this->normalizeStruct = $this->dataNormalize($dump);
             }
         }
+        $this->categoryStruct = NULL;
     }
+    
     protected function dataNormalize($dump){
         $normalize = [];
         foreach($dump as $elem){
@@ -45,13 +50,35 @@ class FooterContentManager {
         }
         return $normalize;
     }
+    /* 
+     * Note: in the view
+     * if you sure that rendered just one content element, you may echo $obj->partialOutput('section_name')
+     * otherwise - join received data as on array:
+     * for example
+     * foreach($obj->partialOutput('section_name' as $element)){
+     *      echo '<div>'.$element['title'].'</div>';
+     * }
+     *  */
     public function partialOutput($section){
         if(isset($this->normalizeStruct[$section])){
-            return $this->normalizeStruct[$section];
+            if(count($this->normalizeStruct[$section])>1){
+              return $this->normalizeStruct[$section]; // return section to view as array  of elements  
+            }else{
+                return $this->normalizeStruct[$section][0]; // return section to view as string in a case of section must be an single element. 
+            }
         }
-        return [];
+        throw new \yii\web\HttpException('500', 'Page content section '.$section.' not set.');
     }    
-    public function testOutput(){
-        var_dump($this->normalizeStruct);
+    
+    public function getCategoryStruct(){
+        $this->prepareCategoryStruct();
+        return $this->categoryStruct;
+    }
+    protected function prepareCategoryStruct(){
+        $db = Yii::$app->db;
+        $sql = 'SELECT * FROM category ' .
+                 'order by parent_id, weight';
+        $structure = $db->createCommand($sql)->queryAll();
+            $this->categoryStruct = $structure;
     }
 }
