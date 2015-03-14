@@ -79,6 +79,22 @@ class FooterContentManager {
         $sql = 'SELECT * FROM category ' .
                  'order by parent_id, weight';
         $structure = $db->createCommand($sql)->queryAll();
-            $this->categoryStruct = $structure;
+        if(empty($structure)){
+            return [];
+        }
+        foreach($structure as $elem){
+            if(is_null($elem['parent_id'])){
+                $this->categoryStruct[$elem['id']] = [
+                    'title' => $elem['name'],
+                    'cid' => $elem['id'],
+                    'subcat' => []
+                ];
+            }else{
+                $this->categoryStruct[$elem['parent_id']]['subcat'][] = [
+                    'title' => $elem['name'],
+                    'cid' => $elem['id']
+                ];
+            }
+        }
     }
 }
