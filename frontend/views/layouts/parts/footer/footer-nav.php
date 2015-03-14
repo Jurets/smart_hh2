@@ -120,41 +120,46 @@
 
 
 <?php
+
 use yii\helpers\Url;
 ?>
 <div class="footer-nav row">
     <?php $outsideIterator = 1 ?>
     <?php foreach ($categoryList as $category) { ?>
-    <?php $insideIterator = 1?>
-    <div class="column col-xs-6 col-sm-6 col-md-6 col-lg-3">
-        <h6><?=$category['title']?></h6>
-        <ul>
-            <?php foreach($category['subcat'] as $subcategory) {?>
-            <?php
-                if(str_word_count($subcategory['title']) > 3){
-                    $buff_arr = explode(' ', $subcategory['title'], 3);
-                    unset($buff_arr[2]);
-                    $buff = implode(' ', $buff_arr);
-                }else{
-                    $buff = $subcategory['title'];
-                }
-            ?>
-            <li><a href="<?=Url::to(['ticket/', 'cid'=>$subcategory['cid']],true)?>"><?=$buff?></a></li>
-            <?php
-                /* comment this if need show all exists subcategories */
-                if($insideIterator == 8) {break;}
-                $insideIterator ++;
-            ?>
-            <?php }?>
-        </ul>
-    </div>
-    <?php
+    <?php $insideIterator = 1 ?>
+        <div class="column col-xs-6 col-sm-6 col-md-6 col-lg-3">
+            <h6><?= $category['title'] ?></h6>
+            <ul>
+                <?php foreach ($category['subcat'] as $subcategory) { ?>
+                    <?php
+                    if (str_word_count($subcategory['title']) > 3) {
+                        $buff_arr = explode(' ', $subcategory['title'], 3);
+                        unset($buff_arr[2]);
+                        $buff = implode(' ', $buff_arr);
+                    } else {
+                        $buff = $subcategory['title'];
+                    }
+                    ?>
+                    <li><a href="<?= Url::to(['ticket/', 'cid' => $subcategory['cid']], true) ?>"><?= $buff ?></a></li>
+                    <?php
+                    /* comment this if need show all exists subcategories */
+                    if ($insideIterator == 8) {
+                        break;
+                    }
+                    $insideIterator ++;
+                    ?>
+        <?php } ?>
+            </ul>
+        </div>
+        <?php
         /* comment this if need show all exists categories */
-        if($outsideIterator == 8) {break;}
-        $outsideIterator ++ ;
-    ?>
-    <?php } ?>
-    
+        if ($outsideIterator == 8) {
+            break;
+        }
+        $outsideIterator ++;
+        ?>
+<?php } ?>
+
     <div class="clear"></div>
-    
+
 </div>
