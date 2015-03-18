@@ -6,7 +6,7 @@ use common\components\FooterContentManager;
 <?php
 $FCM = new FooterContentManager(Yii::$app->params['language']);
     $categoryStruct = $FCM->getCategoryStruct();
-    var_dump($categoryStruct);
+    //var_dump($categoryStruct);
 ?>
 <div class="footer">
     <?=$this->render('footer/footer-top', ['FCM'=>$FCM])?>
