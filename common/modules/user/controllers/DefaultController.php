@@ -168,6 +168,10 @@ class DefaultController extends Controller {
     }
     public function actionCabinet() {
         
+        /* set id_usr_from_profile for header_login layout */
+        $session = Yii::$app->session;
+        $session['id_usr_from_profile'] = Yii::$app->user->id;
+        
         $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
         $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
 
@@ -584,6 +588,11 @@ class DefaultController extends Controller {
     public function actionProfile($id = NULL) {
         /** @var \common\modules\user\models\Profile $profile */
         $id = (int) $id;
+        
+        /* session id_usr_from_profile */
+        $session = Yii::$app->session;
+        $session['id_usr_from_profile'] = $id;
+        
         if ($id === 0) {
             $profile = Yii::$app->user->identity->profile;
             $id = Yii::$app->user->id;

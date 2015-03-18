@@ -1,4 +1,10 @@
 <?php
+/* test session */
+$check_usr_diff = Yii::$app->session['id_usr_from_profile'];
+$currentUsr = Yii::$app->user->id;
+
+
+
 use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
@@ -17,7 +23,14 @@ use yii\helpers\Html;
                 <?= $this->render('_bell') ?>
             </span>
             <?php if(Yii::$app->controller->action->id === 'profile'){ ?>
+            
+                <?php if($check_usr_diff !== 0 && ($check_usr_diff !== $currentUsr) ) { ?>
+                        <a href="<?=Url::to(['/user/profile'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','My Profile')?></a>
+                <?php }else{ ?>
+                
             <a href="<?=Url::to(['/user/cabinet'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Edit Profile')?></a>
+                <?php } ?>
+            
                 <?php }else{ ?>
             <a href="<?=Url::to(['/user/profile'],true)?>" class=""><img src="/images/icon-pen.png" alt="pen"><?=Yii::t('app','Profile')?></a>
                 <?php } ?>
