@@ -1,6 +1,7 @@
 <?php
 use kartik\rating\StarRating;
 use yii\helpers\Html;
+use yii\helpers\Url;
 /*@var $model \common\models\Ticket*/
 /*@var $propose \common\models\Reply*/
 ?>
@@ -8,7 +9,12 @@ use yii\helpers\Html;
     <div class="left col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <?php $avatar = $propose->performer->profile->files?>
         <img class="avatar left" src="<?=is_null($avatar) ? '' : Yii::$app->params['upload.url'].'/'.$avatar->code?>" alt="avatar">
-        <div><span class="user-name"><?php echo $propose->performer->username ?></span>                                           
+        <div>
+            
+            <a href="<?=Url::to(['user/profile','id'=>$propose->performer_id],true)?>">
+            <span class="user-name"><?php echo $propose->performer->username ?></span>
+            </a>
+            
             <div class="date-time">
                 <?php echo $propose->date?>
             </div>
