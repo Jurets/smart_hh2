@@ -8,10 +8,11 @@ use yii\helpers\Url;
 <?php if(is_array($categories)) { ?>
     <li class="<?php echo ( isset($_GET['cid']) ) ? '' : 'active' ?>">
         <?php
+        $AllTitle = ( strpos($url_add,'ticket') !== FALSE) ? Yii::t('app', 'All Tasks') : Yii::t('app', 'All Helpers');
             echo Html::a(
                   Html::img(Yii::$app->params['url.categories'].'/AllTask.png', 
                   ['alt'=>'icon']) .
-                  Yii::t('app', 'All Tasks'),
+                  $AllTitle,
                   Url::to([$url_add], true)
             );
         ?>
@@ -32,6 +33,11 @@ use yii\helpers\Url;
     <?php } ?>
 <?php } ?>    
 </ul>
-    
+
+<?php if(Yii::$app->user->isGuest) { ?>
 <a href="<?=Url::to('registration/performer')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'WANNA BE A HELPER'.'?')?></a>
+<?php }else{ ?>
+<a href="<?=Url::to('/user')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'BROWSE HELPERS')?></a>
+<?php }?>
+
 <a href="<?=Url::to('ticket/create')?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>

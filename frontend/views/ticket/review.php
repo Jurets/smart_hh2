@@ -52,8 +52,8 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
         <div class="job-info-holder row">
             <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="job-price left">
-                    <p class="price"><?= $price ?></p>
-                    <p class="measurement">week</p>
+                    <p class="price">&dollar;<?= $price ?></p>
+                    <p>&nbsp;</p>
                 </div>
                 <div class="auction">
                     <?php if(!empty($newPrice)): ?>
@@ -130,7 +130,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
             <?php $avatar = $user->profile->files ?>
             <a href="#"><img class="avatar left" alt="avatar" src="<?= (!is_null($avatar)) ? Yii::$app->params['upload.url'] . '/' . $avatar->code : '' ?>" /></a>
 
-            <a href="#" class="name-creator">
+            <a href="<?=Url::to(['user/profile', 'id'=>$user->id],true)?>" class="name-creator">
                 <?php
                 if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {
                     echo $user->profile->full_name;

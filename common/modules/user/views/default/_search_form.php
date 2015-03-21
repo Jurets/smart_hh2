@@ -103,5 +103,5 @@ use yii\helpers\Url;
                                         <p class="show">Showing 1 - 10 of 309 results</p>
                                         <div class="clear"></div>
                                     </fieldset>
-                                        <?php echo Html::submitButton('submit') ?>
+                                        <?php echo Html::submitButton(Yii::t('app', 'SEARCH'), ['class'=>'btn btn-form', 'style'=>'color:white;font-size:20px;']) ?>
                                 </form>
