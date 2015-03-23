@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <span class="vote">(3.5 based on 40 votes)</span>-->
                     <?php
                     echo StarRating::widget([
-                        'id' => 'the-star-rating',
+                        'id' => 'the-star-rating-'.$profile->id,
                         'name' => 'noname',
                         'value' => (is_null($profile->rating)) ? 0 : $profile->rating,
                         'pluginOptions' => [
@@ -50,14 +50,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'stars' => 5,
                             'min' => 0,
                             'max' => 5,
-                            'clearCaption' => '(0 based on 5 votes)',
+                            'clearCaption' => '(0 based on 0 votes)',
                             'clearCaptionClass' => 'stars_rating_patch',
                             'starCaptions' => [
-                                1 => '(1 based on 5 votes)',
-                                2 => '(2 based on 5 votes)',
-                                3 => '(3 based on 5 votes)',
-                                4 => '(4 based on 5 votes)',
-                                5 => '(5 based on 5 votes)',
+                                1 => '(1 based on '.$profile->voice.' votes)',
+                                2 => '(2 based on '.$profile->voice.' votes)',
+                                3 => '(3 based on '.$profile->voice.' votes)',
+                                4 => '(4 based on '.$profile->voice.' votes)',
+                                5 => '(5 based on '.$profile->voice.' votes)',
                             ],
                             'starCaptionClasses' => [
                                 1 => 'stars_rating_patch',

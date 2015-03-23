@@ -83,7 +83,27 @@ class Review extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
         if($insert){
+            $this->setUserProfileRating();
             Yii::$app->notification->addNewReviewNotification($this->to_user_id);
         }
+    }
+    /* actualised user rating info: rating and voice field */
+    protected function setUserProfileRating(){
+        $id = $this->to_user_id;
+        $ratingSumm = (new \yii\db\Query())
+                ->select('sum(rating) ratingSumm')
+                ->from('review')
+                ->where(['to_user_id'=>$id])
+                ->one()['ratingSumm'];
+        $ratingCount = (new \yii\db\Query())
+                ->select('count(id) ratingCount')
+                ->from('review')
+                ->where(['to_user_id'=>$id])
+                ->one()['ratingCount'];
+        $userRating = $ratingSumm / $ratingCount;
+        $profile = \common\modules\user\models\Profile::findOne(['user_id' => $id]);
+        $profile->rating = (int)$userRating;
+        $profile->voice = (int)$ratingCount;
+        $profile->save();
     }
 }

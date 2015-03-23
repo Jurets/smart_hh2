@@ -38,11 +38,11 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                     'clearCaption' => '(0 based on 5 votes)',
                     'clearCaptionClass' => 'stars_rating_patch',
                     'starCaptions' => [
-                        1 => '(1 based on 5 votes)',
-                        2 => '(2 based on 5 votes)',
-                        3 => '(3 based on 5 votes)',
-                        4 => '(4 based on 5 votes)',
-                        5 => '(5 based on 5 votes)',
+                        1 => '(1 based on '.$propose->performer->profile->voice.' votes)',
+                        2 => '(2 based on '.$propose->performer->profile->voice.' votes)',
+                        3 => '(3 based on '.$propose->performer->profile->voice.' votes)',
+                        4 => '(4 based on '.$propose->performer->profile->voice.' votes)',
+                        5 => '(5 based on '.$propose->performer->profile->voice.' votes)',
                     ],
                     'starCaptionClasses' => [
                         1 => 'stars_rating_patch',

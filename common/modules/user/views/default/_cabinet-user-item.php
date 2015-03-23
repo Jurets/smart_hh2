@@ -28,36 +28,37 @@ use kartik\widgets\StarRating;
         </div>
         <p class="user-mark">
             <?php
-            echo StarRating::widget([
-                'name' => 'noname',
-                'value' => (is_null($profile->rating)) ? 0 : $profile->rating,
-                'pluginOptions' => [
-                    'readonly' => true,
-                    'size' => '',
-                    'showClear' => FALSE,
-                    'showCaption' => true,
-                    'stars' => 5,
-                    'min' => 0,
-                    'max' => 5,
-                    'clearCaption' => '(0 based on 5 votes)',
-                    'clearCaptionClass' => 'stars_rating_patch',
-                    'starCaptions' => [
-                        1 => '(1 based on 5 votes)',
-                        2 => '(2 based on 5 votes)',
-                        3 => '(3 based on 5 votes)',
-                        4 => '(4 based on 5 votes)',
-                        5 => '(5 based on 5 votes)',
-                    ],
-                    'starCaptionClasses' => [
-                        1 => 'stars_rating_patch',
-                        2 => 'stars_rating_patch',
-                        3 => 'stars_rating_patch',
-                        4 => 'stars_rating_patch',
-                        5 => 'stars_rating_patch',
-                    ],
-                ],
-            ]);
-            ?>
+                    echo StarRating::widget([
+                        'id' => 'the-star-rating',
+                        'name' => 'noname',
+                        'value' => (is_null($profile->rating)) ? 0 : $profile->rating,
+                        'pluginOptions' => [
+                            'readonly' => true,
+                            'size' => '',
+                            'showClear' => FALSE,
+                            'showCaption' => true,
+                            'stars' => 5,
+                            'min' => 0,
+                            'max' => 5,
+                            'clearCaption' => '(0 based on 0 votes)',
+                            'clearCaptionClass' => 'stars_rating_patch',
+                            'starCaptions' => [
+                                1 => '(1 based on '.$profile->voice.' votes)',
+                                2 => '(2 based on '.$profile->voice.' votes)',
+                                3 => '(3 based on '.$profile->voice.' votes)',
+                                4 => '(4 based on '.$profile->voice.' votes)',
+                                5 => '(5 based on '.$profile->voice.' votes)',
+                            ],
+                            'starCaptionClasses' => [
+                                1 => 'stars_rating_patch',
+                                2 => 'stars_rating_patch',
+                                3 => 'stars_rating_patch',
+                                4 => 'stars_rating_patch',
+                                5 => 'stars_rating_patch',
+                            ],
+                        ],
+                    ]);
+                    ?>
         </p>
         <img src="/images/language-icon.png" alt=""/><span class="info-position">United States</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a><br/>
         <span class="measurement">Hourly Rate:</span>

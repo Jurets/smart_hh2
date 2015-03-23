@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use kartik\widgets\StarRating;
 ?>
 <?php
 //$this->registerJsFile(Url::to(['/js/ticket_apply.js']), [
@@ -39,7 +40,39 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
             }
             ?>
             <?=$nameToProfileUrl?>
-            <img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span>
+            <!--<img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span>-->
+            <?php
+            echo StarRating::widget([
+                'id' => 'the-star-rating-'.$model->id,
+                'name' => 'noname',
+                'value' => (is_null($model->user->profile->rating)) ? 0 : $model->user->profile->rating,
+                'pluginOptions' => [
+                    'readonly' => true,
+                    'size' => '',
+                    'showClear' => FALSE,
+                    'showCaption' => true,
+                    'stars' => 5,
+                    'min' => 0,
+                    'max' => 5,
+                    'clearCaption' => '(0 based on 0 votes)',
+                    'clearCaptionClass' => 'stars_rating_patch',
+                    'starCaptions' => [
+                        1 => '(1 based on '.$model->user->profile->voice.' votes)',
+                        2 => '(2 based on '.$model->user->profile->voice.' votes)',
+                        3 => '(3 based on '.$model->user->profile->voice.' votes)',
+                        4 => '(4 based on '.$model->user->profile->voice.' votes)',
+                        5 => '(5 based on '.$model->user->profile->voice.' votes)',
+                    ],
+                    'starCaptionClasses' => [
+                        1 => 'stars_rating_patch',
+                        2 => 'stars_rating_patch',
+                        3 => 'stars_rating_patch',
+                        4 => 'stars_rating_patch',
+                        5 => 'stars_rating_patch',
+                    ],
+                ],
+            ]);
+            ?>
         </p>
         </a>
         <p>Active 35 jobs</p>

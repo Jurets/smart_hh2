@@ -284,17 +284,8 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id = NULL) {
-        $session = Yii::$app->session;
-        if (isset($session['ticket_id']) && isset($session['performer_id']) && isset($session['current_price'])) {
-            var_dump($session['ticket_id'], $session['performer_id'], $session['current_price']);
-            $this->flushPaymentSessionRec();
-        } else {
-            echo 'session pp-rec setup...';
-            $this->setPaymentSessionRec('18', '4', '222');
-        }
-        //$offer = Offer::findCurrentOffer(Yii::$app->user->id, $id);
-        //return $this->render('test');
+    public function actionTest($id = 4) {
+                
     }
 
     /* purposal work */
