@@ -142,6 +142,9 @@ class LoginForm extends Model
     {
         // calculate attribute label for "username"
         $attribute = Yii::$app->getModule("user")->requireEmail ? Yii::t("user", "Email") : Yii::t("user", "Username");
+        if(Yii::$app->getModule('user')->loginEmail && Yii::$app->getModule('user')->loginUsername){
+            $attribute = Yii::t('app', 'Username or Email');
+        }
         return [
             "username" => $attribute,
             "password" => Yii::t("user", "Password"),
