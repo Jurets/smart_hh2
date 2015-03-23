@@ -13,7 +13,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
 <div class="task-item info-border">
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
         <p class="price">&dollar;<span id="digital_price_part"><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
-        <p class="measurement">week</p>
+        <p>&nbsp;</p>
         <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
         <div class="pos-relativer">
             <div class="popup-apply pop-up-hide">
@@ -30,7 +30,18 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
     <div class="autor left">
 <?php $photo = $model->user->profile->files; ?>
         <img class="left" style="width:45px;" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $model->user->profile->files->code : '' ?>" alt="avatar">
-        <p>Alex B.<img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span></p>
+        <a href="<?=Url::to(['user/profile','id'=>$model->user->id],true)?>" style="color:#0d3f67;">
+        <p>
+            <?php if(is_null($model->user->profile->first_name) || is_null($model->user->profile->last_name)) {
+                $nameToProfileUrl = $model->user->username;
+            }else{
+                $nameToProfileUrl = $model->user->profile->first_name . ' ' . $model->user->profile->last_name;
+            }
+            ?>
+            <?=$nameToProfileUrl?>
+            <img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span>
+        </p>
+        </a>
         <p>Active 35 jobs</p>
     </div>
     <div class="date-time right">

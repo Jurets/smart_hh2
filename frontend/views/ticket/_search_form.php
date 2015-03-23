@@ -75,5 +75,5 @@ use kartik\datetime\DateTimePicker;
                                         
                                 </div>
                             </fieldset>
-                        <div><?php echo Html::submitButton();?></div>
+                        <div><?php echo Html::submitInput(Yii::t('app', 'Search'), ['class'=>'btn btn-form', 'style'=>'color:white;font-size:20px;']);?></div>
                         </form>
