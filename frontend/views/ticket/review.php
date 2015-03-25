@@ -11,7 +11,7 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 ?>
 <?php
-$this->registerJsFile(Yii::$app->params['path.js'].'performer_ticket_management.js', [
+$this->registerJsFile(Yii::$app->params['path.js'] . 'performer_ticket_management.js', [
     'depends' => [\yii\web\JqueryAsset::className()],
 ]);
 ?>
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tickets'), 'url' => 
 $this->params['breadcrumbs'][] = $this->title;
 $isOwnTicket = $model->user_id === Yii::$app->user->id;
 ?>
-<div data-Stage="<?=$stage?>"></div>
+<div data-Stage="<?= $stage ?>"></div>
 <div class="job-creator row">
     <!-- the pop-up --> 
     <div id="complain-form" class="pop-up pop-up-edit popup-align-center pop-up-hide">
@@ -30,14 +30,20 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
         <?php echo $this->render('_complain_form', ['model' => $model, 'complain' => $complain]) ?>
     </div>
     <!-- additional popup may put here  --!>
-    <?php if ($isOwnTicket): ?>
-        <?=
-        $this->render('popup/_set-as-done', [
-            'model' => new common\models\Review(),
-            'ticket' => $model
-        ])
-        ?>
-<?php endif; ?>
+    <?php
+        if ($isOwnTicket) {
+            $review_direct = TRUE;
+        }else{
+            $review_direct = FALSE;
+        }
+    ?>
+    <?=
+    $this->render('popup/_set-as-done', [
+        'model' => new common\models\Review(),
+        'ticket' => $model,
+        'review_direct' => $review_direct,
+    ])
+    ?>
     <!-- -->
     <div class="left-column col-xs-12 col-sm-12 col-md-12 col-lg-7">
         <h1><?= $model->title ?></h1>  
@@ -56,28 +62,28 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     <p>&nbsp;</p>
                 </div>
                 <div class="auction">
-                    <?php if(!empty($newPrice)): ?>
-                        <?= $newPrice['message'] ?>:<br/><span class="red">&dollar;<?=is_null($newPrice['price']) ? 0 : $newPrice['price']?></span>
+                    <?php if (!empty($newPrice)): ?>
+                        <?= $newPrice['message'] ?>:<br/><span class="red">&dollar;<?= is_null($newPrice['price']) ? 0 : $newPrice['price'] ?></span>
                     <?php endif; ?>
                 </div>
             </div>
             <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <?php if((!$applied) && (is_null($stage) || ($stage >= Offer::STAGE_OWNER_OFFER && $stage <= Offer::STAGE_LAST_ANSWER))) { ?>
+                <?php if ((!$applied) && (is_null($stage) || ($stage >= Offer::STAGE_OWNER_OFFER && $stage <= Offer::STAGE_LAST_ANSWER))) { ?>
                     <?= Html::beginForm(['ticket/apply'], 'post', ['style' => 'display:inline;']) ?>
                     <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
                     <a href="#" id="apply_button" class="btn btn-average" data-need-price="<?= ($price === null || $price <= 0) ? '1' : '0' ?>">APPLY</a>
                     <?= Html::endForm() ?>
-                <?php }?>
-                    <?php if ($model->canAcceptOffer() && $stage === Offer::STAGE_COUNTEROFFER) { ?>
-                        <?= Html::beginForm(['ticket/performer-accept-offer'], 'post', ['style' => 'display:inline;']) ?>
-                        <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
-                        <?= Html::hiddenInput('price', $offers_price) ?>
-                        <a href="#" id="accept_offer_button" class="btn btn-average">ACCEPT</a>
-                        <?= Html::endForm() ?>
-                    <?php } ?>
-                <?php if($model->canAcceptOffer() && ((!$applied) || ((!is_null($stage)) && ($stage < Offer::STAGE_LAST_ANSWER)))){?>
-                <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
-                <?= $this->render('popup/_offer-price', ['model' => $model]) ?>
+                <?php } ?>
+                <?php if ($model->canAcceptOffer() && $stage === Offer::STAGE_COUNTEROFFER) { ?>
+                    <?= Html::beginForm(['ticket/performer-accept-offer'], 'post', ['style' => 'display:inline;']) ?>
+                    <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
+                    <?= Html::hiddenInput('price', $offers_price) ?>
+                    <a href="#" id="accept_offer_button" class="btn btn-average">ACCEPT</a>
+                    <?= Html::endForm() ?>
+                <?php } ?>
+                <?php if ($model->canAcceptOffer() && ((!$applied) || ((!is_null($stage)) && ($stage < Offer::STAGE_LAST_ANSWER)))) { ?>
+                    <a href="#" id="offer_button" class="btn btn-average">OFFER PRICE</a>
+                    <?= $this->render('popup/_offer-price', ['model' => $model]) ?>
                 <?php } ?>
             </div>
         </div>
@@ -110,27 +116,28 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                 <div class="map">no map</div>
             <?php } ?>
         </div>
-        <?= $this->render('review/_comments', ['model' =>$model]) ?>
+        <?= $this->render('review/_comments', ['model' => $model]) ?>
     </div>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">
 
         <div class="action-reply">
-            <?php if(
-                    ($isOwnTicket || ($model->performer_id === Yii::$app->user->id && $model->status !== common\models\Ticket::STATUS_DONE_BY_PERFORMER))
-                    && $model->status !== common\models\Ticket::STATUS_COMPLETED) { ?>
-            <?= Html::beginForm(['ticket/set-as-done'],'post',['style' => 'display:inline;']) ?>
+            <?php
+            if (
+                    ($isOwnTicket || ($model->performer_id === Yii::$app->user->id && $model->status !== common\models\Ticket::STATUS_DONE_BY_PERFORMER)) && $model->status !== common\models\Ticket::STATUS_COMPLETED) {
+                ?>
+                <?= Html::beginForm(['ticket/set-as-done'], 'post', ['style' => 'display:inline;']) ?>
                 <?= Html::hiddenInput('ticket_id', $model->id); ?>
-                <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="<?= $isOwnTicket ? '1' : '0'?>">SET AS DONE</a>
-            <?= Html::endForm() ?>
-            <?php } ?>
+                <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="<?= $isOwnTicket ? '1' : '0' ?>">SET AS DONE</a>
+                <?= Html::endForm() ?>
+<?php } ?>
             <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
         </div>        
         <p class="title">Job creator:</p>
         <div class="widget creator">
-            <?php $avatar = $user->profile->files ?>
+<?php $avatar = $user->profile->files ?>
             <a href="#"><img class="avatar left" alt="avatar" src="<?= (!is_null($avatar)) ? Yii::$app->params['upload.url'] . '/' . $avatar->code : '' ?>" /></a>
 
-            <a href="<?=Url::to(['user/profile', 'id'=>$user->id],true)?>" class="name-creator">
+            <a href="<?= Url::to(['user/profile', 'id' => $user->id], true) ?>" class="name-creator">
                 <?php
                 if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {
                     echo $user->profile->full_name;
@@ -160,11 +167,11 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     'clearCaption' => '(0 based on 0 votes)',
                     'clearCaptionClass' => 'stars_rating_patch',
                     'starCaptions' => [
-                        1 => '(1 based on '.$user->profile->voice.' votes)',
-                        2 => '(2 based on '.$user->profile->voice.' votes)',
-                        3 => '(3 based on '.$user->profile->voice.' votes)',
-                        4 => '(4 based on '.$user->profile->voice.' votes)',
-                        5 => '(5 based on '.$user->profile->voice.' votes)',
+                        1 => '(1 based on ' . $user->profile->voice . ' votes)',
+                        2 => '(2 based on ' . $user->profile->voice . ' votes)',
+                        3 => '(3 based on ' . $user->profile->voice . ' votes)',
+                        4 => '(4 based on ' . $user->profile->voice . ' votes)',
+                        5 => '(5 based on ' . $user->profile->voice . ' votes)',
                     ],
                     'starCaptionClasses' => [
                         1 => 'stars_rating_patch',
@@ -285,13 +292,13 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
     <div class="clearfix"></div> 
 </div>
 <?php $similarTasks = $model->getSimilarTasks() ?>
-<?php if(count($similarTasks)): ?>
+<?php if (count($similarTasks)): ?>
     <?=
     \frontend\widgets\TwoColumnTasks::widget([
         'caption' => Yii::t('app', 'Similar Tasks'),
         'tasks' => $similarTasks,
         'moreButtonText' => Yii::t('app', 'SHOW MORE'),
-        'moreButtonLink' => Url::to(['ticket/index', 'cid' => $model->category->id] )
+        'moreButtonLink' => Url::to(['ticket/index', 'cid' => $model->category->id])
     ])
     ?>
 <?php endif; ?>

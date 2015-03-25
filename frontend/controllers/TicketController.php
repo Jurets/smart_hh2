@@ -395,6 +395,10 @@ class TicketController extends Controller {
             if ($ticket->performer_id != Yii::$app->user->id) {
                 throw new \yii\web\HttpException('403', 'Permission denied. You are not allowed to execute this action');
             }
+            $review = new \common\models\Review();
+            $review->load($post);
+            $review->ticket_id = $ticketId;
+            $review->save();
             $ticket->status = Ticket::STATUS_DONE_BY_PERFORMER;
             $redirect = ['ticket/review', 'id' => $ticket->id];
         }

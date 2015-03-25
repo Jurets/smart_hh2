@@ -31,9 +31,19 @@ use yii\helpers\Html;
     <br>
     <?= $form->field($model, 'message')->textarea(); ?>
     <br>
-    <?= $form->field($model, 'from_user_id')->label(false)->hiddenInput(['value' => Yii::$app->user->id]) ?>
-    <?= $form->field($model, 'to_user_id')->label(false)->hiddenInput(['value' => $ticket->performer_id]) ?>
-    <?= Html::hiddenInput('isOwnTicket', '1'); ?>
+    <?php 
+        $review_direct = (isset($review_direct)) ? $review_direct : TRUE;
+    ?>
+    <?php if($review_direct) { ?>
+        <?= $form->field($model, 'from_user_id')->label(false)->hiddenInput(['value' => Yii::$app->user->id]) ?>
+        <?= $form->field($model, 'to_user_id')->label(false)->hiddenInput(['value' => $ticket->performer_id]) ?>
+        <?= Html::hiddenInput('isOwnTicket', '1'); ?>
+    <?php }else{ ?>
+        <?= $form->field($model, 'from_user_id')->label(false)->hiddenInput(['value' => Yii::$app->user->id]) ?>
+        <?= $form->field($model, 'to_user_id')->label(false)->hiddenInput(['value' => $ticket->user_id]) ?>
+        <?= Html::hiddenInput('isOwnTicket', '0'); ?>
+    <?php } ?>
+    
     <?= Html::hiddenInput('ticket_id', $ticket->id); ?>
     <?= Html::submitButton(Yii::t('app', 'Send'), ['id' => 'set-as-done', 'class' => 'btn btn-success']) ?>
     <?php $form->end(); ?>

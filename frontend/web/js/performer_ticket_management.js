@@ -13,7 +13,8 @@ PERFORMER = {
         
         $('#apply_button,#accept_offer_button').on('click', PERFORMER.submitApply);
         $('#offer_button').on('click', PERFORMER.showOfferPricePopup);
-        $('#set_as_done').on('click', PERFORMER.setAsDone);
+       // $('#set_as_done').on('click', PERFORMER.setAsDone);
+        $('#set_as_done').on('click', PERFORMER.showSetAsDonePopup);
         $('#popup-OfferPrice .popup-apply-header, #set-as-done-popup .close').click(PERFORMER.closePopup);
         $('#offer_price_form').on('submit', PERFORMER.submitOfferPrice);
     },
