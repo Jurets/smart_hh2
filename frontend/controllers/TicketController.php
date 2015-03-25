@@ -18,6 +18,7 @@ use common\models\Complaint;
 use yii\helpers\Url;
 use common\components\UserActivity;
 use common\models\Offer;
+use common\models\Review;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -203,6 +204,19 @@ class TicketController extends Controller {
                 'entity' => 'ticket',
                 'entityId' => $id,
             ]);
+            
+            /* review data provider to  */
+            $reviewSql = Review::find()
+                    ->where('to_user_id=:id', 
+                            ['id'=>$user->id]
+                            );
+            $reviewOpinionDataProvider = new ActiveDataProvider([
+                'query' => $reviewSql,
+                'pagination' => [
+                'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
+            ],
+            ]);
+           
             return $this->render('review', [
                         'model' => $model,
                         'user' => $user,
@@ -211,7 +225,8 @@ class TicketController extends Controller {
                         'offers_price' => $price,
                         'newPrice' => $newPrice,
                         'stage' => isset($stage) ? $stage : NULL,
-                        'applied' => $applied
+                        'applied' => $applied,
+                        'reviewOpinionDataProvider' => $reviewOpinionDataProvider
             ]);
         } else {
             throw new \yii\web\HttpException('404');

@@ -148,7 +148,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
             </a>
             <p class="active-jobs">Active <a href="#" class="number-jobs">35 jobs</a></p>
         </div>
-        <h6><span class="red">13</span> Opinions</h6>
+        <h6><span class="red"><?=$user->profile->voice?></span> <?=Yii::t('app', 'Opinions')?></h6>
         <div class="mark-creator">
             <!--<img src="/images/star5.png"><span class="vote">(3.5 based on 40 votes)</span>-->
             <?php
@@ -186,7 +186,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
 
         </div>
 
-        <div class="reviews-holder">
+<!--        <div class="reviews-holder">
             <div class="reviews-item row">
                 <div class="left col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <a href="#"><img class="avatar left" src="/images/avatar-user.png" alt="avatar"/></a>
@@ -285,8 +285,8 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
             </div> 
 
             <a class="btn btn-width">SHOW MORE</a>       
-        </div> 
-
+        </div> -->
+<?php echo $this->render('review_opinion', ['reviewOpinionDataProvider'=>$reviewOpinionDataProvider]) ?>
 
     </div> 
     <div class="clearfix"></div> 

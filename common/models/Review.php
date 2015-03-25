@@ -104,10 +104,10 @@ class Review extends \yii\db\ActiveRecord
         $profile = \common\modules\user\models\Profile::findOne(['user_id' => $id]);
         $profile->rating = (int)$userRating;
         $profile->voice = (int)$ratingCount;
-        if(!$profile->validate()){
-            $errors = $profile->getErrors();
-            var_dump($errors);
-        }
+//        if(!$profile->validate()){
+//            $errors = $profile->getErrors();
+//            var_dump($errors);
+//        }
         $profile->save();
     }
 }
