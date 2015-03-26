@@ -133,7 +133,14 @@ class Paypal extends \marciocamello\Paypal{
                 ->setInvoiceNumber(uniqid());
         
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(Url::to(['ticket/execute-payment', 'success' => true], true))
+        $redirectUrls->setReturnUrl(Url::to(
+                [
+                    'ticket/execute-payment', 'success' => true,
+                    'fusr' => $ticket->user_id,
+                    'tusr' => $performerId,
+                    'p' => $price 
+                ],
+                true))
                 ->setCancelUrl(Url::to(['ticket/execute-payment', 'success' => false], true));
         
         $payment = new Payment();

@@ -563,6 +563,7 @@ class TicketController extends Controller {
             $ticketId = isset($sessionRec['ticket_id']) ? $sessionRec['ticket_id'] : null;
             $performerId = isset($sessionRec['performer_id']) ? $sessionRec['performer_id'] : null;
             $price = isset($sessionRec['current_price']) ? $sessionRec['current_price'] : null;
+            
             if ($ticketId === null || $performerId === null) {
                 throw new \yii\web\HttpException('404');
             }
