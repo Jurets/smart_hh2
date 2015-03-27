@@ -138,7 +138,8 @@ class Paypal extends \marciocamello\Paypal{
                     'ticket/execute-payment', 'success' => true,
                     'fusr' => $ticket->user_id,
                     'tusr' => $performerId,
-                    'p' => $price 
+                    'p' => $price,
+                    't' => $ticket->id
                 ],
                 true))
                 ->setCancelUrl(Url::to(['ticket/execute-payment', 'success' => false], true));

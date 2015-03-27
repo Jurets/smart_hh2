@@ -67,7 +67,7 @@ class TicketController extends Controller {
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
             $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
         }
-        
+
         $list = Yii::$app->params['languages'];
         $apiKey = Yii::$app->params['apiLanguages'];
 
@@ -76,13 +76,13 @@ class TicketController extends Controller {
 
         $query->andWhere(['is_turned_on' => Ticket::TURNED_ON]);
         $query->with('user')->with('user.profile')->with('user.profile.files');
-        $query->orderBy(['start_day'=>SORT_DESC]);
-        
+        $query->orderBy(['start_day' => SORT_DESC]);
+
         if ($get && isset($get['sort'])) {
             unset($query);
             $query = TicketSearch::advancedSearch($get);
         }
-        
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -204,19 +204,18 @@ class TicketController extends Controller {
                 'entity' => 'ticket',
                 'entityId' => $id,
             ]);
-            
+
             /* review data provider to  */
             $reviewSql = Review::find()
-                    ->where('to_user_id=:id', 
-                            ['id'=>$user->id]
-                            );
+                    ->where('to_user_id=:id', ['id' => $user->id]
+            );
             $reviewOpinionDataProvider = new ActiveDataProvider([
                 'query' => $reviewSql,
                 'pagination' => [
-                'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
-            ],
+                    'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
+                ],
             ]);
-           
+
             return $this->render('review', [
                         'model' => $model,
                         'user' => $user,
@@ -300,7 +299,7 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = 4) {
-                
+        
     }
 
     /* purposal work */
@@ -559,12 +558,17 @@ class TicketController extends Controller {
             }
             /* assign performer_id to a ticket & e.t.c */
 
-            $sessionRec = $this->getPaymentSessionRec();
-            $ticketId = isset($sessionRec['ticket_id']) ? $sessionRec['ticket_id'] : null;
-            $performerId = isset($sessionRec['performer_id']) ? $sessionRec['performer_id'] : null;
-            $price = isset($sessionRec['current_price']) ? $sessionRec['current_price'] : null;
+//            $sessionRec = $this->getPaymentSessionRec();
+//            $ticketId = isset($sessionRec['ticket_id']) ? $sessionRec['ticket_id'] : null;
+//            $performerId = isset($sessionRec['performer_id']) ? $sessionRec['performer_id'] : null;
+//            $price = isset($sessionRec['current_price']) ? $sessionRec['current_price'] : null;
             
-            if ($ticketId === null || $performerId === null) {
+            $get = Yii::$app->getRequest()->get();
+            $ticketId = isset($get['t']) ? $get['t'] : null;
+            $performerId = isset($get['tusr']) ? $get['tusr'] : null;
+            $customerId = isset($get['fusr']) ? $get['fusr'] : null;
+            $price = isset($get['p']) ? $get['p'] : null;
+            if ($ticketId === null || $performerId === null || $price === null || $customerId === null) {
                 throw new \yii\web\HttpException('404');
             }
             $ticket = Ticket::findOne($ticketId);
@@ -584,17 +588,23 @@ class TicketController extends Controller {
                 $offer->performer_id = $performerId;
             }
             $offer->stage = Offer::STAGE_AGREE;
-            if ($offer->save()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $offer->save();
                 $offerHistory = new \common\models\OfferHistory();
                 $offerHistory->offer_id = $offer->id;
                 $offerHistory->price = $price;
                 $offerHistory->note = Yii::t('app', 'agreed');
                 $offerHistory->save();
+                $ticket->performer_id = $performerId;
+                $ticket->save();
+                $transaction->commit();
+            } catch (Exception $e) {
+                // mail to admin ?
+                $transaction->rollBack();
             }
-            $ticket->performer_id = $performerId;
-            $ticket->save();
             $this->redirect(['ticket/view', 'id' => $ticket->id]);
-            /*_*/
+            /* _ */
             //return 'OK';
         } else {
             return 'NOT OK';
