@@ -21,6 +21,7 @@ use common\models\TicketComments;
  * This is the model class for table "tbl_user".
  *
  * @property string    $id
+ * @property string    $ban_reason
  * @property string    $role_id
  * @property integer   $status
  * @property string    $email
@@ -107,6 +108,9 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
             [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => "{attribute} can contain only letters, numbers, and '_'."],
+            
+            // balance rules
+            [['balance'], 'double'],
 
             // password rules
             [['newPassword'], 'string', 'min' => 3],

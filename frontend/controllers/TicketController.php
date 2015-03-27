@@ -44,7 +44,7 @@ class TicketController extends Controller {
             . ' performer-accept-offer render-paypal-popup execute-payment',
             'Performer' => 'index create view review update test complain'
             . ' delete complain renderloginform renderapplyform priceagreement'
-            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer',
+            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer render-paypal-popup execute-payment',
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -556,13 +556,7 @@ class TicketController extends Controller {
             if ($paypal->executePayment($paymentId, $payerID)) {
                 
             }
-            /* assign performer_id to a ticket & e.t.c */
-
-//            $sessionRec = $this->getPaymentSessionRec();
-//            $ticketId = isset($sessionRec['ticket_id']) ? $sessionRec['ticket_id'] : null;
-//            $performerId = isset($sessionRec['performer_id']) ? $sessionRec['performer_id'] : null;
-//            $price = isset($sessionRec['current_price']) ? $sessionRec['current_price'] : null;
-            
+            /* assign performer_id to a ticket & e.t.c */          
             $get = Yii::$app->getRequest()->get();
             $ticketId = isset($get['t']) ? $get['t'] : null;
             $performerId = isset($get['tusr']) ? $get['tusr'] : null;
@@ -574,7 +568,7 @@ class TicketController extends Controller {
             $ticket = Ticket::findOne($ticketId);
             $this->checkTicketExistence($ticket);
             $this->isTicketsOwner($ticket);
-            $performer = User::findOne($performerId);
+            $performer = User::findOne($performerId); // used also in increace Users Ballance
             if ($performer === null) {
                 throw new \yii\web\HttpException('404');
             }
@@ -598,6 +592,12 @@ class TicketController extends Controller {
                 $offerHistory->save();
                 $ticket->performer_id = $performerId;
                 $ticket->save();
+                // payment history log - here by method: $history->setupPaymentHistory
+                \common\models\PaymentHistory::setPaymentHistoryRecord($get);
+                // ballance
+                $performer->balance += $price;
+                $performer->save();
+                
                 $transaction->commit();
             } catch (Exception $e) {
                 // mail to admin ?
@@ -612,7 +612,7 @@ class TicketController extends Controller {
     }
 
     /* _ */
-
+    
     protected function checkTicketExistence($model) {
         if (is_null($model))
             throw new \yii\web\HttpException('404');
@@ -716,14 +716,14 @@ class TicketController extends Controller {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
         }
     }
-
+    /* out of date */
     protected function setPaymentSessionRec($ticket_id, $performer_id, $current_price) {
         $session = Yii::$app->session;
         $session['ticket_id'] = (int) $ticket_id;
         $session['performer_id'] = (int) $performer_id;
         $session['current_price'] = $current_price;
     }
-
+    /* out of date */
     protected function getPaymentSessionRec() {
         $session = Yii::$app->session;
         if (isset($session['ticket_id']) && isset($session['performer_id']) && isset($session['current_price'])) {
@@ -735,7 +735,7 @@ class TicketController extends Controller {
         }
         return FALSE;
     }
-
+    /* out of date */
     protected function flushPaymentSessionRec() {
         $session = Yii::$app->session;
         $to_destroy = ['ticket_id', 'performer_id', 'current_price'];
