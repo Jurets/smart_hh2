@@ -27,16 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="user-cabinet-content">
     
-    <div class=''>
+    <div class='payment_history_main'>
         <?=$this->render('cabinet/payment_history',[
             'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
             'switchWindow' => $switchWindow,
         ])?>
     </div>
+    <div class="clearfix"></div>
     
     
-            <?php
-            echo $this->render('_cabinet-category-item', [
+            <?=$this->render('_cabinet-category-item', [
                 'userSpecialities' => $userSpecialities,
             ])
             ?>

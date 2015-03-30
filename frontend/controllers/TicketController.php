@@ -298,7 +298,7 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id = 4) {
+    public function actionTest() {
         
     }
 

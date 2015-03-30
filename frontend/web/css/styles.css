@@ -1582,3 +1582,21 @@ label {
 .reviews .reviews-holder .star-rating{
     display:inline;
 }
+
+/* Payment section */
+
+.payment_history_main {
+  background: #e9eff3;  
+  margin-bottom: 40px;
+  padding-left: 10px;
+}
+#paymentSystem {
+    color: #94989b;
+}
+#paymentSystem span {
+    background-color: #e9eff3;
+}
+ 
+#yearList, #monthList, #switchWindow {
+    width: 100px;
+}

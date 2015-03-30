@@ -212,31 +212,34 @@ class DefaultController extends Controller {
             }
         }
         /* PAYMENT HISTORY */
-        $post = Yii::$app->request->post();
+        $get = Yii::$app->request->get();
         if( empty($post['payment_history_kind'])){
             // default selection
-            $paymentQuery = PaymentHistory::find(['from_user_id' => Yii::$app->user->id]);
+            $paymentQuery = PaymentHistory::find();
+            $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
             $switchWindow = 0;
         }else{
             // post drive selection cascade
-            if( (int)$post['payment_history_kind'] === 0 ){
+            if( (int)$get['payment_history_kind'] === 0 ){
                 // from user money out + single request summ amount
-                $paymentQuery = PaymentHistory::find(['from_user_id' => Yii::$app->user->id]);
+                $paymentQuery = PaymentHistory::find();
+                $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
                 $switchWindow = 0;
             }
-            if( (int)$post['payment_history_kind'] === 1 ){
+            if( (int)$get['payment_history_kind'] === 1 ){
                 // to user money + single request summ amount
                 $paymentQuery = PaymentHistory::find(['to_user_id' => Yii::$app->user->id]);
+                 $paymentQuery->Where(['to_user_id' => Yii::$app->user->id]);
                 $switchWindow = 1;
             }
             
             // date filters
-            if( !empty($post['payment_history_year'])){
+            if( !empty($get['payment_history_year'])){
                 $year = (int)$post['payment_history_year'];
                 // andWhere year(date) = (int)...
                 $paymentQuery->andWhere('year(date)=:year', [':year'=>$year]);
             }
-            if( !empty($post['[ayment_history_month'])){
+            if( !empty($get['[ayment_history_month'])){
                 $month = (int)$post['payment_history_month'];
                 // andWhere month(date) = (int)...
                 $paymentQuery->andWhere('year(date)=:month', [':month'=>$year]);
