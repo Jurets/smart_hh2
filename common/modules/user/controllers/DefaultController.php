@@ -15,6 +15,7 @@ use common\models\UserVerification;
 use common\models\Category;
 use common\models\UserSpeciality;
 use common\models\Ticket;
+use common\models\PaymentHistory;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -210,14 +211,52 @@ class DefaultController extends Controller {
                 $userSocialNetwork->save();
             }
         }
-        
-
+        /* PAYMENT HISTORY */
+        $post = Yii::$app->request->post();
+        if( empty($post['payment_history_kind'])){
+            // default selection
+            $paymentQuery = PaymentHistory::find(['from_user_id' => Yii::$app->user->id]);
+            $switchWindow = 0;
+        }else{
+            // post drive selection cascade
+            if( (int)$post['payment_history_kind'] === 0 ){
+                // from user money out + single request summ amount
+                $paymentQuery = PaymentHistory::find(['from_user_id' => Yii::$app->user->id]);
+                $switchWindow = 0;
+            }
+            if( (int)$post['payment_history_kind'] === 1 ){
+                // to user money + single request summ amount
+                $paymentQuery = PaymentHistory::find(['to_user_id' => Yii::$app->user->id]);
+                $switchWindow = 1;
+            }
+            
+            // date filters
+            if( !empty($post['payment_history_year'])){
+                $year = (int)$post['payment_history_year'];
+                // andWhere year(date) = (int)...
+                $paymentQuery->andWhere('year(date)=:year', [':year'=>$year]);
+            }
+            if( !empty($post['[ayment_history_month'])){
+                $month = (int)$post['payment_history_month'];
+                // andWhere month(date) = (int)...
+                $paymentQuery->andWhere('year(date)=:month', [':month'=>$year]);
+            }
+        }
+        $paymentHistoryDataProvider = new ActiveDataProvider([
+            'query' => $paymentQuery,
+            'pagination' => [
+                'pageSize' => 5
+            ]
+        ]);
+        /* PAYMENT HISTORY  END */
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
                     'userDiploma' => $userDiploma,
                     'userVerid' => $userVerid,
                     'userSocialNetworks' => $userSocialNetworks,
+                    'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
+                    'switchWindow' => $switchWindow,
         ]);
     }
 

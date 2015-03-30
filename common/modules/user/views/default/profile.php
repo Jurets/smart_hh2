@@ -84,7 +84,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?=$profile->done_tasks?> tasks created
                         </span></a>
                 </p>
+                <?php if($profile->user_id === Yii::$app->user->id) {?>
+                    <?=$this->render('profile/_money_output', ['profile'=>$profile]);?>
+                <?php } else { ?>
                 <a href="#" class="user-additional-info"><?php echo $activityMessage ?></a>
+                <?php } ?>
                 <a href="#"  class="user-additional-info">Latest task done 3 days ago</a>
             </div>
             <div class="clear"></div>
