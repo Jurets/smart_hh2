@@ -82,6 +82,12 @@ class CabinetWidget extends Widget {
             'dataSet' => $this->dataSet['BillingAddress'](),
             'destinationClass' => 'pop-up-billing',
         ];
+        $this->layouts['PayeeProfile'] = [
+             'title' => Yii::t('app', 'Payee Details'),
+             'form' => $this->path.'/payee_profile_form',
+             'dataSet' => $this->dataSet['PayeeProfile'](),
+             'destinationClass' => 'pop-up-payment-profile', // temporary
+        ];
         $this->layouts['Specialites'] = [
              'title' => Yii::t('app', 'Specialties'),
              'form' => $this->path.'/specialites_form',
@@ -130,6 +136,14 @@ class CabinetWidget extends Widget {
         };
         $this->dataSet['BillingAddress'] = function(){
             return $this->profile->adress_billing;
+        };
+        $this->dataSet['PayeeProfile'] = function(){
+            $paymentProfile = \common\models\PaymentProfile::findOne(['user_id'=>$this->profile->user->id]);
+            if(is_null($paymentProfile)){
+                $paymentProfile = new \common\models\PaymentProfile;
+            }
+            return $paymentProfile;
+            
         };
         $this->dataSet['Specialites'] = function(){
             $category = new Category;

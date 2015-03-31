@@ -303,6 +303,7 @@ class DefaultController extends Controller {
             case 'AdressMailing':
             case 'Phone':
             case 'BillingAddress':
+            case 'PayeeProfile':
                 $this->cabinetUserContact($post);
                 break;
             case 'Specialites':
@@ -387,6 +388,12 @@ class DefaultController extends Controller {
                 throw new NotFoundHttpException($this->renderErrors($this->profile->errors), '0');
             }
         }
+        /* user payment profile setup */
+        if( isset($post['signature']) && $post['signature'] === 'PayeeProfile' ){
+            // TO DO Действия над платежным профилем пользователя
+            var_dump($post['id']);
+        }
+        
         echo $this->renderPartial('_user-contacts', [
             'profile' => $this->profile,
         ]);
@@ -431,7 +438,7 @@ class DefaultController extends Controller {
             }
         }
     }
-
+    
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {

@@ -19,6 +19,6 @@
         <p class="title"><?=Yii::t('app','Ppayee Details').':'?>:</p>
         <p>
             <?php echo 'Temporary not set'?>
-            <a href="#" data-sign="PayeeSetup" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
+            <a href="#" data-sign="PayeeProfile" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
     </div>
 </div>  
