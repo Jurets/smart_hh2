@@ -213,20 +213,20 @@ class DefaultController extends Controller {
         }
         /* PAYMENT HISTORY */
         $get = Yii::$app->request->get();
-        if( empty($post['payment_history_kind'])){
+        if(!isset($get['ph-kind'])){
             // default selection
             $paymentQuery = PaymentHistory::find();
             $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
             $switchWindow = 0;
         }else{
             // post drive selection cascade
-            if( (int)$get['payment_history_kind'] === 0 ){
+            if( (int)$get['ph-kind'] === 0 ){
                 // from user money out + single request summ amount
                 $paymentQuery = PaymentHistory::find();
                 $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
                 $switchWindow = 0;
             }
-            if( (int)$get['payment_history_kind'] === 1 ){
+            if( (int)$get['ph-kind'] === 1 ){
                 // to user money + single request summ amount
                 $paymentQuery = PaymentHistory::find(['to_user_id' => Yii::$app->user->id]);
                  $paymentQuery->Where(['to_user_id' => Yii::$app->user->id]);
@@ -234,15 +234,15 @@ class DefaultController extends Controller {
             }
             
             // date filters
-            if( !empty($get['payment_history_year'])){
-                $year = (int)$post['payment_history_year'];
+            if( !empty($get['ph-year'])){
+                $year = (int)$get['ph-year'];
                 // andWhere year(date) = (int)...
                 $paymentQuery->andWhere('year(date)=:year', [':year'=>$year]);
             }
-            if( !empty($get['[ayment_history_month'])){
-                $month = (int)$post['payment_history_month'];
+            if( !empty($get['ph-month']) ){
+                $month = (int)$get['ph-month'];
                 // andWhere month(date) = (int)...
-                $paymentQuery->andWhere('year(date)=:month', [':month'=>$year]);
+                $paymentQuery->andWhere('month(date)=:month', [':month'=>$month]);
             }
         }
         $paymentHistoryDataProvider = new ActiveDataProvider([
@@ -251,6 +251,13 @@ class DefaultController extends Controller {
                 'pageSize' => 5
             ]
         ]);
+        $amountQuery = PaymentHistory::find();
+        if($switchWindow === 0){
+            $amountQuery->where(['from_user_id'=>Yii::$app->user->id]);
+        }else{
+            $amountQuery->where(['to_user_id'=>Yii::$app->user->id]);
+        }
+        $amountAll = $amountQuery->sum('amount');
         /* PAYMENT HISTORY  END */
         return $this->render('cabinet', [
                     'profile' => $this->profile,
@@ -260,6 +267,7 @@ class DefaultController extends Controller {
                     'userSocialNetworks' => $userSocialNetworks,
                     'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
                     'switchWindow' => $switchWindow,
+                    'amountAll' => $amountAll,
         ]);
     }
 

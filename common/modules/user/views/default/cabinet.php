@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?=$this->render('cabinet/payment_history',[
             'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
             'switchWindow' => $switchWindow,
+            'amountAll' => $amountAll
         ])?>
     </div>
     <div class="clearfix"></div>

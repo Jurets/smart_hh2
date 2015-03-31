@@ -46,24 +46,24 @@ p{margin-bottom: 0px;}
 label{font-weight:normal;}
 /*** follow sections can edit *****************************************************************************/
 HTML, BODY, .basis{
-	height: 100%;
-        font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-	font-size: 14px;
+    height: 100%;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: 14px;
 }
 BODY{
     background-color: #e9eff3;	
 }
 .basis{
-	margin: auto;
-	display: table;
-	height: auto;
-	height: 100%;
-	min-height: 100%;
+    margin: auto;
+    display: table;
+    height: auto;
+    height: 100%;
+    min-height: 100%;
 }
 .main{height: 100%;}
 .container{padding:0px;}
 h1{font-size:31px;
-margin: 0px 0px 20px 0px;}
+   margin: 0px 0px 20px 0px;}
 h2{font-size:51px;}
 .red{color:#ff703a;}
 .green{color:#c1d174;}
@@ -102,24 +102,24 @@ a.btn-small{
 }
 /*** header **************************************************************/
 .header{
-     background-image:url("../images/header-bg.png");
-     background-repeat: no-repeat;
-     background-position: top center;
+    background-image:url("../images/header-bg.png");
+    background-repeat: no-repeat;
+    background-position: top center;
     padding: 10px 50px 30px 50px;
- 
+
 }
 .header-login{
-      background: #e9eef2; /* Old browsers */
-background: -moz-linear-gradient(bottom, #e9eef2 0%, #fafbfc 17%); /* FF3.6+ */
-background: -webkit-gradient(linear, left bottom, left bottom, color-stop(0%,#e9eef2), color-stop(20%,#fafbfc)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* Opera 11.10+ */
-background: -ms-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* IE10+ */
-background: linear-gradient(to top, #e9eef2 0%,#fafbfc 17%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9eef2', endColorstr='#fafbfc',GradientType=0 ); /* IE6-9 */
-    
-    
-     
+    background: #e9eef2; /* Old browsers */
+    background: -moz-linear-gradient(bottom, #e9eef2 0%, #fafbfc 17%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, left bottom, color-stop(0%,#e9eef2), color-stop(20%,#fafbfc)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(bottom, #e9eef2 0%,#fafbfc 17%); /* IE10+ */
+    background: linear-gradient(to top, #e9eef2 0%,#fafbfc 17%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9eef2', endColorstr='#fafbfc',GradientType=0 ); /* IE6-9 */
+
+
+
 }
 .header .logo{
     float:left;
@@ -177,11 +177,11 @@ form#search input[type="submit"]{
     text-decoration:none;
 }
 .header .logIn{
-     background:url("../images/arrow-black.png") no-repeat 12px center #f4f8fb;
+    background:url("../images/arrow-black.png") no-repeat 12px center #f4f8fb;
 }
 .header .joinNow{
-     background:url("../images/arrow-red.png") no-repeat 12px center #f4f8fb;
-     color:#ff713b;
+    background:url("../images/arrow-red.png") no-repeat 12px center #f4f8fb;
+    color:#ff713b;
 }
 .header #language{
     float:left;
@@ -294,11 +294,11 @@ form#search input[type="submit"]{
     margin-bottom:10px;
 }
 .status a{
-   font-size:13px;
-   line-height: 23px;
-   margin-right: 12px;
-   display: inline-block;
-   color:#000000;
+    font-size:13px;
+    line-height: 23px;
+    margin-right: 12px;
+    display: inline-block;
+    color:#000000;
 }
 .status a img{
     margin-right:7px;
@@ -310,7 +310,7 @@ form#search input[type="submit"]{
 /*main-nav*/
 .main-nav{
     background-color: #063e63;
-   // padding:0px 130px;
+    // padding:0px 130px;
 }
 .main-nav ul{
     width:100%;
@@ -449,7 +449,7 @@ form#search input[type="submit"]{
     font-size:18px;
     line-height: 24px;
 }
- .date-time{
+.date-time{
     color:#a3a3a3;
     font-size:13px;
     margin-bottom:5px;
@@ -467,7 +467,7 @@ form#search input[type="submit"]{
     padding: 0px 110px;
     margin-bottom: 65px;
 }
-    
+
 .how-it-works h2{
     text-align:center;
     font-weight: normal;
@@ -484,7 +484,7 @@ form#search input[type="submit"]{
 }
 .how-it-works .left-column .holder-items,
 .how-it-works .right-column .holder-items{
-   // padding: 40px 0px 0px 0px;
+    // padding: 40px 0px 0px 0px;
     background:url("../images/column-top-bg.png") top center no-repeat;
 }
 .how-it-works .item {
@@ -514,13 +514,13 @@ form#search input[type="submit"]{
 /*mention*/
 .mention{padding:0px 60px}
 .mention h3{
-   color:#0d3f67;
-   margin-bottom: 30px;
-   text-align: center;
-   font-weight: normal;
+    color:#0d3f67;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: normal;
 }
 .mention a{
-   // padding-right:40px;
+    // padding-right:40px;
     display: inline-block;
 }
 
@@ -581,7 +581,7 @@ form#search input[type="submit"]{
 /*sidebar*/
 .sidebar{   
     padding: 10px 30px 10px 0px;
-    
+
 }
 .sidebar ul{
     border-radius: 3px;
@@ -602,9 +602,9 @@ form#search input[type="submit"]{
     font-size:14px;
 }
 .sidebar ul li a img{
-   margin-right: 10px;
-   width:26px;
-   height:21px;
+    margin-right: 10px;
+    width:26px;
+    height:21px;
 }
 /**/
 .btn-big{
@@ -675,7 +675,7 @@ p.comment.small-text{
 
 /*user-item*/
 .user-holder{
-    
+
 }
 .user-item{
     padding:25px 0px;
@@ -695,7 +695,7 @@ p.comment.small-text{
     position: relative;
     vertical-align: super;
 }
- .user-item .user-status span{
+.user-item .user-status span{
     position: absolute;
     bottom:-5px;
     left: -5px;
@@ -791,7 +791,7 @@ p.name{color:#164c6d;}
     line-height: 30px;
 }
 .user-info-price a{
-   // margin-top:25px;
+    // margin-top:25px;
 }
 /*reviews*/
 .reviews-holder{
@@ -859,7 +859,7 @@ p.name{color:#164c6d;}
     text-align: center;
 }
 .widget.specialties .specialty-item{
-color:#0d3f67;
+    color:#0d3f67;
 }
 .widget.diplomas a.icon-items {
     margin-right: 16px;
@@ -913,7 +913,7 @@ span.date-time{
     padding-top: 25px;
     padding-left: 8px;
     margin:-13px 15px 0px -13px;
-    
+
 }
 .auction{
     padding-top: 18px;
@@ -1016,7 +1016,7 @@ a.more{
     /* For IE 8*/
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
     text-align: center;
-    
+
     padding:10px 110px;
 }
 .btn-help{
@@ -1030,10 +1030,10 @@ a.more{
 .find-help-content p{
     font-size: 13px;
     color:#8e9baa;
-   
+
 }
 .find-help-content a+p{
-     margin-bottom:25px;
+    margin-bottom:25px;
 }
 span.small{
     font-size: 30px;
@@ -1094,9 +1094,9 @@ td.delete{width:5%}*/
     display: inline-block;
 }
 .category-item a.delete{
-   position: absolute;
-   top:0px;
-   right:10px;
+    position: absolute;
+    top:0px;
+    right:10px;
 }
 .table > thead > tr > th {
     color:#a3a3a3;
@@ -1169,7 +1169,7 @@ section{
 .create-job .description textarea{margin-bottom:0px;}
 .create-job .description a.additional{
     position:absolute;
-   top:243px;
+    top:243px;
     right:1px;
     margin: 0px;
     background-color: #e9eff3;
@@ -1199,9 +1199,9 @@ section{
     font-family:'Times New Roman', Times, serif;
 }
 .create-job p.attach-photo{
-   font-size: 12px;
-   color:#9b9d9f;
-   margin-left:165px;
+    font-size: 12px;
+    color:#9b9d9f;
+    margin-left:165px;
 }
 .create-job input.yourprice{
     width:370px;
@@ -1215,8 +1215,8 @@ section{
 .create-job a.currency-price{
     color: #ff703a;
     display:block;
-     margin-bottom: 20px;
-     text-align: center;
+    margin-bottom: 20px;
+    text-align: center;
 }
 .create-job a.currency-price:hover{
     text-decoration: underline;
@@ -1245,11 +1245,11 @@ select{
 }
 .sub-categiries{
     border-bottom:1px solid #e5e5e5;
-   // display:inline-block;
-   /*float:left;*/
-   margin-right:30px;
-   margin-bottom:20px;
-   padding-bottom:20px;   
+    // display:inline-block;
+    /*float:left;*/
+    margin-right:30px;
+    margin-bottom:20px;
+    padding-bottom:20px;   
 }
 .sub-categiries input[type="checkbox"]{
     margin:0px 10px 0px 0px;
@@ -1325,19 +1325,19 @@ ol li input:checked + label{
 
 /*needed to make room for footer*/
 .clearfooter{
-	clear: both;
+    clear: both;
 }
 * > HTML .clearfooter {
-	float: left;
+    float: left;
 }
 
 .footer{
-	margin: auto;
-        background-color: #0d3f67;
-        color:#ffffff;
-        font-family:'Montserrat', sans-serif;
-        font-size:14px;
-        padding:55px 0px 55px 70px;
+    margin: auto;
+    background-color: #0d3f67;
+    color:#ffffff;
+    font-family:'Montserrat', sans-serif;
+    font-size:14px;
+    padding:55px 0px 55px 70px;
 }
 .footer a{
     color:#ffffff;
@@ -1398,7 +1398,7 @@ ol li input:checked + label{
 .footer .footer-nav .column ul li a{
     font-size:14px;
     line-height: 24px;
-    
+
 }
 
 /* patches for a good work */
@@ -1467,20 +1467,20 @@ label {
     top: 155px;
 }
 .pop-up-english {
-	left: 100%;
-	top: 80px;
+    left: 100%;
+    top: 80px;
 }
 .pop-up-mailing {
-	left: 100%;
-	top: 140px;
+    left: 100%;
+    top: 140px;
 }
 .pop-up-phone {
-	left: 100%;
-	top: 160px;
+    left: 100%;
+    top: 160px;
 }
 .pop-up-billing {
-	left: 140%;
-	top: 70px;
+    left: 140%;
+    top: 70px;
 }
 .pop-up-diploma {
     width: 700px;
@@ -1586,9 +1586,9 @@ label {
 /* Payment section */
 
 .payment_history_main {
-  background: #e9eff3;  
-  margin-bottom: 40px;
-  padding-left: 10px;
+    background: #e9eff3;  
+    margin-bottom: 40px;
+    padding-left: 10px;
 }
 #paymentSystem {
     color: #94989b;
@@ -1596,7 +1596,36 @@ label {
 #paymentSystem span {
     background-color: #e9eff3;
 }
- 
+
 #yearList, #monthList, #switchWindow {
     width: 100px;
+}
+
+/* frontend table (div) settings */
+.table-imitate {
+    display: table;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+    width: 100%;
+}
+.table-header {
+    display: table-cell;
+    text-align: center;
+}
+
+.payment-history {
+    width: 100%;
+}
+.payment-history .table-header{
+    padding: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid silver;
+}
+.payment-history .table-cell{
+    padding: 10px;
+    border-bottom: 1px solid silver;
 }
