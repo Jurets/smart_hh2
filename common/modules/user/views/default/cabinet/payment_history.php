@@ -13,7 +13,11 @@ use common\components\Commonhelper;
 <?php
 echo Html::beginForm(Url::to(['/user/cabinet'], true), 'get', ['class' => 'sort']);
 echo Html::dropDownList('ph-kind', isset($_GET['ph-kind']) ? (int) $_GET['ph-kind'] : NULL, [0 => 'given', 1 => 'received'], ['id' => 'switchWindow']);
+echo '&nbsp;&nbsp;&nbsp;';
+echo Yii::t('app','filter by').' '.Yii::t('app','year'). '&nbsp;&nbsp;';
 echo Html::dropDownList('ph-year', isset($_GET['ph-year']) ? (int) $_GET['ph-year'] : NULL, Commonhelper::YearList('2015', '2100'), ['id' => 'yearList']);
+echo '&nbsp;&nbsp;&nbsp;';
+echo Yii::t('app','filter by').' '.Yii::t('app','month'). '&nbsp;&nbsp;';
 echo Html::dropDownList('ph-month', isset($_GET['ph-month']) ? (int) $_GET['ph-month'] : NULL, Commonhelper::MonthList(), ['id' => 'monthList']);
 echo Html::submitButton(Yii::t('app', 'SHOW'), ['class' => 'btn btn-average right']);
 ?>
