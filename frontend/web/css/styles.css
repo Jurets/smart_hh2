@@ -1610,11 +1610,10 @@ label {
 }
 .table-cell {
     display: table-cell;
-    width: 100%;
+    
 }
 .table-header {
     display: table-cell;
-    text-align: center;
 }
 
 .payment-history {
@@ -1622,10 +1621,16 @@ label {
 }
 .payment-history .table-header{
     padding: 10px;
-    font-weight: bold;
     border-bottom: 1px solid silver;
+    background: silver;
+    color: black;
 }
 .payment-history .table-cell{
     padding: 10px;
     border-bottom: 1px solid silver;
+}
+/*  */
+#paymentSystem {
+    display: table;
+    width: 100%;
 }

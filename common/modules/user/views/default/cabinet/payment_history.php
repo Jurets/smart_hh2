@@ -22,7 +22,7 @@ echo Html::submitButton(Yii::t('app', 'SHOW'), ['class' => 'btn btn-average righ
     echo ListView::widget([
         'id' => 'paymentSystem',
         'dataProvider' => $paymentHistoryDataProvider,
-        'itemOptions' => ['class' => ''],
+        'itemOptions' => ['class' => 'table-row'],
         'itemView' => '_payment',
         'viewParams' => [],
         'summary' => '',
