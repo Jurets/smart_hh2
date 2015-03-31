@@ -16,9 +16,9 @@
         <p>
             <?php echo isset($profile->adress_billing) ? $profile->adress_billing : '' ?>
             <a href="#" data-sign="BillingAddress" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
-        <p class="title">PayPal:</p>
+        <p class="title"><?=Yii::t('app','Ppayee Details').':'?>:</p>
         <p>
-            <?php echo isset($profile->paypal) ? $profile->paypal : ''?>
-            <a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
+            <?php echo 'Temporary not set'?>
+            <a href="#" data-sign="PayeeSetup" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
     </div>
 </div>  

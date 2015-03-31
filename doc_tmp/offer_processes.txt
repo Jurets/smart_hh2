@@ -12,3 +12,34 @@
   date CURRENT_TIMESTAMP - дата/время создания записи стадии соглашения
   note varchar(255) - некоторая аннотация к стадии соглашения
 .......
+[раздел payment_history]
+История платежей пользователя представлена таблицей payment_history, моделью PaymentHistory (common/models).
+Формируется в процессе оплаты, хранит данные:
+кто заплатил, когда, кому, за что и сколько.
+косвенно, в процессе оплаты также изменяется поле balance в common/modules/user/models/User.
+balance увеличивается, когда юзер что-то заработал и уменьшается, когда юзер просит вывести часть средств из системы paypal
+история платежей показывается в самом верхнем блоке в кабинете юзера (url: /user/cabinet)
+.......
+[payment_profile - это раздел для вывода средств из системы]
+таблица payment_profile
+id           - pk
+user_id      - fk на таблицу user (1, 2, 3) - варианты выбора, какие поля надо задействовать
+choise  - int(3-5) - хранит предпочитаемый юзером выбор
+   вариант 1
+ach_routing_number - varchar(255) 
+ach_account_number - varchar(255)
+ach_account_name   - varchar(255)
+   вариант 2
+paypal  - varchar(255) это либо номер либо мыло - varchar(255)
+   вариант 3
+mailing_address - varchar(255)
+fullname - varchar(255)
+.......
+[withdrawal]
+id - pk
+data - CURRENT_TIMESTAMP
+from_user_id - fk - user (id) - потом вытащим имя
+method - text - сборная инфа из payment_profile - собирается по схеме и в удобную строку для чтения
+amount - float (double)
+completed - int(3-5) 0 - вопрос открыт (отображать запись в админке) 1 - вопрос закрыт (не отображать запись в админке)
+.......
