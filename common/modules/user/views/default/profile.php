@@ -85,6 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </span></a>
                 </p>
                 <?php if($profile->user_id === Yii::$app->user->id) {?>
+                <div class="withdrawal-popup"></div>
                     <?=$this->render('profile/_money_output', ['profile'=>$profile]);?>
                 <?php } else { ?>
                 <a href="#" class="user-additional-info"><?php echo $activityMessage ?></a>

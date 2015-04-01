@@ -19,21 +19,19 @@ use Yii;
  *
  * @property User $user
  */
-class PaymentProfile extends \yii\db\ActiveRecord
-{
+class PaymentProfile extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'payment_profile';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['user_id', 'choise'], 'required'],
             [['user_id', 'choise'], 'integer'],
@@ -44,8 +42,7 @@ class PaymentProfile extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
@@ -53,7 +50,7 @@ class PaymentProfile extends \yii\db\ActiveRecord
             'ach_routing_number' => Yii::t('app', 'Ach Routing Number'),
             'ach_account_number' => Yii::t('app', 'Ach Account Number'),
             'ach_account_name' => Yii::t('app', 'Ach Account Name'),
-            'paypal' => Yii::t('app', 'Paypal'),
+            'paypal' => Yii::t('app', 'Paypal' . ' (number/email)'),
             'mailing_address' => Yii::t('app', 'Mailing Address'),
             'fullname' => Yii::t('app', 'Fullname'),
         ];
@@ -62,8 +59,52 @@ class PaymentProfile extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function paymentProfileLoader($post) {
+       $this->choise = isset($post['choise']) ? (int)$post['choise'] : NULL;
+       $this->ach_routing_number = isset($post['ach_routing_number']) ? \yii\helpers\Html::encode($post['ach_routing_number']) : '';
+       $this->ach_account_number = isset($post['ach_account_number']) ? \yii\helpers\Html::encode($post['ach_account_number']) : '';
+       $this->ach_account_name =  isset($post['ach_account_name']) ? \yii\helpers\Html::encode($post['ach_account_name']) : '';
+       $this->paypal = isset($post['paypal']) ? \yii\helpers\Html::encode($post['paypal']) : '';
+       $this->mailing_address =  isset($post['mailing_address']) ? \yii\helpers\Html::encode($post['mailing_address']) : '';
+       $this->fullname = isset($post['fullname']) ? \yii\helpers\Html::encode($post['fullname']) : '';
+    }
+
+    public function beforeValidate() {
+        parent::beforeValidate();
+        switch ($this->choise) {
+            case 1:
+                if (empty($this->ach_routing_number)) {
+                    $this->addError('ach_routing_number', $this->attributeLabels()['ach_routing_number'].Yii::t('app', ' must be set'));
+                }
+                if (empty($this->ach_account_number)) {
+                    $this->addError('ach_account_number', $this->attributeLabels()['ach_account_number'].Yii::t('app', ' must be set'));
+                }
+                if (empty($this->ach_account_name)) {
+                    $this->addError('ach_account_name', $this->attributeLabels()['ach_account_name'].Yii::t('app', ' must be set'));
+                }
+                break;
+            case 2:
+                if(empty($this->paypal)){
+                    $this->addError('paypal', $this->attributeLabels()['paypal'].Yii::t('app', ' must be set'));
+                }
+                break;
+            case 3:
+                if(empty($this->mailing_address)){
+                    $this->addError('mailing_address', $this->attributeLabels()['mailing_address'].Yii::t('app', ' must be set'));
+                }
+                if(empty($this->fullname)){
+                    $this->addError('fullname', $this->attributeLabels()['fullname'].Yii::t('app', ' must be set'));
+                }
+                break;
+        }
+        if ($this->hasErrors()) {
+            return false;
+        }
+        return true;
+    }
+
 }

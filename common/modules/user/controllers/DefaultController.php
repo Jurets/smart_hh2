@@ -391,11 +391,24 @@ class DefaultController extends Controller {
         /* user payment profile setup */
         if( isset($post['signature']) && $post['signature'] === 'PayeeProfile' ){
             // TO DO Действия над платежным профилем пользователя
-            var_dump($post['id']);
+            if(!empty($post['ppid'])){
+                $ppid = (int)$post['ppid'];
+                $paymentProfile = \common\models\PaymentProfile::findOne(['id'=>$ppid]);
+            }else{
+                $paymentProfile = new \common\models\PaymentProfile;
+            }
+            $paymentProfile->paymentProfileLoader($post);
+            $paymentProfile->user_id = Yii::$app->user->id;
+            if($paymentProfile->validate()){
+                $paymentProfile->save(false);
+            }else{
+                throw new NotFoundHttpException($this->renderErrors($paymentProfile->errors), '0');
+            }
         }
         
         echo $this->renderPartial('_user-contacts', [
             'profile' => $this->profile,
+            'paymentProfile' => $paymentProfile,
         ]);
     }
 
@@ -744,7 +757,15 @@ class DefaultController extends Controller {
                     'canViewContacts' => $canViewContacts,
         ]);
     }
-
+    
+    /* 
+     * Send withdraw message 
+     */
+    public function actionWithdrawals(){
+        if(Yii::$app->request->isAjax){
+            
+        }
+    }
     /**
      * Resend email confirmation
      */
