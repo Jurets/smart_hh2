@@ -24,9 +24,9 @@ $this->registerJs("pp_init();", View::POS_END);
     <fieldset>
         <?= Html::hiddenInput('ppid', $dataSet->id) ?>
         <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
-            '1' => 'varriant 1',
-            '2' => 'varriant 2',
-            '3' => 'varriant 3'
+            '1' => $dataSet::V1,
+            '2' => $dataSet::V2,
+            '3' => $dataSet::V3
         ],
                 ['id'=>'pp_group_choise','class'=>'sort select', 'style'=>'width:50%;']
         )?>

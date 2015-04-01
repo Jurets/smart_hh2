@@ -62,4 +62,9 @@ class Withdrawal extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'from_user_id']);
     }
+    public function modelConnection($compile) {
+        $this->from_user_id = $compile['from_user_id'];
+        $this->method = $compile['method'];
+        $this->amount = $compile['amount'];
+    }
 }

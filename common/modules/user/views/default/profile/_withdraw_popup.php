@@ -23,5 +23,3 @@ use yii\helpers\Html;
        <?php } ?> 
     </div>
 </div>
-
-<
