@@ -82,6 +82,12 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         parent::beforeValidate();
         switch ($this->choise) {
             case 1:
+        if(empty($this->ach_account_name) && empty($this->ach_account_number) && empty($this->ach_routing_number)) {
+            $this->ach_account_name = NULL;
+            $this->ach_account_number = NULL;
+            $this->ach_routing_number = NULL;
+            break;
+        }
                 if (empty($this->ach_routing_number)) {
                     $this->addError('ach_routing_number', $this->attributeLabels()['ach_routing_number'] . Yii::t('app', ' must be set'));
                 }
@@ -94,10 +100,15 @@ class PaymentProfile extends \yii\db\ActiveRecord {
                 break;
             case 2:
                 if (empty($this->paypal)) {
-                    $this->addError('paypal', $this->attributeLabels()['paypal'] . Yii::t('app', ' must be set'));
+                    $this->paypal = NULL;
                 }
                 break;
             case 3:
+        if( empty($this->mailing_address) && empty($this->fullname)) {
+            $this->mailing_address = NULL;
+            $this->fullname = NULL;
+            break;
+        }
                 if (empty($this->mailing_address)) {
                     $this->addError('mailing_address', $this->attributeLabels()['mailing_address'] . Yii::t('app', ' must be set'));
                 }
@@ -166,5 +177,22 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         
         return $compile;
     }
-
+    
+    public function checkFieldsEmpty(){
+        if(
+                empty($this->ach_routing_number) &&
+                empty($this->ach_account_number) &&
+                empty($this->ach_account_name) &&
+                        
+                empty($this->paypal) &&
+                        
+                empty($this->mailing_address) &&
+                empty($this->fullname)
+                
+          ){
+            
+            return FALSE;
+        }
+        return TRUE;
+    }
 }

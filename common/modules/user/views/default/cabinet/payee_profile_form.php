@@ -22,6 +22,8 @@ $this->registerJs("pp_init();", View::POS_END);
 <form method="post" action="<?php echo Url::to(['/user/popup_runtime'], true) ?>" data-render="user-contact">
     <input type="hidden" name="signature" value="PayeeProfile">
     <fieldset>
+        <a class="close wd-close" href="#">×</a>
+        <a id="ClearBlockButton" href="#">CLEAR</a>
         <?= Html::hiddenInput('ppid', $dataSet->id) ?>
         <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
             '1' => $dataSet::V1,

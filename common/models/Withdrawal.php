@@ -67,4 +67,8 @@ class Withdrawal extends \yii\db\ActiveRecord
         $this->method = $compile['method'];
         $this->amount = $compile['amount'];
     }
+    public function stash(){
+        $this->completed = 1;
+        $this->save();
+    }
 }
