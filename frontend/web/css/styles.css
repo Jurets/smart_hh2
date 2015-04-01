@@ -1638,3 +1638,23 @@ label {
     display: table;
     width: 100%;
 }
+/**/
+.withdrawal-popup-wrapper {
+    position: relative;
+}
+.withdrawal-popup {
+    display: none;
+    position: absolute;
+    width: 300px;
+    z-index: 10;
+    background: white;
+    top: 50px;
+    left: 170px;
+    border: 1px solid silver;
+}
+.wd-message {
+    color: navy;
+}
+.wd-error {
+    color: #e15353;
+}

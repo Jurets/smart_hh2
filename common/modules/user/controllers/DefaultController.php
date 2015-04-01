@@ -17,6 +17,8 @@ use common\models\UserSpeciality;
 use common\models\Ticket;
 use common\models\PaymentHistory;
 use yii\web\NotFoundHttpException;
+use common\models\PaymentProfile;
+use common\models\Withdrawal;
 use yii\web\UploadedFile;
 
 /* just test - before logic */
@@ -58,7 +60,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup', 'withdrawals'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -741,6 +743,13 @@ class DefaultController extends Controller {
                     ])
                     ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]])
                     ->exists());
+        
+        /* Withdrawals prepare */
+        $paymentProfile = PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+        $ppErr = NULL;
+//        if(is_null($paymentProfile)){
+//            $ppErr = Yii::t('app','You has not any payee data. Setup it in  users cabinet');
+//        }    
         // render
         /* variables in view translate as arrays */
         return $this->render("profile", [
@@ -755,6 +764,7 @@ class DefaultController extends Controller {
                     'positiveReviewDataProvider' => $positiveReviewDataProvider,
                     'negativeReviewDataProvider' => $negativeReviewDataProvider,
                     'canViewContacts' => $canViewContacts,
+                    'paymentProfile' => $paymentProfile
         ]);
     }
     
@@ -763,8 +773,16 @@ class DefaultController extends Controller {
      */
     public function actionWithdrawals(){
         if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
             
+            $user_id = (int)$post['user_id'];
+            $choise = (int)$post['choise'];
+            $amount = empty($amount)? 0 : (double)$post['ammount'];
+            if($amount == 0){
+                throw new NotFoundHttpException(Yii::t('app', 'ammount not signed'));
+            }
         }
+        
     }
     /**
      * Resend email confirmation

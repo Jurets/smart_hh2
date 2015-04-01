@@ -21,6 +21,10 @@ use Yii;
  */
 class PaymentProfile extends \yii\db\ActiveRecord {
 
+    const V1 = 'varriant 1';
+    const V2 = 'varriant 2';
+    const V3 = 'varriant 3';
+    
     /**
      * @inheritdoc
      */
@@ -105,6 +109,20 @@ class PaymentProfile extends \yii\db\ActiveRecord {
             return false;
         }
         return true;
+    }
+    
+    public function varriantsListCreate(){
+        $varList = [];
+        if(!empty($this->ach_account_name) && !empty($this->ach_account_number) && !empty($this->ach_routing_number)){
+            $varList['1'] = self::V1;
+        }
+        if(!empty($this->paypal)){
+            $varList['2'] = self::V2;
+        }
+        if(!empty($this->mailing_address) && !is_null($this->fullname)){
+            $varList['3'] = self::V3;
+        }
+        return $varList;
     }
 
 }

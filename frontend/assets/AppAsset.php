@@ -39,7 +39,8 @@ class AppAsset extends AssetBundle
         'js/profile-jobs.js',
         'js/header-login.js',
         'js/offer-job.js',
-        'js/payment_profile_switch.js'
+        'js/payment_profile_switch.js',
+        'js/withdrawals.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
