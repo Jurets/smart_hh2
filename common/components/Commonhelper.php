@@ -12,7 +12,7 @@ class Commonhelper {
         }
         return $years;
     }
-    public function MonthList(){
+    public static function MonthList(){
         $month = [''=>''];
         for($i = 1; $i <= 12; $i++){
             $month[$i] = $i;
