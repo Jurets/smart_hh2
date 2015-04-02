@@ -48,7 +48,7 @@ class Withdrawal extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'data' => Yii::t('app', 'Data'),
-            'from_user_id' => Yii::t('app', 'From User ID'),
+            'from_user_id' => Yii::t('app', 'From User'),
             'method' => Yii::t('app', 'Method'),
             'amount' => Yii::t('app', 'Amount'),
             'completed' => Yii::t('app', 'Completed'),

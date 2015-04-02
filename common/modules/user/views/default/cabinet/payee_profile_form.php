@@ -23,7 +23,6 @@ $this->registerJs("pp_init();", View::POS_END);
     <input type="hidden" name="signature" value="PayeeProfile">
     <fieldset>
         <a class="close wd-close" href="#">×</a>
-        <a id="ClearBlockButton" href="#">CLEAR</a>
         <?= Html::hiddenInput('ppid', $dataSet->id) ?>
         <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
             '1' => $dataSet::V1,
@@ -32,6 +31,7 @@ $this->registerJs("pp_init();", View::POS_END);
         ],
                 ['id'=>'pp_group_choise','class'=>'sort select', 'style'=>'width:50%;']
         )?>
+        <a class="btn btn-small" id="ClearBlockButton" href="#">CLEAR</a>
         <div id='pp_group_1' style="<?=($dataSet->choise===1 || $dataSet->choise=='')?'display:block;':'display:none;'?>">
         <br>
         <?=$dataSet->attributeLabels()['ach_routing_number']?>

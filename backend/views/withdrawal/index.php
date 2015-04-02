@@ -16,30 +16,39 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create {modelClass}', [
-    'modelClass' => 'Withdrawal',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+//        echo Html::a(Yii::t('app', 'Create {modelClass}', [
+//                    'modelClass' => 'Withdrawal',
+//                ]), ['create'], ['class' => 'btn btn-success'])
+        ?>
     </p>
 
-    <?= GridView::widget([
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             //'id',
             'data',
             //'from_user_id',
             [
-              'attribute'=>'from_user_id',
-              'value' => function($model){return $model->fromUser->username;}
+                'attribute' => 'from_user_id',
+                'value' => function($model) {
+                    return $model->fromUser->username;
+                }
             ],
             'method:ntext',
             'amount',
             // 'completed',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {delete} {bannmanagement}'
+            ],
+                    
         ],
-    ]); ?>
+    ]);
+    ?>
 
 </div>

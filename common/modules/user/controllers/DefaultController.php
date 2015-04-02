@@ -265,6 +265,13 @@ class DefaultController extends Controller {
         }
         $amountAll = $amountQuery->sum('amount');
         /* PAYMENT HISTORY  END */
+        /* payee kind setup check */
+        $paymentProfile = PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+        if(is_null($paymentProfile)){
+            $paymentProfileChoiseMessage = Yii::t('app', 'Payee Details').' '.Yii::t('app', 'not set');
+        }else{
+            $paymentProfileChoiseMessage = $paymentProfile->choiseKind[$paymentProfile->choise];
+        }
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
@@ -274,6 +281,7 @@ class DefaultController extends Controller {
                     'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
                     'switchWindow' => $switchWindow,
                     'amountAll' => $amountAll,
+                    'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage
         ]);
     }
 
@@ -415,6 +423,7 @@ class DefaultController extends Controller {
         echo $this->renderPartial('_user-contacts', [
             'profile' => $this->profile,
             'paymentProfile' => $paymentProfile,
+            'paymentProfileChoiseMessage' => $paymentProfile->getChoiseMessage()
         ]);
     }
 

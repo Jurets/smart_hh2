@@ -18,7 +18,7 @@
             <a href="#" data-sign="BillingAddress" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
         <p class="title"><?=Yii::t('app','Ppayee Details').':'?>:</p>
         <p>
-            
+            <?php echo $paymentProfileChoiseMessage ?>
             <a href="#" data-sign="PayeeProfile" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></p>
     </div>
 </div>  

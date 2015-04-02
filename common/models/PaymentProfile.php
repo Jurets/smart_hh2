@@ -26,11 +26,24 @@ class PaymentProfile extends \yii\db\ActiveRecord {
     const V2 = 'Paypal… 3-5 business days';
     const V3 = 'Check mailing… up to 10 business days';
 
+    /* for simple review */
+
+    public $choiseKind = [];
+
     /**
      * @inheritdoc
      */
     public static function tableName() {
         return 'payment_profile';
+    }
+
+    public function init() {
+        parent::init();
+        $this->choiseKind = [
+            '1' => Yii::t('app', 'ACH… 1-2 business days'),
+            '2' => Yii::t('app', 'Paypal… 3-5 business days'),
+            '3' => Yii::t('app', 'Check mailing… up to 10 business days')
+        ];
     }
 
     /**
@@ -82,12 +95,12 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         parent::beforeValidate();
         switch ($this->choise) {
             case 1:
-        if(empty($this->ach_account_name) && empty($this->ach_account_number) && empty($this->ach_routing_number)) {
-            $this->ach_account_name = NULL;
-            $this->ach_account_number = NULL;
-            $this->ach_routing_number = NULL;
-            break;
-        }
+                if (empty($this->ach_account_name) && empty($this->ach_account_number) && empty($this->ach_routing_number)) {
+                    $this->ach_account_name = NULL;
+                    $this->ach_account_number = NULL;
+                    $this->ach_routing_number = NULL;
+                    break;
+                }
                 if (empty($this->ach_routing_number)) {
                     $this->addError('ach_routing_number', $this->attributeLabels()['ach_routing_number'] . Yii::t('app', ' must be set'));
                 }
@@ -104,11 +117,11 @@ class PaymentProfile extends \yii\db\ActiveRecord {
                 }
                 break;
             case 3:
-        if( empty($this->mailing_address) && empty($this->fullname)) {
-            $this->mailing_address = NULL;
-            $this->fullname = NULL;
-            break;
-        }
+                if (empty($this->mailing_address) && empty($this->fullname)) {
+                    $this->mailing_address = NULL;
+                    $this->fullname = NULL;
+                    break;
+                }
                 if (empty($this->mailing_address)) {
                     $this->addError('mailing_address', $this->attributeLabels()['mailing_address'] . Yii::t('app', ' must be set'));
                 }
@@ -140,59 +153,60 @@ class PaymentProfile extends \yii\db\ActiveRecord {
     public static function withdrawalCompile($user_id, $choise, $amount) {
         $model = PaymentProfile::find('user_id = :id', [':id' => $user_id])->one();
         $compile = [];
-        $compile['from_user_id'] = (int)$user_id;
+        $compile['from_user_id'] = (int) $user_id;
         switch ($choise) {
             case 1:
                 if (empty($model->ach_account_name) || empty($model->ach_account_number || empty($model->ach_routing_number))) {
                     throw new NotFoundHttpException('601');
-                    
                 } else {
                     $compile['method'] = self::V1 . ' : ' .
-                            $model->getAttributeLabel('ach_account_name').' - '.$model->ach_account_name . '; ' .
-                            $model->getAttributeLabel('ach_account_number').' - '.$model->ach_account_number . '; ' .
-                            $model->getAttributeLabel('ach_routing_number').' - '.$model->ach_routing_number . '; ';
+                            $model->getAttributeLabel('ach_account_name') . ' - ' . $model->ach_account_name . '; ' .
+                            $model->getAttributeLabel('ach_account_number') . ' - ' . $model->ach_account_number . '; ' .
+                            $model->getAttributeLabel('ach_routing_number') . ' - ' . $model->ach_routing_number . '; ';
                 }
                 break;
             case 2:
-                if(empty($model->paypal)){
+                if (empty($model->paypal)) {
                     throw new NotFoundHttpException('602');
-                }else{
+                } else {
                     $compile['method'] = self::V2 . ' : ' .
-                            $model->getAttributeLabel('paypal').' - '.$model->paypal . '; ';
+                            $model->getAttributeLabel('paypal') . ' - ' . $model->paypal . '; ';
                 }
                 break;
             case 3:
-                if(empty($model->mailing_address || empty($model->fullname))){
+                if (empty($model->mailing_address || empty($model->fullname))) {
                     throw new NotFoundHttpException('603');
-                }else{
+                } else {
                     $compile['method'] = self::V3 . ' : ' .
-                            $model->getAttributeLabel('mailing_address').' - '.$model->mailing_address . '; ' . 
-                            $model->getAttributeLabel('fullname').' - '.$model->fullname . '; ';
+                            $model->getAttributeLabel('mailing_address') . ' - ' . $model->mailing_address . '; ' .
+                            $model->getAttributeLabel('fullname') . ' - ' . $model->fullname . '; ';
                 }
                 break;
             default:
                 throw new NotFoundHttpException('700');
         }
-        $compile['amount'] = (double)$amount;
-        
+        $compile['amount'] = (double) $amount;
+
         return $compile;
     }
-    
-    public function checkFieldsEmpty(){
-        if(
+
+    /* validation additional method - agreement for delete ability */
+    public function checkFieldsEmpty() {
+        if (
                 empty($this->ach_routing_number) &&
                 empty($this->ach_account_number) &&
                 empty($this->ach_account_name) &&
-                        
                 empty($this->paypal) &&
-                        
                 empty($this->mailing_address) &&
                 empty($this->fullname)
-                
-          ){
-            
+        ) {
+
             return FALSE;
         }
         return TRUE;
+    }
+    /* return message about user payee details default choise */
+    public function getChoiseMessage(){
+        return $this->choiseKind[$this->choise];
     }
 }
