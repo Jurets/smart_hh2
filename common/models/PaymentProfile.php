@@ -40,6 +40,7 @@ class PaymentProfile extends \yii\db\ActiveRecord {
     public function init() {
         parent::init();
         $this->choiseKind = [
+             NULL => Yii::t('app', 'Payee Details not set'),
             '1' => Yii::t('app', 'ACH… 1-2 business days'),
             '2' => Yii::t('app', 'Paypal… 3-5 business days'),
             '3' => Yii::t('app', 'Check mailing… up to 10 business days')

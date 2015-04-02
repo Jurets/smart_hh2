@@ -418,6 +418,11 @@ class DefaultController extends Controller {
             } else {
                 throw new NotFoundHttpException($this->renderErrors($paymentProfile->errors), '0');
             }
+        } else {
+            $paymentProfile = \common\models\PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+            if(is_null($paymentProfile)){
+                $paymentProfile = new \common\models\PaymentProfile;
+            }
         }
 
         echo $this->renderPartial('_user-contacts', [
