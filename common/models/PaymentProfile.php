@@ -156,7 +156,7 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         $compile['from_user_id'] = (int) $user_id;
         switch ($choise) {
             case 1:
-                if (empty($model->ach_account_name) || empty($model->ach_account_number || empty($model->ach_routing_number))) {
+                if (empty( $model->ach_account_name ) OR empty($model->ach_account_number OR empty($model->ach_routing_number))) {
                     throw new NotFoundHttpException('601');
                 } else {
                     $compile['method'] = self::V1 . ' : ' .
