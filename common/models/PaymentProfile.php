@@ -156,6 +156,7 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         $compile['from_user_id'] = (int) $user_id;
         switch ($choise) {
             case 1:
+            {
                 if (empty( $model->ach_account_name ) OR empty($model->ach_account_number OR empty($model->ach_routing_number))) {
                     throw new NotFoundHttpException('601');
                 } else {
@@ -163,7 +164,7 @@ class PaymentProfile extends \yii\db\ActiveRecord {
                             $model->getAttributeLabel('ach_account_name') . ' - ' . $model->ach_account_name . '; ' .
                             $model->getAttributeLabel('ach_account_number') . ' - ' . $model->ach_account_number . '; ' .
                             $model->getAttributeLabel('ach_routing_number') . ' - ' . $model->ach_routing_number . '; ';
-                }
+            }}
                 break;
             case 2:
                 if (empty($model->paypal)) {
