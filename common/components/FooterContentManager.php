@@ -78,7 +78,7 @@ class FooterContentManager {
     protected function prepareCategoryStruct(){
         $db = Yii::$app->db;
         $sql = 'SELECT * FROM category ' .
-                 'order by parent_id, weight';
+                 'order by parent_id, weight DESC';
         $structure = $db->createCommand($sql)->queryAll();
         if(empty($structure)){
             return [];

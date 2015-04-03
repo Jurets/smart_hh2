@@ -31,6 +31,7 @@ class CategorySlider extends Widget
     protected function dataSet(){
         $category = Category::find()
                 ->where(['level' => 1])
+                ->orderBy(['weight' => SORT_DESC])
                 ->all();
         if(!empty($category)){
             $this->dataset = $category;

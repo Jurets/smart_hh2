@@ -76,7 +76,8 @@ class SiteController extends Controller
                 ->orderBy(['created' => SORT_DESC])
                 ->limit(8)
                 ->all();
-        return $this->renderPartial('index', ['latestTasks' => $latestTasks]);
+        $sliders = \common\models\Slider::find()->all();
+        return $this->renderPartial('index', ['latestTasks' => $latestTasks, 'sliders' => $sliders]);
     }
 
     public function actionLogin()

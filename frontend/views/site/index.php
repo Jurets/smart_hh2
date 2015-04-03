@@ -27,9 +27,14 @@ AppAsset::register($this);
         <div class="header-slider col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
             <ul class="imgslider">
+                <?php if(empty($sliders)) { ?>
                 <li><img class="img" src="images/picture-index.jpg" title="Funky roots" /></li>
                 <li><img class="img" src="images/picture-index-2.jpg" title="The long and winding road" /></li>
                 <li><img class="img" src="images/picture-index.jpg" title="Happy trees" /></li>
+                <?php } ?>
+                <?php foreach($sliders as $slider) { ?>
+                <img src="<?=Yii::$app->params['upload.path'] . DIRECTORY_SEPARATOR . $slider->picture?>" title="<?=$slider->title?>">
+                <?php } ?>
             </ul>
 
             <div id="header_refresh" class="header-index col-xs-12 col-sm-12 col-md-12 col-lg-12">
