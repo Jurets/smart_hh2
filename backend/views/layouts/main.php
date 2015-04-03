@@ -66,32 +66,37 @@ AppAsset::register($this);
                      'label' => 'Tickets Archive',
                      'url' => ['/ticket/archive'],
                  ];
-
                  $menuItems[] = [
+                     'label' => 'Management',
+                     'url' => '',
+                     'items' => [
+                    [     
                      'label' => 'Category',
                      'url' => ['/category'],
-                 ];
-                $menuItems[] = [
+                    ],   
+                [
                     'label' => 'Files', 
                     'url' => ['files/index'], 
                     'active' => $controller_id == 'files',
-                ];
-                $menuItems[] = [
+                ],
+                [
                     'label' => Yii::t('app', 'Complaints'),
                     'url' => ['/complaint/index'],
-                ];
-                $menuItems[] = [
+                ],
+                [
                     'label' => Yii::t('app', 'Social Networks'),
                     'url' => ['/user-social-network/index'],
-                ];
-                $menuItems[] = [
-                    'label' => Yii::t('app', 'Footer'),
+                ],
+                [
+                    'label' => Yii::t('app', 'Index Management'),
                     'url' => ['/footer-content'],
-                ];
-                $menuItems[] = [
+                ],
+                [
                     'label' => Yii::t('app', 'Withdraw'),
                     'url' => ['/withdrawal'],
-                ];
+                ],
+                     ],
+                 ];
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],

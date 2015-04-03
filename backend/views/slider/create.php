@@ -9,6 +9,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Slider',
 ]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Index management'), 'url' => ['/footer-content']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sliders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

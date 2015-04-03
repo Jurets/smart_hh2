@@ -8,16 +8,14 @@ use common\models\FooterContentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 use common\components\FooterContentManager;
 
 /**
  * FooterContentController implements the CRUD actions for FooterContent model.
  */
-class FooterContentController extends Controller
-{
-    public function behaviors()
-    {
+class FooterContentController extends Controller {
+
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -32,19 +30,38 @@ class FooterContentController extends Controller
      * Lists all FooterContent models.
      * @return mixed
      */
-    public function actionTest(){
+    public function actionTest() {
         $FCM = new FooterContentManager;
         $FCM->testOutput();
     }
-    public function actionIndex()
-    {
+
+    public function actionIndex() {
         $searchModel = new FooterContentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /* Category Weight management */
+
+    public function actionCweight() {
+        $post = Yii::$app->request->post();
+        $categoryes = \common\models\Category::findAll(['level' => 1]);
+
+        if (isset($post['cat-weight-sign'])) {
+            $catArray = [];
+            foreach ($categoryes as $category) {
+                $catArray[$category->id] = $category;
+            }
+            foreach($post['cat'] as $i=>$piece){
+                $catArray[$i]->weight = (int)$piece;
+                $catArray[$i]->save();
+            }
+        }
+        return $this->render('cweight', ['categoryes' => $categoryes]);
     }
 
     /**
@@ -64,15 +81,14 @@ class FooterContentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new FooterContent();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -83,15 +99,14 @@ class FooterContentController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -102,8 +117,7 @@ class FooterContentController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -116,12 +130,12 @@ class FooterContentController extends Controller
      * @return FooterContent the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = FooterContent::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

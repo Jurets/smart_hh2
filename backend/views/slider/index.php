@@ -7,6 +7,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Sliders');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Index management'), 'url' => ['/footer-content']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="slider-index">
@@ -24,11 +25,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'picture',
+            [
+                'attribute' => 'display',
+                'format' => 'html',
+                'value' => function ($model, $key, $index, $column) {
+                    return Html::img($model->returnUrl(), ['width' => '150']);
+                },
+            ],
             'title',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete} {update}',
+            ],
         ],
     ]); ?>
 

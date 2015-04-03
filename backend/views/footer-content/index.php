@@ -19,6 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create {modelClass}', [
     'modelClass' => 'Footer Content',
 ]), ['create'], ['class' => 'btn btn-success']) ?>
+        
+        <?=Html::a(Yii::t('app', 'Sliders'), ['/slider'], ['class'=>'btn btn-success'])?>
+        <?=Html::a(Yii::t('app', 'Category weight'), ['cweight'], ['class'=>'btn btn-success'])?>
     </p>
 
     <?= GridView::widget([
