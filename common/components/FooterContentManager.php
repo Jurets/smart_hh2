@@ -67,7 +67,8 @@ class FooterContentManager {
                 return $this->normalizeStruct[$section][0]; // return section to view as string in a case of section must be an single element. 
             }
         }
-        throw new \yii\web\HttpException('500', 'Page content section '.$section.' not set.');
+       // throw new \yii\web\HttpException('500', 'Page content section '.$section.' not set.');
+        return NULL;
     }    
     
     public function getCategoryStruct(){
