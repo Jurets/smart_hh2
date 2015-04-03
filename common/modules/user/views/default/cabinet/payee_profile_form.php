@@ -22,14 +22,16 @@ $this->registerJs("pp_init();", View::POS_END);
 <form method="post" action="<?php echo Url::to(['/user/popup_runtime'], true) ?>" data-render="user-contact">
     <input type="hidden" name="signature" value="PayeeProfile">
     <fieldset>
+        <a class="close wd-close" href="#">×</a>
         <?= Html::hiddenInput('ppid', $dataSet->id) ?>
         <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
-            '1' => 'varriant 1',
-            '2' => 'varriant 2',
-            '3' => 'varriant 3'
+            '1' => $dataSet::V1,
+            '2' => $dataSet::V2,
+            '3' => $dataSet::V3
         ],
                 ['id'=>'pp_group_choise','class'=>'sort select', 'style'=>'width:50%;']
         )?>
+        <a class="btn btn-small" id="ClearBlockButton" href="#">CLEAR</a>
         <div id='pp_group_1' style="<?=($dataSet->choise===1 || $dataSet->choise=='')?'display:block;':'display:none;'?>">
         <br>
         <?=$dataSet->attributeLabels()['ach_routing_number']?>

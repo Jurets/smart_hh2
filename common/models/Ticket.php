@@ -80,6 +80,7 @@ class Ticket extends \yii\db\ActiveRecord {
             self::TURNED_ON => 'Active',
         ],
         'status' => [
+            self::STATUS_DONE_BY_PERFORMER => 'Done By Performer',
             self::STATUS_COMPLETED => 'Completed',
             self::STATUS_EXPIRED => 'Expired',
             self::STATUS_PROCESSING => 'In processing',

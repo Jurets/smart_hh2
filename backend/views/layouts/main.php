@@ -89,6 +89,10 @@ AppAsset::register($this);
                     'url' => ['/footer-content'],
                 ];
                 $menuItems[] = [
+                    'label' => Yii::t('app', 'Withdraw'),
+                    'url' => ['/withdrawal'],
+                ];
+                $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post'],
@@ -101,7 +105,15 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">
+        
+        
+        <!-- согласовано -->
+        
+        <div class="container" style="padding-top: 160px;">
+            
+            
+            
+            
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

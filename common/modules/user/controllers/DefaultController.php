@@ -24,7 +24,6 @@ use yii\web\UploadedFile;
 /* just test - before logic */
 use common\modules\user\models\Profile;
 use common\models\Review;
-
 use common\components\UserActivity;
 
 /**
@@ -60,7 +59,7 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell','diploma_dell','verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup', 'withdrawals'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell', 'diploma_dell', 'verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup', 'withdrawals'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -83,18 +82,18 @@ class DefaultController extends Controller {
     public function actionTest() {
         $userList = Profile::find()->all();
         $users = [];
-        if(is_array($userList) && !empty($userList)){
-            foreach($userList as $user){
+        if (is_array($userList) && !empty($userList)) {
+            foreach ($userList as $user) {
                 $users[$user->user_id] = $user->user->username;
             }
         }
         $post = Yii::$app->request->post();
-        if($post){
+        if ($post) {
             // review mech
         }
         return $this->renderPartial('_test', [
-            'users' => $users,
-        ]);        
+                    'users' => $users,
+        ]);
     }
 
     /**
@@ -135,48 +134,53 @@ class DefaultController extends Controller {
             echo $this->renderPartial('_cabinet-category-item', ['userSpecialities' => $this->specialities]);
         }
     }
+
     /* Ajax delete Diploma */
-    public function actionDiploma_dell(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionDiploma_dell() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
-            if(isset($post['id'])){
-                $id = (int)$post['id'];
-                $diploma = Files::findOne(['user_id'=>Yii::$app->user->id, 'id'=>$id]);
-                $userDiploma = UserDiploma::findOne(['file_id'=>$id]);
-                if(!is_null($diploma) && !is_null($userDiploma)){
+            if (isset($post['id'])) {
+                $id = (int) $post['id'];
+                $diploma = Files::findOne(['user_id' => Yii::$app->user->id, 'id' => $id]);
+                $userDiploma = UserDiploma::findOne(['file_id' => $id]);
+                if (!is_null($diploma) && !is_null($userDiploma)) {
                     $userDiploma->delete();
                     $diploma->delete();
                 }
-                $renderUserDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
-                echo $this->renderPartial('_table-diploma', ['userDiploma'=>$renderUserDiploma]);
+                $renderUserDiploma = Files::findAll(['user_id' => Yii::$app->user->id, 'description' => 'diploma']);
+                echo $this->renderPartial('_table-diploma', ['userDiploma' => $renderUserDiploma]);
             }
         }
     }
+
     /* Ajax delete Verifycations Documents */
-    public function actionVerid_dell(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionVerid_dell() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
-            $id = (int)$post['id'];
-            if(isset($post['id'])){
-                $verifyDocument = Files::findOne(['user_id'=>Yii::$app->user->id, 'id'=>$id]);
-                $userVerifyDocument = UserVerification::findOne(['file_id'=>$id]);
-                if(!is_null($verifyDocument) && !is_null($userVerifyDocument)){
+            $id = (int) $post['id'];
+            if (isset($post['id'])) {
+                $verifyDocument = Files::findOne(['user_id' => Yii::$app->user->id, 'id' => $id]);
+                $userVerifyDocument = UserVerification::findOne(['file_id' => $id]);
+                if (!is_null($verifyDocument) && !is_null($userVerifyDocument)) {
                     $userVerifyDocument->delete();
                     $verifyDocument->delete();
                 }
-               $renderVuerifyId = Files::FindAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
-               echo $this->renderPartial('_verificationid-table', ['userVerid'=>$renderVuerifyId]);
+                $renderVuerifyId = Files::FindAll(['user_id' => Yii::$app->user->id, 'description' => 'verificationID']);
+                echo $this->renderPartial('_verificationid-table', ['userVerid' => $renderVuerifyId]);
             }
         }
     }
+
     public function actionCabinet() {
-        
+
         /* set id_usr_from_profile for header_login layout */
         $session = Yii::$app->session;
         $session['id_usr_from_profile'] = Yii::$app->user->id;
-        
-        $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
-        $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
+
+        $userDiploma = Files::findAll(['user_id' => Yii::$app->user->id, 'description' => 'diploma']);
+        $userVerid = Files::findAll(['user_id' => Yii::$app->user->id, 'description' => 'verificationID']);
 
         $userSocialNetworks = $this->profile->user->getAllSocialNetworks();
         if (Yii::$app->request->isPost) {
@@ -195,18 +199,18 @@ class DefaultController extends Controller {
             // Change Diploma without ajax
             if (isset($post['signature']) && $post['signature'] === 'Diploma') {
                 $this->cabinetDiploma($post);
-                $userDiploma = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'diploma']);
+                $userDiploma = Files::findAll(['user_id' => Yii::$app->user->id, 'description' => 'diploma']);
             }
             // Change Verifycation ID Documents without ajax
-            if(isset($post['signature']) && $post['signature'] === 'Verid'){
+            if (isset($post['signature']) && $post['signature'] === 'Verid') {
                 $this->cabinetVerid($post);
-                $userVerid = Files::findAll(['user_id'=>Yii::$app->user->id, 'description'=>'verificationID']);
+                $userVerid = Files::findAll(['user_id' => Yii::$app->user->id, 'description' => 'verificationID']);
             }
             if (isset($post['signature']) && $post['signature'] === 'Spesialites') {
                 $category = new Category;
                 $categories = $category->categoryOutput(NULL);
             }
-            if(isset($post['UserSocialNetwork'])){
+            if (isset($post['UserSocialNetwork'])) {
                 $userSocialNetwork = $userSocialNetworks[$post['UserSocialNetwork']['social_network_id']];
                 $userSocialNetwork->url = $post['UserSocialNetwork']['url'];
                 $userSocialNetwork->moderate = 0;
@@ -215,36 +219,36 @@ class DefaultController extends Controller {
         }
         /* PAYMENT HISTORY */
         $get = Yii::$app->request->get();
-        if(!isset($get['ph-kind'])){
+        if (!isset($get['ph-kind'])) {
             // default selection
             $paymentQuery = PaymentHistory::find();
             $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
             $switchWindow = 0;
-        }else{
+        } else {
             // post drive selection cascade
-            if( (int)$get['ph-kind'] === 0 ){
+            if ((int) $get['ph-kind'] === 0) {
                 // from user money out + single request summ amount
                 $paymentQuery = PaymentHistory::find();
                 $paymentQuery->Where(['from_user_id' => Yii::$app->user->id]);
                 $switchWindow = 0;
             }
-            if( (int)$get['ph-kind'] === 1 ){
+            if ((int) $get['ph-kind'] === 1) {
                 // to user money + single request summ amount
                 $paymentQuery = PaymentHistory::find(['to_user_id' => Yii::$app->user->id]);
-                 $paymentQuery->Where(['to_user_id' => Yii::$app->user->id]);
+                $paymentQuery->Where(['to_user_id' => Yii::$app->user->id]);
                 $switchWindow = 1;
             }
-            
+
             // date filters
-            if( !empty($get['ph-year'])){
-                $year = (int)$get['ph-year'];
+            if (!empty($get['ph-year'])) {
+                $year = (int) $get['ph-year'];
                 // andWhere year(date) = (int)...
-                $paymentQuery->andWhere('year(date)=:year', [':year'=>$year]);
+                $paymentQuery->andWhere('year(date)=:year', [':year' => $year]);
             }
-            if( !empty($get['ph-month']) ){
-                $month = (int)$get['ph-month'];
+            if (!empty($get['ph-month'])) {
+                $month = (int) $get['ph-month'];
                 // andWhere month(date) = (int)...
-                $paymentQuery->andWhere('month(date)=:month', [':month'=>$month]);
+                $paymentQuery->andWhere('month(date)=:month', [':month' => $month]);
             }
         }
         $paymentHistoryDataProvider = new ActiveDataProvider([
@@ -254,13 +258,20 @@ class DefaultController extends Controller {
             ]
         ]);
         $amountQuery = PaymentHistory::find();
-        if($switchWindow === 0){
-            $amountQuery->where(['from_user_id'=>Yii::$app->user->id]);
-        }else{
-            $amountQuery->where(['to_user_id'=>Yii::$app->user->id]);
+        if ($switchWindow === 0) {
+            $amountQuery->where(['from_user_id' => Yii::$app->user->id]);
+        } else {
+            $amountQuery->where(['to_user_id' => Yii::$app->user->id]);
         }
         $amountAll = $amountQuery->sum('amount');
         /* PAYMENT HISTORY  END */
+        /* payee kind setup check */
+        $paymentProfile = PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+        if(is_null($paymentProfile)){
+            $paymentProfileChoiseMessage = Yii::t('app', 'Payee Details').' '.Yii::t('app', 'not set');
+        }else{
+            $paymentProfileChoiseMessage = $paymentProfile->choiseKind[$paymentProfile->choise];
+        }
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
@@ -270,6 +281,7 @@ class DefaultController extends Controller {
                     'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
                     'switchWindow' => $switchWindow,
                     'amountAll' => $amountAll,
+                    'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage
         ]);
     }
 
@@ -391,26 +403,32 @@ class DefaultController extends Controller {
             }
         }
         /* user payment profile setup */
-        if( isset($post['signature']) && $post['signature'] === 'PayeeProfile' ){
+        if (isset($post['signature']) && $post['signature'] === 'PayeeProfile') {
             // TO DO Действия над платежным профилем пользователя
-            if(!empty($post['ppid'])){
-                $ppid = (int)$post['ppid'];
-                $paymentProfile = \common\models\PaymentProfile::findOne(['id'=>$ppid]);
-            }else{
+            if (!empty($post['ppid'])) {
+                $ppid = (int) $post['ppid'];
+                $paymentProfile = \common\models\PaymentProfile::findOne(['id' => $ppid]);
+            } else {
                 $paymentProfile = new \common\models\PaymentProfile;
             }
             $paymentProfile->paymentProfileLoader($post);
             $paymentProfile->user_id = Yii::$app->user->id;
-            if($paymentProfile->validate()){
+            if ($paymentProfile->validate()) {
                 $paymentProfile->save(false);
-            }else{
+            } else {
                 throw new NotFoundHttpException($this->renderErrors($paymentProfile->errors), '0');
             }
+        } else {
+            $paymentProfile = \common\models\PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+            if(is_null($paymentProfile)){
+                $paymentProfile = new \common\models\PaymentProfile;
+            }
         }
-        
+
         echo $this->renderPartial('_user-contacts', [
             'profile' => $this->profile,
             'paymentProfile' => $paymentProfile,
+            'paymentProfileChoiseMessage' => $paymentProfile->getChoiseMessage()
         ]);
     }
 
@@ -445,15 +463,15 @@ class DefaultController extends Controller {
     }
 
     private function cabinetVerid($post) {
-        if(!is_null(UploadedFile::getInstancesByName('vercode'))){
+        if (!is_null(UploadedFile::getInstancesByName('vercode'))) {
             $file = new Files;
             $verIds = $file->saveMultyImage(Yii::$app->user->id, 'verificationID', 'vercode');
-            if(is_array($verIds)){
-                UserVerification::VerifycationAttachmentProcess(Yii::$app->user->id, $verIds);                
+            if (is_array($verIds)) {
+                UserVerification::VerifycationAttachmentProcess(Yii::$app->user->id, $verIds);
             }
         }
     }
-    
+
     protected function renderErrors($errors) {
         $message = '';
         foreach ($errors as $error) {
@@ -660,11 +678,11 @@ class DefaultController extends Controller {
     public function actionProfile($id = NULL) {
         /** @var \common\modules\user\models\Profile $profile */
         $id = (int) $id;
-        
+
         /* session id_usr_from_profile */
         $session = Yii::$app->session;
         $session['id_usr_from_profile'] = $id;
-        
+
         if ($id === 0) {
             $profile = Yii::$app->user->identity->profile;
             $id = Yii::$app->user->id;
@@ -681,27 +699,27 @@ class DefaultController extends Controller {
         $photos = $userFilesPrepare['photo'];
         $diplomas = $userFilesPrepare['diploma'];
         $verificationIDs = $userFilesPrepare['verificationID'];
-        
+
         $jobsCreatedQuery = Ticket::find()
                 ->andWhere(['user_id' => $id])
-                ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]]);
+                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
         $jobsCreatedDataProvider = new ActiveDataProvider([
             'query' => $jobsCreatedQuery,
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
         ]);
-        
+
         $jobsAppliedQuery = Ticket::find()
                 ->andWhere(['performer_id' => $id])
-                ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]]);
+                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
         $jobsAppliedDataProvider = new ActiveDataProvider([
             'query' => $jobsAppliedQuery,
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
         ]);
-        
+
         $positiveReviewsQuery = Review::find()
                 ->where([
                     'to_user_id' => $id,
@@ -734,18 +752,17 @@ class DefaultController extends Controller {
             'entity' => 'review',
             'entityId' => null,
         ]);
-        
-        $canViewContacts = ($id === Yii::$app->user->id)
-                || (Ticket::find()
-                    ->where([
-                        'user_id' => Yii::$app->user->id,
-                        'performer_id' => $id,
-                    ])
-                    ->andWhere(['not',['status' => Ticket::STATUS_COMPLETED]])
-                    ->exists());
-        
+
+        $canViewContacts = ($id === Yii::$app->user->id) || (Ticket::find()
+                        ->where([
+                            'user_id' => Yii::$app->user->id,
+                            'performer_id' => $id,
+                        ])
+                        ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]])
+                        ->exists());
+
         /* Withdrawals prepare */
-        $paymentProfile = PaymentProfile::findOne(['user_id'=>Yii::$app->user->id]);
+        $paymentProfile = PaymentProfile::findOne(['user_id' => Yii::$app->user->id]);
         $ppErr = NULL;
 //        if(is_null($paymentProfile)){
 //            $ppErr = Yii::t('app','You has not any payee data. Setup it in  users cabinet');
@@ -767,23 +784,47 @@ class DefaultController extends Controller {
                     'paymentProfile' => $paymentProfile
         ]);
     }
-    
-    /* 
+
+    /*
      * Send withdraw message 
      */
-    public function actionWithdrawals(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionWithdrawals() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
-            
-            $user_id = (int)$post['user_id'];
-            $choise = (int)$post['choise'];
-            $amount = empty($amount)? 0 : (double)$post['ammount'];
-            if($amount == 0){
+
+            $user_id = (int) $post['user_id'];
+            $choise = (int) $post['choise'];
+            $amount = empty($post['amount']) ? 0 : (double) $post['amount'];
+            if ($amount == 0) {
                 throw new NotFoundHttpException(Yii::t('app', 'ammount not signed'));
+            } else {
+                $user = \common\modules\user\models\User::findOne(['id' => $user_id]);
+                
+                $balance = (float) $user->balance;
+                if ($amount > $balance) {
+                    throw new NotFoundHttpException(Yii::t('app', 'Amount to large'));
+                } else {
+                    $rest = $balance - $amount;
+                    $withdrawal = new Withdrawal;
+                    $compile = PaymentProfile::withdrawalCompile($user_id, $choise, $amount);
+                    $withdrawal->modelConnection($compile);
+                    $transaction = Yii::$app->db->beginTransaction();
+                    try {
+                        $user->balance = $rest;
+                        $user->save();
+                        $withdrawal->save();
+                        $transaction->commit();
+                    } catch (Exception $e) {
+                        // mail to admin ?
+                        $transaction->rollBack();
+                    }
+                }
             }
         }
-        
+        echo 'within 24 hours you will be transferred money';
     }
+
     /**
      * Resend email confirmation
      */
@@ -898,20 +939,20 @@ class DefaultController extends Controller {
         // render
         return $this->render('reset', compact("user", "success"));
     }
-    
-    public function actionOfferJob(){
+
+    public function actionOfferJob() {
         $post = Yii::$app->request->post();
-        if(isset($post['tickets']) && isset($post['user_id'])){
-            foreach($post['tickets'] as $ticketId){
+        if (isset($post['tickets']) && isset($post['user_id'])) {
+            foreach ($post['tickets'] as $ticketId) {
                 $ticket = Ticket::findOne($ticketId);
-                if($ticket === null){
+                if ($ticket === null) {
                     continue;
                 }
                 $offer = new \common\models\Offer();
                 $offer->ticket_id = $ticketId;
                 $offer->performer_id = $post['user_id'];
                 $offer->stage = \common\models\Offer::STAGE_OWNER_OFFER;
-                if($offer->save()){
+                if ($offer->save()) {
                     $offerHistory = new \common\models\OfferHistory();
                     $offerHistory->offer_id = $offer->id;
                     $offerHistory->price = is_null($ticket->price) ? 0 : $ticket->price;
@@ -922,7 +963,7 @@ class DefaultController extends Controller {
         }
         $this->redirect(['/user']);
     }
-    
+
     public function actionGetOfferJobPopup() {
         $post = Yii::$app->request->post();
         $performerId = isset($post['user_id']) ? $post['user_id'] : null;
@@ -943,8 +984,9 @@ class DefaultController extends Controller {
                     ->all();
         }
         return $this->renderPartial('popup/_offer-job', [
-            'tickets' => $tickets,
-            'userId' => $performerId
+                    'tickets' => $tickets,
+                    'userId' => $performerId
         ]);
     }
+
 }
