@@ -28,6 +28,13 @@ return [
             //main params e.g. enablePrettyUrl see in /common/config
             'rules' => [
                 // your rules go here
+            
+                'indexmanager' => 'footer-content',
+                'indexmanager/create' => 'footer-content/create',
+                'indexmanager/update' => 'footer-content/update',
+                'indexmanager/delete' => 'footer-content/delete',
+                'indexmanager/index' => 'footer-content/index',
+                'indexmanager/slider' => 'footer-content/slider',
             ],
             // ...
         ],
