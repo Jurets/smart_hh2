@@ -14,11 +14,11 @@ use common\models\Language;
 use yii\web\UploadedFile;
 use common\models\UserDiploma;
 use common\models\UserVerification;
+use common\models\PaymentProfile;
 
-class RegistrationController extends Controller
-{
-    public function actions()
-    {
+class RegistrationController extends Controller {
+
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -29,7 +29,7 @@ class RegistrationController extends Controller
             ],
         ];
     }
-    
+
     public function behaviors() {
         return [
             'access' => [
@@ -45,15 +45,15 @@ class RegistrationController extends Controller
         ];
     }
 
-    public function actionPerformer()
-    {
+    public function actionPerformer() {
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
         $userLanguage = new UserLanguage();
         $languages = Language::getExistLanguagesArray(); // all exists languages - ao array for widget
         $files = new Files();
-       
+        $paymentProfile = new PaymentProfile();
+
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
             $profile->load($post);
@@ -63,66 +63,97 @@ class RegistrationController extends Controller
                 return ActiveForm::validate($user, $profile);
             }
             // section normal validate basic registration models
+            $transaction = Yii::$app->db->beginTransaction();
             if ($user->validate() && $profile->validate()) {
                 $role = Yii::$app->getModule('user')->model('Role');
                 $user->setRegisterAttributes($role::EXT_ROLE_PERFORMER, Yii::$app->request->userIP)->save(false);
-                // section only photo uploads
-                if (!is_null(UploadedFile::getInstanceByName('photo'))) {
-                    $photo_id = $files->saveSingleImage($user->id);
-                    $profile->photo = $photo_id;
-                }
                 $profile->setUser($user->id)->save(false);
-                $this->afterRegister($user);
-                $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
-                $guestText = "";
-                if (Yii::$app->user->isGuest) {
-                    $guestText = Yii::t("user", " - Please check your email to confirm your account");
-                }
-                Yii::$app->session->setFlash("Register-success", $successText . $guestText);
-            // section stars
-                /* receive users languages and it`s ratings */
-                if(!empty($post) && isset($post['UserLanguage'])){
-                    $languages = $post['UserLanguage']['language'];
-                    /* user language implementation process */
-                    $this->userLanguageImplements($languages, $user->id);
-                }
-            // section diploma and ID upload/attach
-                //Diploma
-                if(!is_null(UploadedFile::getInstancesByName('cert'))){
-                    $diplomaIdArray = $files->saveMultyImage($user->id, 'diploma', 'cert');
-                    if(is_array($diplomaIdArray)){
-                        UserDiploma::DiplomaAttachmentProcess($user->id, $diplomaIdArray);   
+                $paymentProfile->paymentProfileLoader($post);
+                $paymentProfile->user_id = $user->id;
+                if ($paymentProfile->validate()) {
+                    $this->afterRegister($user);
+                    $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                    $guestText = "";
+                    if (Yii::$app->user->isGuest) {
+                        $guestText = Yii::t("user", " - Please check your email to confirm your account");
                     }
-                }
-                //ID
-                if(!is_null(UploadedFile::getInstancesByName('vercode'))){
-                    $verificationsIdArray = $files->saveMultyImage($user->id, 'verificationID', 'vercode');
-                    if(is_array($verificationsIdArray)){
-                        UserVerification::VerifycationAttachmentProcess($user->id, $verificationsIdArray);
+                    Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                    // section stars - now disabled
+                    /* receive users languages and it`s ratings */
+                    if (!empty($post) && isset($post['UserLanguage'])) {
+                        $languages = $post['UserLanguage']['language'];
+                        /* user language implementation process */
+                        $this->userLanguageImplements($languages, $user->id);
                     }
+                    // section only photo uploads
+                    if (!is_null(UploadedFile::getInstanceByName('photo'))) {
+                        $photo_id = $files->saveSingleImage($user->id);
+                        $profile->photo = $photo_id;
+                    }
+                    // section diploma and ID upload/attach
+                    //Diploma
+                    if (!is_null(UploadedFile::getInstancesByName('cert'))) {
+                        $diplomaIdArray = $files->saveMultyImage($user->id, 'diploma', 'cert');
+                        if (is_array($diplomaIdArray)) {
+                            UserDiploma::DiplomaAttachmentProcess($user->id, $diplomaIdArray);
+                        }
+                    }
+                    //ID
+                    if (!is_null(UploadedFile::getInstancesByName('vercode'))) {
+                        $verificationsIdArray = $files->saveMultyImage($user->id, 'verificationID', 'vercode');
+                        if (is_array($verificationsIdArray)) {
+                            UserVerification::VerifycationAttachmentProcess($user->id, $verificationsIdArray);
+                        }
+                    }
+                    $Success = TRUE;
+                    $paymentProfile->save(false);
+                }// end paymentProfile validate
+                else {
+                    $Success = FALSE;
+                    $transaction->rollBack();
                 }
-            }     
+            }// end base validation
+            else {
+                $Success = FALSE;
+                $transaction->rollBack();
+            }
+            if ($Success) {
+                $transaction->commit();
+            }
         }
-        
-        return $this->render('performer', ['user'=>$user, 'profile'=>$profile, 'userLanguage'=>$userLanguage, 'languages'=>$languages, 'files'=>$files]);
+
+        return $this->render('performer', [
+                    'user' => $user,
+                    'profile' => $profile,
+                    'userLanguage' => $userLanguage,
+                    'languages' => $languages,
+                    'files' => $files,
+                    'paymentProfile' => $paymentProfile,
+        ]);
     }
-    
-    public function actionCustomer(){
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+
+    public function actionCustomer() {
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
+        $paymentProfile = new PaymentProfile();
         $post = Yii::$app->request->post();
-         if ($user->load($post)) {
+        if ($user->load($post)) {
             $profile->load($post);
             // ajax validate registration
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ActiveForm::validate($user, $profile);
             }
+            $transaction = Yii::$app->db->beginTransaction();
             // section normal validate basic registration models
             if ($user->validate() && $profile->validate()) {
+                                
                 $role = Yii::$app->getModule('user')->model('Role');
                 $user->setRegisterAttributes($role::EXT_ROLE_CUSTOMER, Yii::$app->request->userIP)->save(false);
                 $profile->setUser($user->id)->save(false);
+                $paymentProfile->paymentProfileLoader($post);
+                $paymentProfile->user_id = $user->id;
+                if($paymentProfile->validate()){
                 $this->afterRegister($user);
                 $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
                 $guestText = "";
@@ -130,35 +161,52 @@ class RegistrationController extends Controller
                     $guestText = Yii::t("user", " - Please check your email to confirm your account");
                 }
                 Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                $paymentProfile->save(false);
+                $Success = TRUE;
+                }//end profile validate
+                else{
+                    $Success = FALSE;
+                    $transaction->rollBack();
+                }
+                
+            }// end basic validate
+            else{
+                $Success = FALSE;
+                $transaction->rollBack();
             }
-         }
-        return $this->render('customer', ['user'=>$user, 'profile'=>$profile]);
+            
+            if($Success){
+                $transaction->commit();
+            }
+            
+        }
+        return $this->render('customer', [
+                    'user' => $user,
+                    'profile' => $profile,
+                    'paymentProfile' => $paymentProfile
+        ]);
     }
-    
-    protected function userLanguageImplements($choiseLanguages = array(), $user_id = NULL){
-   
-        if(empty($choiseLanguages) || is_null($user_id)){
+
+    protected function userLanguageImplements($choiseLanguages = array(), $user_id = NULL) {
+
+        if (empty($choiseLanguages) || is_null($user_id)) {
             return 0;
         }
-        foreach($choiseLanguages as $language){
-            if(isset($language[0]) && (int)$language[1] !== 0 ){
+        foreach ($choiseLanguages as $language) {
+            if (isset($language[0]) && (int) $language[1] !== 0) {
                 $model = new UserLanguage;
                 $model->setAttributes([
-                    'user_id'=>$user_id,
-                    'language_id'=>$language[2],
-                    'knowledge'=>$language[1],
+                    'user_id' => $user_id,
+                    'language_id' => $language[2],
+                    'knowledge' => $language[1],
                 ]);
                 $model->save();
             }
         }
     }
-    
-    
 
-    protected function afterRegister($user)
-    {
+    protected function afterRegister($user) {
         /** @var \common\modules\user\models\UserKey $userKey */
-
         // determine userKey type to see if we need to send email
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         if ($user->status == $user::STATUS_INACTIVE) {
@@ -183,5 +231,5 @@ class RegistrationController extends Controller
             Yii::$app->user->login($user, Yii::$app->getModule("user")->loginDuration);
         }
     }
-    
-} 
+
+}

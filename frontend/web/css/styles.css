@@ -1658,3 +1658,13 @@ label {
 .wd-error {
     color: #e15353;
 }
+/* payment profile register form */
+.payment-profile-fieldgroup-title {
+    padding-bottom: 20px;
+    padding-left: 215px;
+    color: navy;
+}
+.render-errors {
+    color: #a94442;
+    font-weight: bold;
+}

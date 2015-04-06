@@ -96,6 +96,8 @@ class PaymentProfile extends \yii\db\ActiveRecord {
         parent::beforeValidate();
         switch ($this->choise) {
             case 1:
+            case 2:
+            case 3:
                 if (empty($this->ach_account_name) && empty($this->ach_account_number) && empty($this->ach_routing_number)) {
                     $this->ach_account_name = NULL;
                     $this->ach_account_number = NULL;
@@ -111,13 +113,11 @@ class PaymentProfile extends \yii\db\ActiveRecord {
                 if (empty($this->ach_account_name)) {
                     $this->addError('ach_account_name', $this->attributeLabels()['ach_account_name'] . Yii::t('app', ' must be set'));
                 }
-                break;
-            case 2:
+            
                 if (empty($this->paypal)) {
                     $this->paypal = NULL;
                 }
-                break;
-            case 3:
+               
                 if (empty($this->mailing_address) && empty($this->fullname)) {
                     $this->mailing_address = NULL;
                     $this->fullname = NULL;
@@ -129,6 +129,9 @@ class PaymentProfile extends \yii\db\ActiveRecord {
                 if (empty($this->fullname)) {
                     $this->addError('fullname', $this->attributeLabels()['fullname'] . Yii::t('app', ' must be set'));
                 }
+                break;
+            default:
+                throw new \yii\web\HttpException('500 choise not set');
                 break;
         }
         if ($this->hasErrors()) {
@@ -209,5 +212,14 @@ class PaymentProfile extends \yii\db\ActiveRecord {
     /* return message about user payee details default choise */
     public function getChoiseMessage(){
         return $this->choiseKind[$this->choise];
+    }
+    public function renderErrors($categoryError){
+        $errors = $this->getErrors($categoryError);
+        if(empty($errors)){
+            return NULL;
+        }else{
+            $errorMessage = join('<br>', $errors);
+        }
+        return $errorMessage;
     }
 }

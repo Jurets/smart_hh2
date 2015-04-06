@@ -52,36 +52,38 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'phone')->widget(\yii\widgets\MaskedInput::classname(), [
             'mask' => '999-999-9999',
         ]) ?>
-        <?= Html::label('Pick language and language knowledge') ?>
-        <?php foreach ($languages as $language) { ?>
+        <?php //echo Html::label('Pick language and language knowledge') ?>
+        <?php //foreach ($languages as $language) { ?>
         <?php 
-            echo $form->field($userLanguage, 'language['.$language['name'].']')->checkboxList([$language['name']=>Yii::$app->params['languages'][$language['name']]]);
-            echo StarRating::widget(['name' => 'UserLanguage[language]['.$language['name'].'][1]',
-                'pluginOptions' => [
-                    'stars' => 5,
-                    'min' => 0,
-                    'max' => 5,
-                    'step' => 1,
-                    'size' => 'xs',
-                    'defaultCaption' => '{rating} stars',
-                    'starCaptions'=>[],
-                    'showClear' => false,
-                    'showCaption' => false,
-                    'options' => [
-                        'disabled' => true
-                    ],
-                ]
-            ]);
-            echo Html::hiddenInput('UserLanguage[language]['.$language['name'].'][2]',$language['id']);
+//            echo $form->field($userLanguage, 'language['.$language['name'].']')->checkboxList([$language['name']=>Yii::$app->params['languages'][$language['name']]]);
+//            echo StarRating::widget(['name' => 'UserLanguage[language]['.$language['name'].'][1]',
+//                'pluginOptions' => [
+//                    'stars' => 5,
+//                    'min' => 0,
+//                    'max' => 5,
+//                    'step' => 1,
+//                    'size' => 'xs',
+//                    'defaultCaption' => '{rating} stars',
+//                    'starCaptions'=>[],
+//                    'showClear' => false,
+//                    'showCaption' => false,
+//                    'options' => [
+//                        'disabled' => true
+//                    ],
+//                ]
+//            ]);
+//            echo Html::hiddenInput('UserLanguage[language]['.$language['name'].'][2]',$language['id']);
         ?>
-        <?php } ?>
+        <?php //} ?>
 
-        <?= Html::label('Do you have PayPal?') ?>
-        <?= Html::radioList('checkPaypal',[],['yes','no']) ?>
-        <?= $form->field($profile, 'paypal') ?>
-        <?= Html::a('Create a PayPal account','https://www.paypal.com') ?>
-        <?= Html::label('or input another payment') ?>
-        <?= $form->field($profile, 'another_payment') ?>
+        <?php //echo Html::label('Do you have PayPal?') ?>
+        <?php //echo Html::radioList('checkPaypal',[],['yes','no']) ?>
+        <?php //echo $form->field($profile, 'paypal') ?>
+        <?php //echo Html::a('Create a PayPal account','https://www.paypal.com') ?>
+        <?php //echo Html::label('or input another payment') ?>
+        <?php //echo $form->field($profile, 'another_payment') ?>
+        
+        <?php echo $this->render('_payment_profile', ['paymentProfile'=>$paymentProfile]) ?>
 
         <?= $form->field($profile, 'zip_mailing') ?>
         <?= $form->field($profile, 'adress_mailing') ?>
