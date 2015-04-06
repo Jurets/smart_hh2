@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 ?>
-
+<br>
 <div class="form-group field-profile-phone">
 <?php echo Html::label('select your preferred payment method', NULL, ['class'=>'col-lg-2 control-label']) ?>
     <div class="col-lg-3">

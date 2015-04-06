@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])
                 ?>
                 <?php echo $this->render('_payment_profile', ['paymentProfile'=>$paymentProfile]) ?>
-                    <?php //echo $form->field($profile, 'zip_billing') ?>
-                    <?php //echo $form->field($profile, 'adress_billing')->textarea(['rows' => 4]) ?>
+                    <?php echo $form->field($profile, 'zip_billing') ?>
+                    <?php echo $form->field($profile, 'adress_billing')->textarea(['rows' => 4]) ?>
                 <?=
                 $form->field($user, 'verifyCode')->widget(Captcha::className(), [
                     'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-6">{input}</div></div>',
