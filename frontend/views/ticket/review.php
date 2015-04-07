@@ -52,9 +52,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
         <span class="date-time">
             Created <?= $model->created ?>
         </span>
-        <span class="deadline">
-            Deadline: <span class="red">Tomorrow</span>
-        </span>   
+        <?=$this->render('view/_deadline', ['model'=>$model])?>
         <div class="job-info-holder row">
             <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="job-price left">

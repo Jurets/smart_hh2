@@ -49,10 +49,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                             <span class="date-time">
                                 Created <?=$model->created?>
                             </span>
-                            <span class="deadline">
-                                Deadline: <span class="red"><!--Tomorrow--></span>
-                            </span>  
-
+                            <?=$this->render('view/_deadline', ['model'=>$model])?>
                             <div class="job-info-holder row">
                                 <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="job-price left">

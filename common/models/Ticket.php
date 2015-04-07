@@ -294,11 +294,12 @@ class Ticket extends \yii\db\ActiveRecord {
             $this->job_location = $post['location'];
         }
         $this->start_day = date('Y-m-d h:i');
-        if (isset($post['finish_day'])) {
+        if (isset($post['finish_day']) && !empty($post['finish_day'])) {
             $this->finish_day = $post['finish_day'];
             $this->is_time_enable = self::STATUS_TIME_ON;
         } else {
             $this->is_time_enable = self::STATUS_TIME_OFF;
+            $this->finish_day = NULL;
         }
         if (UploadedFile::getInstanceByName('photo') !== NULL) {
             $this->photoPrepare();
