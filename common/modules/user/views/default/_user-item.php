@@ -11,8 +11,9 @@ use yii\helpers\Url;
             <a class="user-name" href="<?php echo Url::to(['/user/profile', 'id'=>$model->id],true) ?>"><?php echo $model->username ?> </a>                                           
             <?php foreach($model->userSocialNetworks as $userSocialNetwork):?>
                 <a href="#" class="user-status">
+                    <?php if($userSocialNetwork->moderate): // пока поднимаю вверх?>
                     <?= Html::img(Yii::$app->params['images.url'].'/'.$userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
-                    <?php if($userSocialNetwork->moderate): ?>
+                    <?php //if($userSocialNetwork->moderate): // пока поднимаю вверх?>
                         <span>
                             <?= Html::img(Yii::$app->params['images.url'].'/icon-on.png', ['alt' => 'on']) ?>
                         </span>

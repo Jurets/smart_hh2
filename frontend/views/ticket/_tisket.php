@@ -77,7 +77,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
             ?>
         </p>
         </a>
-        <p>Active 35 jobs</p>
+        <p>Active <span class="number-jobs">35 jobs</span></a></p>
     </div>
     <div class="date-time right">
 <?= Commonhelper::convertDate($model->finish_day) ?> <br/>      

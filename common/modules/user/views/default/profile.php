@@ -30,8 +30,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     </span>                                            
                             <?php foreach ($profile->user->userSocialNetworks as $userSocialNetwork): ?>
                         <a href="#" class="user-status">
-                            <?= Html::img(Yii::$app->params['images.url'] . '/' . $userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
-                        <?php if ($userSocialNetwork->moderate): ?>
+                            
+                            <?php if ($userSocialNetwork->moderate):  ?>
+                            
+                            <?php echo Html::img(Yii::$app->params['images.url'] . '/' . $userSocialNetwork->socialNetwork->icon, ['alt' => $userSocialNetwork->socialNetwork->title]) ?>
+                        <?php //if ($userSocialNetwork->moderate): //пока поднимаю наверх ?>
                                 <span>
         <?= Html::img(Yii::$app->params['images.url'] . '/icon-on.png', ['alt' => 'on']) ?>
                                 </span>
