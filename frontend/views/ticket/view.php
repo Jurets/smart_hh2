@@ -4,6 +4,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use common\models\Ticket;
+use common\components\Commonhelper;
 ?>
 
 <?php
@@ -47,7 +48,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
 
 
                             <span class="date-time">
-                                Created <?=$model->created?>
+                                Created <?=Commonhelper::convertDate($model->created)?>
                             </span>
                             <?=$this->render('view/_deadline', ['model'=>$model])?>
                             <div class="job-info-holder row">

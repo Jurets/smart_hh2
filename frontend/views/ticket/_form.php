@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use frontend\widgets\Alert;
 use kartik\datetime\DateTimePicker;
 use kartik\widgets\FileInput;
+use common\components\Commonhelper;
 ?>
 <!--<div class="content">-->
               
@@ -20,18 +21,25 @@ use kartik\widgets\FileInput;
                             <?php echo Html::textInput('title', $model->title)?>
                             <?php echo Html::label(Yii::t('app', 'Choose Date and Time').':', 'finish_day')?>
                             <?php //echo Html::textInput('finish_day', $model->finish_day)?>
-                            <?php echo DateTimePicker::widget([
-                                'type' => DateTimePicker::TYPE_INPUT,
-                                'name' => 'finish_day',
-                                'value' => $model->finish_day,
-                                'options' => ['format' =>'dd-M-yyyy hh:ii',
-                                              'style' => 'display:inline',
-                                             ],
-                                'pluginOptions' => [
-                                              'autoclose' => true,
-                                              'startDate' => date('Y-m-d'),
-                                             ],
-                            ])?>
+                            <?php 
+                                echo DateTimePicker::widget([
+                                    'type' => DateTimePicker::TYPE_COMPONENT_APPEND,
+                                    'name' => 'finish_day',
+                                    
+                                    'value' => (int)$model->finish_day == 0  ? '' : Commonhelper::convertDate($model->finish_day),
+                                    
+                                    'options' => [//'format' =>'dd-M-yyyy hh:ii',
+                                                  'style' => 'display:inline;',
+                                                  'readonly' => 'true',
+                                                 ],
+                                    'pluginOptions' => [
+                                                  'autoclose' => true,
+                                                  'startDate' => date('Y-m-d', time()+86400),
+                                                  'format' => 'yyyy-mm-dd H:ii P',
+                                                  'language' => '',
+                                                 ],
+                                ])
+                            ?>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
                             <?php echo Html::textInput('location', $model->location)?>
                             <div class="description">    

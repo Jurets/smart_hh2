@@ -2,6 +2,8 @@
 
 use kartik\widgets\StarRating;
 use common\models\Offer;
+use common\components\Commonhelper;
+
 ?>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= Yii::$app->params['GoogleAPI'] ?>&sensor=SET_TO_TRUE_OR_FALSE"
 type="text/javascript"></script>
@@ -50,7 +52,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
 
 
         <span class="date-time">
-            Created <?= $model->created ?>
+            Created <?= Commonhelper::convertDate($model->created) ?>
         </span>
         <?=$this->render('view/_deadline', ['model'=>$model])?>
         <div class="job-info-holder row">

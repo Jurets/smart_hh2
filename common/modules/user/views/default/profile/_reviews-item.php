@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\rating\StarRating;
+use common\components\Commonhelper;
 ?>
 <?php /*@var $model \common\models\Review*/ ?>
 <?php $avatar = $model->fromUser->profile->files?>
@@ -14,7 +15,7 @@ use kartik\rating\StarRating;
             <?= Html::encode($model->fromUser->username) ?>
         </a>                                           
         <div class="date-time">
-            <?= $model->date ?>
+            <?= Commonhelper::convertDate($model->date) ?>
         </div>
 
     </div>

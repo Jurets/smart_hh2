@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use kartik\rating\StarRating;
+use common\components\Commonhelper;
 ?>
 <div class="reviews-item row">
         <div class="left col-xs-5 col-sm-5 col-md-5 col-lg-5">
@@ -13,8 +14,8 @@ use kartik\rating\StarRating;
                       $model->fromUser->profile->first_name . ' '.$model->fromUser->profile->last_name
             ?>
             <div><a href="<?=url::to(['user/profile', 'id'=>$model->fromUser->id])?>" class="user-name"><?=$usernameThrow?></a>                                           
-                <div class="date-time">
-                    <?=$model->date?>
+                <div class="date-time" style="width:200px;">
+                    <?=Commonhelper::convertDate($model->date)?>
                 </div>
             </div> 
         </div>

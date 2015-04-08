@@ -293,13 +293,13 @@ class Ticket extends \yii\db\ActiveRecord {
             $this->calculateLatLon($post['location']);
             $this->job_location = $post['location'];
         }
-        $this->start_day = date('Y-m-d h:i');
+        $this->start_day = date('Y-m-d H:i:s');
         if (isset($post['finish_day']) && !empty($post['finish_day'])) {
-            $this->finish_day = $post['finish_day'];
+            $this->finish_day = date('Y-m-d H:i:s', strtotime($post['finish_day']));
             $this->is_time_enable = self::STATUS_TIME_ON;
         } else {
             $this->is_time_enable = self::STATUS_TIME_OFF;
-            $this->finish_day = NULL;
+            $this->finish_day = '0000-00-00 00:00:00';
         }
         if (UploadedFile::getInstanceByName('photo') !== NULL) {
             $this->photoPrepare();

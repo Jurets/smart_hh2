@@ -37,7 +37,27 @@ class Commonhelper {
         $days = $diffSec / 3600 / 24;
         return $days;
     }
-
+    public static function convertDate($timestamp=NULL, $mode=1){
+        $o = new Commonhelper;
+        if(is_null($timestamp) || empty($timestamp)){
+            return NULL;
+        }
+        $seconds = $o->timestampToSeconds($timestamp);
+        switch($mode){
+            case 1: // default
+                $dateOutput = date('Y-m-d g:i A', $seconds);
+                break;
+            case 2:
+                $dateOutput = date('M d, Y g:i A', $seconds);
+                break;
+            case 3:
+                $dateOutput = date('m/d/Y g:i A', $seconds);
+                break;
+            default:
+                return NULL;
+        }
+        return $dateOutput;
+    }
     /* additionals */
 
     private function timestampToSeconds($timestamp) {

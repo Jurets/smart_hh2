@@ -3,6 +3,8 @@
 use yii\helpers\Url;
 use yii\helpers\Html;
 use kartik\widgets\StarRating;
+use common\components\Commonhelper;
+
 ?>
 <?php
 //$this->registerJsFile(Url::to(['/js/ticket_apply.js']), [
@@ -78,7 +80,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
         <p>Active 35 jobs</p>
     </div>
     <div class="date-time right">
-<?= $model->finish_day ?> <br/>      
+<?= Commonhelper::convertDate($model->finish_day) ?> <br/>      
         Moscow, RU
     </div>
     <div class="clearfix"></div>

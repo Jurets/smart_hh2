@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\components\Commonhelper;
 ?>
 <div class="task-item info-border">
     <div class="task-info-price">
@@ -13,7 +14,7 @@ use yii\helpers\Html;
     </div>
     <div class="clearfix"></div>
     <div class="date-time right">
-        <?= $model->finish_day ?> <br/>      
+        <?=Commonhelper::convertDate($model->finish_day) ?> <br/>      
         Moscow, RU
     </div>
     <div class="clearfix"></div>
