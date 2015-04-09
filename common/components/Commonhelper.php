@@ -2,9 +2,20 @@
 
 namespace common\components;
 
+use common\models\Ticket;
+
 class Commonhelper {
     /* year quantity for Html::dropDownList */
 
+    /* temporary design */
+    public static function activeJobsCounter($id){
+        $ticket = Ticket::find()
+                ->where(['is_turned_on'=>1])
+                ->andWhere(['not', ['status'=>  Ticket::STATUS_COMPLETED]]);
+        $count = $ticket->count();
+        return $count;
+    }
+    
     public static function YearList($firstYear, $lalstYear) {
         $years = ['' => ''];
         $begin_int = (int) $firstYear;
@@ -39,7 +50,7 @@ class Commonhelper {
     }
     public static function convertDate($timestamp=NULL, $mode=1){
         $o = new Commonhelper;
-        if(is_null($timestamp) || empty($timestamp)){
+        if(is_null($timestamp) || empty($timestamp) || $timestamp = '0000-00-00 00:00:00'){
             return NULL;
         }
         $seconds = $o->timestampToSeconds($timestamp);

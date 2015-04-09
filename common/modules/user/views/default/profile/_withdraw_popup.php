@@ -4,6 +4,7 @@ use yii\helpers\Html;
 ?>
 <div class="withdrawal-popup-wrapper">
     <div class="pop-up pop-up-edit withdrawal-popup">
+        <a class="close" href="#">×</a>
         <p class="title"><?=Yii::t('app','Withdrawals')?></p>
         <?php if(is_null($paymentProfile) || $paymentProfile->checkFieldsEmpty() === FALSE) { ?>
         <div class="wd-error"><?=Yii::t('app','You has not any payee data. Setup it in  users cabinet')?></div>

@@ -3,7 +3,7 @@ $(function(){
         $('.withdrawal-popup').show();
         return false;
     });
-    $('.wd-close').click(function(){
+    $('.close').click(function(){
         $('.withdrawal-popup').hide();
         $('.wd-message').html('');
         $('.wd-error').html('');
@@ -25,5 +25,4 @@ $(function(){
         });
         return false;
     });
-    
 });

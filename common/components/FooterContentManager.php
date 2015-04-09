@@ -18,7 +18,7 @@ use common\models\Language;
 use Yii;
 
 class FooterContentManager {
-    protected $modelsList;
+   // protected $modelsList;
     protected $normalizeStruct;
     protected $categoryStruct;
     
@@ -69,8 +69,21 @@ class FooterContentManager {
         }
        // throw new \yii\web\HttpException('500', 'Page content section '.$section.' not set.');
         return NULL;
-    }    
-    
+    }  
+    /* self validation */
+    public function simpleValidate(){
+//        if(is_null($this->modelsList) || $this->modelsList === FALSE || empty($this->modelsList)){
+//            return FALSE;
+//        }
+        if(is_null($this->normalizeStruct) || $this->normalizeStruct === FALSE || empty($this->normalizeStruct)){
+            return FALSE;
+        }
+//        $test = $this->categoryStruct;
+//        if(is_null($this->categoryStruct) || $this->categoryStruct === FALSE || empty($this->categoryStruct)){
+//            return FALSE;
+//        }
+        return TRUE;
+    }
     public function getCategoryStruct(){
         $this->prepareCategoryStruct();
         return $this->categoryStruct;

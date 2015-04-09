@@ -112,3 +112,8 @@ Paypal extension issue: namespace contains "-" symbol;
 namespace marciocamello/yii2-paypal should be changed to marciocamello in
 vandor/marciocamello/yii2-paypal/Paypal.php
 
+[служебное восстановление функциональности]
+
+<a href="#jobs-applied-tab" aria-controls="jobs-applied-tab" class="negative" role="tab" data-toggle="tab">Applied (<?= $jobsAppliedDataProvider->getTotalCount() ?>)</a>
+
+.......

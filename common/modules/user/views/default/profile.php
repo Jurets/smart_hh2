@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php } else { ?>
                     <a href="#" class="user-additional-info"><?php echo $activityMessage ?></a>
 <?php } ?>
-                <a href="#"  class="user-additional-info">Latest task done 3 days ago</a>
+                <a href="#"  class="user-additional-info"><?php echo $doneTaskMessage ?></a>
             </div>
             <div class="clear"></div>
         </div>
@@ -141,6 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $this->render('profile/_your-jobs', [
             'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
             'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
+            'jobsDonedDataProvider' => $jobsDonedDataProvider,
         ])
         ?>
     <div class="right-column col-xs-12 col-sm-12 col-md-12 col-lg-5">

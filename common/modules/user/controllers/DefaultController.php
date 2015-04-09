@@ -80,20 +80,20 @@ class DefaultController extends Controller {
     }
 
     public function actionTest() {
-        $userList = Profile::find()->all();
-        $users = [];
-        if (is_array($userList) && !empty($userList)) {
-            foreach ($userList as $user) {
-                $users[$user->user_id] = $user->user->username;
-            }
-        }
-        $post = Yii::$app->request->post();
-        if ($post) {
-            // review mech
-        }
-        return $this->renderPartial('_test', [
-                    'users' => $users,
-        ]);
+//        $userList = Profile::find()->all();
+//        $users = [];
+//        if (is_array($userList) && !empty($userList)) {
+//            foreach ($userList as $user) {
+//                $users[$user->user_id] = $user->user->username;
+//            }
+//        }
+//        $post = Yii::$app->request->post();
+//        if ($post) {
+//            // review mech
+//        }
+//        return $this->renderPartial('_test', [
+//                    'users' => $users,
+//        ]);
     }
 
     /**
@@ -690,6 +690,7 @@ class DefaultController extends Controller {
             $profile = \common\modules\user\models\Profile::findOne(['user_id' => $id]);
         }
         $activityMessage = UserActivity::NetworkStatus($id);
+        $doneTaskMessage = UserActivity::lastDoneTask($id);
         $file = new Files;
         $userFilesPrepare = $file->getUserFiles($id);
         $spec = new UserSpeciality;
@@ -715,6 +716,16 @@ class DefaultController extends Controller {
                 ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
         $jobsAppliedDataProvider = new ActiveDataProvider([
             'query' => $jobsAppliedQuery,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
+            ],
+        ]);
+        
+        $jobsDonedQuery = Ticket::find()
+                ->andWhere(['performer_id' => $id])
+                ->andWhere(['status' => Ticket::STATUS_COMPLETED]);
+        $jobsDonedDataProvider = new ActiveDataProvider([
+            'query' => $jobsDonedQuery,
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
@@ -776,8 +787,10 @@ class DefaultController extends Controller {
                     'verificationIDs' => $verificationIDs,
                     'userSpecialities' => $userSpecialities,
                     'activityMessage' => $activityMessage,
+                    'doneTaskMessage' => $doneTaskMessage,
                     'jobsCreatedDataProvider' => $jobsCreatedDataProvider,
                     'jobsAppliedDataProvider' => $jobsAppliedDataProvider,
+                    'jobsDonedDataProvider' => $jobsDonedDataProvider,
                     'positiveReviewDataProvider' => $positiveReviewDataProvider,
                     'negativeReviewDataProvider' => $negativeReviewDataProvider,
                     'canViewContacts' => $canViewContacts,

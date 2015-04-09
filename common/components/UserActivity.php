@@ -2,6 +2,7 @@
 namespace common\components;
 use Yii;
 use common\modules\user\models\Profile;
+use common\models\Ticket;
 
 class UserActivity {
     /* Component services */
@@ -11,6 +12,20 @@ class UserActivity {
         $obj = new UserActivity($id);
         if(!$obj->validateService()){return 0;}
         return $obj->checkOnlineOrOffline();
+    }
+    
+    /* get how a long last ticket done */
+    public static function lastDoneTask($id){
+        $obj = new UserActivity($id);
+        $query = Ticket::find()
+                ->where(['performer_id' => $id, 'status'=>Ticket::STATUS_COMPLETED])
+                ->orderBy(['updated_at'=>SORT_DESC])
+                ->limit(1);
+        $date = $query->one();
+        if(is_null($date)){
+            return NULL;
+        }
+        return $obj->checkLastDoneTask($date->updated_at);
     }
 
     /* update online time (online) */
@@ -62,7 +77,7 @@ class UserActivity {
           $this->userCondition['online_status'] = $this->userProfile->online_status;
     }
 
-    /* еще один временный метод */
+    /*  */
 
     public function updateProfileOnline() {
           $this->userProfile->online = $this->currentTimestamp;
@@ -79,6 +94,13 @@ class UserActivity {
         return $this->formatter($timeDifferent);
     }
 
+    public function checkLastDoneTask($dateTimestampFromTicket){
+        $timeDifferent = 
+                $this->translateDateTimeToSeconds($this->currentTimestamp) - 
+                $this->translateDateTimeToSeconds($dateTimestampFromTicket);
+        return $this->formatter($timeDifferent, 'ticket');
+    }
+    
     /* addition method to $this->different() */
 
     private function translateDateTimeToSeconds($timestamp) {
@@ -101,19 +123,25 @@ class UserActivity {
 
     /* addition 2 answer formatter */
 
-    private function formatter($inputing) {
+    private function formatter($inputing, $mode='user' /* or ticket*/) {
+        if($mode === 'user'){
+            $tail = Yii::t('app','Was online');
+        }else{
+            $tail = Yii::t('app','Latest task done');
+        }
+        
         $seconds = $inputing;
         $minutes = $inputing / 60;
         $hours = $inputing / (60 * 60);
         $days = $inputing / (60 * 60 * 24);
         if ($days >= 1) {
-            return Yii::t('app','Was online').' '.(int) $days.' '.Yii::t('app', 'days ago');
+            return $tail.' '.(int) $days.' '.Yii::t('app', 'days ago');
         } else if ($hours >= 1) {
-            return Yii::t('app','Was online').' '.(int) $hours.' '.Yii::t('app', 'hours ago');
+            return $tail.' '.(int) $hours.' '.Yii::t('app', 'hours ago');
         } else if ($minutes >= 1) {
-            return Yii::t('app','Was online').' '.(int) $minutes.' '.Yii::t('app', 'minutes ago');
+            return $tail.' '.(int) $minutes.' '.Yii::t('app', 'minutes ago');
         } else {
-            return Yii::t('app','Was online').' '.(int) $seconds.' '.Yii::t('app', 'seconds ago');
+            return $tail.' '.(int) $seconds.' '.Yii::t('app', 'seconds ago');
         }
     }
 

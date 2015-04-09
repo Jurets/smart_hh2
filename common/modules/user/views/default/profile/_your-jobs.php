@@ -2,11 +2,13 @@
         <h1 class="left">Your Jobs</h1>
         <p class="user-info right" role="tablist">
             <a href="#jobs-created-tab" aria-controls="jobs-created-tab" class="positive" role="tab" data-toggle="tab">Created (<?= $jobsCreatedDataProvider->getTotalCount() ?>)</a>
-            <a href="#jobs-applied-tab" aria-controls="jobs-applied-tab" class="negative" role="tab" data-toggle="tab">Applied (<?= $jobsAppliedDataProvider->getTotalCount() ?>)</a>
+            <?php //echo 'README.txt для восстановления функциональности'?>
+            <a href="#jobs-doned-tab" aria-controls="jobs-doned-tab" class="negative" role="tab" data-toggle="tab">Doned (<?= $jobsDonedDataProvider->getTotalCount() ?>)</a>
         </p>
         <div class="clear"></div>
         <div class="tab-content">
             <?= $this->render('_jobs-created', ['dataProvider' => $jobsCreatedDataProvider]) ?>
-            <?= $this->render('_jobs-applied', ['dataProvider' => $jobsAppliedDataProvider]) ?>
+            <?php //echo $this->render('_jobs-applied', ['dataProvider' => $jobsAppliedDataProvider]) ?>
+            <?= $this->render('_jobs-doned', ['dataProvider' => $jobsDonedDataProvider]) ?>
         </div>
 </div>
