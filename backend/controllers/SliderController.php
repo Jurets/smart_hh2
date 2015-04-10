@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Slider;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -23,6 +24,12 @@ class SliderController extends Controller {
                     'delete' => ['post'],
                 ],
             ],
+        ];
+    }
+    
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
         ];
     }
 

@@ -7,9 +7,18 @@ use common\models\Complaint;
 use common\models\Ticket;
 use yii\data\ActiveDataProvider;
 
+use common\components\Controller;
 
-class ComplaintController extends \yii\web\Controller
+
+class ComplaintController extends Controller
 {
+    
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     public function actionIndex()
     {
         $model = new Complaint;

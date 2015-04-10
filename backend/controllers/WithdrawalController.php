@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Withdrawal;
 use common\models\WithdravalSearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -26,6 +27,12 @@ class WithdrawalController extends Controller
         ];
     }
 
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     /**
      * Lists all Withdrawal models.
      * @return mixed

@@ -27,18 +27,18 @@ class Controller extends native_Controller {
      * */
     protected $access_convension = [
         'Admin' => 'All',
-        'Customer' => 'All',
-        'Performer' => 'All',
-        'Guest' => 'All',
+        'Customer' => '',
+        'Performer' => '',
+        'Guest' => '',
     ];
 
     public function convensionInit() {
         /* example convension overrides */
         return [
 //            'Admin' => 'All',
-//            'Customer' => 'All',
-//            'Performer' => 'All',
-//            'Guest' => 'All',
+//            'Customer' => 'actionname',
+//            'Performer' => 'actionname2',
+//            'Guest' => 'actionname-toLogin actionname2-toLogin',
         ];
     }
 

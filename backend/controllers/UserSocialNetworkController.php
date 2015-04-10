@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\UserSocialNetwork;
 use common\models\UserSocialNetworkSearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -26,6 +27,12 @@ class UserSocialNetworkController extends Controller
         ];
     }
 
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     /**
      * Lists all UserSocialNetwork models.
      * @return mixed

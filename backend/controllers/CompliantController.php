@@ -6,7 +6,8 @@ use Yii;
 use common\models\Compliant;
 //use common\models\User;
 use common\modules\user\models\User;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\helpers\Json;
 
@@ -14,6 +15,13 @@ use yii\data\ArrayDataProvider;
 
 class CompliantController extends Controller
 {
+    
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     public function actionIndex()
     {
         $model = new Compliant;

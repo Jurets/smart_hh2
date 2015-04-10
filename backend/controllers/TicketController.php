@@ -7,7 +7,8 @@ use common\models\Ticket;
 use common\models\User;
 use common\models\TicketSearch;
 use common\models\TicketArchiveSearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
@@ -28,6 +29,12 @@ class TicketController extends Controller
             ],
         ];
     }
+    
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
 
     /**
      * Lists all Ticket models.
@@ -43,7 +50,7 @@ class TicketController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
+    
     /**
      * Displays a single Ticket model.
      * @param integer $id

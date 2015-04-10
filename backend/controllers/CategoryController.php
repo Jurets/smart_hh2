@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Category;
 use common\models\CategorySearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
@@ -28,6 +29,12 @@ class CategoryController extends Controller
         ];
     }
 
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     /**
      * Lists all Category models.
      * @return mixed

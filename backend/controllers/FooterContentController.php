@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\FooterContent;
 use common\models\FooterContentSearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\components\FooterContentManager;
@@ -26,6 +27,12 @@ class FooterContentController extends Controller {
         ];
     }
 
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     /**
      * Lists all FooterContent models.
      * @return mixed

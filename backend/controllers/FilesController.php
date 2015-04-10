@@ -5,7 +5,8 @@ namespace backend\controllers;
 use Yii;
 use common\models\Files;
 use common\models\FilesSearch;
-use yii\web\Controller;
+//use yii\web\Controller;
+use common\components\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -14,6 +15,13 @@ use yii\filters\VerbFilter;
  */
 class FilesController extends Controller
 {
+    
+    public function convensionInit() {
+        return [
+            'Admin' => 'All',
+        ];
+    }
+    
     public function behaviors()
     {
         return [
