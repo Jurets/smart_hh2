@@ -6,7 +6,7 @@ use common\components\Commonhelper;
 <div class="task-item info-border">
     <div class="task-info-price">
         <p class="price">&dollar;<span><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
-        <p class="measurement">week</p>
+        <p class="measurement">&nbsp;</p>
     </div>
     <div class="task-info-meta">
         <a  href="<?php echo Url::to(['/ticket/review', 'id' => $model->id]) ?>" class="title" data-pjax="0"><?= Html::encode($model->title) ?></a>

@@ -61,11 +61,14 @@ use kartik\widgets\StarRating;
                     ?>
         </p>
         <img src="/images/language-icon.png" alt=""/><span class="info-position">United States</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a><br/>
+        
+        <div data-locker="just hide this" style="display:none;">
         <span class="measurement">Hourly Rate:</span>
         <?php $hourlyRate = (!empty($profile->hourly_rate)) ? $profile->hourly_rate : 0 ?>
         <span class="price">&dollar;<?= $hourlyRate ?> and up</span><a href="#" class="edit"><span class="glyphicon glyphicon-pencil" data-sign="HourlyRate" aria-hidden="true"></span></a>
         <div class="pop-up-wrapper"><!-- pop up rendered here --> </div>
-
+        </div>
+        
     </div>
     <div class="clear"></div>
 </div>

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 <div class="task-item">
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
         <p class="price">&dollar;<span><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
-        <p class="measurement">week</p>
+        <p class="measurement">&nbsp;</p>
         <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
         <div class="pos-relativer">
             <div class="popup-apply pop-up-hide">
