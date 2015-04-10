@@ -299,7 +299,9 @@ class TicketController extends Controller {
     }
 
     public function actionTest() {
-        
+        $ticket = Ticket::findOne(['id' => 15]);
+        var_dump($ticket->zip->attributes);
+        var_dump($ticket->zip->city);
     }
 
     /* purposal work */

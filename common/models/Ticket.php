@@ -7,6 +7,7 @@ use yii\db\Query;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 use common\modules\user\models\User;
+use common\models\Zips;
 /*message: curl-adapt : ok*/
 /**
  * This is the model class for table "ticket".
@@ -150,7 +151,7 @@ class Ticket extends \yii\db\ActiveRecord {
         return [
             [['file_prepare'], 'file', 'extensions' => 'jpg,jpeg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
             [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable'], 'required'],
-            [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate'], 'integer'],
+            [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate', 'zip_id'], 'integer'],
             [['description', 'comment', 'photo'], 'string'],
             [['lat','lon'], 'double'],
             [['created', 'start_day', 'finish_day'], 'safe'],
@@ -182,6 +183,12 @@ class Ticket extends \yii\db\ActiveRecord {
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getZip() {
+        return $this->hasOne(Zips::className(), ['id' => 'zip_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
