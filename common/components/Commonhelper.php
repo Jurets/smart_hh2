@@ -3,19 +3,21 @@
 namespace common\components;
 
 use common\models\Ticket;
+use common\models\Zips;
 
 class Commonhelper {
     /* year quantity for Html::dropDownList */
 
     /* temporary design */
-    public static function activeJobsCounter($id){
+
+    public static function activeJobsCounter($id) {
         $ticket = Ticket::find()
-                ->where(['is_turned_on'=>1])
-                ->andWhere(['not', ['status'=>  Ticket::STATUS_COMPLETED]]);
+                ->where(['is_turned_on' => 1])
+                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
         $count = $ticket->count();
         return $count;
     }
-    
+
     public static function YearList($firstYear, $lalstYear) {
         $years = ['' => ''];
         $begin_int = (int) $firstYear;
@@ -34,27 +36,40 @@ class Commonhelper {
         return $month;
     }
 
+    /* cityes and zip codes return struct for chekbox - temporary design*/
+    public static function zipCityStruct() {
+        $struct = NULL;
+        $data = Zips::find()->all();
+        if (!is_null($data)) {
+            foreach($data as $elem) {
+                $struct[$elem->id] = $elem->city;
+            }
+        }
+        return $struct;
+    }
+
     /* date/time conversion methods block */
 
     public static function checkDeadline($finish_day) {
         $o = new Commonhelper;
         $finish_day_clear = explode(' ', $finish_day)[0];
-        $onTicket = $o->timestampToSeconds($finish_day_clear.' 00:00:00');
-        $now = $o->timestampToSeconds(date('Y-m-d'.' 00:00:00'));
+        $onTicket = $o->timestampToSeconds($finish_day_clear . ' 00:00:00');
+        $now = $o->timestampToSeconds(date('Y-m-d' . ' 00:00:00'));
         $diffSec = $onTicket - $now;
-        if($diffSec <= 0 ){
+        if ($diffSec <= 0) {
             return 0;
         }
         $days = $diffSec / 3600 / 24;
         return $days;
     }
-    public static function convertDate($timestamp=NULL, $mode=1){
+
+    public static function convertDate($timestamp = NULL, $mode = 1) {
         $o = new Commonhelper;
-        if(is_null($timestamp) || empty($timestamp) || $timestamp = '0000-00-00 00:00:00'){
+        if (is_null($timestamp) || empty($timestamp) || $timestamp = '0000-00-00 00:00:00') {
             return NULL;
         }
         $seconds = $o->timestampToSeconds($timestamp);
-        switch($mode){
+        switch ($mode) {
             case 1: // default
                 $dateOutput = date('Y-m-d g:i A', $seconds);
                 break;
@@ -69,6 +84,7 @@ class Commonhelper {
         }
         return $dateOutput;
     }
+
     /* additionals */
 
     private function timestampToSeconds($timestamp) {

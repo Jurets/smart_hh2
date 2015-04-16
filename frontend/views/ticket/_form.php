@@ -40,8 +40,19 @@ use common\components\Commonhelper;
                                                  ],
                                 ])
                             ?>
+                            <br>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
                             <?php echo Html::textInput('location', $model->location)?>
+                            <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
+                            <div style="position:relative;padding-bottom:45px;">
+                                
+                                <?php // делаем как независимый partial с передачей выбранного в текстовое поле ?>
+                                <?php echo Html::dropDownList('zip_ddl', NULL, ['----', '1'=>10, '2'=>20, '3'=>30], ['style'=>'position:absolute;']) ?>
+                                
+                                <?php echo Html::textInput('zip_tf', NULL, ['style'=>'position:absolute;'])?>
+                                
+                            </div>
+                            <br>
                             <div class="description">    
                                 <?php echo Html::label(Yii::t('app', 'Description'.':'), 'description')?>
                                 <?php echo Html::textarea('description', $model->description)?>
