@@ -34,6 +34,13 @@ return [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
             ],*/
+        'twitter' => [
+            'class' => 'richweber\twitter\Twitter',
+            // test twitter account https://twitter.com/epaminondas2365
+            'consumer_key' => 'WDTEkFoXrDLNuwhzfeqtKOxhQ',                               // set consumer key from your Twitter App
+            'consumer_secret' => 'SyjpeBwtQasifkBtWRopwtJ9fNc3FuWrKFq8LarpN1XoAZYIy6',   // set consumer secret key from your Twitter App
+            //'callback' => 'YOUR_TWITTER_CALLBACK_URL',
+        ],
     ],
     'params' => $params,
 ];

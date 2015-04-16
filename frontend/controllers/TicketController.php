@@ -19,6 +19,7 @@ use yii\helpers\Url;
 use common\components\UserActivity;
 use common\models\Offer;
 use common\models\Review;
+use common\components\TwitterHelper;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -107,8 +108,10 @@ class TicketController extends Controller {
         $post = Yii::$app->request->post();
         if (!empty($post)) {
             // run creation main service
-            if ($model->mainInitService($post))
+            if ($model->mainInitService($post)){
+                TwitterHelper::sendPost ($model->description);
                 $this->redirect(['view', 'id' => $model->id]);
+            }
         }
         $categories = $model->categoryLocate();
         return $this->render('create', [

@@ -28,8 +28,8 @@
         "kartik-v/mpdf": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-grid": "dev-master",
-        "marciocamello/yii2-paypal": "dev-master"
-        
+        "marciocamello/yii2-paypal": "dev-master",
+        "richweber/yii2-twitter": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
