@@ -63,9 +63,9 @@ class Commonhelper {
         return $days;
     }
 
-    public static function convertDate($timestamp = NULL, $mode = 1) {
+    public static function convertDate($timestamp = NULL, $mode = 2) {
         $o = new Commonhelper;
-        if (is_null($timestamp) || empty($timestamp) || $timestamp = '0000-00-00 00:00:00') {
+        if (is_null($timestamp) || empty($timestamp) || $timestamp == '0000-00-00 00:00:00') {
             return NULL;
         }
         $seconds = $o->timestampToSeconds($timestamp);
@@ -101,7 +101,6 @@ class Commonhelper {
         $second = (int) $minor_right[2];
 
         $seconds = mktime($hour, $minute, $second, $month, $day, $year);
-
         return $seconds;
     }
 

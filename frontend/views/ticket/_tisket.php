@@ -81,8 +81,8 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
         <p>Active <span class="number-jobs"><?=$countSFX?> <?=($countSFX > 1)? 'jobs' : 'job'?></span></a></p>
     </div>
     <div class="date-time right">
-<?= Commonhelper::convertDate($model->finish_day) ?> <br/>      
-        Moscow, RU
+<?php echo Commonhelper::convertDate($model->finish_day) ?> <br/>      
+       <?php echo (!is_null($model->zip_id)) ? $model->zip->city : '' ?>
     </div>
     <div class="clearfix"></div>
 </div>

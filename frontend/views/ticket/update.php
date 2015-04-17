@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         'model' => $model,
         'categories' => $categories,
         'exists' => $exists,
+        'list' => NULL,
     ]) ?>
 
 </div>

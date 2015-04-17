@@ -15,6 +15,7 @@ use common\components\GoogleApiHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Complaint;
+use common\models\Zips;
 use yii\helpers\Url;
 use common\components\UserActivity;
 use common\models\Offer;
@@ -42,10 +43,12 @@ class TicketController extends Controller {
             'Customer' => 'index create view review update test delete complain'
             . ' renderloginform renderapplyform priceagreement apply'
             . ' offer-price set-as-done add-comment delete-comment accept-offer'
-            . ' performer-accept-offer render-paypal-popup execute-payment',
+            . ' performer-accept-offer render-paypal-popup execute-payment zipdropdown',
+            
             'Performer' => 'index create view review update test complain'
             . ' delete complain renderloginform renderapplyform priceagreement'
-            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer render-paypal-popup execute-payment',
+            . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer render-paypal-popup execute-payment zipdropdown',
+            
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -117,6 +120,7 @@ class TicketController extends Controller {
         return $this->render('create', [
                     'model' => $model,
                     'categories' => $categories,
+                    'list' => NULL,
         ]);
     }
 
@@ -254,6 +258,7 @@ class TicketController extends Controller {
                     'model' => $model,
                     'categories' => $categories,
                     'exists' => $exists,
+                    'list' => NULL,
         ]);
     }
 
@@ -282,6 +287,30 @@ class TicketController extends Controller {
      * @return Ticket the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    
+    /* ajax render dropdownlist */
+    public function actionZipdropdown(){
+        if(Yii::$app->request->isAjax){
+            $list = NULL;
+            $post = Yii::$app->request->post();
+            // TO DO LIKE-type query for ZIP-city-codes
+            if(isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3){
+                $cityes = Zips::find()
+                        ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($post['zip_tf'])  ])
+                        ->all();
+                        
+                
+                if(!is_null($cityes)){
+                    foreach ($cityes as $city){
+                       $list[$city->zip] = $city->city . ' - '.$city->zip;
+                    }
+                }
+            }
+            
+            return $this->renderPartial('view/_zip_dropdown_partial', ['list'=>$list]);
+        }
+    }
+    
     /* action complain */
     public function actionComplain() {
         $complain = new Complaint;

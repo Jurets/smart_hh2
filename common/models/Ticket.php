@@ -294,7 +294,7 @@ class Ticket extends \yii\db\ActiveRecord {
             $category = $post['category'];
             $this->id_category = (int) array_search(current($category), $category);
         }
-        /* потребуется затем расширить - не известно, можел ли пользователь снова объявлять так тикет при его редактировании */
+        
         $this->is_turned_on = self::TURNED_ON;
         if (!empty($post['location'])) {
             $this->calculateLatLon($post['location']);
@@ -313,6 +313,12 @@ class Ticket extends \yii\db\ActiveRecord {
         }else{
             // пока без возможности удаления фоторесурса
             //$this->photo = '';
+        }
+        if(!empty($post['zip-city'])){
+            $getId = Zips::find()
+                    ->where('zip = '.(int)$post['zip-city'])
+                    ->one();
+            $this->zip_id = $getId->id;
         }
         if ($this->validationTest()) {
             $this->save(false);

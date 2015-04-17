@@ -43,16 +43,20 @@ use common\components\Commonhelper;
                             <br>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
                             <?php echo Html::textInput('location', $model->location)?>
+                            
                             <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
-                            <div style="position:relative;padding-bottom:45px;">
-                                
+                            <?php echo Html::hiddenInput('zip-city', NULL, ['id'=>'zip_id'])?>
+                            <div style="">
                                 <?php // делаем как независимый partial с передачей выбранного в текстовое поле ?>
-                                <?php echo Html::dropDownList('zip_ddl', NULL, ['----', '1'=>10, '2'=>20, '3'=>30], ['style'=>'position:absolute;']) ?>
-                                
-                                <?php echo Html::textInput('zip_tf', NULL, ['style'=>'position:absolute;'])?>
-                                
+                                <?php echo Html::textInput('zip_tf', NULL, ['style'=>'display:block;  ', 'id'=>'zip_tf_id'])?>
+                                <div id="zip-dropdown" data-zipDropdownURL="<?=Url::to(['ticket/zipdropdown'],true)?>">
+                                <?php
+                                    echo $this->render('view/_zip_dropdown_partial', ['list'=>$list]);
+                                ?>
+                                </div>
                             </div>
                             <br>
+                            
                             <div class="description">    
                                 <?php echo Html::label(Yii::t('app', 'Description'.':'), 'description')?>
                                 <?php echo Html::textarea('description', $model->description)?>
