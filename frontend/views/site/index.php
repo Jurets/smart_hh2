@@ -81,29 +81,29 @@ AppAsset::register($this);
             <h4>Looking for a <span class="red">helper</span>?</h4>
             <div class="holder-items">
                 <a href="#" class="item">
-                    <img src="images/signUp.png" alt="Sign Up" class="left"/>
-                    <p class="title">Sign Up</p>
-                    <p>Create an account. It's easy.</p>
+                    <img src="images/signUp.png" alt="Become a Member" class="left"/>
+                    <p class="title">Become a <span class="red">Member</span> of Helping Hut</p>
+                    <p>It's easy & free!</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/createAJob.png" alt="Create A Job" class="left"/>
-                    <p class="title">Create A Job</p>
-                    <p>Caregivers will contact you within 3 days, guaranteed.</p>
+                    <img src="images/createAJob.png" alt="Create a Job" class="left"/>
+                    <p class="title">Create a Job Listing</p>
+                    <p>Tell us what you need.</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/reviewProfiles.png" alt="Review Profiles" class="left"/>
-                    <p class="title">Review Profiles</p>
-                    <p>Check out your candidates. Request background checks.</p>
+                    <img src="images/reviewProfiles.png" alt="Search for a Helper" class="left"/>
+                    <p class="title">Search for a Helper</p>
+                    <p>Find the perfect helper for you.</p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/hireAHelper.png" alt="Hire a Helper" class="left"/>
-                    <p class="title">Hire a Helper</p>
-                    <p>Interview, check references and hire the one that works for you!</p>
+                    <p class="title">Hire the Perfect Helper</p>
+                    <p>Select someone with your desired skills.</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/payForHelp.png" alt="Pay for Help" class="left"/>
-                    <p class="title">Pay for Help</p>
-                    <p>Make and track payments in our Payments Center.</p>
+                    <img src="images/payForHelp.png" alt="Pay for the Service" class="left"/>
+                    <p class="title">Pay for the Service</p>
+                    <p>Using our secure online methods.</p>
                 </a>
             </div>
 
@@ -115,29 +115,29 @@ AppAsset::register($this);
             <h4>Looking for a <span class="green">job</span>?</h4>
             <div class="holder-items">
                 <a href="#" class="item">
-                    <img src="images/signUp.png" alt="Sign Up" class="left"/>
-                    <p class="title">Sign Up</p>
-                    <p>Create an account. It's easy.</p>
+                    <img src="images/becomeHelper.png" alt="Become a Helper" class="left"/>
+                    <p class="title">Become a <span class="green">Helper</span> on Helping Hut</p>
+                    <p>It's easy & free!</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/createAJob.png" alt="Create A Job" class="left"/>
-                    <p class="title">Create A Job</p>
-                    <p>Caregivers will contact you within 3 days, guaranteed.</p>
+                    <img src="images/createHelper.png" alt="Create a Helper" class="left"/>
+                    <p class="title">Create a Helper Profile</p>
+                    <p>Describe your skills and talents.</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/reviewProfiles.png" alt="Review Profiles" class="left"/>
-                    <p class="title">Review Profiles</p>
-                    <p>Check out your candidates. Request background checks.</p>
+                    <img src="images/reviewPostings.png" alt="Review Postings" class="left"/>
+                    <p class="title">Review the Latest Job Postings</p>
+                    <p>Search for a job posting that best applies to you.</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/hireAHelper.png" alt="Hire a Helper" class="left"/>
-                    <p class="title">Hire a Helper</p>
-                    <p>Interview, check references and hire the one that works for you!</p>
+                    <img src="images/getHired.png" alt="Get Hired" class="left"/>
+                    <p class="title">Get Hired</p>
+                    <p>Apply to jobs that best suits you.</p>
                 </a>
                 <a href="#" class="item">
-                    <img src="images/payForHelp.png" alt="Pay for Help" class="left"/>
-                    <p class="title">Pay for Help</p>
-                    <p>Make and track payments in our Payments Center.</p>
+                    <img src="images/getPaid.png" alt="Get Paid" class="left"/>
+                    <p class="title">Get Paid</p>
+                    <p>We have various payment options to choose from.</p>
                 </a>
             </div>
             <?= Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/performer'],true),['class'=>'btn']) ?>
