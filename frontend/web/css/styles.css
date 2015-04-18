@@ -1671,3 +1671,6 @@ label {
     color: #a94442;
     font-weight: bold;
 }
+.opt-lang-hidden {
+    display: none;
+}

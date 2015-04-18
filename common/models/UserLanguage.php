@@ -11,6 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $language_id
  * @property integer $knowledge
+ * @property integer $is_native
  *
  * @property Language $language
  * @property User $user
@@ -31,8 +32,9 @@ class UserLanguage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'language_id', 'knowledge'], 'required'],
-            [['user_id', 'language_id', 'knowledge'], 'integer']
+            [['user_id', 'language_id', 'knowledge', 'is_native'], 'required'],
+            [['user_id', 'language_id', 'knowledge'], 'integer'],
+            ['is_native', 'boolean'],
         ];
     }
 
