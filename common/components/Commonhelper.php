@@ -14,7 +14,8 @@ class Commonhelper {
     public static function activeJobsCounter($id) {
         $ticket = Ticket::find()
                 ->where(['is_turned_on' => 1])
-                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
+                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]])
+                ->andWhere(['user_id'=>$id]);
         $count = $ticket->count();
         return $count;
     }
