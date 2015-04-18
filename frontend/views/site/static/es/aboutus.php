@@ -1,0 +1,1 @@
+<?php echo 'Заглушка ES about us' ?>

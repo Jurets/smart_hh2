@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use common\components\Commonhelper;
 ?>
 <div class="row footer-top">
         <div class="column column-logo col-xs-6 col-sm-6 col-md-6 col-lg-3">
@@ -23,15 +24,28 @@ use yii\helpers\Url;
         </ul>
             <div class="clear"></div>
         </div>
-
+        <?php // временно закомментировано, предполагается переработка - вывод ссылок перенесен ниже ?>
+        <!--
         <div class="column column-nav col-xs-6 col-sm-6 col-md-6 col-lg-2">
             <ul>
-                <li><a href="<?=$FCM->partialOutput('About Us')['reference']?>"><?=Yii::t('app','About Us')?></a></li>
-                <li><a href="<?=$FCM->partialOutput('FAQ')['reference']?>"><?=Yii::t('app','FAQ')?></a></li>
-                <li><a href="<?=$FCM->partialOutput('Terms & Agreement')['reference']?>"><?=Yii::t('app', 'Terms & Agreement')?></a></li>
-                <li><a href="<?=$FCM->partialOutput('Contact US')['reference']?>"><?=Yii::t('app','Contact US')?></a></li>
+                <li><a href="<?php //echo $FCM->partialOutput('About Us')['reference']?>"><?php //echo Yii::t('app','About Us')?></a></li>
+                <li><a href="<?php //echo $FCM->partialOutput('FAQ')['reference']?>"><?php //echo Yii::t('app','FAQ')?></a></li>
+                <li><a href="<?php //echo $FCM->partialOutput('Terms & Agreement')['reference']?>"><?php //echo Yii::t('app', 'Terms & Agreement')?></a></li>
+                <li><a href="<?php //echo $FCM->partialOutput('Contact US')['reference']?>"><?php //echo Yii::t('app','Contact US')?></a></li>
             </ul>
         </div>
+        -->
+        <?php // переработка - пока языки хардкодятся ?>
+        <div class="column column-nav col-xs-6 col-sm-6 col-md-6 col-lg-2">
+            <ul>
+                <li><a href="<?=Url::to(['site/aboutus', 'language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','About Us')?></a></li>
+                <li><a href="<?=Url::to(['site/faq', 'language'=>  Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','FAQ')?></a></li>
+                <li><a href="<?=Url::to(['site/termsandagreements','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app', 'Terms & Agreement')?></a></li>
+                <li><a href="<?=Url::to(['site/contactus','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','Contact US')?></a></li>
+            </ul>
+        </div>
+        <?php // окончание переработки ?>
+        
         <div class="clear"></div>
 
          <?php } ?>

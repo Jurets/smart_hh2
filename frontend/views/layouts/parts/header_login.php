@@ -37,11 +37,7 @@ use yii\helpers\Html;
             <a href="<?=Url::to(['/user/logout'],false)?>" data-method="post" class=""><img src="/images/icon-logout.png" alt=""/><?=Yii::t('app', 'Log Out')?></a>
         </div>
 
-        <select id="language">
-            <option value="0" data-imagesrc="/images/language-icon.png">English</option>
-            <option value="1" data-imagesrc="/images/language-icon.png">English</option>
-        </select>
-
+        <?=$this->render('switch-language')?>
 
 
     </div>

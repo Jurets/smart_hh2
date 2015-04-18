@@ -35,10 +35,7 @@ PatchAsset::register($this);
                 </div>
             </div>
 
-            <select id="language">
-                <option value="0" data-imagesrc="/images/language-icon.png">English</option>
-                <option value="1" data-imagesrc="/images/language-icon.png">English</option>
-            </select>
+            <?=$this->render('switch-language')?>
 
 
         </div>

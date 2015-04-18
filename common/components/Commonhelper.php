@@ -4,6 +4,7 @@ namespace common\components;
 
 use common\models\Ticket;
 use common\models\Zips;
+use Yii;
 
 class Commonhelper {
     /* year quantity for Html::dropDownList */
@@ -84,7 +85,19 @@ class Commonhelper {
         }
         return $dateOutput;
     }
-
+    // language switch: put into session
+    public static function setLanguage($language){
+        $session = Yii::$app->session;
+        $session['language'] = \yii\helpers\Html::encode($language);
+    }
+    // language switch: put into session
+    public static function getLanguage(){
+        $session = Yii::$app->session;
+        if(isset($session['language'])){
+            return $session['language'];
+        }
+        return 'en'; // заменить да дефолтный язык из системы после настройки i18n
+    }
     /* additionals */
 
     private function timestampToSeconds($timestamp) {
