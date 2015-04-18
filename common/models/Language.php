@@ -51,15 +51,15 @@ class Language extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UserLanguage::className(), ['language_id' => 'id']);
     }
+
     /* return an array all determine system languages (with native names from common\config\params.php) */
     public static function getExistLanguagesArray(){
         $basis = new Language;
         $language_models =  $basis->find('id <> 0')->all();
-        $languages = array();
+        $languages = [];
         foreach ($language_models as $model){
-            $languages[] = $model->getAttributes();
+            $languages[$model->id] = $model->name;
         }
         return $languages;
-        
     }
 }

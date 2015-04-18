@@ -80,8 +80,8 @@ class RegistrationController extends Controller {
                     Yii::$app->session->setFlash("Register-success", $successText . $guestText);
                     // section stars - now disabled
                     /* receive users languages and it`s ratings */
-                    if (!empty($post) && isset($post['UserLanguage'])) {
-                        $languages = $post['UserLanguage']['language'];
+                    if (!empty($post) && isset($post['languages'])) {
+                        $languages = $post['languages'];
                         /* user language implementation process */
                         $this->userLanguageImplements($languages, $user->id);
                     }
@@ -192,16 +192,30 @@ class RegistrationController extends Controller {
         if (empty($choiseLanguages) || is_null($user_id)) {
             return 0;
         }
-        foreach ($choiseLanguages as $language) {
-            if (isset($language[0]) && (int) $language[1] !== 0) {
-                $model = new UserLanguage;
-                $model->setAttributes([
-                    'user_id' => $user_id,
-                    'language_id' => $language[2],
-                    'knowledge' => $language[1],
-                ]);
-                $model->save();
+        foreach ($choiseLanguages as $id => $language) {
+//            if (isset($language[0]) && (int) $language[1] !== 0) {
+//                $model = new UserLanguage;
+//                $model->setAttributes([
+//                    'user_id' => $user_id,
+//                    'language_id' => $language[2],
+//                    'knowledge' => $language[1],
+//                ]);
+//                $model->save();
+//            }
+            if(!$language) break;
+            $model = new UserLanguage;
+            $model->setAttributes([
+                'user_id' => $user_id,
+                'language_id' => (int)$language,
+            ]);
+            if($id === 0){
+                $model->is_native = true;
+                $model->knowledge = 5;
+            } else {
+                $model->is_native = false;
+                $model->knowledge = 1;
             }
+            $model->save();
         }
     }
 
