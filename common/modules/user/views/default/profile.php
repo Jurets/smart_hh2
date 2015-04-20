@@ -125,9 +125,17 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="user-contact col-xs-6 col-sm-4 col-md-4 col-lg-6">
 <?php $languages = ContactsHelper::getLanguages($profile->user); ?>
 <?php if (!empty($languages)): ?>
-                    <p class="title">Languages:</p>
-                    <p class=""><?= Html::encode($languages) ?></p>
-                    <?php endif; ?>
+        <p class="title">Languages:</p>
+        <?php
+            foreach ($languages as $language) {
+        ?>
+        <p style="font-weight: <?= empty($language['is_native']) ? 'normal' : 'bold'; ?>">
+            <?=Html::encode($language['full_name']); ?>
+        </p>
+        <?php
+            }
+        ?>
+<?php endif; ?>
                 <p class="title">Verified Contacts:</p>
                 <p class=""><?= Html::encode(ContactsHelper::getEmail($profile->user, $canViewContacts)) ?></p>
                 <p class=""><img src="" alt="" />

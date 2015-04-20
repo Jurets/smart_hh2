@@ -87,19 +87,18 @@ class ContactsHelper {
     /**
      * 
      * @param \common\modules\user\models\User $user
-     * @return string
+     * @return array
      */
     public static function getLanguages(\common\modules\user\models\User $user){
-        $languages = \common\models\UserLanguage::find()
-                ->select('language.name')
-                ->joinWith('language')
-                ->where([
-                    'user_id' => $user->id,
-                ])
-                ->column();
-        return implode(', ', array_map(function($name){
-            return \Yii::$app->params['languages'][$name];
-        }, $languages));
+        $query = new \yii\db\Query;
+        $languages = $query->select('user_language.is_native, language.name, language.full_name')
+                ->from('user_language')
+                ->innerJoin('language', 'language.id = user_language.language_id')
+                ->where(['user_language.user_id' => $user->id])
+                ->orderBy('user_language.is_native DESC')
+                ->all();
+
+        return $languages;
     }
     
     public static function getFullName(\common\modules\user\models\Profile $profile){
