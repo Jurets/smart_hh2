@@ -1485,13 +1485,21 @@ label {
     left: 140%;
     top: 70px;
 }
+.popup-specialites{
+    top: 430px;
+}
 .pop-up-payment-profile {
     left: 140%;
     top: 100px;
 }
 .pop-up-diploma {
     width: 700px;
-    top: 820px;
+    top: 640px;
+    left: 65%;
+}
+.pop-up-verid {
+    width: 700px;
+    top: 825px;
     left: 65%;
 }
 /* pop-up expancion features varriants END */
