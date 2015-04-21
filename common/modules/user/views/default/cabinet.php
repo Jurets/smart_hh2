@@ -26,8 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>   
 
 </div>
-<div class="user-cabinet-content">
-    
+<div class="person-profile row">
     <div class='payment_history_main'>
         <?=$this->render('cabinet/payment_history',[
             'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
@@ -35,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'amountAll' => $amountAll
         ])?>
     </div>
+</div>
+
+<div class="user-cabinet-content">
+    
     <div class="clearfix"></div>
     
     

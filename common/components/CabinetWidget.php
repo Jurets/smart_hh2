@@ -92,7 +92,7 @@ class CabinetWidget extends Widget {
              'title' => Yii::t('app', 'Specialties'),
              'form' => $this->path.'/specialites_form',
              'dataSet' => $this->dataSet['Specialites'](),
-             'destinationClass' => NULL,
+             'destinationClass' => 'popup-specialites',
         ];
         $this->layouts['Diploma'] = [
             'title' => Yii::t('app', 'Diplomas'),
@@ -104,7 +104,7 @@ class CabinetWidget extends Widget {
             'title' => Yii::t('app', 'Verification Docs'),
             'form' => $this->path.'/verid_form',
             'dataSet' => NULL,
-            'destinationClass' => 'pop-up-diploma',
+            'destinationClass' => 'pop-up-verid',
         ];
     }
     protected function dataSetVarriantsInit(){

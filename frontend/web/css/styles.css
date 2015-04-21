@@ -266,7 +266,7 @@ form#search input[type="submit"]{
     height: 14px;
     border-radius:7px;
     background-color: #0b293e;
-    text-indent: 99999px;
+    color: transparent;
 }
 .header-slider .bx-wrapper .bx-pager.bx-default-pager a:hover,
 .header-slider .bx-wrapper .bx-pager.bx-default-pager a.active{
@@ -1002,8 +1002,10 @@ a.more{
 /*find-help*/
 .find-help{
     position:absolute;
+    width: 460px;
     top:160px;
-    left:35%;
+    left:50%;
+    margin-left: -230px;
     text-align: center;
     z-index:100;
 }
@@ -1485,13 +1487,21 @@ label {
     left: 140%;
     top: 70px;
 }
+.popup-specialites{
+    top: 430px;
+}
 .pop-up-payment-profile {
     left: 140%;
     top: 100px;
 }
 .pop-up-diploma {
     width: 700px;
-    top: 820px;
+    top: 640px;
+    left: 65%;
+}
+.pop-up-verid {
+    width: 700px;
+    top: 825px;
     left: 65%;
 }
 /* pop-up expancion features varriants END */
