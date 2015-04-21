@@ -34,7 +34,9 @@
     .user-item img{
         margin-right: 8px;
 }
- 
+ .find-help {
+    /*left: 30%;*/
+ }
 
 
 
@@ -44,7 +46,11 @@
  
  
 }
-
+@media (max-width:1024px) {
+     .find-help {
+    /*left: 25%;*/
+ }
+}
 
 @media (max-width: 992px) {
     .content{
@@ -99,7 +105,19 @@
     border-right: none;
    margin-bottom: 20px;;
 } 
-    
+    .find-help {
+        /*left: 21%;*/
+    } 
+}
+
+
+@media (max-width: 770px) {
+.find-help-content {
+    padding: 10px 80px;
+}
+.btn-help {
+    width: 100%;
+}
 }
 
 @media (max-width: 740px) {
@@ -140,6 +158,11 @@
 
 
 @media (max-width: 646px) {
+    
+     .find-help {
+       /* left: 15%; */
+    } 
+    
     .content{
         padding:20px;
     }
@@ -198,5 +221,34 @@
     }
 }
 
+@media (max-width: 572px) {
+    .header {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .category{
+        height: 690px;
+    }
+    .find-help {
+        width: 400px;
+        margin-left: -200px;
+        
+    }
+    .find-help-content {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+}
 
-
+@media (max-width: 450px){
+    .find-help {
+        width: 100%;
+        left: 0;
+        margin-left: 0px;
+        
+    }
+    .find-help-content {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}

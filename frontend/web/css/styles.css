@@ -1002,8 +1002,10 @@ a.more{
 /*find-help*/
 .find-help{
     position:absolute;
+    width: 460px;
     top:160px;
-    left:35%;
+    left:50%;
+    margin-left: -230px;
     text-align: center;
     z-index:100;
 }
