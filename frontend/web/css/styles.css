@@ -266,7 +266,7 @@ form#search input[type="submit"]{
     height: 14px;
     border-radius:7px;
     background-color: #0b293e;
-    text-indent: 99999px;
+    color: transparent;
 }
 .header-slider .bx-wrapper .bx-pager.bx-default-pager a:hover,
 .header-slider .bx-wrapper .bx-pager.bx-default-pager a.active{
