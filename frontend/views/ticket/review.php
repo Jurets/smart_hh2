@@ -147,7 +147,15 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     echo Commonhelper::displayUserName($user->profile);
                 ?>
             </a>
-            <p class="active-jobs">Active <a href="#" class="number-jobs"><?=Commonhelper::activeJobsCounter($user->id)?></a></p>
+            <p class="active-jobs">Active&nbsp;
+                <a href="#" class="number-jobs">
+                   <?php
+                        $activeJobs = Commonhelper::activeJobsCounter($user->id);
+                   ?> 
+                    <?=$activeJobs?>
+                    <?php echo ($activeJobs > 1) ? Yii::t('app', 'jobs') : Yii::t('app', 'job');?>
+                </a>
+            </p>
         </div>
         <h6><span class="red"><?=$user->profile->voice?></span> <?=Yii::t('app', 'Opinions')?></h6>
         <div class="mark-creator">
