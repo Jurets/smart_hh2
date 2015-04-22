@@ -46,6 +46,7 @@ class Profile extends ActiveRecord {
             //            [['user_id'], 'required'],
             //            [['user_id'], 'integer'],
             //            [['create_time', 'update_time'], 'safe'],
+            [['first_name', 'last_name'], 'required', 'on'=>['register']],
             [['full_name'], 'string', 'max' => 255],
             [['first_name'], 'string', 'max' => 255],
             [['last_name'], 'string', 'max' => 255],

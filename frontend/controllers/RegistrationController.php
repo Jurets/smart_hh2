@@ -49,6 +49,7 @@ class RegistrationController extends Controller {
         // set up new user/profile objects
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
+        $profile->scenario = 'register';
         $userLanguage = new UserLanguage();
         $languages = Language::getExistLanguagesArray(); // all exists languages - ao array for widget
         $files = new Files();
@@ -135,6 +136,7 @@ class RegistrationController extends Controller {
     public function actionCustomer() {
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
+        $profile->scenario = 'register';
         $paymentProfile = new PaymentProfile();
         $post = Yii::$app->request->post();
         if ($user->load($post)) {
