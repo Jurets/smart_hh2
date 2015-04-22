@@ -8,7 +8,7 @@ use common\components\Commonhelper;
             <?=(!is_null($model->user->profile->files)) ? Yii::$app->params['upload.url'] . '/' . $model->user->profile->files->code : '' ?>" alt="avatar"/></a>
         <div><a href="#" class="user-name"><?php /*echo $model->user->profile->full_name*/ echo Commonhelper::displayUserName($model->user->profile)?></a>                                           
             <div class="date-time">
-                <?= $model->date ?>
+                <?php echo Commonhelper::convertDate($model->date) ?>
             </div>
         </div> 
     </div>
