@@ -1,11 +1,12 @@
 <?php
 /*@var $model common\models\TicketComments*/
+use common\components\Commonhelper;
 ?>
 <div class="reviews-item row <?= is_null($model->answer_to) ? '' : 'answer' ?>">
     <div class="left col-xs-5 col-sm-5 col-md-5 col-lg-5">
         <a href="#"><img class="avatar left" src="
             <?=(!is_null($model->user->profile->files)) ? Yii::$app->params['upload.url'] . '/' . $model->user->profile->files->code : '' ?>" alt="avatar"/></a>
-        <div><a href="#" class="user-name"><?= $model->user->profile->full_name?></a>                                           
+        <div><a href="#" class="user-name"><?php /*echo $model->user->profile->full_name*/ echo Commonhelper::displayUserName($model->user->profile)?></a>                                           
             <div class="date-time">
                 <?= $model->date ?>
             </div>

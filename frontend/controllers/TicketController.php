@@ -330,10 +330,12 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest() {
-        $ticket = Ticket::findOne(['id' => 15]);
-        var_dump($ticket->zip->attributes);
-        var_dump($ticket->zip->city);
+    public function actionTest($id = 4) {
+        $model = User::find()->where('id=:id', [':id'=>$id])->one();
+        $profile = $model->profile;
+        $buff = \common\components\Commonhelper::displayUserName($profile);
+        echo $buff;
+          
     }
 
     /* purposal work */

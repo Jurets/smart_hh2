@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use common\components\Commonhelper;
 use kartik\widgets\StarRating;
 use yii\helpers\Url;
 ?>
@@ -8,7 +9,7 @@ use yii\helpers\Url;
         <?php $photo = $model->profile->files; ?>
         <a href="#"><img style="width:116px;" alt="avatar" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $photo->code : '' ?>" class="avatar left"></a>
         <div class="user-status-all">
-            <a class="user-name" href="<?php echo Url::to(['/user/profile', 'id'=>$model->id],true) ?>"><?php echo $model->username ?> </a>                                           
+            <a class="user-name" href="<?php echo Url::to(['/user/profile', 'id'=>$model->id],true) ?>"><?php echo Html::encode(Commonhelper::displayUserName($model->profile)) ?> </a>                                           
             <?php foreach($model->userSocialNetworks as $userSocialNetwork):?>
                 <a href="#" class="user-status">
                     <?php if($userSocialNetwork->moderate): // пока поднимаю вверх?>

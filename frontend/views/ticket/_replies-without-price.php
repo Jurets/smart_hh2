@@ -2,6 +2,7 @@
 use kartik\rating\StarRating;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\components\Commonhelper;
 /*@var $model \common\models\Ticket*/
 /*@var $propose \common\models\Reply*/
 ?>
@@ -12,11 +13,11 @@ use yii\helpers\Url;
         <div>
             
             <a href="<?=Url::to(['user/profile','id'=>$propose->performer_id],true)?>">
-            <span class="user-name"><?php echo $propose->performer->username ?></span>
+                <span class="user-name"><?php /*echo $propose->performer->username*/ echo Commonhelper::displayUserName($propose->performer->profile) ?></span>
             </a>
             
             <div class="date-time">
-                <?php echo $propose->date?>
+                <?php /*echo $propose->date */ echo Commonhelper::convertDate($propose->date)?>
             </div>
         </div> 
     </div>

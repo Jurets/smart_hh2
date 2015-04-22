@@ -139,14 +139,15 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
 
             <a href="<?= Url::to(['user/profile', 'id' => $user->id], true) ?>" class="name-creator">
                 <?php
-                if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {
-                    echo $user->profile->full_name;
-                } else {
-                    echo $user->profile->first_name . ' ' . $user->profile->last_name;
-                }
+//                if (is_null($user->profile->first_name) || is_null($user->profile->last_name)) {
+//                    echo $user->profile->full_name;
+//                } else {
+//                    echo $user->profile->first_name . ' ' . $user->profile->last_name;
+//                }
+                    echo Commonhelper::displayUserName($user->profile);
                 ?>
             </a>
-            <p class="active-jobs">Active <a href="#" class="number-jobs">35 jobs</a></p>
+            <p class="active-jobs">Active <a href="#" class="number-jobs"><?=Commonhelper::activeJobsCounter($user->id)?></a></p>
         </div>
         <h6><span class="red"><?=$user->profile->voice?></span> <?=Yii::t('app', 'Opinions')?></h6>
         <div class="mark-creator">

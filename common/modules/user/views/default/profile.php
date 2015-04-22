@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\widgets\StarRating;
 use frontend\helpers\ContactsHelper;
+use common\components\Commonhelper;
 ?>
 
 <?php
@@ -26,7 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
 } ?>
                 <img class="avatar left" src="<?php echo $photo ?>" alt="avatar">
                 <div><span class="user-name">
-                        <?= Html::encode(ContactsHelper::getFullName($profile)) ?>
+                        <?php //echo Html::encode(ContactsHelper::getFullName($profile)) ?>
+                        <?php echo html::encode(Commonhelper::displayUserName($profile)) ?>
                     </span>                                            
                             <?php foreach ($profile->user->userSocialNetworks as $userSocialNetwork): ?>
                         <a href="#" class="user-status">

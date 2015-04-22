@@ -12,7 +12,7 @@ use common\components\Commonhelper;
             <img class="avatar left" src="<?=is_null($avatar) ? '' : Yii::$app->params['upload.url'].'/'.$avatar->code?>" alt="avatar"/>
         </a>
         <a href="<?=Url::to(['/user/default/profile', 'id' => $model->from_user_id])?>" class="user-name">
-            <?= Html::encode($model->fromUser->username) ?>
+            <?php /* echo Html::encode($model->fromUser->username )*/ echo Html::encode( Commonhelper::displayUserName($model->fromUser->profile) ) ?>
         </a>                                           
         <div class="date-time">
             <?= Commonhelper::convertDate($model->date) ?>

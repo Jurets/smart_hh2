@@ -49,7 +49,21 @@ class Commonhelper {
         }
         return $struct;
     }
-
+    
+    // displayed user like must take Profile model
+    public static function displayUserName($model){
+        $firstname = $model->first_name;
+        $lastname = $model->last_name;
+        if(empty($model->first_name) || empty($model->last_name)){
+            return '...'; // old users was can create without first/last name - this is temporary design
+        }
+        $encoding = mb_detect_encoding($lastname);
+        $literaLastName = mb_substr($lastname, 0, 1, $encoding);
+        $literaLastName = mb_strtoupper($literaLastName, $encoding);
+        $fullNameOutput = $firstname . ' ' . $literaLastName .'.';
+        return $fullNameOutput;
+    }
+    
     /* date/time conversion methods block */
 
     public static function checkDeadline($finish_day) {

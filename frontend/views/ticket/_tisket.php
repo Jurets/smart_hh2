@@ -35,11 +35,13 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
         <img class="left" style="width:45px;" src="<?php echo (!is_null($photo)) ? Yii::$app->params['upload.url'] . '/' . $model->user->profile->files->code : '' ?>" alt="avatar">
         <a href="<?=Url::to(['user/profile','id'=>$model->user->id],true)?>" style="color:#0d3f67;">
         <p>
-            <?php if(is_null($model->user->profile->first_name) || is_null($model->user->profile->last_name)) {
-                $nameToProfileUrl = $model->user->username;
-            }else{
-                $nameToProfileUrl = $model->user->profile->first_name . ' ' . $model->user->profile->last_name;
-            }
+            <?php 
+//                if(is_null($model->user->profile->first_name) || is_null($model->user->profile->last_name)) {
+//                    $nameToProfileUrl = $model->user->username;
+//                }else{
+//                    $nameToProfileUrl = $model->user->profile->first_name . ' ' . $model->user->profile->last_name;
+//                }
+            $nameToProfileUrl = Commonhelper::displayUserName($model->user->profile);
             ?>
             <?=$nameToProfileUrl?>
             <!--<img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span>-->
