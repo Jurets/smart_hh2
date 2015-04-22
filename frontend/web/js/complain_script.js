@@ -6,6 +6,7 @@ $(function(){
     });
     $('.close').click(function(){
         $('#complain-form').addClass('pop-up-hide');
+        $('#lang-pop-up').css({display: 'none'});
         return false;
     });
     $('#complain_send').click(function(){        

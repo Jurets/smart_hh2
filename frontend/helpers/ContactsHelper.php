@@ -89,12 +89,12 @@ class ContactsHelper {
      * @param \common\modules\user\models\User $user
      * @return array
      */
-    public static function getLanguages(\common\modules\user\models\User $user){
+    public static function getLanguages($userId){
         $query = new \yii\db\Query;
         $languages = $query->select('user_language.is_native, language.name, language.full_name')
                 ->from('user_language')
                 ->innerJoin('language', 'language.id = user_language.language_id')
-                ->where(['user_language.user_id' => $user->id])
+                ->where(['user_language.user_id' => $userId])
                 ->orderBy('user_language.is_native DESC')
                 ->all();
 

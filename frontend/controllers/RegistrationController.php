@@ -15,7 +15,6 @@ use yii\web\UploadedFile;
 use common\models\UserDiploma;
 use common\models\UserVerification;
 use common\models\PaymentProfile;
-use yii\helpers\Json;
 
 class RegistrationController extends Controller {
 
@@ -37,7 +36,7 @@ class RegistrationController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['customer', 'performer', 'option-languages'],
+                        'actions' => ['customer', 'performer'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -84,7 +83,7 @@ class RegistrationController extends Controller {
                     if (!empty($post) && isset($post['languages'])) {
                         $languages = array_filter($post['languages']);
                         /* user language implementation process */
-                        $this->userLanguageImplements($languages, $user->id);
+                        UserLanguage::userLanguageImplements($languages, $user->id);
                     }
                     // section only photo uploads
                     if (!is_null(UploadedFile::getInstanceByName('photo'))) {
@@ -186,51 +185,6 @@ class RegistrationController extends Controller {
                     'profile' => $profile,
                     'paymentProfile' => $paymentProfile
         ]);
-    }
-
-    public function actionOptionLanguages() {
-    $out = [];
-    if (isset($_POST['depdrop_parents'])) {
-        $parents = $_POST['depdrop_parents'];
-        if ($parents != null) {
-            $parents = array_filter($parents, function ($value){ return is_numeric($value); });
-            $out = Language::getOptionLanguagesArray($parents); 
-            echo Json::encode(['output' => $out, 'selected' => '']);
-            return;
-        }
-    }
-    echo Json::encode(['output'=>'', 'selected'=>'']);
-}
-
-    protected function userLanguageImplements($choiseLanguages = array(), $user_id = NULL) {DebugBreak();
-        if (empty($choiseLanguages) || is_null($user_id)) {
-            return 0;
-        }
-        foreach ($choiseLanguages as $id => $language) {
-//            if (isset($language[0]) && (int) $language[1] !== 0) {
-//                $model = new UserLanguage;
-//                $model->setAttributes([
-//                    'user_id' => $user_id,
-//                    'language_id' => $language[2],
-//                    'knowledge' => $language[1],
-//                ]);
-//                $model->save();
-//            }
-            if(!$language) break;
-            $model = new UserLanguage;
-            $model->setAttributes([
-                'user_id' => $user_id,
-                'language_id' => (int)$language,
-            ]);
-            if($id === 1){
-                $model->is_native = true;
-                $model->knowledge = 5;
-            } else {
-                $model->is_native = false;
-                $model->knowledge = 1;
-            }
-            $model->save();
-        }
     }
 
     protected function afterRegister($user) {

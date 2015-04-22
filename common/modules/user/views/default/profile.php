@@ -123,7 +123,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="user-contact col-xs-6 col-sm-4 col-md-4 col-lg-6">
-<?php $languages = ContactsHelper::getLanguages($profile->user); ?>
 <?php if (!empty($languages)): ?>
         <p class="title">Languages:</p>
         <?php

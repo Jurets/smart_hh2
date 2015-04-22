@@ -20,6 +20,10 @@ use yii\web\NotFoundHttpException;
 use common\models\PaymentProfile;
 use common\models\Withdrawal;
 use yii\web\UploadedFile;
+use common\models\Language;
+use common\models\UserLanguage;
+use frontend\helpers\ContactsHelper;
+use yii\helpers\Json;
 
 /* just test - before logic */
 use common\modules\user\models\Profile;
@@ -59,12 +63,12 @@ class DefaultController extends Controller {
                         'roles' => ['?', '@'],
                     ],
                     [
-                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell', 'diploma_dell', 'verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup', 'withdrawals'],
+                        'actions' => ['account', 'profile', 'cabinet', 'popup_render', 'cat_dell', 'diploma_dell', 'verid_dell', 'popup_runtime', 'resend-change', 'cancel', 'logout', 'test', 'offer-job', 'get-offer-job-popup', 'withdrawals', 'option-languages', 'update-languages'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['login', 'register', 'forgot', 'reset'],
+                        'actions' => ['login', 'register', 'forgot', 'reset', 'option-languages', 'update-languages'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -272,6 +276,10 @@ class DefaultController extends Controller {
         }else{
             $paymentProfileChoiseMessage = $paymentProfile->choiseKind[$paymentProfile->choise];
         }
+
+        $languages = ContactsHelper::getLanguages($this->profile->user->id); //array - languages of current user
+        $langList = Language::getExistLanguagesArray(); // array - all exists languages for widget
+
         return $this->render('cabinet', [
                     'profile' => $this->profile,
                     'userSpecialities' => $this->specialities,
@@ -281,7 +289,9 @@ class DefaultController extends Controller {
                     'paymentHistoryDataProvider' => $paymentHistoryDataProvider,
                     'switchWindow' => $switchWindow,
                     'amountAll' => $amountAll,
-                    'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage
+                    'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage,
+                    'langList' => $langList,
+                    'languages' => $languages
         ]);
     }
 
@@ -780,6 +790,9 @@ class DefaultController extends Controller {
 //        }    
         // render
         /* variables in view translate as arrays */
+
+        $languages = ContactsHelper::getLanguages($profile->user->id);
+
         return $this->render("profile", [
                     'profile' => $profile,
                     'photos' => $photos,
@@ -794,7 +807,8 @@ class DefaultController extends Controller {
                     'positiveReviewDataProvider' => $positiveReviewDataProvider,
                     'negativeReviewDataProvider' => $negativeReviewDataProvider,
                     'canViewContacts' => $canViewContacts,
-                    'paymentProfile' => $paymentProfile
+                    'paymentProfile' => $paymentProfile,
+                    'languages' => $languages
         ]);
     }
 
@@ -1002,4 +1016,34 @@ class DefaultController extends Controller {
         ]);
     }
 
+    public function actionOptionLanguages() {
+        $output = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $parents = array_filter($parents, function ($value){ return is_numeric($value); });
+                $output = Language::getOptionLanguagesArray($parents); 
+                echo Json::encode(['output' => $output, 'selected' => '']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public function actionUpdateLanguages() {
+        $output = '';
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            if (!empty($post) && isset($post['languages']) && isset($post['userId'])) {
+                $languages = array_filter($post['languages']);
+                $userId = (int)$post['userId'];
+                if(UserLanguage::userLanguageImplements($languages, $userId)){
+                    $languages = ContactsHelper::getLanguages($this->profile->user->id); //array - languages of current user
+                    $langList = Language::getExistLanguagesArray(); // array - all exists languages for widget
+                    $output = $this->render('_languages_list', ['langList' => $langList, 'languages' => $languages]);
+                }
+            }
+        }
+        return $output;
+    }
 }

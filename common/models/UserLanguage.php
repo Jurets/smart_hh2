@@ -66,4 +66,39 @@ class UserLanguage extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public static function userLanguageImplements($choiseLanguages = array(), $user_id = NULL) {
+        if (empty($choiseLanguages) || is_null($user_id)) {
+            return false;
+        }
+
+        $existLang = UserLanguage::find()->where(['user_id' => $user_id])->all();
+            if(!empty($existLang)){
+                foreach ($existLang as $lang) {
+                    $lang->delete();
+                }
+            }
+
+        $result = false;
+        foreach ($choiseLanguages as $id => $language) {
+            if(!$language) break;
+            $model = new UserLanguage;
+            $model->setAttributes([
+                'user_id' => $user_id,
+                'language_id' => (int)$language,
+            ]);
+            if($id === 0){
+                $model->is_native = true;
+                $model->knowledge = 5;
+            } else {
+                $model->is_native = false;
+                $model->knowledge = 1;
+            }
+            if($model->save()){
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
 }

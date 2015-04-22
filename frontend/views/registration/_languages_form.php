@@ -1,10 +1,9 @@
 <?php
 use kartik\widgets\DepDrop;
-use yii\helpers\Url;
 ?>
 
 <?php
-    echo $form->field($userLanguage, 'language_id')->dropDownList(array_merge([''], $languages), ['name' => 'languages[1]', 'id' => 'native-lang'])->label('Native language'); 
+    echo $form->field($userLanguage, 'language_id')->dropDownList(array_merge([''], $languages), ['name' => 'languages[0]', 'id' => 'native-lang', 'class' => 'lang-field'])->label('Native language'); 
 ?>
 <div class="optional-languages">
 <?php
@@ -12,11 +11,11 @@ use yii\helpers\Url;
     $languages = array_slice($languages, 1, null, true);
     foreach ($languages as $key => $value) {
         echo $form->field($userLanguage, 'language_id')->widget(DepDrop::classname(), [
-            'options' => ['id' => "option-lang-$key", 'name' => "languages[$key]"],
+            'options' => ['id' => "option-lang-$key", 'name' => "languages[$key]", 'class' => 'lang-field'],
             'pluginOptions' => [
                 'depends' => $parents,
                 'placeholder' => '',
-                'url' => Url::to(['registration/option-languages'])
+                'url' => Yii::$app->urlManager->createAbsoluteUrl(['user/option-languages'])
             ]
         ])->label('Add language');
         $parents[] = "option-lang-$key";
