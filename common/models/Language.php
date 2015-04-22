@@ -62,4 +62,14 @@ class Language extends \yii\db\ActiveRecord
         }
         return $languages;
     }
+
+    public static function getOptionLanguagesArray($langIds){
+        $langIds = is_array($langIds) ? implode(',', $langIds) : $langIds;
+        $language_models =  self::find()->where("id NOT IN ($langIds)")->all();
+        $languages = [];
+        foreach ($language_models as $model){
+            $languages[] = ['id' => $model->id, 'name' => $model->name];
+        }
+        return $languages;
+    }
 }

@@ -53,27 +53,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($profile, 'phone')->widget(\yii\widgets\MaskedInput::classname(), [
             'mask' => '999-999-9999',
         ]) ?>
-        <?php
-             echo $form->field($userLanguage, 'language_id')->dropDownList(array_merge([''], $languages), ['name' => 'languages[0]', 'onchange' => 'showOptionLanguage(event, 0)'])->label('Native language'); 
-        ?>
-        <div class="optional-languages">
-        <?php
-            foreach ($languages as $key => $value) {
-        ?>
-        <div class="form-group optional-language-group opt-lang-<?=$key?> opt-lang-hidden">
-            <?php
-                echo Html::label('Add language', "opt_lang_$key", ['class' => "opt-lang-$key opt-lang-hidden col-lg-2 control-label"]);
-            ?>
-            <div class="col-lg-3">
-                <?php
-                    echo Html::dropDownList("languages[$key]", null, array_merge([''], $languages), ['id' => "opt_lang_$key", 'class' => "opt-lang-$key opt-lang-hidden",'onchange' => "showOptionLanguage(event, $key)"]);
-                ?>
-            </div>
-        </div>
-        <?php
-            }
-        ?>
-        </div>
+
+        <?= $this->render('_languages_form', ['form' => $form, 'userLanguage' => $userLanguage, 'languages' => $languages]); ?>
+
         <?php //echo Html::label('Pick language and language knowledge') ?>
         <?php //foreach ($languages as $language) { ?>
         <?php 
@@ -174,11 +156,3 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif; ?>
 
 </div>
-
-<?php
-    $this->registerJs(
-            'function showOptionLanguage(event, id){if(event.target.value !== "0"){$(".opt-lang-" + ++id).removeClass("opt-lang-hidden");} else {$(".opt-lang-" + ++id).addClass("opt-lang-hidden").each(function(){this.value = "0";});}}',
-            View::POS_END,
-            'show-option-language'
-        );
-?>
