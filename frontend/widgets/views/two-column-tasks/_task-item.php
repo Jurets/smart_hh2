@@ -2,6 +2,7 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\components\Commonhelper;
 ?>
 <div class="task-item">
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
@@ -17,7 +18,7 @@ use yii\helpers\Html;
     </div>
     <div class="task-info-meta">
         <a  href="<?php echo Url::to(['ticket/review', 'id' => $model->id]) ?>" class="title"><?= Html::encode($model->title) ?></a>
-        <p class="date-time"><?= $model->created ?></p>
+        <p class="date-time"><?php /* echo $model->created */ echo Commonhelper::convertDate($model->created) ?></p>
         <p class="text"><?= Html::encode($model->description) ?></p>
     </div>
     <div class="clear"></div>

@@ -1,5 +1,6 @@
 <?php
 use kartik\rating\StarRating;
+use common\components\Commonhelper;
 
 $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.js', [
     'depends' => [\yii\web\JqueryAsset::className()],
@@ -12,7 +13,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
         <div>
             
             <a href="<?=Url::to(['user/profile','id'=>$propose->performer_id],true)?>">
-            <span class="user-name"><?php echo $propose->performer->username ?></span>
+                <span class="user-name"><?php /*echo $propose->performer->username*/ echo Commonhelper::displayUserName($propose->performer->profile) ?></span>
             </a>
             
             <div class="date-time">

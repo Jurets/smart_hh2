@@ -9,9 +9,10 @@ use common\components\Commonhelper;
                 <img class="avatar left" src="<?=Yii::$app->params['upload.url'].'/'.$model->fromUser->profile->files->code?>" alt="avatar">
             </a>
             <?php
-            $usernameThrow = (is_null($model->fromUser->profile->first_name) || is_null($model->fromUser->profile->last_name )) ? 
-                      $model->fromUser->username : 
-                      $model->fromUser->profile->first_name . ' '.$model->fromUser->profile->last_name
+//            $usernameThrow = (is_null($model->fromUser->profile->first_name) || is_null($model->fromUser->profile->last_name )) ? 
+//                      $model->fromUser->username : 
+//                      $model->fromUser->profile->first_name . ' '.$model->fromUser->profile->last_name
+            $usernameThrow = Commonhelper::displayUserName($model->fromUser->profile);
             ?>
             <div><a href="<?=url::to(['user/profile', 'id'=>$model->fromUser->id])?>" class="user-name"><?=$usernameThrow?></a>                                           
                 <div class="date-time" style="width:200px;">
