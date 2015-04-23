@@ -5,7 +5,7 @@ use yii\helpers\Html;
 <div class="row user-contact ">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <p class="title">Languages:</p>
-        <?= $this->render('_languages_list', ['langList' => $langList, 'languages' => $languages]); ?>
+        <?= $this->render('_languages_list', ['langList' => isset($langList)?$langList : [], 'languages' => isset($languages)?$languages : [] ]); ?>
         <p class="title">Verified Contacts:</p>
         <p>
             <?php echo isset($profile->adress_mailing) ? $profile->adress_mailing : ''?>
