@@ -151,7 +151,7 @@ class Ticket extends \yii\db\ActiveRecord {
         return [
             [['file_prepare'], 'file', 'extensions' => 'jpg,jpeg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
             [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable'], 'required'],
-            [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate', 'zip_id'], 'integer'],
+            [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate', 'zip_id'], 'integer', 'min' => 0],
             [['description', 'comment', 'photo'], 'string'],
             [['lat','lon'], 'double'],
             [['created', 'start_day', 'finish_day'], 'safe'],

@@ -12,12 +12,12 @@ $form = ActiveForm::begin();
 <?php
 PopoverX::begin([
     'placement' => PopoverX::ALIGN_BOTTOM_LEFT,
-    'toggleButton' => ['tag'=>'a', 'class'=>'edit', 'label' => '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'],
-    'header' => '<p class="title" style="width: 200px;">Languages</p>',
-    'closeButton' => ['tag' => 'a'],
+    'toggleButton' => ['tag'=>'button', 'class'=>'edit', 'label' => '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'],
+    'header' => '<p class="title">Languages</p>',
+    'closeButton' => ['tag' => 'button'],
     'options' => [
         'id' => 'lang-pop-up',
-        'class' => 'pop-up pop-up-wrapper',
+        'class' => 'pop-up kartik-pop-up',
     ],
     'footer' => Html::a('Save', '', [
                     'title' => Yii::t('yii', 'Close'),

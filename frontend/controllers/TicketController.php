@@ -163,6 +163,9 @@ class TicketController extends Controller {
     public function actionReview($id) {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
+        if($model->user_id === Yii::$app->user->id){
+            $this->redirect(Url::to(['/ticket/view', 'id' => $id]));
+        }
         if ($model->status === Ticket::STATUS_COMPLETED) {
             throw new \yii\web\HttpException('404', Yii::t('app', 'This task is done.'));
         }

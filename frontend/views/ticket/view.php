@@ -57,9 +57,9 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                         <p class="price">$<?= is_null($model->price) ? 0 : $model->price?></p>
                                         <p class="measurement">week</p>
                                     </div>
-                                    <div class="auction">
+                               <!-- <div class="auction">
                                         Ready to raise on:<br/><span class="red">&dollar;1</span>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <!--<a href="<?php //echo Url::to(['ticket/delete', 'id'=>$model->id])?>" class="btn btn-delete btn-average">DELETE</a>-->

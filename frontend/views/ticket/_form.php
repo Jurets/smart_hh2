@@ -42,7 +42,7 @@ use common\components\Commonhelper;
                             ?>
                             <br>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
-                            <?php echo Html::textInput('location', $model->location)?>
+                            <?php echo Html::textInput('location', $model->job_location)?>
                             
                             <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
                             <?php echo Html::hiddenInput('zip-city', NULL, ['id'=>'zip_id'])?>

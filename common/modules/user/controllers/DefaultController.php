@@ -716,6 +716,7 @@ class DefaultController extends Controller {
                 ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]]);
         $jobsCreatedDataProvider = new ActiveDataProvider([
             'query' => $jobsCreatedQuery,
+            'sort'=> ['defaultOrder' => ['created' => SORT_DESC]],
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
@@ -730,12 +731,13 @@ class DefaultController extends Controller {
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
         ]);
-        
+
         $jobsDonedQuery = Ticket::find()
                 ->andWhere(['performer_id' => $id])
                 ->andWhere(['status' => Ticket::STATUS_COMPLETED]);
         $jobsDonedDataProvider = new ActiveDataProvider([
             'query' => $jobsDonedQuery,
+            'sort'=> ['defaultOrder' => ['updated_at' => SORT_DESC]],
             'pagination' => [
                 'pageSize' => Yii::$app->params['profile.jobs.pageSize'],
             ],
