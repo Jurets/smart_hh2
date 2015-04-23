@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use kartik\widgets\StarRating;
+use common\components\Commonhelper;
 ?>
 <div class="user-item">
     <div class="left user-item-info">
@@ -12,7 +13,8 @@ use kartik\widgets\StarRating;
         <div>
             <span class="user-name">
                 <?php
-                echo (!is_null($profile->first_name) && !is_null($profile->last_name)) ? $profile->first_name . ' ' . $profile->last_name : $profile->user->username;
+               // echo (!is_null($profile->first_name) && !is_null($profile->last_name)) ? $profile->first_name . ' ' . $profile->last_name : $profile->user->username;
+                echo Commonhelper::displayUserName($profile);
                 ?>
             </span>                                            
             <?php foreach($profile->user->userSocialNetworks as $userSocialNetwork):?>
