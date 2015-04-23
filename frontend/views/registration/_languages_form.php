@@ -15,8 +15,7 @@ use kartik\widgets\DepDrop;
             'pluginOptions' => [
                 'depends' => $parents,
                 'placeholder' => '',
-                //'url' => Yii::$app->urlManager->createAbsoluteUrl(['user/option-languages'])
-                'url' => \yii\helpers\Url::to(['/user/option-languages'], true)
+                'url' => Yii::$app->urlManager->createAbsoluteUrl(['user/option-languages'])
             ]
         ])->label('Add language');
         $parents[] = "option-lang-$key";
