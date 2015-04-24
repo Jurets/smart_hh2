@@ -3,7 +3,7 @@ use yii\helpers\Html;
 ?>
 
 <div id="lang-list">
-    <?= $this->render('_languages_popup', ['languages' => $langList]); ?>
+    <?= $this->render('_languages_popup', ['languages' => $langList, 'userLanguage' => $userLanguage]); ?>
     <?php
         foreach ($languages as $language) {
     ?>

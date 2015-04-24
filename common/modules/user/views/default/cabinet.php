@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'profile' => $profile,
             'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage,
             'langList' => $langList,
-            'languages' => $languages
+            'languages' => $languages,
+            'userLanguage' => $userLanguage
         ]) ?>
     </div>   
 

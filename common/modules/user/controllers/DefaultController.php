@@ -279,6 +279,7 @@ class DefaultController extends Controller {
 
         $languages = ContactsHelper::getLanguages($this->profile->user->id); //array - languages of current user
         $langList = Language::getExistLanguagesArray(); // array - all exists languages for widget
+        $userLanguage = UserLanguage::findOne(['user_id' => Yii::$app->user->id, 'is_native' => 1]);
 
         return $this->render('cabinet', [
                     'profile' => $this->profile,
@@ -291,7 +292,8 @@ class DefaultController extends Controller {
                     'amountAll' => $amountAll,
                     'paymentProfileChoiseMessage' => $paymentProfileChoiseMessage,
                     'langList' => $langList,
-                    'languages' => $languages
+                    'languages' => $languages,
+                    'userLanguage' => $userLanguage
         ]);
     }
 

@@ -13,7 +13,6 @@ use yii\helpers\Html;
         <p class="title">Languages</p>
 
 <?php
-$userLanguage = new UserLanguage();
 $form = ActiveForm::begin();
 ?>
 

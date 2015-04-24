@@ -91,7 +91,7 @@ class ContactsHelper {
      */
     public static function getLanguages($userId){
         $query = new \yii\db\Query;
-        $languages = $query->select('user_language.is_native, language.name, language.full_name')
+        $languages = $query->select('user_language.id, user_language.is_native, language.name, language.full_name')
                 ->from('user_language')
                 ->innerJoin('language', 'language.id = user_language.language_id')
                 ->where(['user_language.user_id' => $userId])
@@ -100,7 +100,20 @@ class ContactsHelper {
 
         return $languages;
     }
-    
+
+    public static function getOptLanguages($userId){
+        $allLanguages = self::getLanguages($userId);
+        $optLanguages = array_map( function($language){
+                return [$language['id'] => $language['name']];
+            }, array_filter($allLanguages, function($language){
+                    return $language['is_native'] ? false : true;
+                }
+            )
+        );
+
+        return $optLanguages;
+    }
+
     public static function getFullName(\common\modules\user\models\Profile $profile){
         $firstName = trim($profile->first_name);
         $lastName = trim($profile->last_name);
