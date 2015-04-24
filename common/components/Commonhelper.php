@@ -4,6 +4,7 @@ namespace common\components;
 
 use common\models\Ticket;
 use common\models\Zips;
+use common\models\UserLanguage;
 use Yii;
 
 class Commonhelper {
@@ -131,6 +132,16 @@ class Commonhelper {
         $seconds = mktime($hour, $minute, $second, $month, $day, $year);
         return $seconds;
     }
-
+    public static function LaPatch(){
+        $patchStruct = [];
+        $languages = \common\models\Language::find()->all();
+        foreach($languages as $language){
+            $patchStruct[$language->id] = $language->name;
+        }
+        return $patchStruct;
+    }
+    public static function LaPatch2(){
+        return UserLanguage::findOne(['user_id' => Yii::$app->user->id, 'is_native' => 1]);
+    }
     /* _ */
 }
