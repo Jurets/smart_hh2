@@ -42,7 +42,7 @@ class AppAsset extends AssetBundle
         'js/payment_profile_switch.js',
         'js/withdrawals.js',
         'js/dropdown-zip.js',
-        'js/kartik_popup_fix.js',
+        'js/lang_popup_fix.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

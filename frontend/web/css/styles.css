@@ -1475,6 +1475,10 @@ label {
     left: 100%;
     top: 80px;
 }
+.pop-up-lang {
+    left: 50%;
+    top: 20px;
+}
 .pop-up-mailing {
     left: 100%;
     top: 140px;

@@ -5,6 +5,9 @@ use yii\helpers\Html;
 <div class="row user-contact ">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <p class="title">Languages:</p>
+        <a class="edit open-lang" href="#">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </a>
         <?= $this->render('_languages_list', ['langList' => $langList, 'languages' => $languages]); ?>
         <p class="title">Verified Contacts:</p>
         <p>
