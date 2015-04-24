@@ -40,4 +40,4 @@ use yii\helpers\Url;
 <a href="<?=Url::to('/user')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'BROWSE HELPERS')?></a>
 <?php }?>
 
-<a href="<?=Url::to('ticket/create')?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
+<a href="<?=Url::to(['ticket/create'],true)?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
