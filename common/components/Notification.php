@@ -40,7 +40,7 @@ class Notification extends \yii\base\Component{
         $ticket = \common\models\Ticket::findOne($entityId);
         $notification->message = Yii::t('app','Your job {title} is on {date}',[
             'title' => Html::encode($ticket['title']),
-            'date' => Html::encode($ticket['finish_day']),
+            'date' => ($ticket['finish_day']=='0000-00-00 00:00:00') ? '' : Html::encode($ticket['finish_day'])
         ]);
         $notification->date = date('Y-m-d H:i:s', strtotime('-' . Yii::$app->params['bell.rottenTicketDays'] . ' day', strtotime($ticket->finish_day)));
         return $notification->save();
@@ -52,7 +52,7 @@ class Notification extends \yii\base\Component{
         $ticket = \common\models\Ticket::findOne($entityId);
         $notification->message = Yii::t('app','Don\'t miss a job You apllied to: {title} is on {date}',[
             'title' => Html::encode($ticket['title']),
-            'date' => Html::encode($ticket['finish_day']),
+            'date' => ($ticket['finish_day']=='0000-00-00 00:00:00') ? '' : Html::encode($ticket['finish_day'])
         ]);
         $notification->date = date('Y-m-d H:i:s', strtotime('-' . Yii::$app->params['bell.rottenTicketDays'] . ' day', strtotime($ticket->finish_day)));
         return $notification->save();
@@ -184,7 +184,9 @@ class Notification extends \yii\base\Component{
     
     public function handleNotificationRead(yii\base\Event $event){
         $data = $event->data;
-        $this->markNotificationsAsRead($data['entityId'], $data['entity'], $data['userId']);
+        if( is_null($data['entityId'])  ){
+            $this->markNotificationsAsRead($data['entityId'], $data['entity'], $data['userId']);
+        }
     }
     
 }

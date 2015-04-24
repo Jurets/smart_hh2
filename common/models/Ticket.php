@@ -528,6 +528,7 @@ class Ticket extends \yii\db\ActiveRecord {
                     ->where(['ticket_id' => $this->id])
                 ]);
             Offer::deleteAll(['ticket_id' => $this->id]);
+            Notification::deleteAll(['entity_id'=>$this->id]);
             return true;
         }
         return false;
@@ -549,8 +550,10 @@ class Ticket extends \yii\db\ActiveRecord {
             ];
             if($this->status === Ticket::STATUS_COMPLETED){
                 $types = null;
+                Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
+                TicketComments::updateAll(['status'=>TicketComments::STATUS_READ], ['ticket_id'=>$this->id]);
             }
-            Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
+            //Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
         }
         if($this->status === Ticket::STATUS_DONE_BY_PERFORMER && $this->is_turned_on){
             Yii::$app->notification->addDoneByPerformerNotification($this->id, $this->user_id);

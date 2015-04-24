@@ -55,7 +55,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                 <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                     <div class="job-price left">
                                         <p class="price">$<?= is_null($model->price) ? 0 : $model->price?></p>
-                                        <p class="measurement">week</p>
+                                        <p class="measurement">&nbsp;</p>
                                     </div>
                                <!-- <div class="auction">
                                         Ready to raise on:<br/><span class="red">&dollar;1</span>

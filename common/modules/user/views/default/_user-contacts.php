@@ -8,7 +8,7 @@ use yii\helpers\Html;
         <a class="edit open-lang" href="#">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
         </a>
-        <?= $this->render('_languages_list', ['langList' => $langList, 'languages' => $languages]); ?>
+        <?= $this->render('_languages_list', ['langList' => isset($langList)?$langList : [], 'languages' => isset($languages)?$languages : [] ]); ?>
         <p class="title">Verified Contacts:</p>
         <p>
             <?php echo isset($profile->adress_mailing) ? $profile->adress_mailing : ''?>

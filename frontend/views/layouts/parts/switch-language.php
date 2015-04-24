@@ -17,4 +17,4 @@ $language = Commonhelper::getLanguage();
     <option value="por" data-imagesrc="/images/lang/por-small.png" <?=$language == 'por' ? ' selected=""' : ''?>>português</option>
 </select>
 
-<div data-langUrlChange="<?=Url::to(['site/languageswitcher'],true)?>"></div>
+<div data-langUrlChange="<?=Url::to(['/site/languageswitcher'],true)?>"></div>
