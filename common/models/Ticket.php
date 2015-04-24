@@ -298,7 +298,7 @@ class Ticket extends \yii\db\ActiveRecord {
         
         $this->is_turned_on = self::TURNED_ON;
         $test = $post;
-        if (!empty($post['location']) || !empty($post['zip-city'] || !empty($post['zip_tf']))) {
+        if (!empty($post['location']) OR !empty($post['zip-city'] OR !empty($post['zip_tf']))) {
             $location = \yii\helpers\Html::encode($post['location']);
             
             // логика принятия решения по комбинации трех полей
