@@ -30,6 +30,7 @@ use common\models\Zips;
  * @property integer $rate
  * @property string $updated_at
  * @property string $job_location
+ * @property integer $assembled_zip
  * 
  * @property Category $category
  * @property User $user
@@ -296,10 +297,34 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         
         $this->is_turned_on = self::TURNED_ON;
-        if (!empty($post['location'])) {
-            $this->calculateLatLon($post['location']);
-            $this->job_location = $post['location'];
+        $test = $post;
+        if (!empty($post['location']) || !empty($post['zip-city'] || !empty($post['zip_tf']))) {
+            $location = \yii\helpers\Html::encode($post['location']);
+            
+            // логика принятия решения по комбинации трех полей
+            if(isset($post['zip_ddl'])){ // значит идентифицирован город из базы и пришел его зип
+                $this->assembled_zip = (int)$post['zip_ddl'];
+            }else{ // ветвление для принятия решения по доклеиванию zip
+                if(!empty($post['zip_tf'])){
+                    if(ctype_digit(\yii\helpers\Html::encode($post['zip_tf']))){ // человек пытается ввести zip-код как есть
+                        $isZip = Zips::find()->where('zip=:zip', ['zip'=>(int)$post['zip_tf']])->one();
+                        if(!is_null($isZip)){
+                            $this->assembled_zip = $isZip->zip;
+                        }else{
+                            $this->assembled_zip = (int)$post['zip_tf'];
+                        }
+                    }
+                    
+                }
+            }
+            
+            /* иссл. */
+            //die;
+            $this->calculateLatLon($location);
+            $this->job_location = $location;
         }
+        
+        
         $this->start_day = date('Y-m-d H:i:s');
         if (isset($post['finish_day']) && !empty($post['finish_day'])) {
             $this->finish_day = date('Y-m-d H:i:s', strtotime($post['finish_day']));
@@ -367,6 +392,7 @@ class Ticket extends \yii\db\ActiveRecord {
     /* calculate and set longitude-latitude by Google API */
 
     protected function calculateLatLon($location) {
+        $location = $this->assembled_zip . ' ' . $location;
         $address = str_replace(' ', '+', $location);
         $constPartUrl = 'https://maps.googleapis.com/maps/api/geocode/xml?key=' .
                 Yii::$app->params['GoogleAPI'];
