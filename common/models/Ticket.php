@@ -551,6 +551,7 @@ class Ticket extends \yii\db\ActiveRecord {
             if($this->status === Ticket::STATUS_COMPLETED){
                 $types = null;
                 Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
+                TicketComments::updateAll(['status'=>TicketComments::STATUS_READ], ['ticket_id'=>$this->id]);
             }
             //Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
         }
