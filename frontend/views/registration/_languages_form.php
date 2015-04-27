@@ -4,14 +4,14 @@ use frontend\helpers\ContactsHelper;
 ?>
 
 <?php
-    $optLanguages = ContactsHelper::getOptLanguages(Yii::$app->user->id);
-    echo $form->field($userLanguage, 'language_id')->dropDownList(array_merge([''], $languages), ['name' => 'languages[0]', 'id' => 'native-lang', 'class' => 'lang-field'])->label('Native language'); 
-    ?>
+    $nativeLangList = !empty($userLanguage->language_id) ? $languages : array_merge([''], $languages);
+    echo $form->field($userLanguage, 'language_id')->dropDownList($nativeLangList, ['name' => 'languages[1]', 'id' => 'native-lang', 'class' => 'lang-field'])->label('Native language'); 
+?>
 <div class="optional-languages">
 <?php
     $parents = ['native-lang'];
-    $languages = array_slice($languages, 1, null, true);
-    foreach ($languages as $key => $value) {
+    $optLanguages = ContactsHelper::getOptLanguages(Yii::$app->user->id);
+    for($key = 2; $key <= count($languages); $key++){
         echo $form->field($userLanguage, 'language_id')->widget(DepDrop::classname(), [
             'data' => !empty($optLanguages) ? array_shift($optLanguages) : [],
             'options' => ['id' => "option-lang-$key", 'name' => "languages[$key]", 'class' => 'lang-field'],

@@ -87,7 +87,7 @@ class UserLanguage extends \yii\db\ActiveRecord
                 'user_id' => $user_id,
                 'language_id' => (int)$language,
             ]);
-            if($id === 0){
+            if($id === 1){
                 $model->is_native = true;
                 $model->knowledge = 5;
             } else {
