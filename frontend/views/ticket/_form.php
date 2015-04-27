@@ -18,7 +18,7 @@ use common\components\Commonhelper;
                                     ]);
                             ?>
                             <?php echo Html::label(Yii::t('app', 'Title'), 'title')?>
-                            <?php echo Html::textInput('title', $model->title)?>
+                            <?php echo Html::textInput('title', $model->title,['placeholder'=>'e.g., Need a nanny for a weekend'])?>
                             <?php echo Html::label(Yii::t('app', 'Choose Date and Time').':', 'finish_day')?>
                             <?php //echo Html::textInput('finish_day', $model->finish_day)?>
                             <?php 
@@ -42,13 +42,13 @@ use common\components\Commonhelper;
                             ?>
                             <br>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
-                            <?php echo Html::textInput('location', $model->job_location)?>
+                            <?php echo Html::textInput('location', $model->job_location, ['placeholder'=>'e.g., USA Florida Miami'])?>
                             
                             <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
                             <?php echo Html::hiddenInput('zip-city', NULL, ['id'=>'zip_id'])?>
                             <div style="">
                                 <?php // делаем как независимый partial с передачей выбранного в текстовое поле ?>
-                                <?php echo Html::textInput('zip_tf', NULL, ['style'=>'display:block;  ', 'id'=>'zip_tf_id'])?>
+                                <?php echo Html::textInput('zip_tf', $model->assembled_zip, ['style'=>'display:block;  ', 'id'=>'zip_tf_id', 'placeholder'=>'e.g., 33122 or Miami'])?>
                                 <div id="zip-dropdown" data-zipDropdownURL="<?=Url::to(['ticket/zipdropdown'],true)?>">
                                 <?php
                                     echo $this->render('view/_zip_dropdown_partial', ['list'=>$list]);

@@ -37,7 +37,7 @@ use yii\helpers\Url;
 <?php if(Yii::$app->user->isGuest) { ?>
 <a href="<?=Url::to('registration/performer')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'WANNA BE A HELPER'.'?')?></a>
 <?php }else{ ?>
-<a href="<?=Url::to('/user')?>" class="btn btn-big btn-width"><?=Yii::t('app', 'BROWSE HELPERS')?></a>
+<a href="<?=Url::to(['/user'],true)?>" class="btn btn-big btn-width"><?=Yii::t('app', 'BROWSE HELPERS')?></a>
 <?php }?>
 
-<a href="<?=Url::to('ticket/create')?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
+<a href="<?=Url::to(['/ticket/create'],true)?>" class="btn btn-big btn-width btn-red"><?=Yii::t('app', 'CREATE A TASK')?></a>
