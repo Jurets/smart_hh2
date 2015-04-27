@@ -6,8 +6,8 @@ use common\models\UserLanguage;
 use yii\helpers\Html;
 ?>
 
-<div class="pop-up-wrapper lang-pop-up" style="display: none;">
-    <div class="pop-up pop-up-edit pop-up-lang">
+<!--<div class="pop-up-wrapper lang-pop-up" style="display: none;">-->
+    <div class="pop-up pop-up-edit pop-up-lang lang-pop-up" style='display:none;'>
         <a class="close" href="#">×</a>
         <div class="pop-up-errors"></div>
         <p class="title">Languages</p>
@@ -78,4 +78,4 @@ echo $this->render('@app/views/registration/_languages_form', ['form' => $form, 
 ?>
 
     </div>
-</div>
+<!--</div>-->
