@@ -24,13 +24,14 @@ PatchAsset::register($this);
                 <div class="popUpJoinNow">
                     
         <?php echo Html::a(
-                         Html::img(Yii::$app->params['images.path'] . '/icon-close.jpeg', ['width'=>'20px']),
+                         Html::img(Yii::$app->params['images.path'] . '/icon-close.jpeg', ['width'=>'20px', 'id'=>'small-popup-close']),
                          'javascript:javascript:popupJoinNowClose()'
                         );?>
                     <br><br>
                     <?= Html::a(Yii::t('app', 'Join as Customer'), Url::to(['/registration/customer'],true),[]) ?>
                     <br>
-                    <?= Html::a(Yii::t('app', 'Join as Performer'), url::to(['/registration/performer'],true), []) ?>
+                    <?php //echo Html::a(Yii::t('app', 'Join as Performer'), url::to(['/registration/performer'],true), []) ?>
+                    <?php echo Html::a(Yii::t('app', 'Join as Performer'), '#', ['class'=>'performer-register'])?>
                     <br>
                 </div>
             </div>
@@ -41,3 +42,20 @@ PatchAsset::register($this);
         </div>
     </div>
 </div>
+
+<!-- register popup -->
+<div
+    data-performer-register-first="<?=Url::to(['registration/performerfirst'],true)?>"
+    data-performer-register-last="<?=Url::to(['registration/performerlast'],true)?>" 
+    data-customer-register-first=""
+    data-customer-register-last=""
+    ></div>
+<div id="registerPopupWindow" class="pop-up-hide"></div>
+<style>
+    .ui-widget-header {
+        background: none;
+        color: inherit;
+        border: 0;
+    }
+</style>
+<!-- -->

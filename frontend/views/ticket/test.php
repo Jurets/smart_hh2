@@ -12,7 +12,8 @@ $this->registerJsFile(Yii::$app->params['path.js'].'test-modal.js', [
 ]);
 ?>
 <div id='test-modal-1' data-modal-popup-title='<?=Yii::t('app', 'Registration').' '.Yii::t('app', 'Performer')?>'> 
-    Hello World
+    Hello World Hello World Hello World
+    <h1>Hello World Hello World Hello World Hello World Hello World</h1>
 </div>
 
 <style>

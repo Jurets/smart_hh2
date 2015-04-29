@@ -23,7 +23,8 @@ class AppAsset extends AssetBundle
         #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',
         #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css',
         'css/styles.css',
-        'css/styles-responsive.css'
+        'css/styles-responsive.css',
+        'js/jquery-ui-1.11.4.custom/jquery-ui.css' // patch-include jquery-ui styles
     ];
     public $js = [
         'js/ddslick.js',
@@ -43,6 +44,9 @@ class AppAsset extends AssetBundle
         'js/withdrawals.js',
         'js/dropdown-zip.js',
         'js/lang_popup_fix.js',
+        'js/jquery-ui-1.11.4.custom/jquery-ui.js',
+        'js/registration-popup.js'
+        
     ];
     public $depends = [
         'yii\web\YiiAsset',

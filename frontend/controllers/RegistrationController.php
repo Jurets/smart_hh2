@@ -36,7 +36,7 @@ class RegistrationController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['customer', 'performer'],
+                        'actions' => ['customer', 'performer', 'performerfirst', 'performerlast', 'customerfirst', 'customerlast'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -132,7 +132,34 @@ class RegistrationController extends Controller {
                     'paymentProfile' => $paymentProfile,
         ]);
     }
-
+    
+    /* performer - переделка регистрации на две стадии */
+    public function actionPerformerfirst(){
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $profile = Yii::$app->getModule("user")->model("Profile");
+        $profile->scenario = 'register';
+        
+        if(Yii::$app->request->isAjax){
+            $post = Yii::$app->request->post();
+            if($user->load($post)){
+                $profile->load($post);
+                
+                if($user->validate() && $profile->validate()){
+                    Yii::$app->session->setFlash('Register-success', 'First performer step is competelly');
+                }
+            }            
+        }
+        
+        
+        return $this->renderAjax('performer_first', [
+                    'user' => $user,
+                    'profile' => $profile,
+        ]);
+    }
+    public function actionPerformerlast(){
+        
+    }
+    
     public function actionCustomer() {
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
