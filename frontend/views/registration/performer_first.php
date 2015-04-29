@@ -20,8 +20,8 @@ use yii\web\View;
                 'id' => 'register-form',
                 'options' => ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data'],
                 'fieldConfig' => [
-                    'template' => "{label}\n<div class=\"col-lg-7\">{input}</div>\n<div class=\"col-lg-3\">{error}</div>",
-                    'labelOptions' => ['class' => 'col-lg-2 control-label'],
+                    'template' => "{label}\n<div class=\"col-lg-8\">{input}</div>\n<br><div class=\"col-lg-7\">{error}</div>",
+                    'labelOptions' => ['class' => 'col-lg-3 control-label'],
                 ],
                 'enableAjaxValidation' => false,
                 'enableClientValidation' => true,
