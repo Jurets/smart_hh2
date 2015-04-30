@@ -64,7 +64,7 @@ class RegisterHelper {
                 'subject' => Yii::t('app', 'Registration Customer') . ' ' . Yii::t('app', 'Step' . ' 1')
             ];
             $data = [
-                'title' => Yii::t('app', 'Registration Performer') . ' ' . Yii::t('app', 'Step' . ' 1'),
+                'title' => Yii::t('app', 'Registration Customer') . ' ' . Yii::t('app', 'Step' . ' 1'),
                 'content' => 'passed the first stage of registration to complete the registration click the link below',
                 'reference' => Url::to(['/', 'registrate' => 'customer', 'code' => $code], true)
             ];
