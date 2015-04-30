@@ -8,6 +8,7 @@ use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use common\modules\user\models\User;
 use \common\models\UserLanguage;
 use common\models\Files;
 use common\models\Language;
@@ -15,6 +16,7 @@ use yii\web\UploadedFile;
 use common\models\UserDiploma;
 use common\models\UserVerification;
 use common\models\PaymentProfile;
+use common\components\RegisterHelper;
 
 class RegistrationController extends Controller {
 
@@ -36,7 +38,7 @@ class RegistrationController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['customer', 'performer', 'performerfirst', 'performerlast', 'customerfirst', 'customerlast'],
+                        'actions' => ['customer', 'performer', 'performerfirst', 'performerlast', 'customerfirst', 'customerlast', 'fileupload'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -132,34 +134,99 @@ class RegistrationController extends Controller {
                     'paymentProfile' => $paymentProfile,
         ]);
     }
-    
+
     /* performer - переделка регистрации на две стадии */
-    public function actionPerformerfirst(){
+
+    public function actionPerformerfirst() {
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
         $profile->scenario = 'register';
-        
-        if(Yii::$app->request->isAjax){
+
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
-            if($user->load($post)){
+            if ($user->load($post)) {
                 $profile->load($post);
-                
-                if($user->validate() && $profile->validate()){
-                    Yii::$app->session->setFlash('Register-success', 'First performer step is competelly');
+
+                if ($user->validate() && $profile->validate()) {
+                    Yii::$app->session->setFlash('Register-success', 'passed the first stage of registration In order to proceed click on the link sent to you by e-mail');
+                    RegisterHelper::performerRegistrationStep1($user, $profile);
                 }
-            }            
+            }
         }
-        
-        
+
         return $this->renderAjax('performer_first', [
                     'user' => $user,
                     'profile' => $profile,
         ]);
     }
-    public function actionPerformerlast(){
-        
+
+    public function actionPerformerlast() {
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            // подготавливаем модели
+            if (!isset($post['signature']) || empty($post['signature'])) {
+                throw new \yii\web\HttpException('500 user id undefined');
+            } else {
+                $user_id = (int) $post['signature'];
+            }
+            $user = User::find()->where('id = :id', [':id' => $user_id])->one();
+            $profile = $user->profile;
+            $userLanguage = new UserLanguage();
+            $languages = Language::getExistLanguagesArray(); // all exists languages - ao array for widget
+            $paymentProfile = new PaymentProfile();
+            if (isset($post['start'])) { // идентификатор сабмита формы
+                $check = RegisterHelper::performerRegistrationStep2($post, $user, $profile, $paymentProfile);
+                if ($check) {
+                    // завершающие регистрацию действия
+                    $this->afterRegister($user);
+                    $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                    $guestText = "";
+                    if (Yii::$app->user->isGuest) {
+                        $guestText = Yii::t("user", " - Please check your email to confirm your account");
+                    }
+                    Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                    // закрываем старую ссылку первой фазы
+                    RegisterHelper::lockRegisterStage($user->id);
+                }
+            }
+
+            return $this->renderAjax('performer_last', [
+                        'user' => $user,
+                        'profile' => $profile,
+                        'userLanguage' => $userLanguage,
+                        'languages' => $languages,
+                        //'files' => $files,
+                        'paymentProfile' => $paymentProfile,
+            ]);
+        }
     }
-    
+
+    public function actionFileupload($id = NULL) {
+        $user_id = (int) $id;
+        $files = new Files();
+        // section only photo uploads
+        if (!is_null(UploadedFile::getInstanceByName('photo'))) {
+            //$photo_id = $files->saveSingleImage($user_id);
+            //$profile->photo = $photo_id;
+            $files->saveSingleImage($user_id);
+        }
+        //Diploma
+        if (!is_null(UploadedFile::getInstancesByName('cert'))) {
+            $diplomaIdArray = $files->saveMultyImage($user_id, 'diploma', 'cert');
+            if (is_array($diplomaIdArray)) {
+                UserDiploma::DiplomaAttachmentProcess($user_id, $diplomaIdArray);
+            }
+        }
+        //ID
+        if (!is_null(UploadedFile::getInstancesByName('vercode'))) {
+            $verificationsIdArray = $files->saveMultyImage($user_id, 'verificationID', 'vercode');
+            if (is_array($verificationsIdArray)) {
+                UserVerification::VerifycationAttachmentProcess($user_id, $verificationsIdArray);
+            }
+        }
+        return 0;
+    }
+
     public function actionCustomer() {
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
@@ -176,38 +243,36 @@ class RegistrationController extends Controller {
             $transaction = Yii::$app->db->beginTransaction();
             // section normal validate basic registration models
             if ($user->validate() && $profile->validate()) {
-                                
+
                 $role = Yii::$app->getModule('user')->model('Role');
                 $user->setRegisterAttributes($role::EXT_ROLE_CUSTOMER, Yii::$app->request->userIP)->save(false);
                 $profile->setUser($user->id)->save(false);
                 $paymentProfile->paymentProfileLoader($post);
                 $paymentProfile->user_id = $user->id;
-                if($paymentProfile->validate()){
-                $this->afterRegister($user);
-                $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
-                $guestText = "";
-                if (Yii::$app->user->isGuest) {
-                    $guestText = Yii::t("user", " - Please check your email to confirm your account");
-                }
-                Yii::$app->session->setFlash("Register-success", $successText . $guestText);
-                $paymentProfile->save(false);
-                $Success = TRUE;
+                if ($paymentProfile->validate()) {
+                    $this->afterRegister($user);
+                    $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                    $guestText = "";
+                    if (Yii::$app->user->isGuest) {
+                        $guestText = Yii::t("user", " - Please check your email to confirm your account");
+                    }
+                    Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                    $paymentProfile->save(false);
+                    $Success = TRUE;
                 }//end profile validate
-                else{
+                else {
                     $Success = FALSE;
                     $transaction->rollBack();
                 }
-                
             }// end basic validate
-            else{
+            else {
                 $Success = FALSE;
                 $transaction->rollBack();
             }
-            
-            if($Success){
+
+            if ($Success) {
                 $transaction->commit();
             }
-            
         }
         return $this->render('customer', [
                     'user' => $user,

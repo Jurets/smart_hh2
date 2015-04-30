@@ -22,6 +22,8 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
+    
+        
     public function behaviors()
     {
         return [
@@ -103,8 +105,14 @@ class SiteController extends Controller
             throw new \yii\web\HttpException('404 page not found');
         }    
     }
-    public function actionIndex()
+    public function actionIndex($registrate=NULL, $code=NULL)
     {
+        if(!is_null($registrate) && !is_null($code)){
+            $this->view->params['regmode'] = \yii\helpers\Html::encode($registrate);
+            $hash = \yii\helpers\Html::encode($code);
+            /* если запущена ссылка с первого этапа регистрации - рендерится окно второго этапа регистрации */
+            $this->view->params['reguser'] = \common\components\RegisterHelper::checkFirstReference($hash);
+        }
         $latestTasks = \common\models\Ticket::find()
                 ->where([
                     'is_turned_on' => 1,

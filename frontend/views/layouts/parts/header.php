@@ -45,12 +45,26 @@ PatchAsset::register($this);
 
 <!-- register popup -->
 <div
-    data-performer-register-first="<?=Url::to(['registration/performerfirst'],true)?>"
+    data-performer-register-first="<?=Url::to(['registration/performerfirst'],true)?>" 
     data-performer-register-last="<?=Url::to(['registration/performerlast'],true)?>" 
-    data-customer-register-first=""
-    data-customer-register-last=""
+    data-customer-register-first="<?=Url::to(['registration/customerfirst'],true)?>" 
+    data-customer-register-last="<?=Url::to(['registration/customerlast'],true)?>" 
+    data-title-performer-first="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 1')?>" 
+    data-title-performer-last="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 2')?>"
+    data-title-customer-first="<?=Yii::t('app', 'Registration Customer').' '.Yii::t('app', 'Step'.' 1')?>" 
+    data-title-customer-last="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 2')?>" 
     ></div>
 <div id="registerPopupWindow" class="pop-up-hide"></div>
+
+<?php if(isset($this->params['regmode']) && isset($this->params['reguser'])) {
+        $regmode = $this->params['regmode'];
+        $reguser = $this->params['reguser'];
+    }else{
+        $regmode = '';
+        $reguser = '';
+    } 
+ ?>
+<div data-regmode="<?=$regmode?>" data-reguser="<?=$reguser?>"></div>
 <style>
     .ui-widget-header {
         background: none;
