@@ -92,9 +92,13 @@ class RegisterHelper {
         //общая проверка каскад валидации сбор сведений об ошибках
         if (!$profile->validate()) {
             $arrayValidationErrors[] = 'profile validation failure';
+        }else{
+            $profile->save(false);
         }
         if (!$paymentProfile->validate()) {
             $arrayValidationErrors[] = 'payment profile validate error';
+        }else{
+            $paymentProfile->save(false);
         }
 
         if (empty($arrayValidationErrors)) {
@@ -125,9 +129,13 @@ class RegisterHelper {
         //общая проверка каскад валидации сбор сведений об ошибках
         if (!$profile->validate()) {
             $arrayValidationErrors[] = 'profile validation failure';
+        }else{
+            $profile->save(false);
         }
         if (!$paymentProfile->validate()) {
             $arrayValidationErrors[] = 'payment profile validate error';
+        }else{
+            $paymentProfile->save(false);
         }
 
         if (empty($arrayValidationErrors)) {
