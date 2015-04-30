@@ -160,6 +160,68 @@ class RegistrationController extends Controller {
         ]);
     }
 
+    public function actionCustomerfirst() {
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $profile = Yii::$app->getModule("user")->model("Profile");
+        $profile->scenario = 'register';
+
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            if ($user->load($post)) {
+                $profile->load($post);
+
+                if ($user->validate() && $profile->validate()) {
+                    Yii::$app->session->setFlash('Register-success', 'passed the first stage of registration In order to proceed click on the link sent to you by e-mail');
+                    RegisterHelper::customerRegistrationStep1($user, $profile);
+                }
+            }
+        }
+
+        return $this->renderAjax('customer_first', [
+                    'user' => $user,
+                    'profile' => $profile,
+        ]);
+    }
+    public function actionCustomerlast() {
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            // подготавливаем модели
+            if (!isset($post['signature']) || empty($post['signature'])) {
+                throw new \yii\web\HttpException('500 user id undefined');
+            } else {
+                $user_id = (int) $post['signature'];
+            }
+            $user = User::find()->where('id = :id', [':id' => $user_id])->one();
+            $profile = $user->profile;
+            $userLanguage = new UserLanguage();
+            $languages = Language::getExistLanguagesArray(); // all exists languages - ao array for widget
+            $paymentProfile = new PaymentProfile();
+            if (isset($post['start'])) { // идентификатор сабмита формы
+                $check = RegisterHelper::customerRegistrationStep2($post, $user, $profile, $paymentProfile);
+                if ($check) {
+                    // завершающие регистрацию действия
+                    $this->afterRegister($user);
+                    $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                    $guestText = "";
+                    if (Yii::$app->user->isGuest) {
+                        $guestText = Yii::t("user", " - Please check your email to confirm your account");
+                    }
+                    Yii::$app->session->setFlash("Register-success", $successText . $guestText);
+                    // закрываем старую ссылку первой фазы
+                    RegisterHelper::lockRegisterStage($user->id);
+                }
+            }
+
+            return $this->renderAjax('customer_last', [
+                        'user' => $user,
+                        'profile' => $profile,
+                        'userLanguage' => $userLanguage,
+                        'languages' => $languages,
+                        //'files' => $files,
+                        'paymentProfile' => $paymentProfile,
+            ]);
+        }
+    }
     public function actionPerformerlast() {
         if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();

@@ -15,6 +15,12 @@ $(function () {
             REGWIN.formLoader();
             return false;
         });
+        $('.customer-register').click(function () {
+            REGWIN.actionUrl = $('[data-customer-register-first]').attr('data-customer-register-first');
+            REGWIN.windowTitle = $('[data-title-customer-first]').attr('data-title-customer-first');
+            REGWIN.formLoader();
+            return false;
+        });
     }
 });
 REGWIN = {
