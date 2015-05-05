@@ -10,7 +10,7 @@ use yii\helpers\Url;
             #<?= $error->exception->statusCode; ?>&nbsp;
         </h4>
             <?=Yii::t('app', 'the page cannot be found')?>
-        <p><a href="<?=Url::to(['/'],true)?>"><?=Yii::t('app','please return back')?></a></p>
+        <p><a href="<?=Url::to('/',true)?>"><?=Yii::t('app','please return back')?></a></p>
     </div>
 </div>
 
