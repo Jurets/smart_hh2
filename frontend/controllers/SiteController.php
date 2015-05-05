@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use Yii;
@@ -17,15 +18,12 @@ use yii\filters\AccessControl;
 /**
  * Site controller
  */
-class SiteController extends Controller
-{
+class SiteController extends Controller {
+
     /**
      * @inheritdoc
      */
-    
-        
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -55,8 +53,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
-    {
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -68,46 +65,54 @@ class SiteController extends Controller
         ];
     }
 
+    /* for customize eroor page (404, 500, e.t.c) */
+    public function actionCustomError(){
+        $error = Yii::$app->errorHandler;
+        return $this->renderPartial('custom-error', ['error'=>$error]);
+    }
     // static page actions
-    public function actionAboutus($language='en'){
+    public function actionAboutus($language = 'en') {
         try {
-            return $this->render('static/'.$language.'/aboutus');
-        } catch (InvalidParamException $ex) {
-            throw new \yii\web\HttpException('404 page not found');
-        }
-        
-    }
-    public function actionFaq($language='en'){
-        try {
-            return $this->render('static/'.$language.'/faq');
+            return $this->render('static/' . $language . '/aboutus');
         } catch (InvalidParamException $ex) {
             throw new \yii\web\HttpException('404 page not found');
         }
     }
-    public function actionLanguageswitcher(){
-        if(Yii::$app->request->isAjax){
+
+    public function actionFaq($language = 'en') {
+        try {
+            return $this->render('static/' . $language . '/faq');
+        } catch (InvalidParamException $ex) {
+            throw new \yii\web\HttpException('404 page not found');
+        }
+    }
+
+    public function actionLanguageswitcher() {
+        if (Yii::$app->request->isAjax) {
             $post = Yii::$app->request->post();
             $language = \yii\helpers\Html::encode($post['language']);
             \common\components\Commonhelper::setLanguage($language);
         }
     }
-    public function actionTermsandagreements($language='en'){
+
+    public function actionTermsandagreements($language = 'en') {
         try {
-            return $this->render('static/'.$language.'/termsandagreement');
+            return $this->render('static/' . $language . '/termsandagreement');
         } catch (InvalidParamException $ex) {
             throw new \yii\web\HttpException('404 page not found');
         }
     }
-    public function actionContactus($language='en'){       
+
+    public function actionContactus($language = 'en') {
         try {
-            return $this->render('static/'.$language.'/contactus');
+            return $this->render('static/' . $language . '/contactus');
         } catch (InvalidParamException $ex) {
             throw new \yii\web\HttpException('404 page not found');
-        }    
+        }
     }
-    public function actionIndex($registrate=NULL, $code=NULL)
-    {
-        if(!is_null($registrate) && !is_null($code)){
+
+    public function actionIndex($registrate = NULL, $code = NULL) {
+        if (!is_null($registrate) && !is_null($code)) {
             $this->view->params['regmode'] = \yii\helpers\Html::encode($registrate);
             $hash = \yii\helpers\Html::encode($code);
             /* если запущена ссылка с первого этапа регистрации - рендерится окно второго этапа регистрации */
@@ -117,7 +122,7 @@ class SiteController extends Controller
                 ->where([
                     'is_turned_on' => 1,
                     'status' => \common\models\Ticket::STATUS_NOT_COMPLETED,
-                    ])
+                ])
                 ->orderBy(['created' => SORT_DESC])
                 ->limit(8)
                 ->all();
@@ -125,8 +130,7 @@ class SiteController extends Controller
         return $this->renderPartial('index', ['latestTasks' => $latestTasks, 'sliders' => $sliders]);
     }
 
-    public function actionLogin()
-    {
+    public function actionLogin() {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -136,20 +140,18 @@ class SiteController extends Controller
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout() {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    public function actionContact()
-    {
+    public function actionContact() {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -161,18 +163,16 @@ class SiteController extends Controller
             return $this->refresh();
         } else {
             return $this->render('contact', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
 
-    public function actionAbout()
-    {
+    public function actionAbout() {
         return $this->render('about');
     }
 
-    public function actionSignup()
-    {
+    public function actionSignup() {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -183,12 +183,11 @@ class SiteController extends Controller
         }
 
         return $this->render('signup', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
-    public function actionRequestPasswordReset()
-    {
+    public function actionRequestPasswordReset() {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -201,12 +200,11 @@ class SiteController extends Controller
         }
 
         return $this->render('requestPasswordResetToken', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
-    public function actionResetPassword($token)
-    {
+    public function actionResetPassword($token) {
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
@@ -220,11 +218,11 @@ class SiteController extends Controller
         }
 
         return $this->render('resetPassword', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
-    
-    public function actionClearNewComments(){
+
+    public function actionClearNewComments() {
         TicketComments::updateAll([
             'status' => TicketComments::STATUS_READ
                 ], [
@@ -243,4 +241,5 @@ class SiteController extends Controller
         ]);
         return $this->renderPartial('/layouts/parts/_new-comments');
     }
+
 }

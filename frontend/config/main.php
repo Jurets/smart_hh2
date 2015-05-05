@@ -22,7 +22,8 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            //'errorAction' => 'site/error',
+            'errorAction' => 'site/custom-error',
         ],
         'urlManager' => [
             //main params e.g. enablePrettyUrl see in /common/config
