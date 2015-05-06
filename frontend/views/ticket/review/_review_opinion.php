@@ -5,8 +5,11 @@ use common\components\Commonhelper;
 ?>
 <div class="reviews-item row">
         <div class="left col-xs-5 col-sm-5 col-md-5 col-lg-5">
+            <?php
+                $avatar = (is_null($model->fromUser->profile->files)) ? '' : Yii::$app->params['upload.url'].'/'.$model->fromUser->profile->files->code;
+            ?>
             <a href="#">
-                <img class="avatar left" src="<?=Yii::$app->params['upload.url'].'/'.$model->fromUser->profile->files->code?>" alt="avatar">
+                <img class="avatar left" src="<?=$avatar?>" alt="avatar">
             </a>
             <?php
 //            $usernameThrow = (is_null($model->fromUser->profile->first_name) || is_null($model->fromUser->profile->last_name )) ? 
