@@ -334,8 +334,14 @@ class TicketController extends Controller {
     }
 
     public function actionTest() {
-        
-        return $this->render('test', []);
+        $user_id = 19;
+        $photoFind = \common\models\Files::find()
+                ->where(['user_id'=>$user_id, 'description'=>'photo', 'moderate'=>1])
+                ->orderBy(['id'=>SORT_DESC])
+                ->limit(1)
+                ->one();
+        var_dump($photoFind->id);
+        //return $this->render('test', []);
     }
 
     /* purposal work */

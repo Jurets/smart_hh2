@@ -93,6 +93,15 @@ class RegisterHelper {
         if (!$profile->validate()) {
             $arrayValidationErrors[] = 'profile validation failure';
         }else{
+            // запрос на добавление id самого свежего фото, если оно есть
+            $photoFind = \common\models\Files::find()
+                ->where(['user_id'=>$user->id, 'description'=>'photo', 'moderate'=>1])
+                ->orderBy(['id'=>SORT_DESC])
+                ->limit(1)
+                ->one();
+            if(!is_null($photoFind)){
+                $profile->photo = $photoFind->id;
+            }
             $profile->save(false);
         }
         if (!$paymentProfile->validate()) {
@@ -124,6 +133,14 @@ class RegisterHelper {
             $languages = array_filter($post['languages']);
             /* user language implementation process */
             UserLanguage::userLanguageImplements($languages, $user->id);
+        }else{
+            // патч установки нативного языка по дефолту
+            $nativeLang = new UserLanguage();
+            $nativeLang->user_id = $user->id;
+            $nativeLang->language_id = 1;
+            $nativeLang->knowledge = 5;
+            $nativeLang->is_native = 1;
+            $nativeLang->save();
         }
 
         //общая проверка каскад валидации сбор сведений об ошибках

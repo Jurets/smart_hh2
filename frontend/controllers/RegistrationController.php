@@ -270,7 +270,7 @@ class RegistrationController extends Controller {
         if (!is_null(UploadedFile::getInstanceByName('photo'))) {
             //$photo_id = $files->saveSingleImage($user_id);
             //$profile->photo = $photo_id;
-            $files->saveSingleImage($user_id);
+            $files->saveSingleImage($user_id);         
         }
         //Diploma
         if (!is_null(UploadedFile::getInstancesByName('cert'))) {
