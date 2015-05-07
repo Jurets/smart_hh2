@@ -46,9 +46,9 @@ PatchAsset::register($this);
 
 <!-- register popup -->
 <div
-    data-performer-register-first="<?=Url::to(['registration/performerfirst'],true)?>" 
+    data-performer-register-first="<?=Url::to(['/registration/performerfirst'],true)?>" 
     data-performer-register-last="<?=Url::to(['registration/performerlast'],true)?>" 
-    data-customer-register-first="<?=Url::to(['registration/customerfirst'],true)?>" 
+    data-customer-register-first="<?=Url::to(['/registration/customerfirst'],true)?>" 
     data-customer-register-last="<?=Url::to(['registration/customerlast'],true)?>" 
     data-title-performer-first="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 1')?>" 
     data-title-performer-last="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 2')?>"
