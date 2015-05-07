@@ -107,7 +107,8 @@ AppAsset::register($this);
                 </a>
             </div>
 
-            <?= Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/customer'],true),['class'=>'btn']) ?>
+            <?php //echo Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/customer'],true),['class'=>'btn']) ?>
+            <?php echo Html::a(Yii::t('app', 'SIGN UP NOW'), '#',['class'=>'btn','onclick'=>'javascript:REGWIN.signUpNowChoise(1)']) ?>
 
         </div>
         <div class="right-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -140,7 +141,8 @@ AppAsset::register($this);
                     <p>We have various payment options to choose from.</p>
                 </a>
             </div>
-            <?= Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/performer'],true),['class'=>'btn']) ?>
+            <?php //echo Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/performer'],true),['class'=>'btn']) ?>
+            <?php echo Html::a(Yii::t('app', 'SIGN UP NOW'), '#',['class'=>'btn','onclick'=>'javascript:REGWIN.signUpNowChoise(2)']) ?>
         </div>
     </div>
     <div class="clear"></div>
