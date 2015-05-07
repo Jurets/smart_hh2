@@ -101,6 +101,9 @@ REGWIN = {
         if(role == 2){
             REGWIN.performerChecked = true;
         }
+        if(role == 1){
+            REGWIN.performerChecked = false;
+        }
         REGWIN.actionUrl = $('[data-user-register-first]').attr('data-user-register-first');
             REGWIN.windowTitle = $('[data-title-user-first]').attr('data-title-user-first');
             REGWIN.formLoader();
