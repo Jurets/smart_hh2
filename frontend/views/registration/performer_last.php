@@ -101,3 +101,8 @@ use yii\web\View;
         <?php ActiveForm::end(); ?>
     <?php endif; ?>
 </div>
+<style>
+    #submit-button {
+        width: 100%;
+    }    
+</style>

@@ -21,6 +21,12 @@ $(function () {
             REGWIN.formLoader();
             return false;
         });
+        $('.joinNow').click(function(){
+            REGWIN.actionUrl = $('[data-user-register-first]').attr('data-user-register-first');
+            REGWIN.windowTitle = $('[data-title-user-first]').attr('data-title-user-first');
+            REGWIN.formLoader();
+            return false;
+        });
     }
 });
 REGWIN = {
@@ -62,7 +68,7 @@ REGWIN = {
             autoOpen: 'true',
             create: function (event, ui) {
                 var widget = $(this).dialog("widget");
-                $(".ui-dialog-titlebar-close span", widget).removeClass("ui-icon-closethick").removeClass("ui-icon");
+                //$(".ui-dialog-titlebar-close span", widget).removeClass("ui-icon-closethick").removeClass("ui-icon");
             },
             close: function (event, ui) {
                 $('#registerPopupWindow').html('');

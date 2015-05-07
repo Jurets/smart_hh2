@@ -38,7 +38,7 @@ class RegistrationController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['customer', 'performer', 'performerfirst', 'performerlast', 'customerfirst', 'customerlast', 'fileupload'],
+                        'actions' => ['customer', 'performer', 'userfirst', 'performerfirst', 'performerlast', 'customerfirst', 'customerlast', 'fileupload'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -135,8 +135,43 @@ class RegistrationController extends Controller {
         ]);
     }
 
-    /* performer - переделка регистрации на две стадии */
+    /* общий экшн для первой стадии */
+    public function actionUserfirst(){
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $profile = Yii::$app->getModule("user")->model("Profile");
+        $profile->scenario = 'register';
 
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            if ($user->load($post)) {                
+                $profile->load($post);
+                if ($user->validate() && $profile->validate()) {
+                    Yii::$app->session->setFlash('Register-success', 'passed the first stage of registration In order to proceed click on the link sent to you by e-mail');
+                    if(isset($post['user_role'])){
+                        $role = \yii\helpers\Html::encode($post['user_role']);
+                        switch($role){
+                            case 'customer':
+                                RegisterHelper::customerRegistrationStep1($user, $profile);
+                                break;
+                            case 'performer':
+                                RegisterHelper::performerRegistrationStep1($user, $profile);
+                                break;
+                            default :
+                                throw new \yii\web\HttpException('500 role can not found');
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->renderAjax('user_first', [
+                    'user' => $user,
+                    'profile' => $profile,
+        ]);
+    }
+
+    /* performer - переделка регистрации на две стадии */
     public function actionPerformerfirst() {
         $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");

@@ -1685,3 +1685,10 @@ label {
     color: #a94442;
     font-weight: bold;
 }
+.checkbox-register-block {
+    margin-left: 0px !important;
+}
+/* JQuery UI */
+.ui-state-default .ui-icon {
+    background-image: url("/images/ui-icons_222222_256x240.png");
+}

@@ -19,23 +19,7 @@ PatchAsset::register($this);
             </form>
             -->
             <a href="<?=Url::to(['/user/login'],true)?>" class="logIn"><?=Yii::t('app', 'Log In')?></a>
-            <div class="joinNowWrap">
-                <a href="javascript:popupJoinNowOpen()" class="joinNow"><?=Yii::t('app', 'Join Now')?></a>
-                <div class="popUpJoinNow">
-                    
-        <?php echo Html::a(
-                         Html::img(Yii::$app->params['images.path'] . '/icon-close.jpeg', ['width'=>'20px', 'id'=>'small-popup-close']),
-                         'javascript:javascript:popupJoinNowClose()'
-                        );?>
-                    <br><br>
-                    <?php //echo Html::a(Yii::t('app', 'Join as Customer'), Url::to(['/registration/customer'],true),[]) ?>
-                    <?php echo Html::a(Yii::t('app', 'Join as Customer'), '#', ['class'=>'customer-register'])?>
-                    <br>
-                    <?php //echo Html::a(Yii::t('app', 'Join as Performer'), url::to(['/registration/performer'],true), []) ?>
-                    <?php echo Html::a(Yii::t('app', 'Join as Performer'), '#', ['class'=>'performer-register'])?>
-                    <br>
-                </div>
-            </div>
+            <a href="#" class="joinNow"><?=Yii::t('app', 'Join Now')?></a>
 
             <?=$this->render('switch-language')?>
 
@@ -46,14 +30,12 @@ PatchAsset::register($this);
 
 <!-- register popup -->
 <div
-    data-performer-register-first="<?=Url::to(['/registration/performerfirst'],true)?>" 
+    data-user-register-first="<?=Url::to(['/registration/userfirst'],true)?>" 
+    data-title-user-first="<?=Yii::t('app', 'Sign Up').' '.Yii::t('app', 'Step'.' 1')?>" 
     data-performer-register-last="<?=Url::to(['registration/performerlast'],true)?>" 
-    data-customer-register-first="<?=Url::to(['/registration/customerfirst'],true)?>" 
+    data-title-performer-last="<?=Yii::t('app', 'Performer Registration').' '.Yii::t('app', 'Step'.' 2')?>" 
     data-customer-register-last="<?=Url::to(['registration/customerlast'],true)?>" 
-    data-title-performer-first="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 1')?>" 
-    data-title-performer-last="<?=Yii::t('app', 'Registration Performer').' '.Yii::t('app', 'Step'.' 2')?>"
-    data-title-customer-first="<?=Yii::t('app', 'Registration Customer').' '.Yii::t('app', 'Step'.' 1')?>" 
-    data-title-customer-last="<?=Yii::t('app', 'Registration Customer').' '.Yii::t('app', 'Step'.' 2')?>" 
+    data-title-customer-last="<?=Yii::t('app', 'Customer Registration').' '.Yii::t('app', 'Step'.' 2')?>" 
     ></div>
 <div id="registerPopupWindow" class="pop-up-hide"></div>
 

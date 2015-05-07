@@ -22,9 +22,9 @@ class AppAsset extends AssetBundle
         'jquery.bxslider/jquery.bxslider.css',
         #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css',
         #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css',
+        'js/jquery-ui-1.11.4.custom/jquery-ui.css', // patch-include jquery-ui styles
         'css/styles.css',
-        'css/styles-responsive.css',
-        'js/jquery-ui-1.11.4.custom/jquery-ui.css' // patch-include jquery-ui styles
+        'css/styles-responsive.css'
     ];
     public $js = [
         'js/ddslick.js',
