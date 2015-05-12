@@ -59,10 +59,20 @@ REGWIN = {
             'dataType': 'html',
             'data': $('#register-form').serialize(),
             'success': function (responce) {
+                $('#registerPopupWindow').dialog('destroy').html('');
                 $('#registerPopupWindow').html(responce);
                 $('#submit-button').click(REGWIN.formRequest);
+                REGWIN.reRender();
             }
         });
+    },
+    reRender: function() {
+              $('#registerPopupWindow').dialog({
+                  title: REGWIN.windowTitle,
+                  width: 'auto',
+                  height: 'auto',
+                  autoOpen: 'true',
+              });     
     },
     init: function () {
         $('#registerPopupWindow').dialog({
@@ -75,8 +85,8 @@ REGWIN = {
                 //$(".ui-dialog-titlebar-close span", widget).removeClass("ui-icon-closethick").removeClass("ui-icon");
             },
             close: function (event, ui) {
-                $('#registerPopupWindow').html('');
                 $('#registerPopupWindow').dialog('destroy');
+                $('#registerPopupWindow').html('');
             },
         });
         /* init submit form  - all forms must has button with id = "submit-button" */
