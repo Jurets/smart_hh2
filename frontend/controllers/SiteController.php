@@ -71,6 +71,7 @@ class SiteController extends Controller {
         return $this->renderPartial('custom-error', ['error'=>$error]);
     }
     // static page actions
+    /* все страницы делаются по аналогии - меняется лишь контент-часть */
     public function actionAboutus($language = 'en') {
         try {
             return $this->render('static/' . $language . '/aboutus');
@@ -78,7 +79,6 @@ class SiteController extends Controller {
             throw new \yii\web\HttpException('404 page not found');
         }
     }
-
     public function actionFaq($language = 'en') {
         try {
             return $this->render('static/' . $language . '/faq');
@@ -86,15 +86,6 @@ class SiteController extends Controller {
             throw new \yii\web\HttpException('404 page not found');
         }
     }
-
-    public function actionLanguageswitcher() {
-        if (Yii::$app->request->isAjax) {
-            $post = Yii::$app->request->post();
-            $language = \yii\helpers\Html::encode($post['language']);
-            \common\components\Commonhelper::setLanguage($language);
-        }
-    }
-
     public function actionTermsandagreements($language = 'en') {
         try {
             return $this->render('static/' . $language . '/termsandagreement');
@@ -102,12 +93,20 @@ class SiteController extends Controller {
             throw new \yii\web\HttpException('404 page not found');
         }
     }
-
     public function actionContactus($language = 'en') {
         try {
             return $this->render('static/' . $language . '/contactus');
         } catch (InvalidParamException $ex) {
             throw new \yii\web\HttpException('404 page not found');
+        }
+    }
+    // end of static page section
+
+    public function actionLanguageswitcher() {
+        if (Yii::$app->request->isAjax) {
+            $post = Yii::$app->request->post();
+            $language = \yii\helpers\Html::encode($post['language']);
+            \common\components\Commonhelper::setLanguage($language);
         }
     }
 
