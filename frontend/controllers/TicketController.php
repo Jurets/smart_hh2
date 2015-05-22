@@ -17,10 +17,12 @@ use yii\filters\VerbFilter;
 use common\models\Complaint;
 use common\models\Zips;
 use yii\helpers\Url;
+use yii\helpers\Html;
 use common\components\UserActivity;
 use common\models\Offer;
 use common\models\Review;
 use common\components\TwitterHelper;
+use common\components\SeoHelper;
 
 /**
  * TicketController implements the CRUD actions for Ticket model.
@@ -44,11 +46,9 @@ class TicketController extends Controller {
             . ' renderloginform renderapplyform priceagreement apply'
             . ' offer-price set-as-done add-comment delete-comment accept-offer'
             . ' performer-accept-offer render-paypal-popup execute-payment zipdropdown',
-            
             'Performer' => 'index create view review update test complain'
             . ' delete complain renderloginform renderapplyform priceagreement'
             . ' apply offer-price set-as-done add-comment delete-comment performer-accept-offer render-paypal-popup execute-payment zipdropdown',
-            
             'Guest' => 'index test create->toLogin review->toLogin renderloginform', // if Guest then redirect to login action
         ];
     }
@@ -58,6 +58,16 @@ class TicketController extends Controller {
      * @return mixed
      */
     public function actionIndex($cid = NULL) {
+        $get = Yii::$app->request->get();
+        if (isset($get['category']) && isset($get['city'])) {
+            $category = Html::decode($get['category']);
+            $city = Html::decode($get['city']);
+            echo $category . ' --- ' . $city;
+            die;
+        }
+
+
+
         $get = Yii::$app->request->get();
         $query = Ticket::find()->andFilterWhere([
             'not',
@@ -111,8 +121,8 @@ class TicketController extends Controller {
         $post = Yii::$app->request->post();
         if (!empty($post)) {
             // run creation main service
-            if ($model->mainInitService($post)){
-                TwitterHelper::sendPost ($model->description);
+            if ($model->mainInitService($post)) {
+                TwitterHelper::sendPost($model->description);
                 $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -163,7 +173,7 @@ class TicketController extends Controller {
     public function actionReview($id) {
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
-        if($model->user_id === Yii::$app->user->id){
+        if ($model->user_id === Yii::$app->user->id) {
             $this->redirect(Url::to(['/ticket/view', 'id' => $id]));
         }
         if ($model->status === Ticket::STATUS_COMPLETED) {
@@ -290,31 +300,31 @@ class TicketController extends Controller {
      * @return Ticket the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
     /* ajax render dropdownlist */
-    public function actionZipdropdown(){
-        if(Yii::$app->request->isAjax){
+    public function actionZipdropdown() {
+        if (Yii::$app->request->isAjax) {
             $list = NULL;
             $post = Yii::$app->request->post();
             // TO DO LIKE-type query for ZIP-city-codes
-            if(isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3){
+            if (isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3) {
                 $cityes = Zips::find()
-                        ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($post['zip_tf'])  ])
+                        ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($post['zip_tf'])])
                         ->all();
-                        
-                
-                if(!is_null($cityes)){
-                    foreach ($cityes as $city){
-                       $list[$city->zip] = $city->city . ' - '.$city->zip;
+
+
+                if (!is_null($cityes)) {
+                    foreach ($cityes as $city) {
+                        $list[$city->zip] = $city->city . ' - ' . $city->zip;
                     }
                 }
             }
-            
-            return $this->renderPartial('view/_zip_dropdown_partial', ['list'=>$list]);
+
+            return $this->renderPartial('view/_zip_dropdown_partial', ['list' => $list]);
         }
     }
-    
+
     /* action complain */
+
     public function actionComplain() {
         $complain = new Complaint;
         if (Yii::$app->request->isAjax) {
@@ -333,15 +343,27 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest() {
-        $user_id = 19;
-        $photoFind = \common\models\Files::find()
-                ->where(['user_id'=>$user_id, 'description'=>'photo', 'moderate'=>1])
-                ->orderBy(['id'=>SORT_DESC])
-                ->limit(1)
-                ->one();
-        var_dump($photoFind->id);
-        //return $this->render('test', []);
+    public function actionTest($id = NULL, $test = NULL) {
+
+//        $test = SeoHelper::FooterIndexStructure(); 
+//        var_dump($test);
+//        
+        $test = SeoHelper::FooterIndexStructure();
+        var_dump($test[0]);
+        var_dump($test[338]);
+//        
+//        return $this->render('test', [
+//                    'id' => $id,
+//                    'test' => $test,
+//        ]);
+        
+//        $str = 'Virtual Assistant &';
+//        $encode = Html::encode($str);
+//        $decode = Html::decode($encode);
+//        echo $str.'<br>'.PHP_EOL;
+//        echo $encode.'<br>'.PHP_EOL;
+//        echo $decode.'<br>'.PHP_EOL;
+        
     }
 
     /* purposal work */
@@ -598,7 +620,7 @@ class TicketController extends Controller {
             if ($paypal->executePayment($paymentId, $payerID)) {
                 
             }
-            /* assign performer_id to a ticket & e.t.c */          
+            /* assign performer_id to a ticket & e.t.c */
             $get = Yii::$app->getRequest()->get();
             $ticketId = isset($get['t']) ? $get['t'] : null;
             $performerId = isset($get['tusr']) ? $get['tusr'] : null;
@@ -639,7 +661,7 @@ class TicketController extends Controller {
                 // ballance
                 $performer->balance += $price;
                 $performer->save();
-                
+
                 $transaction->commit();
             } catch (Exception $e) {
                 // mail to admin ?
@@ -654,7 +676,7 @@ class TicketController extends Controller {
     }
 
     /* _ */
-    
+
     protected function checkTicketExistence($model) {
         if (is_null($model))
             throw new \yii\web\HttpException('404');
@@ -758,14 +780,18 @@ class TicketController extends Controller {
             throw new \yii\web\HttpException('403', 'Permission denied are not allowed to execute this action');
         }
     }
+
     /* out of date */
+
     protected function setPaymentSessionRec($ticket_id, $performer_id, $current_price) {
         $session = Yii::$app->session;
         $session['ticket_id'] = (int) $ticket_id;
         $session['performer_id'] = (int) $performer_id;
         $session['current_price'] = $current_price;
     }
+
     /* out of date */
+
     protected function getPaymentSessionRec() {
         $session = Yii::$app->session;
         if (isset($session['ticket_id']) && isset($session['performer_id']) && isset($session['current_price'])) {
@@ -777,7 +803,9 @@ class TicketController extends Controller {
         }
         return FALSE;
     }
+
     /* out of date */
+
     protected function flushPaymentSessionRec() {
         $session = Yii::$app->session;
         $to_destroy = ['ticket_id', 'performer_id', 'current_price'];

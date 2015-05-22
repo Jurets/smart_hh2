@@ -17,9 +17,10 @@ use common\components\Commonhelper;
         <div class="column column-social-link col-xs-6 col-sm-6 col-md-6 col-lg-3">
             <p>Join Us on</p>
         <ul class="sicial-link">
-            
-        <?php foreach($FCM->partialOutput('social network') as $network){?>
-            <li><a href="<?=$network['reference']?>"><img src="/images/<?=$network['img']?>"></a></li>
+        <?php if(!is_null($FCM->partialOutput('social network'))) { ?>   
+        <?php foreach($FCM->partialOutput('social network') as $network) { ?>
+            <li><a href="<?=(isset($network['reference']))?$network['reference']:''?>"><img src="/images/<?=isset($network['img'])?$network['img']:$network['img']?>"></a></li>
+        <?php } ?>
         <?php } ?>
         </ul>
             <div class="clear"></div>

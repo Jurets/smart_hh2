@@ -28,7 +28,9 @@ return [
         'urlManager' => [
             //main params e.g. enablePrettyUrl see in /common/config
             'rules' => [
-                // your rules go here
+                'ticket/test/<id:\d+>/test/<test:\d+>' => 'ticket/test',
+                'ticket/test/<id:\d+>' => 'ticket/test',
+                'ticket/index/<category:.*?>/<city:.*?>' => 'ticket/index',
             ],
         ],
         /*'mailer' => [
