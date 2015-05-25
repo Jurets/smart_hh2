@@ -11,6 +11,7 @@ use Yii;
  * @property integer $zip
  * @property string $state
  * @property string $city
+ * @property string $seoname
  * @property double $lat
  * @property double $lng
  *
@@ -49,6 +50,7 @@ class Zips extends \yii\db\ActiveRecord
             'zip' => Yii::t('app', 'Zip'),
             'state' => Yii::t('app', 'State'),
             'city' => Yii::t('app', 'City'),
+            'seoname' => Yii::t('app', 'Seoname'),
             'lat' => Yii::t('app', 'Lat'),
             'lng' => Yii::t('app', 'Lng'),
         ];

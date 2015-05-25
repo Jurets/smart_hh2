@@ -59,16 +59,12 @@ class TicketController extends Controller {
      */
     public function actionIndex($cid = NULL) {
         $get = Yii::$app->request->get();
-        if (isset($get['category']) && isset($get['city'])) {
-            $category = Html::decode($get['category']);
-            $city = Html::decode($get['city']);
-            echo $category . ' --- ' . $city;
-            die;
-        }
-
-
-
-        $get = Yii::$app->request->get();
+//        if (isset($get['category']) && isset($get['city'])) {
+//            $category = Html::decode($get['category']);
+//            $city = Html::decode($get['city']);
+//            echo $category . ' --- ' . $city;
+//            die;
+//        }
         $query = Ticket::find()->andFilterWhere([
             'not',
             [
@@ -81,7 +77,18 @@ class TicketController extends Controller {
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
             $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
         }
-
+        // new seo target condition
+        if(isset($get['category']) && isset($get['city'])){
+            $zipList = SeoHelper::FooterZipCodesStructure($get['city']);
+            if(!is_null($zipList)){
+                $this->view->params['seo-zip-list'] = $zipList;
+            }
+            $query->leftJoin('category_bind', 'ticket.id = ticket_id');
+            $cid = SeoHelper::getCategoryIdBySeoname($get['category']);
+            $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
+            $query->LeftJoin('zips', 'zips.zip = ticket.assembled_zip AND zips.target = 1');
+            $query->andFilterWhere(['zips.seoname' => Html::encode($get['city'])]);
+        }
         $list = Yii::$app->params['languages'];
         $apiKey = Yii::$app->params['apiLanguages'];
 
@@ -345,25 +352,24 @@ class TicketController extends Controller {
 
     public function actionTest($id = NULL, $test = NULL) {
 
-//        $test = SeoHelper::FooterIndexStructure(); 
-//        var_dump($test);
+        //   \common\components\UrlEncriptor::setupSeonamesForZips();
+        $test = SeoHelper::FooterIndexStructure(); 
+        var_dump($test);
 //        
-        $test = SeoHelper::FooterIndexStructure();
-        var_dump($test[0]);
-        var_dump($test[338]);
+//        $test = SeoHelper::FooterIndexStructure();
+//        var_dump($test[0]);
+//        var_dump($test[338]);
 //        
 //        return $this->render('test', [
 //                    'id' => $id,
 //                    'test' => $test,
 //        ]);
-        
 //        $str = 'Virtual Assistant &';
 //        $encode = Html::encode($str);
 //        $decode = Html::decode($encode);
 //        echo $str.'<br>'.PHP_EOL;
 //        echo $encode.'<br>'.PHP_EOL;
 //        echo $decode.'<br>'.PHP_EOL;
-        
     }
 
     /* purposal work */

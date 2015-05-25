@@ -1696,3 +1696,15 @@ label {
 .static-right-text {
     padding-top: 5px;
 }
+
+/* seo blocks */
+.seo-block-1 {
+    max-width:1050px;
+    min-width:300px;
+    text-align:justify;
+}
+.seo-block-2 {
+    max-width:1050px;
+    min-width:300px;
+    text-align:justify;
+}
