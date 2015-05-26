@@ -59,7 +59,10 @@ class SeoHelper {
         foreach ($zipsInTown as $elem) {
             $referencesBlock[] = [
                 'content' => $elem->zip,
-                'reference' => Url::to(['#']),
+                'reference' => Url::to([
+                    'user/index',
+                    'zip' => $elem->zip,
+                ],true),
             ];
         }
         return $referencesBlock;

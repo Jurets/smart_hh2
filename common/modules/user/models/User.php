@@ -601,12 +601,18 @@ class User extends ActiveRecord implements IdentityInterface
        if(isset($get['created_tasks']) && !empty($get['created_tasks'])){
            $query->andWhere('profile.created_tasks <= :ct', [':ct' => (int)$get['created_tasks']]);
        }
+       // seo zip-ticket filtered
+       if(isset($get['zip'])){
+           $zip = (int)$get['zip'];
+           $query->leftJoin('ticket t', 't.user_id = user.id');
+           $query->andWhere('t.assembled_zip =  :zip', [':zip'=>$zip]);
+       }
        // form reaction END
        if(!is_null(Yii::$app->user->id)){
            $query->andWhere('user.id <> '.Yii::$app->user->id);
        }
        $query->andWhere('role_id <> 1'); // without admin accaunts
-       $query->andWhere('status=:status', [':status'=>1]);
+       $query->andWhere('user.status=:status', [':status'=>1]);
        // Order case
        if(isset($get['sort'])){
            $query->orderBy('profile.hourly_rate'.$this->getSort($get['sort']));

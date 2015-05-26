@@ -31,6 +31,7 @@ return [
                 'ticket/test/<id:\d+>/test/<test:\d+>' => 'ticket/test', // тестовое правило потом можно удалить
                 'ticket/test/<id:\d+>' => 'ticket/test',
                 'ticket/<category:.*?>/<city:.*?>' => 'ticket/index',
+                'user/zip/<zip:\d+>' => '/user/index',
             ],
         ],
         /*'mailer' => [
