@@ -8,6 +8,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'language-switcher.js', [
 ]);
 
 $language = Commonhelper::getLanguage();
+Yii::$app->language = $language;
 ?>
 <?php // temporary hardcode languages ISO 639-1 ?>
 <select id="language">

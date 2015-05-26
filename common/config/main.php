@@ -40,6 +40,19 @@ return [
                 'log.LogLevel' => \marciocamello\Paypal::LOG_LEVEL_FINE,
             ]
         ],
+        
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                ],
+//                'test' => [ // for addition category
+//                    'class' => 'yii\i18n\PhpMessageSource',
+//                    'basePath' => '@common/messages',
+//                ],
+            ],
+        ],
     ],
     'modules' => [
         'user' => [

@@ -351,10 +351,15 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = NULL, $test = NULL) {
+        Yii::$app->language = 'ru';
+       
+        echo Yii::t('app','Hello World!');
+        
+       // echo Yii::getAlias('@common');
 
         //   \common\components\UrlEncriptor::setupSeonamesForZips();
-        $test = SeoHelper::FooterIndexStructure(); 
-        var_dump($test);
+//        $test = SeoHelper::FooterIndexStructure(); 
+//        var_dump($test);
 //        
 //        $test = SeoHelper::FooterIndexStructure();
 //        var_dump($test[0]);
