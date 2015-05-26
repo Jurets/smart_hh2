@@ -39,7 +39,7 @@ class SeoHelper {
                 $referencesBlock[] = [
                     'content_left' => $category->name,
                     'content_right' => $city->city,
-                    'reference' => Url::to(['ticket/index',
+                    'reference' => Url::to(['/ticket/index',
                         'category' => Html::encode($category->seoname),
                         'city' => html::encode($city->seoname),
                             ], true),
