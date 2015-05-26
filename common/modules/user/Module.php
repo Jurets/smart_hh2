@@ -126,13 +126,15 @@ class Module extends \yii\base\Module
         $this->checkModuleProperties();
 
         // set up i8n
-        if (empty(Yii::$app->i18n->translations['user'])) {
-            Yii::$app->i18n->translations['user'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => __DIR__ . '/messages',
-                //'forceTranslation' => true,
-            ];
-        }
+//        if (empty(Yii::$app->i18n->translations['user'])) {
+//            Yii::$app->i18n->translations['user'] = [
+//                'class' => 'yii\i18n\PhpMessageSource',
+//                'basePath' => __DIR__ . '/messages',
+//                //'forceTranslation' => true,
+//            ];
+//        }
+        
+        Yii::$app->language = \common\components\Commonhelper::getLanguage();
 
         // override modelClasses
         $this->modelClasses = array_merge($this->getDefaultModelClasses(), $this->modelClasses);

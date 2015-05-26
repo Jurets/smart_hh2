@@ -434,7 +434,7 @@
         "Yes" => "Si",
         "You are not allowed to perform this action." => "No está permitido realizar esta acción.",
         "You can upload at most" => "Puede cargar como máximo",
-        //"in" => "en",
+        "in" => "en",
         "just now" => "ahora mismo ",
         "the input value" => "el valor de entrega ",
         "… has already been taken." => "… ya se ha tomado.",

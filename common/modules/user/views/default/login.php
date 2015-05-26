@@ -13,10 +13,14 @@ $this->title = Yii::t('user', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-login">
+    
+   
+    <?php //Yii::$app->language = 'spa'; ?>
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<p><?= Yii::t("user", "Please fill out the following fields to login:") ?></p>
+	<p><?= Yii::t('user', 'Email')?></p>
 
 	<?php $form = ActiveForm::begin([
 		'id' => 'login-form',
@@ -55,9 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     <?php endif; ?>
 
-	<div class="col-lg-offset-2" style="color:#999;">
-		You may login with <strong>neo/neo</strong>.<br>
-		To modify the username/password, log in first and then <?= HTML::a("update your account", ["/user/account"]) ?>.
-	</div>
+	
 
 </div>

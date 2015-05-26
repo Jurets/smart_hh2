@@ -351,9 +351,9 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = NULL, $test = NULL) {
-        Yii::$app->language = 'ru';
+        Yii::$app->language = 'spa';
        
-        echo Yii::t('app','Hello World!');
+        echo Yii::t('user','Email');
         
        // echo Yii::getAlias('@common');
 

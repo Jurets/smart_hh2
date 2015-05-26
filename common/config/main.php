@@ -47,10 +47,10 @@ return [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@common/messages',
                 ],
-//                'test' => [ // for addition category
-//                    'class' => 'yii\i18n\PhpMessageSource',
-//                    'basePath' => '@common/messages',
-//                ],
+                'user' => [ // for addition category
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/messages',
+                ],
             ],
         ],
     ],

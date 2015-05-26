@@ -357,7 +357,7 @@
         "Email not found" => "Имейл не найден ",
         "Expire Time" => "Время истечения",
         "First name" => "Имя",
-        "Forgot password" => "Забыли пароль?",
+        "Forgot password" => "Забыли пароль",
         "Go home" => "Перейти на главную",
         "Go to my account" => "Перейти к моему аккаунту",
         "Incorrect password" => "Неверный пароль",
@@ -459,5 +459,4 @@
         "… should contain at most …" => "",
         "... should contain …" => "",
         "… ago" => "… ago",
-        //"in" => 'в',
 ];
