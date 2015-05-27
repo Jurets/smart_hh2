@@ -52,15 +52,15 @@ AppAsset::register($this);
         <div class="main-nav col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <ul>
                 <li class="active col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#">Helping Hut</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#latestJobs" class="scrollto">View latest jobs</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a class="scrollto" href="#howItWorks">See how it works</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#">Need help?</a></li>
+                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#latestJobs" class="scrollto"><?=Yii::t('app', 'View latest jobs')?></a></li>
+                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a class="scrollto" href="#howItWorks"><?=Yii::t('app', 'See how it works')?></a></li>
+                <li class="col-xs-12 col-sm-12 col-md-6 col-lg-3"><a href="#"><?=Yii::t('app', 'Need help?')?></a></li>
             </ul>
         </div>
     </div>
     <!-- /header -->
 
-    <?= $this->render('../layouts/parts/category')?>
+    <?php echo $this->render('../layouts/parts/category')?>
 
     <!-- content -->
     <div class="content">
@@ -70,19 +70,20 @@ AppAsset::register($this);
     \frontend\widgets\TwoColumnTasks::widget([
         'caption' => Yii::t('app', 'Latest Tasks'),
         'tasks' => $latestTasks,
+        'moreButtonText' => Yii::t('app', 'MORE JOBS'),
     ])
     ?>
 
     <div class="how-it-works row">
         <a name='howItWorks'></a>
-        <h2><span id="howItWorks" class="red">See</span> how it works</h2>
+        <h2><span id="howItWorks" class="red"><?=Yii::t('app', 'See')?></span><?=' '.Yii::t('app', 'how it works')?></h2>
         <div class="left-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-            <h4>Looking for a <span class="red">helper</span>?</h4>
+            <h4><?=Yii::t('app', 'Looking for a')?><span class="red"><?=' '.Yii::t('app', 'helper')?></span>?</h4>
             <div class="holder-items">
                 <a href="#" class="item">
                     <img src="images/signUp.png" alt="Become a Member" class="left"/>
-                    <p class="title">Become a <span class="red">Member</span> of Helping Hut</p>
+                    <p class="title"><?=Yii::t('app', 'Become a').' '?><span class="red"><?=Yii::t('app', 'Member')?></span><?=' '.Yii::t('app', 'of Helping Hut')?></p>
                     <p>It's easy & free!</p>
                 </a>
                 <a href="#" class="item">
@@ -113,32 +114,32 @@ AppAsset::register($this);
         </div>
         <div class="right-column col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-            <h4>Looking for a <span class="green">job</span>?</h4>
+            <h4><?=Yii::t('app', 'Looking for a')?><span class="green"><?=' '.Yii::t('app', 'job')?></span>?</h4>
             <div class="holder-items">
                 <a href="#" class="item">
                     <img src="images/becomeHelper.png" alt="Become a Helper" class="left"/>
-                    <p class="title">Become a <span class="green">Helper</span> on Helping Hut</p>
-                    <p>It's easy & free!</p>
+                    <p class="title"><?=Yii::t('app', 'Become a').' '?><span class="green"><?=Yii::t('app','Helper')?></span><?=' '.Yii::t('app', 'on Helping Hut')?></p>
+                    <p><?=Yii::t('app', "It's easy & free!")?></p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/createHelper.png" alt="Create a Helper" class="left"/>
-                    <p class="title">Create a Helper Profile</p>
-                    <p>Describe your skills and talents.</p>
+                    <p class="title"><?=Yii::t('app', 'Create a Helper Profile')?></p>
+                    <p><?=Yii::t('app', 'Describe your skills and talents.')?></p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/reviewPostings.png" alt="Review Postings" class="left"/>
-                    <p class="title">Review the Latest Job Postings</p>
-                    <p>Search for a job posting that best applies to you.</p>
+                    <p class="title"><?=Yii::t('app', 'Review the Latest Job Postings')?></p>
+                    <p><?=Yii::t('app', 'Search for a job posting that best applies to you.')?></p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/getHired.png" alt="Get Hired" class="left"/>
-                    <p class="title">Get Hired</p>
-                    <p>Apply to jobs that best suits you.</p>
+                    <p class="title"><?=Yii::t('app', 'Get Hired')?></p>
+                    <p><?=Yii::t('app', 'Apply to jobs that best suits you.')?></p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/getPaid.png" alt="Get Paid" class="left"/>
-                    <p class="title">Get Paid</p>
-                    <p>We have various payment options to choose from.</p>
+                    <p class="title"><?=Yii::t('app', 'Get Paid')?></p>
+                    <p><?=Yii::t('app', 'We have various payment options to choose from.')?></p>
                 </a>
             </div>
             <?php //echo Html::a(Yii::t('app', 'SIGN UP NOW'), Url::to(['registration/performer'],true),['class'=>'btn']) ?>
@@ -148,7 +149,7 @@ AppAsset::register($this);
     <div class="clear"></div>
 
     <div class="mention row">
-        <h3>As mentioned by</h3>
+        <h3><?=Yii::t('app', 'As mentioned by')?></h3>
         <a href="#" class="col-xs-12 col-sm-6 col-md-6 col-lg-2"><img src="images/smartMoney.png" alt="Smart Money"/></a>
         <a href="#" class="col-xs-12 col-sm-6 col-md-6 col-lg-3"><img src="images/yahoo.png" alt="Yahoo"/></a>
         <a href="#" class="col-xs-12 col-sm-6 col-md-6 col-lg-2"><img src="images/theStreet.png" alt="The Street"/></a>

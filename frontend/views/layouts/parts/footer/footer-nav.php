@@ -128,7 +128,7 @@ use yii\helpers\Url;
     <?php foreach ($categoryList as $category) { ?>
     <?php $insideIterator = 1 ?>
         <div class="column col-xs-6 col-sm-6 col-md-6 col-lg-3">
-            <h6><?= $category['title'] ?></h6>
+            <h6><?= Yii::t('app', $category['title'])?></h6>
             <ul>
                 <?php foreach ($category['subcat'] as $subcategory) { ?>
                     <?php
@@ -140,7 +140,7 @@ use yii\helpers\Url;
                         $buff = $subcategory['title'];
                     }
                     ?>
-                    <li><a href="<?= Url::to(['ticket/', 'cid' => $subcategory['cid']], true) ?>"><?= $buff ?></a></li>
+                    <li><a href="<?= Url::to(['ticket/', 'cid' => $subcategory['cid']], true) ?>"><?= Yii::t('app',$buff)?></a></li>
                     <?php
                     /* comment this if need show all exists subcategories */
                     if ($insideIterator == 8) {

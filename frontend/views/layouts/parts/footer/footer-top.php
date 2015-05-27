@@ -15,7 +15,7 @@ use common\components\Commonhelper;
             <a href="<?=$FCM->partialOutput('Instant help in a click')['reference']?>"><?=Yii::t('app', 'Instant help in a click')?>.</a>
         </div>
         <div class="column column-social-link col-xs-6 col-sm-6 col-md-6 col-lg-3">
-            <p>Join Us on</p>
+            <p><?=Yii::t('app', 'Join Us on')?></p>
         <ul class="sicial-link">
         <?php if(!is_null($FCM->partialOutput('social network'))) { ?>   
         <?php foreach($FCM->partialOutput('social network') as $network) { ?>

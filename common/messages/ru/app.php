@@ -242,7 +242,7 @@
         "has new proposals" => "Имеет новые предложения",
         "history" => "История",
         "hours ago" => "Часов назад",
-        "job" => "Задание",
+        "Job" => "Задание",
         "jobs" => "Задания",
         "minutes ago" => "Минут назад",
         "moderated" => "",
@@ -460,4 +460,6 @@
         "... should contain …" => "",
         "… ago" => "… ago",
         //"in" => 'в',
+        // TEMP TESTS
+        
 ];

@@ -50,7 +50,7 @@ class CategorySlider extends Widget
                 
                 $this->layout .= Html::a(
                         '<div class="icon-items">' .
-                        Html::img(Yii::$app->params['url.categories'].'/'.$category->picture, ['alt' => $category->name]) .
+                        Html::img(Yii::$app->params['url.categories'].'/'.$category->picture, ['alt' => Yii::t('app',$category->name) ]) .
                         '</div>' .
                         '<p>'.Yii::t('app', $category->name) .'</p>',
                         Url::to(['ticket/', 'cid' => $category->id], true),
