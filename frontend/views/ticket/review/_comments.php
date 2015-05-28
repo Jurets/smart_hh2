@@ -4,14 +4,14 @@ $comments = $model->getCommentsHierarchy();
 $newComment = new \common\models\TicketComments();
 ?>
 <div class="comments">
-    <p class="title"><?= empty($comments) ? 'No comments' : 'Comments:'?></p>
+    <p class="title"><?= empty($comments) ? Yii::t('app', 'No Comments') : Yii::t('app', 'Comment').':'?></p>
     <?php foreach($comments as $comment): ?>
         <?= $this->render('_comment-item', ['model' => $comment['comment']]) ?>
         <?php if(isset($comment['answer'])): ?>
             <?= $this->render('_comment-item', ['model' => $comment['answer']]) ?>
         <?php endif; ?>
     <?php endforeach; ?>
-    <p class="title">Write a Comment:</p>
+    <p class="title"><?=Yii::t('app', "Write a Comment")?>:</p>
     <?php $form = yii\widgets\ActiveForm::begin([
         'action' => ['ticket/add-comment']
     ]) ?>

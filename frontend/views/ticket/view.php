@@ -25,7 +25,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                         <?php if($model->status === Ticket::STATUS_DONE_BY_PERFORMER): ?>
                         <div class="alert alert-danger"><?= Yii::t('app' , 'Performer claims this work as done') ?> 
                                     <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="1"><?= Yii::t('app', 'CONFIRM') ?></a>
-                                    <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
+                                    <a href="#" id="complain-report" class="btn btn-average btn-report"><?=Yii::t('app', "REPORT")?></a>
                         </div>
                         <?php endif; ?>
                         <div id="complain-form" class="pop-up pop-up-edit popup-align-center pop-up-hide">
@@ -48,7 +48,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
 
 
                             <span class="date-time">
-                                Created <?=Commonhelper::convertDate($model->created)?>
+                                <?=Yii::t('app','Created')?> <?=Commonhelper::convertDate($model->created)?>
                             </span>
                             <?=$this->render('view/_deadline', ['model'=>$model])?>
                             <div class="job-info-holder row">
@@ -83,13 +83,13 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                 </div>
                             <?php endif; ?>
                             <div class="description">
-                                <p class="title">Description:</p>
+                                <p class="title"><?=Yii::t('app', 'Description')?>:</p>
                                 <?= nl2br(\yii\helpers\HtmlPurifier::process($model->description)) ?>
-                                <a href="#" class="more">Read full description</a>                                 
+                                <a href="#" class="more"><?=Yii::t('app', "Read full description")?></a>                                 
                             </div>
                             <div class="location">
                                 <?php if($model->job_location !== null): ?>
-                                <p class="title">Job Location: <?= Html::encode($model->job_location) ?></p>
+                                <p class="title"><?=Yii::t('app', 'Job Location')?>: <?= Html::encode($model->job_location) ?></p>
                                 <?php endif; ?>
                                 
                                 <?php if( !is_null($model->lat) && !is_null($model->lon) ) { ?>
@@ -110,9 +110,9 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                             <div class="action-reply">
                                     <?= Html::beginForm(['ticket/set-as-done'], 'post', ['style' => 'display:inline;']) ?>
                                     <?= Html::hiddenInput('ticket_id', $model->id); ?>
-                                    <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="1">SET AS DONE</a>
+                                    <a href="#" class="btn btn-average" id="set_as_done" data-is-own-ticket="1"><?=Yii::t('app',"Set As Done")?></a>
                                     <?= Html::endForm() ?>
-                                    <a href="#" id="complain-report" class="btn btn-average btn-report">REPORT</a>
+                                    <a href="#" id="complain-report" class="btn btn-average btn-report"><?=Yii::t('app', "REPORT")?></a>
                             </div>
                             <?php } ?>
                             <h6><span class="red"><?=empty($proposal) ? 0 : count($proposal)?></span> <?=Yii::t('app','Replies')?></h6>
@@ -128,7 +128,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                         <?php endforeach; ?>
                                 <?php endif; ?>
                                 
-                                <a class="btn btn-width">SHOW MORE</a>
+                                <a class="btn btn-width"><?=Yii::t('app', "SHOW MORE")?></a>
                             </div>
 
 

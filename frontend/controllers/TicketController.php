@@ -721,7 +721,7 @@ class TicketController extends Controller {
             $offerHistory = new \common\models\OfferHistory();
             $offerHistory->offer_id = $offer->id;
             $offerHistory->price = $price;
-            $offerHistory->note = Yii::t('app', 'I offer new price');
+            $offerHistory->note = 'I offer new price';
             $offerHistory->save();
         }
     }
@@ -736,7 +736,7 @@ class TicketController extends Controller {
     protected function proposalProcess($model, $performer_id, $ticket_id, $price) {
         $model->performer_id = $performer_id;
         $model->ticket_id = $ticket_id;
-        $model->message = Yii::t('app', 'check out my position');
+        $model->message = 'check out my position';
         $model->price = $price;
         if ($model->validate()) {
             $model->save(false);

@@ -3,6 +3,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use frontend\assets\PatchAsset;
 PatchAsset::register($this);
+
+Yii::$app->language = common\components\Commonhelper::getLanguage();
+
 ?>
 <div class="header row">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">

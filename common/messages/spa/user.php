@@ -143,7 +143,7 @@
         "Performer" => "Ayudante",
         "Performer ID" => "ID de Ayudante",
         "Performer claims this work as done" => "Ayudante reclama este trabajo como completado",
-        "Performer has done a job. Please write a review: title" => "Ayudante completo su trabajo. Por favor escriba su opinion de cliente:",
+        "Performer has done a job. Please write a review" => "Ayudante completo su trabajo. Por favor escriba su opinion de cliente",
         "Phone" => "Telefono",
         "Photo Uploads" => "Subida de Fotos",
         "Picture" => "Imagen",

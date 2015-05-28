@@ -30,7 +30,7 @@ use yii\helpers\Url;
                 <?= Html::input('text', 'price', $model->price); ?>
                 </div>
                 <div class="apply-form-button">
-                <?php echo Html::input('submit', 'submit', yii::t('app', 'Submit'), ['class' => 'btn btn-primary']); ?>
+                <?php echo Html::input('submit', 'submit', yii::t('app', 'Send'), ['class' => 'btn btn-primary']); ?>
                 </div>
                 <?php echo Html::endForm(); ?>
                 <div>&nbsp;</div>

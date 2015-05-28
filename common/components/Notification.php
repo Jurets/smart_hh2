@@ -30,7 +30,7 @@ class Notification extends \yii\base\Component{
         $notification = $this->createNotification(NotificationModel::TYPE_BELL_PROPOSAL, $userId, 'ticket', $entityId);
         $notification->link = Url::to(['/ticket/view', 'id' => $entityId]);
         $ticket = \common\models\Ticket::findOne($entityId);
-        $notification->message = $ticket->title . ' ' . Yii::t('app','has new proposals');
+        $notification->message = $ticket->title . ' ' . 'has new proposals';
         return $notification->save();
     }
     
@@ -91,7 +91,7 @@ class Notification extends \yii\base\Component{
     public function addNewReviewNotification($userId=null){
         $notification = $this->createNotification(NotificationModel::TYPE_BELL_NEW_REVIEW, $userId, 'review');
         $notification->link = Url::to(['/user/default/profile']);
-        $notification->message = Yii::t('app','You have a new review!');
+        $notification->message = 'You have a new review!';
         return $notification->save();
     }
     
@@ -101,7 +101,7 @@ class Notification extends \yii\base\Component{
         $ticket = \common\models\Ticket::findOne($entityId);
         $performer = \common\modules\user\models\User::findOne($performerId);
         $notification->message = Html::encode($performer['username'])
-                . ' ' . Yii::t('app','offered new price for job')
+                . ' ' . 'offered new price for job'
                 . ' "' . Html::encode($ticket['title'])
                 . '": <span class="red">$'
                 . Html::encode($price)
@@ -115,7 +115,7 @@ class Notification extends \yii\base\Component{
         $ticket = \common\models\Ticket::findOne($entityId);
         $owner = \common\modules\user\models\User::findOne($ownerId);
         $notification->message = Html::encode($owner['username'])
-                . ' ' . Yii::t('app','offered new price for job')
+                . ' ' .'offered new price for job'
                 . ' "' . Html::encode($ticket['title'])
                 . '": <span class="red">$'
                 . Html::encode($price)

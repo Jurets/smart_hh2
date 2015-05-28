@@ -9,10 +9,13 @@ use yii\helpers\Html;
     if($date === '0000-00-00 00:00:00'){
         $date = '';
     }
+    $message = Commonhelper::messageParser($notification->message, [
+        "offered new price for job" => Yii::t('app', "offered new price for job"),
+    ]);
 ?>
 <li>
     <a href="<?= $notification->link ?>">
         <?= $date?>:
-        <?= $notification->message ?>
+        <?= $message ?>
     </a>
 </li>

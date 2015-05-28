@@ -7,6 +7,9 @@ $currentUsr = Yii::$app->user->id;
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+
+Yii::$app->language = common\components\Commonhelper::getLanguage();
+
 ?>
 <!-- header login -->
 

@@ -22,7 +22,7 @@ $allNewTicketsCommentsCount = ($currentUser !== null) ? ($currentUser->getNewTic
     <?php foreach ($ticketsWithNewComments['newComments'] as $ticket): ?>
             <li><a href="<?= Url::to(['/ticket/view', 'id' => $ticket['id'], 'reply' => true]) ?>"><?= Html::encode($ticket['title']) ?> <span class="red">+<?= Html::encode($ticket['comments_count']) ?></span></a></li>
     <?php endforeach; ?>            
-        <li><span class="btn btn-width btn-average" id="clear-comments-btn" data-url="<?= Url::to(['/site/clear-new-comments']) ?>">Clear</span></li>
+        <li><span class="btn btn-width btn-average" id="clear-comments-btn" data-url="<?= Url::to(['/site/clear-new-comments']) ?>"><?=Yii::t("app", "Clear")?></span></li>
     </ul>
 <?php endif; ?>
 

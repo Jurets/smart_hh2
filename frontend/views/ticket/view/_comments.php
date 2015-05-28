@@ -4,7 +4,7 @@ $comments = $model->getCommentsHierarchy();
 $newComment = new \common\models\TicketComments();
 ?>
 <div class="comments">
-    <p class="title"><?= empty($comments) ? 'No comments' : 'Comments:' ?></p>
+    <p class="title"><?= empty($comments) ? Yii::t('app', 'No Comments') : Yii::t('app', 'Comment').':'?></p>
     <?php foreach ($comments as $comment): ?>
         <?= $this->render('/ticket/review/_comment-item', ['model' => $comment['comment'], 'showDeleteButton' => true]) ?>
         <?php if (isset($comment['answer'])): ?>

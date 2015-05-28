@@ -143,7 +143,7 @@
         "Performer" => "Performer",
         "Performer ID" => "Performer ID",
         "Performer claims this work as done" => "Performer claims this work as done",
-        "Performer has done a job. Please write a review: title" => "Performer has done a job. Please write a review:",
+        "Performer has done a job. Please write a review" => "Performer has done a job. Please write a review",
         "Phone" => "Phone",
         "Photo Uploads" => "Photo Uploads",
         "Picture" => "Picture",

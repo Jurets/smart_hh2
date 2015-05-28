@@ -22,10 +22,12 @@ use common\components\Commonhelper;
         </div> 
     </div>
     <div class="text-right right col-xs-6 col-sm-6 col-md-6 col-lg-6">                                       
-        <p class="user-mark"><span>Rated: </span>
+        <p class="user-mark"><span><?=Yii::t('app', "Rated")?>: </span>
             <?php
+            $basedOn = Yii::t('app', "based on").' ';
+            $votes = ' '.Yii::t('app', "votes");
               echo StarRating::widget([
-                'id' => 'the-star-rating'.$propose->performer->id,
+                //'id' => 'the-star-rating'.$propose->performer->id,
                 'name' => 'noname',
                 'value' => (is_null($propose->performer->profile->rating)) ? 0 : $propose->performer->profile->rating,
                 'pluginOptions' => [
@@ -36,14 +38,14 @@ use common\components\Commonhelper;
                     'stars' => 5,
                     'min' => 0,
                     'max' => 5,
-                    'clearCaption' => '(0 based on 5 votes)',
+                    'clearCaption' => '(0 '.$basedOn. '0' . $votes. ')',
                     'clearCaptionClass' => 'stars_rating_patch',
                     'starCaptions' => [
-                        1 => '(1 based on '.$propose->performer->profile->voice.' votes)',
-                        2 => '(2 based on '.$propose->performer->profile->voice.' votes)',
-                        3 => '(3 based on '.$propose->performer->profile->voice.' votes)',
-                        4 => '(4 based on '.$propose->performer->profile->voice.' votes)',
-                        5 => '(5 based on '.$propose->performer->profile->voice.' votes)',
+                        1 => '(1 '.$basedOn.$propose->performer->profile->voice.$votes,
+                        2 => '(2 '.$basedOn.$propose->performer->profile->voice.$votes,
+                        3 => '(3 '.$basedOn.$propose->performer->profile->voice.$votes,
+                        4 => '(4 '.$basedOn.$propose->performer->profile->voice.$votes,
+                        5 => '(5 '.$basedOn.$propose->performer->profile->voice.$votes,
                     ],
                     'starCaptionClasses' => [
                         1 => 'stars_rating_patch',
@@ -56,16 +58,16 @@ use common\components\Commonhelper;
             ]);  
             ?>
         </p>
-        <p>Completed <span class="number-jobs"><?=$propose->performer->profile->done_tasks?> jobs</span></p>
+        <p><?=Yii::t('app', "Completed")?> <span class="number-jobs"><?=$propose->performer->profile->done_tasks?><?=' '.Yii::t('app', "jobs")?></span></p>
     </div>
     <div class="clearfix"></div>
     <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <p class="red"><?php echo $propose->performer->username?> offered a price: $<?php echo $propose->price?></p>
+        <p class="red"><?php echo $propose->performer->username?> <?=' '.Yii::t('app', "offered a price")?>: $<?php echo $propose->price?></p>
         <?php
             $userFirstName = $propose->ticket->user->profile->first_name;
             $treatment = Yii::t('app', 'Hey') . ' ';
             $treatment .=  is_null($userFirstName) ? $propose->ticket->user->username : $userFirstName;
-            $treatment .= ', '. $propose->message .'!';
+            $treatment .= ', '. Yii::t('app', $propose->message) .'!';
             echo $treatment;
         ?> 
         <div class="comment-action">
@@ -78,10 +80,10 @@ use common\components\Commonhelper;
                    data-ticket-id="<?= $model->id ?>"
                    data-performer-id="<?= $propose->performer_id ?>"
                    data-price="<?= $propose->price ?>"
-                   data-url="<?= \yii\helpers\Url::to(['/ticket/render-paypal-popup'])?>">ACCEPT</a>
+                   data-url="<?= \yii\helpers\Url::to(['/ticket/render-paypal-popup'])?>"><?=Yii::t('app', "ACCEPT")?></a>
             <?= Html::endForm() ?>
                 <?php if($propose->canOfferPrice()): ?>
-                    <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>">MAKE ANOTHER OFFER</a>
+                    <a href="#" class="btn btn-average btn-dark make-another-offer" data-performer-id="<?= $propose->performer_id ?>"><?=Yii::t('app', "MAKE ANOTHER OFFER")?></a>
                 <?php endif; ?>
             <?php endif;?>
         </div>

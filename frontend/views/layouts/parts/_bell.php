@@ -1,6 +1,5 @@
 <?php
     $bellNotificationCount = Yii::$app->notification->getUnreadCount();
-    Yii::$app->language = common\components\Commonhelper::getLanguage();
 ?>
 <a href="#" class="" <?= $bellNotificationCount ? 'data-toggle="dropdown"' : '' ?>>
     <img src="/images/icon-bell.png" alt="bell"/>
