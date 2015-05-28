@@ -114,6 +114,17 @@ class Commonhelper {
         }
         return 'en'; // заменить да дефолтный язык из системы после настройки i18n
     }
+    // standard message parser
+    /*
+     * method parsed message by layouts array like ['word1'=>Yii::t('app', 'word1'), ... ]
+     * then method return string with changed words
+     */
+    public static function messageParser($message, $layouts){
+        $keys = array_keys($layouts);
+        $values = array_values($layouts);
+        $translate = str_replace($keys, $values, $message);
+        return $translate;
+    }
     /* additionals */
 
     private function timestampToSeconds($timestamp) {

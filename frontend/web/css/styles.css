@@ -827,6 +827,9 @@ p.name{color:#164c6d;}
 .reviews .user-info .negative img{
     margin:0px 12px;
 }
+.negative img {
+    opacity: 0.3;
+}
 .show{
     color: #a3a3a3;
     padding-top: 20px;
