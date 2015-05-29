@@ -18,7 +18,7 @@ use yii\helpers\Url;
     ?>
                                     <fieldset>
                                         <div class="group">
-                                        <?php echo Html::label(Yii::t('app', 'Sort by Price per hour'.':'))?>
+                                        <?php echo Html::label(Yii::t('app', 'Sort by Price per hour').':')?>
                                         <?php echo Html::dropDownList('sort', 
                                                 isset($get['sort']) ? (int)$get['sort'] : NULL,
                                                 [
@@ -27,7 +27,7 @@ use yii\helpers\Url;
                                                 ]);
                                         ?>
                                         </div>
-                                        <?php echo 'and max' // русский язык не влазит ввиду макета - пока без перевода оставлено ?>
+                                        <?php echo Yii::t('app','and max') // русский язык не влазит ввиду макета - пока без перевода оставлено ?>
                                         <?php echo Html::textInput('max_amount',
                                                 isset($get['max_amount']) ? (float)$get['max_amount'] : NULL,
                                                 ['class'=>'small']) ?>
@@ -42,13 +42,13 @@ use yii\helpers\Url;
                                         ?>
                                         <div class="group">
                                         <?php 
-                                            echo Html::label(Yii::t('app','Location'.':'));
+                                            echo Html::label(Yii::t('app','Location').':');
                                             echo Html::textInput('location', NULL);
                                         ?>
                                         </div>
                                         <div class="group">
                                         <?php 
-                                            echo Html::label(Yii::t('app','Jobs Within'.':'));
+                                            echo Html::label(Yii::t('app','Jobs Within').':');
                                             echo Html::dropDownList('within',
                                                     isset($get['within']) ? $get['within'] : NULL, 
                                                     [
@@ -63,7 +63,7 @@ use yii\helpers\Url;
                                         <div class="clearfix"></div>
                                         <div class="group">
                                         <?php 
-                                            echo Html::label(Yii::t('app', 'Rating'.':'));
+                                            echo Html::label(Yii::t('app', 'Rating').':');
                                             echo Html::dropDownList('rating',
                                                     isset($get['rating']) ? $get['rating'] : NULL,
                                                     [
@@ -75,7 +75,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="group ">
                                         <?php
-                                            echo Html::label(Yii::t('app', 'Done Tasks'.':'));
+                                            echo Html::label(Yii::t('app', 'Done Tasks').':');
                                             echo Html::dropDownList('done_tasks',
                                                     isset($get['done_tasks']) ? $get['done_tasks'] : NULL,
                                                     [
@@ -87,7 +87,7 @@ use yii\helpers\Url;
                                         </div>
                                         <div class="group">
                                         <?php
-                                            echo Html::label(Yii::t('app', 'Created Tasks'.':'));
+                                            echo Html::label(Yii::t('app', 'Created Tasks').':');
                                             echo Html::dropDownList('created_tasks',
                                                     isset($get['created_tasks']) ? $get['created_tasks'] : NULL,
                                                     [
@@ -100,7 +100,7 @@ use yii\helpers\Url;
 
 
                                         <div class="clear"></div>
-                                        <p class="show">Showing 1 - 10 of 309 results</p>
+                                        <!--<p class="show">Showing 1 - 10 of 309 results</p>-->
                                         <div class="clear"></div>
                                     </fieldset>
                                         <?php echo Html::submitButton(Yii::t('app', 'SEARCH'), ['class'=>'btn btn-form', 'style'=>'color:white;font-size:20px;']) ?>

@@ -8,7 +8,7 @@ use common\components\Commonhelper;
         <div class="profile-avatar left">
             <?php $photo = (!empty($profile->files->code)) ? Yii::$app->params['upload.url'] . '/' . $profile->files->code : Yii::$app->params['images.url'] . DIRECTORY_SEPARATOR . 'photo_cap.png' ?>
             <img class="avatar" src="<?= $photo ?>" alt="avatar">
-            <a href="#" data-sign="PhotoUploads" class="btn btn-average change-photo">CHANGE PHOTO</a>
+            <a href="#" data-sign="PhotoUploads" class="btn btn-average change-photo"><?=Yii::t('app',"CHANGE PHOTO")?></a>
         </div>
         <div>
             <span class="user-name">

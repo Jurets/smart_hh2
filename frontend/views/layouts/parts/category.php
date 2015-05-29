@@ -4,7 +4,7 @@ use common\components\CategorySlider;
 ?>
 
 <div class="category row">
-    <h2><span class="red"><?=Yii::t('app', 'Choose')?></span><?=Yii::t('app', 'an area');?><br/><span class="small">where you need help.</span></h2>
+    <h2><span class="red"><?=Yii::t('app', 'Choose')?></span><?=' '.Yii::t('app', 'an area');?><br/><span class="small"><?=Yii::t('app', "where you need help")?>.</span></h2>
 
     <?php echo CategorySlider::widget(['multiplicity'=>8]) ?>
 </div>

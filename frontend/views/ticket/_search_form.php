@@ -25,11 +25,11 @@ use kartik\datetime\DateTimePicker;
                                             <option>USD</option>
                                         </select> 
                                         <div class="group">
-                                            <label for="">Location:</label>
+                                            <label for=""><?=Yii::t('app',"Location")?>:</label>
                                             <input name="location" type="text">
                                         </div>
                                         <div class="group">
-                                            <label for="">Jobs Within:</label>
+                                            <label for=""><?=Yii::t('app','Jobs Within')?>:</label>
                                             <select name="distance">
                                                 <option></option>
                                                 <option>0.5</option>
@@ -39,7 +39,7 @@ use kartik\datetime\DateTimePicker;
                                             </select>
                                         </div>
                                         <div class="group">
-                                            <label for="">Sort by Finish Date:</label>
+                                            <label for=""><?=Yii::t('app','Sort by Finish Date')?>:</label>
                                             <!--<input class="calendar" type="text">-->
                                             <?php
                                                 echo DateTimePicker::widget([
@@ -58,7 +58,7 @@ use kartik\datetime\DateTimePicker;
                                         </div>
                                         <div class="clear"></div>
                                         <p class="sort-comment small-text">Seattle, WA or 98124</p>
-                                        <p class="sort-comment">Showing 1 - 10 of 309 results</p>
+                                        <!--<p class="sort-comment">Showing 1 - 10 of 309 results</p>-->
                                     </div>
                                     <div class="right-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <?php if(!is_null($subcategories)) {?>

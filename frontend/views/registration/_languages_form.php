@@ -28,7 +28,7 @@ use frontend\helpers\ContactsHelper;
                 'placeholder' => '',
                 'url' => Yii::$app->urlManager->createAbsoluteUrl(['user/option-languages'])
             ]
-        ])->label('Add language');
+        ])->label(Yii::t("app",'Add language'));
         $parents[] = "option-lang-$key";
     }
 ?>

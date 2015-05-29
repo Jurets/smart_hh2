@@ -15,6 +15,6 @@ use yii\helpers\Url;
         <option>USD</option>
         <option>USD</option>
       </select>
-    <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
+    <input style="text-transform:uppercase;" type="button" data-submitter="" class="btn btn-average btn-width" value="<?=Yii::t('app', "Save")?>">
    </fieldset>
 </form>

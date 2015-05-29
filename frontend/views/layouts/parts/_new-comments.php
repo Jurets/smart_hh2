@@ -2,15 +2,18 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use common\components\Commonhelper;
 
 $currentUser = Yii::$app->user->getIdentity();
 $allNewTicketsCommentsCount = ($currentUser !== null) ? ($currentUser->getNewTicketCommentsCount() + $currentUser->getNewRepliesCommentsCount()) : 0;
 ?>
 <a href="#" class="" <?= $allNewTicketsCommentsCount ? 'data-toggle="dropdown"' : '' ?>><img src="/images/icon-letter.png" alt="letter"/>
-    <?=
-    Yii::t('app', '{n, plural, =1{<span>#</span> new message} other{<span>#</span> new messages}}', [
+    <?php
+    $buffTxt = Yii::t('app', '{n, plural, =1{<span>#</span> new message} other{<span>#</span> new messages}}', [
         'n' => $allNewTicketsCommentsCount
     ]);
+    $buffTxt = Commonhelper::messageParser($buffTxt, ['new messages' => Yii::t('app', 'new messages')]);
+    echo $buffTxt;
     ?>
 </a>
     <?php if ($allNewTicketsCommentsCount): ?>

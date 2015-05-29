@@ -46,6 +46,8 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
             <?=$nameToProfileUrl?>
             <!--<img src="/images/star5.png"/><span class="vote">(3.5 based on 40 votes)</span>-->
             <?php
+            $basedOn = Yii::t('app','based on');
+            $votes = Yii::t('app', 'votes');
             echo StarRating::widget([
                 'id' => 'the-star-rating-'.$model->id,
                 'name' => 'noname',
@@ -58,14 +60,14 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
                     'stars' => 5,
                     'min' => 0,
                     'max' => 5,
-                    'clearCaption' => '(0 based on 0 votes)',
+                    'clearCaption' => '(0 '.$basedOn.' 0 '.$votes.')',
                     'clearCaptionClass' => 'stars_rating_patch',
                     'starCaptions' => [
-                        1 => '(1 based on '.$model->user->profile->voice.' votes)',
-                        2 => '(2 based on '.$model->user->profile->voice.' votes)',
-                        3 => '(3 based on '.$model->user->profile->voice.' votes)',
-                        4 => '(4 based on '.$model->user->profile->voice.' votes)',
-                        5 => '(5 based on '.$model->user->profile->voice.' votes)',
+                        1 => '(1 '.$basedOn.' '.$model->user->profile->voice.' '.$votes.')',
+                        2 => '(2 '.$basedOn.' '.$model->user->profile->voice.' '.$votes.')',
+                        3 => '(3 '.$basedOn.' '.$model->user->profile->voice.' '.$votes.')',
+                        4 => '(4 '.$basedOn.' '.$model->user->profile->voice.' '.$votes.')',
+                        5 => '(5 '.$basedOn.' '.$model->user->profile->voice.' '.$votes.')',
                     ],
                     'starCaptionClasses' => [
                         1 => 'stars_rating_patch',
@@ -80,7 +82,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
         </p>
         </a>
         <?php $countSFX = Commonhelper::activeJobsCounter($model->user_id)?>
-        <p>Active <span class="number-jobs"><?=$countSFX?> <?=($countSFX > 1)? 'jobs' : 'job'?></span></a></p>
+        <p><?=Yii::t('app','Active')?> <span class="number-jobs"><?=$countSFX?> <?=($countSFX > 1)? Yii::t('app','jobs') : Yii::app('app','job')?></span></a></p>
     </div>
     <div class="date-time right">
 <?php echo Commonhelper::convertDate($model->finish_day) ?> <br/>      

@@ -48,6 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <!--                    <img src="/images/star5.png" alt=""/>
                     <span class="vote">(3.5 based on 40 votes)</span>-->
                     <?php
+                    $basedOn = Yii::t("app", "based on");
+                    $votes = Yii::t('app', 'votes');
                     echo StarRating::widget([
                         'id' => 'the-star-rating-' . $profile->id,
                         'name' => 'noname',
@@ -60,14 +62,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'stars' => 5,
                             'min' => 0,
                             'max' => 5,
-                            'clearCaption' => '(0 based on 0 votes)',
+                            'clearCaption' => '(0 '.$basedOn.' 0 '.$votes. ')',
                             'clearCaptionClass' => 'stars_rating_patch',
                             'starCaptions' => [
-                                1 => '(1 based on ' . $profile->voice . ' votes)',
-                                2 => '(2 based on ' . $profile->voice . ' votes)',
-                                3 => '(3 based on ' . $profile->voice . ' votes)',
-                                4 => '(4 based on ' . $profile->voice . ' votes)',
-                                5 => '(5 based on ' . $profile->voice . ' votes)',
+                                1 => '(1 '.$basedOn.' '.$profile->voice .' '.$votes.')',
+                                2 => '(2 '.$basedOn.' '.$profile->voice .' '.$votes.')',
+                                3 => '(3 '.$basedOn.' '.$profile->voice .' '.$votes.')',
+                                4 => '(4 '.$basedOn.' '.$profile->voice .' '.$votes.')',
+                                5 => '(5 '.$basedOn.' '.$profile->voice .' '.$votes.')',
                             ],
                             'starCaptionClasses' => [
                                 1 => 'stars_rating_patch',
@@ -118,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="#" class="btn btn-width offer-job-button"
                        data-user-id="<?= $profile->user_id ?>"
                        data-url="<?= Url::to(['/user/default/get-offer-job-popup']) ?>">
-                        OFFER A JOB
+                        <?=Yii::t('app', "OFFER A JOB")?>
                     </a>
                 </div>
                 <div id="offer-job-pop-up-container">
@@ -126,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="user-contact col-xs-6 col-sm-4 col-md-4 col-lg-6">
 <?php if (!empty($languages)): ?>
-        <p class="title">Languages:</p>
+        <p class="title"><?=Yii::t('app', "Languages")?>:</p>
         <?php
             foreach ($languages as $language) {
         ?>
@@ -137,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         ?>
 <?php endif; ?>
-                <p class="title">Verified Contacts:</p>
+                <p class="title"><?=yii::t('app', "Verified Contacts")?>:</p>
                 <p class=""><?= Html::encode(ContactsHelper::getEmail($profile->user, $canViewContacts)) ?></p>
                 <p class=""><img src="" alt="" />
 <?php if (!empty($profile->phone)): ?>

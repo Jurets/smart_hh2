@@ -23,6 +23,8 @@ use yii\helpers\Url;
             <?php endforeach; ?>
         </div>
         <?php
+        $basedOn = Yii::t('app','based on');
+        $votes = Yii::t('app','votes');
         echo StarRating::widget([
             'id' => 'the-star-rating-'.$model->id,
             'name' => 'noname',
@@ -35,14 +37,14 @@ use yii\helpers\Url;
                 'stars' => 5,
                 'min' => 0,
                 'max' => 5,
-                'clearCaption' => '(0 based on 0 votes)',
+                'clearCaption' => '(0 '.$basedOn.' 0 '.$votes.')',
                 'clearCaptionClass' => 'stars_rating_patch',
                 'starCaptions' => [
-                    1 => '(1 based on '.$model->profile->voice.' votes)',
-                    2 => '(2 based on '.$model->profile->voice.' votes)',
-                    3 => '(3 based on '.$model->profile->voice.' votes)',
-                    4 => '(4 based on '.$model->profile->voice.' votes)',
-                    5 => '(5 based on '.$model->profile->voice.' votes)',
+                    1 => '(1 '.$basedOn.' '.$model->profile->voice.' '.$votes. ')',
+                    2 => '(1 '.$basedOn.' '.$model->profile->voice.' '.$votes. ')',
+                    3 => '(1 '.$basedOn.' '.$model->profile->voice.' '.$votes. ')',
+                    4 => '(1 '.$basedOn.' '.$model->profile->voice.' '.$votes. ')',
+                    5 => '(1 '.$basedOn.' '.$model->profile->voice.' '.$votes. ')',
                 ],
                 'starCaptionClasses' => [
                     1 => 'stars_rating_patch',
@@ -74,7 +76,7 @@ use yii\helpers\Url;
         <a class="btn btn-average offer-job-button" href="#"
            data-user-id="<?= $model->id ?>"
            data-url="<?= Url::to(['/user/default/get-offer-job-popup'])?>">
-            OFFER A JOB
+            <?=Yii::t('app', "OFFER A JOB")?>
         </a>
     </div>                                
 </div>

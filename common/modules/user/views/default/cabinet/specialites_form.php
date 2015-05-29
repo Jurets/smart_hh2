@@ -17,6 +17,6 @@ use yii\helpers\Url;
             <?php } ?>
        </select>
        <?php } ?>
-    <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
+    <input type="button" data-submitter="" style="text-transform:uppercase;" class="btn btn-average btn-width" value="<?=Yii::t('app',"Save")?>">
    </fieldset>
 </form>

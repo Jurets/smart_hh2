@@ -25,9 +25,9 @@ $this->registerJs("pp_init();", View::POS_END);
         <a class="close wd-close" href="#">×</a>
         <?= Html::hiddenInput('ppid', $dataSet->id) ?>
         <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
-            '1' => $dataSet::V1,
-            '2' => $dataSet::V2,
-            '3' => $dataSet::V3
+            '1' => Yii::t('app', $dataSet::V1),
+            '2' => Yii::t('app', $dataSet::V2),
+            '3' => Yii::t('app', $dataSet::V3),
         ],
                 ['id'=>'pp_group_choise','class'=>'sort select', 'style'=>'width:50%;']
         )?>
@@ -56,7 +56,7 @@ $this->registerJs("pp_init();", View::POS_END);
         <?=$dataSet->attributeLabels()['fullname']?><br>
         <?= Html::textInput('fullname', (!empty($dataSet->fullname))?$dataSet->fullname:'', [])?>
         </div>
-        <br><br><input type="button" data-submitter="" class="btn btn-average btn-width" value="<?=Yii::t('app', 'SAVE')?>">
+        <br><br><input type="button" data-submitter="" style="text-transform:uppercase;" class="btn btn-average btn-width" value="<?=Yii::t('app', 'Save')?>">
     </fieldset>
 </form>
 

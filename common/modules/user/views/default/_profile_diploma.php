@@ -4,7 +4,7 @@ use yii\web\View;
 use yii\helpers\Url;
 ?>
 <div class="widget diplomas">
-    <h1>My <span class="red"><?= count($diplomas) ?></span> Diplomas</h1> 
+    <h1><?=Yii::t('app',"My").' '?><span class="red"><?= count($diplomas) ?></span><?=' '.Yii::t('app', "Diplomas")?></h1> 
 
 <?php foreach ($diplomas as $diploma) { ?>
         <a href="#" class="icon-items">

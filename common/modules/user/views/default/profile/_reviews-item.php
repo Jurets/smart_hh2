@@ -22,10 +22,11 @@ use common\components\Commonhelper;
     <div class="text-right right col-xs-12 col-sm-8 col-md-8 col-lg-8">
         <?php if($model->ticket_id !== null && $model->ticket !== null): ?>
             <p class="task-title"><img src="/images/icon-task.png" alt=""/>
-                To "<a href="<?=Url::to(['/ticket/review', 'id' => $model->ticket_id])?>" class="red"><?= Html::encode($model->ticket->title) ?></a>" task
+                <?=' '.Yii::t('app',"To").' '?> "<a href="<?=Url::to(['/ticket/review', 'id' => $model->ticket_id])?>" class="red"><?= Html::encode($model->ticket->title) ?></a>"
+                <?=' '.Yii::t('app',"task").' '?>
             </p>
         <?php endif; ?>
-        <p class="user-mark"><span>Rated:</span>
+        <p class="user-mark"><span><?=Yii::t('app', "Rated")?>:</span>
             <?= StarRating::widget([
                 'id' => 'review-star-rating-'.$model->id,
                 'name' => '',

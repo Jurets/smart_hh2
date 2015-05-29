@@ -29,6 +29,6 @@ use yii\helpers\Html;
         ]);
         ?>
         <!--<input type="submit" class="btn btn-average btn-width" value="SAVE">-->
-        <?php echo Html::submitButton('Submit', ['class'=>'btn btn-average btn-width']) ?>
+        <?php echo Html::submitButton(Yii::t('app','Submit'), ['class'=>'btn btn-average btn-width']) ?>
     </fieldset>
 </form>

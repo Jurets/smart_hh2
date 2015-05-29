@@ -53,8 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>       
 <section>
-    <h1 class="left">My <span class="red">Diplomas</span></h1>
-    <a href="#" data-sign="Diploma" class="btn btn-average right">NEW LICENSE / DIPLOMA</a>
+    <h1 class="left"><?=Yii::t('app',"My").' '?><span class="red"><?=Yii::t('app', 'Diplomas')?></span></h1>
+    <a href="#" data-sign="Diploma" class="btn btn-average right"><?=Yii::t('app',"NEW LICENSE / DIPLOMA")?></a>
     <table class="table table-striped" id="table_diploma">
         <thead>
             <tr>
@@ -73,15 +73,15 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 
 <section>
-    <h1 class="left">My <span class="red">Verification Docs</span></h1>
-    <a href="#" data-sign="Verid" class="btn btn-average right">NEW DOCUMENT</a>
+    <h1 class="left"><?=Yii::t('app',"My").' '?><span class="red"><?=Yii::t('app',"Verification Docs")?></span></h1>
+    <a href="#" data-sign="Verid" class="btn btn-average right"><?=Yii::t('app',"NEW DOCUMENT")?></a>
     <table class="table table-striped" id="table_verid">
         <thead>
             <tr>
                 <th>#</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Size</th>
+                <th><?=Yii::t('app','Title')?></th>
+                <th><?=Yii::t('app','Type')?></th>
+                <th><?=Yii::t('app','Size')?></th>
                 <th></th>
             </tr>
         </thead>
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 
 <section>
-    <h1 class="left">My <span class="red">Links To Other Networks</span></h1>
+    <h1 class="left"><?=Yii::t('app','My').' '?><span class="red"><?=Yii::t('app','Links To Other Networks')?></span></h1>
     <div class="clearfix"></div>
     <?php foreach($userSocialNetworks as $userSocialNetwork): ?>
         <?= $this->render('cabinet/social_network_form', ['model' => $userSocialNetwork]) ?>

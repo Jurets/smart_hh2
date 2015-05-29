@@ -2,8 +2,8 @@
 use yii\helpers\Url;
 ?>
 <div class="widget specialties widget-padding spec-wrapping">
-    <h1 class="left">My <span class="red"><?= count($userSpecialities) ?></span> Specialties</h1>
-    <a href="#" data-sign="Specialites" class="btn btn-average right">ADD A SPECIALTY</a>
+    <h1 class="left"><?=Yii::t('app',"My").' '?><span class="red"><?= count($userSpecialities) ?></span><?=' '.Yii::t('app', 'Specialties')?></h1>
+    <a href="#" data-sign="Specialites" class="btn btn-average right"><?=Yii::t('app', "ADD A SPECIALTY")?></a>
     <div class="clearfix"></div>
     <div class="specialty-holder text-center">
 
@@ -14,7 +14,7 @@ use yii\helpers\Url;
                         <div class="icon-items">
                             <img src="<?= Yii::$app->params['images.url'] . '/' . $spec->picture ?>" alt="Moving"/>                                            
                         </div>
-                        <p><?= $spec->name ?></p>                     
+                        <p><?= Yii::t('app',$spec->name).' '?></p>                     
                     </a>
                     <a class="delete" href="#"><img src="/images/icon-delete.png" data-spec-dell="<?=$spec->id?>"></a>
                 </div>

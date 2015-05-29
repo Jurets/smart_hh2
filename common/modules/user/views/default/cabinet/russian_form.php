@@ -11,6 +11,6 @@ use yii\helpers\Url;
    <input type="hidden" name="signature" value="russian">
    <fieldset>
        <input type="text" name="russian" value="<?=$dataSet?>" style="margin-bottom: 15px;">
-    <input type="button" data-submitter="" class="btn btn-average btn-width" value="SAVE">
+    <input type="button" data-submitter="" style="text-transform:uppercase;" class="btn btn-average btn-width" value="<?=Yii::t('app'.'Save')?>">
    </fieldset>
 </form>

@@ -10,7 +10,7 @@ use yii\helpers\Html;
     <div class="pop-up pop-up-edit pop-up-lang lang-pop-up" style='display:none;'>
         <a class="close" href="#">×</a>
         <div class="pop-up-errors"></div>
-        <p class="title">Languages</p>
+        <p class="title"><?=Yii::t('app',"Languages")?></p>
 
 <?php
 $form = ActiveForm::begin();
@@ -56,7 +56,7 @@ echo $this->render('@app/views/registration/_languages_form', ['form' => $form, 
 
 ?>
 
-            <a class="btn btn-average btn-width" href="" onclick="
+            <a style="text-transform:uppercase;" class="btn btn-average btn-width" href="" onclick="
                         var data = {};
                         data['languages'] = $('.lang-field').map(function(){
                                 return this.value;
@@ -71,7 +71,7 @@ echo $this->render('@app/views/registration/_languages_form', ['form' => $form, 
                             success : function(response) {
                                 $('#lang-list').html(response);
                             }
-                        });">Save</a>
+                        });"><?=Yii::t('app',"Save")?></a>
         </fieldset>
 <?php
     ActiveForm::end();
