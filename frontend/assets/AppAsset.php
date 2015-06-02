@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle
         #'//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css',
         'js/jquery-ui-1.11.4.custom/jquery-ui.css', // patch-include jquery-ui styles
         'css/styles.css',
-        'css/styles-responsive.css'
+        'css/styles-responsive.css',
+        'css/font-open-sans/stylesheet.css',
     ];
     public $js = [
         'js/ddslick.js',

@@ -47,7 +47,7 @@ label{font-weight:normal;}
 /*** follow sections can edit *****************************************************************************/
 HTML, BODY, .basis{
     height: 100%;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-family: 'Open Sans','Montserrat', Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
 BODY{
