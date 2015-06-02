@@ -56,7 +56,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
         </span>
         <?=$this->render('view/_deadline', ['model'=>$model])?>
         <div class="job-info-holder row">
-            <div class="job-info col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="job-info col-xs-5 col-sm-5 col-md-5 col-lg-5">
                 <div class="job-price left">
                     <p class="price">&dollar;<?= $price ?></p>
                     <p>&nbsp;</p>
@@ -67,7 +67,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="action col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="action col-xs-7 col-sm-7 col-md-7 col-lg-7">
                 <?php if ((!$applied) && (is_null($stage) || ($stage >= Offer::STAGE_OWNER_OFFER && $stage <= Offer::STAGE_LAST_ANSWER))) { ?>
                     <?= Html::beginForm(['ticket/apply'], 'post', ['style' => 'display:inline;']) ?>
                     <input type="hidden" name="ticket_id" value="<?= $model->id ?>" />
