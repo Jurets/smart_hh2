@@ -63,7 +63,7 @@ var SLOTS = {
                     $('#slot' + i).html(matrix);
             },
             slotPrepare: function () {
-                var nodes = "<option>Select if you need</option>\n";
+                var nodes = "<option>"+$('[data-thumb]').attr("data-thumb")+"</option>\n";
                 for (var i = 0; i < this.signCollection.length; i++) {
                     nodes = nodes + '<option name="' + this.signCollection[i].id + '">' + this.signCollection[i].value + '</option>\n';
                 }

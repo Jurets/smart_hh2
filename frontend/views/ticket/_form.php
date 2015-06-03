@@ -18,7 +18,7 @@ use common\components\Commonhelper;
                                     ]);
                             ?>
                             <?php echo Html::label(Yii::t('app', 'Title'), 'title')?>
-                            <?php echo Html::textInput('title', $model->title,['placeholder'=>'e.g., Need a nanny for a weekend'])?>
+                            <?php echo Html::textInput('title', $model->title,['placeholder'=>Yii::t('app','e.g., Need a nanny for a weekend')])?>
                             <?php echo Html::label(Yii::t('app', 'Choose Date and Time').':', 'finish_day')?>
                             <?php //echo Html::textInput('finish_day', $model->finish_day)?>
                             <?php 
@@ -42,13 +42,13 @@ use common\components\Commonhelper;
                             ?>
                             <br>
                             <?php echo Html::label(Yii::t('app', 'Enter location').':', 'location') ?>
-                            <?php echo Html::textInput('location', $model->job_location, ['placeholder'=>'e.g., USA Florida Miami'])?>
+                            <?php echo Html::textInput('location', $model->job_location, ['placeholder'=>Yii::t('app','e.g., USA Florida Miami')])?>
                             
                             <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
                             <?php echo Html::hiddenInput('zip-city', NULL, ['id'=>'zip_id'])?>
                             <div style="">
                                 <?php // делаем как независимый partial с передачей выбранного в текстовое поле ?>
-                                <?php echo Html::textInput('zip_tf', $model->assembled_zip, ['style'=>'display:block;  ', 'id'=>'zip_tf_id', 'placeholder'=>'e.g., 33122 or Miami'])?>
+                                <?php echo Html::textInput('zip_tf', $model->assembled_zip, ['style'=>'display:block;  ', 'id'=>'zip_tf_id', 'placeholder'=>Yii::t('app',"e.g., 33122 or Miami")])?>
                                 <div id="zip-dropdown" data-zipDropdownURL="<?=Url::to(['ticket/zipdropdown'],true)?>">
                                 <?php
                                     echo $this->render('view/_zip_dropdown_partial', ['list'=>$list]);
@@ -58,16 +58,16 @@ use common\components\Commonhelper;
                             <br>
                             
                             <div class="description">    
-                                <?php echo Html::label(Yii::t('app', 'Description'.':'), 'description')?>
+                                <?php echo Html::label(Yii::t('app', 'Description').':', 'description')?>
                                 <?php echo Html::textarea('description', $model->description)?>
-                                <a href="#" class="additional"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Make this information Private</a>
+                                <a href="#" class="additional"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span><?=Yii::t('app',"Make this information Private")?></a>
                             </div>
-                            <label>Auto-translate to:</label>
+                            <label><?=Yii::t('app',"Auto-translate to")?>:</label>
                             <select id="translate">
                                 <option>Russian</option>
                                 <option>Russian</option>
                             </select>
-                            <a href="#" class="btn btn-form">MAKE EDITABLE</a>
+                            <a href="#" class="btn btn-form"><?=Yii::t('app',"MAKE EDITABLE")?></a>
                             <textarea class="translation" disabled="disabled"></textarea> 
                             <div>
 <!--                                <a href="#" class="btn btn-form left">ATTACH A PHOTO</a>-->
@@ -91,7 +91,7 @@ use common\components\Commonhelper;
                                 }
                                 echo FileInput::widget($fileInputFeature);
                                 ?>
-                                <p class="attach-photo">Attach a photo to your description. Max file size: 5 Mb, Allowed extensions: JPG/PNG/GIF</p>                            
+                                <p class="attach-photo"><?=Yii::t('app',"Attach a photo to your description. Max file size: 5 Mb, Allowed extensions: JPG/PNG/GIF")?></p>                            
                                 <div class="clearfix"></div>
                             </div>
                             <?php echo Html::label(Yii::t('app','Your price for this job').':', 'price')?>
@@ -100,7 +100,7 @@ use common\components\Commonhelper;
                                 <option>USD</option>
                                 <option>USD</option>
                             </select>
-                            <a href="#" class="currency-price">See current prices for this of job</a>
+                            <a href="#" class="currency-price"><?=Yii::t('app',"See current prices for this of job")?></a>
                             <?php echo Html::submitButton(Yii::t('app','PUBLISH'), ['class'=>'btn btn-width'])?>
                         </fieldset>
                     <div id="addon1"></div>
@@ -123,11 +123,11 @@ use common\components\Commonhelper;
   <?php 
   $Items = NULL;
   foreach($categories as $cat_id => $category) { 
-      $Items .=  '<div class="lvl1" style="display:block;font-weight:bold;" id='.$cat_id.'>'.$category['cat_name'];
+      $Items .=  '<div class="lvl1" style="display:block;font-weight:bold;" id='.$cat_id.'>'.Yii::t('app',$category['cat_name']);
       if(count($category) > 1){
           foreach($category as $i => $subcategory){
               if(is_string($i)) continue;
-              $Items .= PHP_EOL.'<div class="lvl2" style="font-weight:normal;" id='.$subcategory['subcat_id'].'>'.$subcategory['subcat_name'].'</div>'.PHP_EOL;
+              $Items .= PHP_EOL.'<div class="lvl2" style="font-weight:normal;" id='.$subcategory['subcat_id'].'>'.Yii::t('app',$subcategory['subcat_name']).'</div>'.PHP_EOL;
           }
       }
       $Items .= '</div>'.PHP_EOL;

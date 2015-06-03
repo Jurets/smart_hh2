@@ -84,27 +84,27 @@ AppAsset::register($this);
                 <a href="#" class="item">
                     <img src="images/signUp.png" alt="Become a Member" class="left"/>
                     <p class="title"><?=Yii::t('app', 'Become a').' '?><span class="red"><?=Yii::t('app', 'Member')?></span><?=' '.Yii::t('app', 'of Helping Hut')?></p>
-                    <p>It's easy & free!</p>
+                    <p><?=Yii::t('app',"It's easy & free!")?></p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/createAJob.png" alt="Create a Job" class="left"/>
-                    <p class="title">Create a Job Listing</p>
-                    <p>Tell us what you need.</p>
+                    <p class="title"><?=Yii::t('app', "Create a Job Listing")?></p>
+                    <p><?=Yii::t('app',"Tell us what you need")?>.</p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/reviewProfiles.png" alt="Search for a Helper" class="left"/>
-                    <p class="title">Search for a Helper</p>
-                    <p>Find the perfect helper for you.</p>
+                    <p class="title"><?=Yii::t('app',"Search for a Helper")?></p>
+                    <p><?=Yii::t('app',"Find the perfect helper for you")?>.</p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/hireAHelper.png" alt="Hire a Helper" class="left"/>
-                    <p class="title">Hire the Perfect Helper</p>
-                    <p>Select someone with your desired skills.</p>
+                    <p class="title"><?=Yii::t('app',"Hire the Perfect Helper")?></p>
+                    <p><?=Yii::t('app',"Select someone with your desired skills")?>.</p>
                 </a>
                 <a href="#" class="item">
                     <img src="images/payForHelp.png" alt="Pay for the Service" class="left"/>
-                    <p class="title">Pay for the Service</p>
-                    <p>Using our secure online methods.</p>
+                    <p class="title"><?=Yii::t('app',"Pay for the Service")?></p>
+                    <p><?=Yii::t('app',"Using our secure online methods")?>.</p>
                 </a>
             </div>
 

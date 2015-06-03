@@ -25,8 +25,8 @@ use common\components\Commonhelper;
         </div>
         <div class="text-right right col-xs-7 col-sm-7 col-md-7 col-lg-7">
 
-            <p class="task-title"><img src="/images/icon-task.png" alt=""/>To "<a href="<?=Url::to(['ticket/review','id'=>$model->ticket_id])?>" class="red"><?=$model->ticket->title?></a>" task</p>
-            <p class="user-mark"><span>Rated:</span>
+            <p class="task-title"><img src="/images/icon-task.png" alt=""/><?=Yii::t('app',"To").' '?>"<a href="<?=Url::to(['ticket/review','id'=>$model->ticket_id])?>" class="red"><?=$model->ticket->title?></a>"<?=Yii::t('app',"task")?></p>
+            <p class="user-mark"><span><?=Yii::t('app',"Rated")?>:</span>
                 <?= StarRating::widget([
                 'id' => 'review-star-rating-'.$model->id,
                 'name' => '',
@@ -49,6 +49,6 @@ use common\components\Commonhelper;
         <div class="clearfix"></div>
         <div class="comment col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <?=$model->message?>
-            <a href="#" class="more">Read full description</a> 
+            <a href="#" class="more"><?=Yii::t('app',"Read full description")?></a> 
         </div>
     </div>  

@@ -613,4 +613,5 @@
         "NEW DOCUMENT" => "NUEVO DOCUMENTO",
         "and max" => "y máximo",
         "Seattle, WA or 98124" => "Seattle, WA o 98124",
+        "Using our secure online methods" => "",
 ];
