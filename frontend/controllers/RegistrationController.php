@@ -146,7 +146,7 @@ class RegistrationController extends Controller {
             if ($user->load($post)) {                
                 $profile->load($post);
                 if ($user->validate() && $profile->validate()) {
-                    Yii::$app->session->setFlash('Register-success', 'passed the first stage of registration In order to proceed click on the link sent to you by e-mail');
+                    Yii::$app->session->setFlash('Register-success', Yii::t('app','passed the first stage of registration In order to proceed click on the link sent to you by e-mail'));
                     if(isset($post['user_role'])){
                         $role = \yii\helpers\Html::encode($post['user_role']);
                         switch($role){

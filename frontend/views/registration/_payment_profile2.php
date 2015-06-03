@@ -3,12 +3,12 @@ use yii\helpers\Html;
 ?>
 <br>
 <div class="form-group field-profile-phone">
-<?php echo Html::label('select your preferred payment method', NULL, ['class'=>'col-lg-8 control-label']) ?>
+<?php echo Html::label(Yii::t('app','select your preferred payment method'), NULL, ['class'=>'col-lg-8 control-label']) ?>
     <div class="col-lg-3">
     <?= Html::dropDownList('choise', (!empty($dataSet->choise)) ? $dataSet->choise : '1', [
-            '1' => $paymentProfile::V1,
-            '2' => $paymentProfile::V2,
-            '3' => $paymentProfile::V3
+            '1' => Yii::t('app',$paymentProfile::V1),
+            '2' => Yii::t('app', $paymentProfile::V2),
+            '3' => Yii::t('app', $paymentProfile::V3),
         ],
                 ['id'=>'pp_group_choise','class'=>'form-control']
         )?>
@@ -19,7 +19,7 @@ use yii\helpers\Html;
 </div>
 
 
-<div class="payment-profile-fieldgroup-title">ACH… 1-2 business days</div>
+<div class="payment-profile-fieldgroup-title"><?=Yii::t('app','ACH… 1-2 business days')?></div>
 <div class="form-group field-profile-phone">
 <?php echo Html::label($paymentProfile->getAttributeLabel('ach_routing_number'), 'ach_1', ['class' => 'col-lg-3 control-label']) ?>
     <div class="col-lg-8">
@@ -49,7 +49,7 @@ use yii\helpers\Html;
         <div class="help-block render-errors"><?=$paymentProfile->renderErrors('ach_account_number')?></div>
     </div>
 </div>
-<div class="payment-profile-fieldgroup-title">Paypal… 3-5 business days</div>
+<div class="payment-profile-fieldgroup-title"><?=Yii::t('app','Paypal… 3-5 business days')?></div>
 <div class="form-group field-profile-phone">
 <?php echo Html::label($paymentProfile->getAttributeLabel('paypal'), 'p_p', ['class' => 'col-lg-3 control-label']) ?>
     <div class="col-lg-8">
@@ -59,7 +59,7 @@ use yii\helpers\Html;
         <div class="help-block render-errors"><?=$paymentProfile->renderErrors('paypal')?></div>
     </div>
 </div>
-<div class="payment-profile-fieldgroup-title">Check mailing…up<br>to 10 business days</div>
+<div class="payment-profile-fieldgroup-title"><?=Yii::t('app',"Check mailing…up")?><br><?=Yii::t('app','to 10 business days')?></div>
 <div class="form-group field-profile-phone">
 <?php echo Html::label($paymentProfile->getAttributeLabel('mailing_address'), 'm_a', ['class' => 'col-lg-3 control-label']) ?>
     <div class="col-lg-8">

@@ -170,7 +170,8 @@ class User extends ActiveRecord implements IdentityInterface
             'status'      => Yii::t('user', 'Status'),
             'email'       => Yii::t('user', 'Email'),
             'new_email'   => Yii::t('user', 'New Email'),
-            'username'    => Yii::t('user', 'Username'),
+//            'username'    => Yii::t('user', 'Username'),
+            'username'    => Yii::t('app', 'Username'),
             'password'    => Yii::t('user', 'Password'),
             'auth_key'    => Yii::t('user', 'Auth Key'),
             'api_key'     => Yii::t('user', 'Api Key'),
@@ -184,8 +185,10 @@ class User extends ActiveRecord implements IdentityInterface
 
             'currentPassword' => Yii::t('user', 'Current Password'),
             'newPassword'     => Yii::t('user', 'New Password'),
+            'newPasswordConfirm' => Yii::t('app', 'New Password Confirm'),
 
-            'verifyCode' => Yii::t('user', 'Verification Code'),
+            //'verifyCode' => Yii::t('user', 'Verification Code'),
+            'verifyCode' => Yii::t('app', 'Verification Code'),
         ];
     }
 
