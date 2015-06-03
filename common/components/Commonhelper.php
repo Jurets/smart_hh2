@@ -154,5 +154,14 @@ class Commonhelper {
     public static function LaPatch2(){
         return UserLanguage::findOne(['user_id' => Yii::$app->user->id, 'is_native' => 1]);
     }
+    // патч для нормализации языков: spa => es, por => pt
+    public static function LanguageNormalize(){
+        $language = Yii::$app->language;
+        if(isset(Yii::$app->params['Nlang'][$language])){
+            $lang = Yii::$app->params['Nlang'][$language];
+            return $lang;
+        }
+        return $language;
+    }
     /* _ */
 }

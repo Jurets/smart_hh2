@@ -1,6 +1,7 @@
 <?php
 use kartik\widgets\DepDrop;
 use frontend\helpers\ContactsHelper;
+use common\components\Commonhelper;
 ?>
 
 <?php
@@ -13,7 +14,7 @@ use frontend\helpers\ContactsHelper;
         $userLanguage = \common\components\Commonhelper::LaPatch2();
     }
         
-    echo $form->field($userLanguage, 'language_id')->dropDownList($nativeLangList, ['name' => 'languages[0]', 'id' => 'native-lang', 'class' => 'lang-field'])->label('Native language'); 
+    echo $form->field($userLanguage, 'language_id')->dropDownList($nativeLangList, ['name' => 'languages[0]', 'id' => 'native-lang', 'class' => 'lang-field'])->label(Yii::t('app',"Native language")); 
 ?>
 <div class="optional-languages">
 <?php
@@ -21,6 +22,7 @@ use frontend\helpers\ContactsHelper;
     $optLanguages = ContactsHelper::getOptLanguages(Yii::$app->user->id);
     for($key = 1; $key < count($languages); $key++){
         echo $form->field($userLanguage, 'language_id')->widget(DepDrop::classname(), [
+			'language' => Commonhelper::LanguageNormalize(),
             'data' => !empty($optLanguages) ? array_shift($optLanguages) : [],
             'options' => ['id' => "option-lang-$key", 'name' => "languages[$key]", 'class' => 'lang-field'],
             'pluginOptions' => [

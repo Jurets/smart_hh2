@@ -8,12 +8,12 @@ use common\models\Ticket;
         $left = Commonhelper::checkDeadline($model->finish_day);
 ?>
         <?php if($left > 1) { ?>
-            <span class="deadline">Deadline: <span class="red"><?=$left?>&nbsp; days left</span></span>
+            <span class="deadline"><?=Yii::t('app',"Deadline").' '?>:<span class="red"><?=$left?>&nbsp; <?=Yii::t('app',"days left")?></span></span>
         <?php }else{?>
             <?php if($left ==1) { ?>
-            <span class="deadline">Deadline: <span class="red">Tomorrow</span></span>
+            <span class="deadline"><?=Yii::t('app',"Deadline").' '?>:<span class="red"><?=Yii::t('app',"Tomorrow")?></span></span>
             <?php }else{ ?>
-            <span class="deadline">Deadline: <span class="red">Today</span></span>
+            <span class="deadline"><?=Yii::t('app',"Deadline").' '?>:<span class="red"><?=Yii::t('app',"Today")?></span></span>
         <?php }} ?>
 
 

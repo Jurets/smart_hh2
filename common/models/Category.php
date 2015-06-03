@@ -11,6 +11,7 @@ use common\models\UserSpeciality;
  *
  * @property integer $id
  * @property string $name
+ * @property string $seoname
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['id'], 'required'],
             [['id', 'parent_id', 'level', 'weight', 'active'], 'integer'],
-            [['name', 'picture'], 'string', 'max' => 255],
+            [['name', 'picture', 'seoname'], 'string', 'max' => 255],
 
             [['file'], 'file'],
         ];

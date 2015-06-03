@@ -38,4 +38,10 @@ return [
     'ticket.autoClosePeriod' => 24,
     //paypal fee in percents
     'paypal.fee' => 7,
+    
+    // Normalize languages switch patch
+    'Nlang' => [
+        'spa' => 'es',
+        'por' => 'pt',
+    ],
 ];

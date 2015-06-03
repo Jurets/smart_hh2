@@ -113,7 +113,7 @@ $isOwnTicket = $model->user_id === Yii::$app->user->id;
                     <div id="map_canvas" style="width:581px;height:352px;"></div>
                 </div>
             <?php } else { ?>
-                <div class="map">no map</div>
+                <div class="map"><?=Yii::t('app','no map')?></div>
             <?php } ?>
         </div>
         <?= $this->render('review/_comments', ['model' => $model]) ?>

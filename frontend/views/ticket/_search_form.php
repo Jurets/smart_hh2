@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\datetime\DateTimePicker;
+use common\components\Commonhelper;
 ?>
 <form class="sort" action="<?=Url::to(['ticket/index', ],true)?>" method="get">
     <?php
@@ -43,6 +44,7 @@ use kartik\datetime\DateTimePicker;
                                             <!--<input class="calendar" type="text">-->
                                             <?php
                                                 echo DateTimePicker::widget([
+                                                'language' => Commonhelper::LanguageNormalize(),
                                                     'type' => DateTimePicker::TYPE_INPUT,
                                                     'name' => 'finish_day',
                                                     'options' => [

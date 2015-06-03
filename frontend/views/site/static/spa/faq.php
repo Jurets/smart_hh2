@@ -2,10 +2,16 @@
 
 use yii\helpers\Url;
 use common\components\Commonhelper;
+
+Yii::$app->language = Commonhelper::getLanguage();
+
 ?>
 <?php
-$this->title = "About Us";
+$this->title = Yii::t('app', 'FAQ');
 $this->params['breadcrumbs'][] = $this->title;
+
+Yii::$app->language = Commonhelper::getLanguage();
+
 ?>
 
 
@@ -88,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <!-- end content -->
         </div>
         <br>
-        <a style="width:250px;" href="<?= Url::to('#') ?>" class="btn btn-big btn-width joinNow"><?= Yii::t('app', 'WANNA BE A HELPER' . '?') ?></a>
+        <a style="width:250px;" href="<?= Url::to('#') ?>" class="btn btn-big btn-width joinNow"><?= Yii::t('app', 'WANNA BE A HELPER').'?' ?></a>
         &nbsp;
         <a style="width:250px;" href="<?= Url::to(['/ticket/create'], true) ?>" class="btn btn-big btn-width btn-red"><?= Yii::t('app', 'CREATE A TASK') ?></a>
 

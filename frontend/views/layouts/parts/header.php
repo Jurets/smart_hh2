@@ -36,9 +36,9 @@ Yii::$app->language = common\components\Commonhelper::getLanguage();
     data-user-register-first="<?=Url::to(['/registration/userfirst'],true)?>" 
     data-title-user-first="<?=Yii::t('app', 'Sign Up').' '.Yii::t('app', 'Step').' 1'?>" 
     data-performer-register-last="<?=Url::to(['registration/performerlast'],true)?>" 
-    data-title-performer-last="<?=Yii::t('app', 'Performer Registration').' '.Yii::t('app', 'Step').' 2'?>" 
+    data-title-performer-last="<?=Yii::t('app', 'Sign Up').' '.Yii::t('app', 'Step').' 2'?>" 
     data-customer-register-last="<?=Url::to(['registration/customerlast'],true)?>" 
-    data-title-customer-last="<?=Yii::t('app', 'Customer Registration').' '.Yii::t('app', 'Step').' 2'?>" 
+    data-title-customer-last="<?=Yii::t('app', 'Sign Up').' '.Yii::t('app', 'Step').' 2'?>" 
     ></div>
 <div id="registerPopupWindow" class="pop-up-hide"></div>
 

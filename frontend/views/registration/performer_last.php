@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use kartik\widgets\StarRating;
 use kartik\widgets\FileInput;
 use yii\web\View;
+use common\components\Commonhelper;
 ?>
 <div style="min-width:250px;">
     <?php if ($flash = Yii::$app->session->getFlash("Register-success")): ?>
@@ -46,6 +47,7 @@ use yii\web\View;
 
         <?php
         echo FileInput::widget([
+            'language' => Commonhelper::LanguageNormalize(),
             'name' => 'photo',
             'options' => [
                 'multiple' => false,

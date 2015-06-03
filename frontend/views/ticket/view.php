@@ -99,7 +99,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'customer_ticket_management.j
                                     <div id="map_canvas" style="width:581px;height:352px;"></div>
                                 </div>
                                 <?php } else { ?>
-                                <div class="map">no map</div>
+                                <div class="map"><?=Yii::t('app','no map')?></div>
                                 <?php } ?>
                             </div>
                             <?= $this->render('view/_comments', ['model' => $model]) ?>

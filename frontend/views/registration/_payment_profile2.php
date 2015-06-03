@@ -59,7 +59,7 @@ use yii\helpers\Html;
         <div class="help-block render-errors"><?=$paymentProfile->renderErrors('paypal')?></div>
     </div>
 </div>
-<div class="payment-profile-fieldgroup-title"><?=Yii::t('app',"Check mailing…up")?><br><?=Yii::t('app','to 10 business days')?></div>
+<div class="payment-profile-fieldgroup-title" style='width:70%;'><?=Yii::t('app',"Check mailing… up to 10 business days")?></div>
 <div class="form-group field-profile-phone">
 <?php echo Html::label($paymentProfile->getAttributeLabel('mailing_address'), 'm_a', ['class' => 'col-lg-3 control-label']) ?>
     <div class="col-lg-8">

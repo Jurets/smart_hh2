@@ -6,6 +6,7 @@ use kartik\widgets\StarRating;
 use kartik\widgets\FileInput;
 use yii\captcha\Captcha;
 use yii\web\View;
+use common\components\Commonhelper;
 
 /**
  * @var yii\web\View $this

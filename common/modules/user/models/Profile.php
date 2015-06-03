@@ -75,8 +75,8 @@ class Profile extends ActiveRecord {
             'update_time' => Yii::t('user', 'Update Time'),
             'full_name' => Yii::t('user', 'Real Name'),
             //Add new fields:
-            'first_name' => Yii::t('user', 'First name'),
-            'last_name' => Yii::t('user', 'Last name'),
+            'first_name' => Yii::t('app', 'First name'),
+            'last_name' => Yii::t('app', 'Last name'),
             'phone' => Yii::t('user', 'Phone'),
             'adress_mailing' => Yii::t('user', 'Adress mailing'),
             'adress_billing' => Yii::t('user', 'Adress billing'),

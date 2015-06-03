@@ -23,6 +23,7 @@ use common\components\Commonhelper;
                             <?php //echo Html::textInput('finish_day', $model->finish_day)?>
                             <?php 
                                 echo DateTimePicker::widget([
+                                    'language' => Commonhelper::LanguageNormalize(),
                                     'type' => DateTimePicker::TYPE_COMPONENT_APPEND,
                                     'name' => 'finish_day',
                                     
@@ -73,6 +74,7 @@ use common\components\Commonhelper;
 <!--                                <a href="#" class="btn btn-form left">ATTACH A PHOTO</a>-->
                                 <?php
                                 $fileInputFeature = [
+                                    'language' => Commonhelper::LanguageNormalize(),
                                     'name' => 'photo',
                                     'options' => [
                                         'multiple'=>false,
