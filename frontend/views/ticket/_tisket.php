@@ -82,7 +82,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
         </p>
         </a>
         <?php $countSFX = Commonhelper::activeJobsCounter($model->user_id)?>
-        <p><?=Yii::t('app','Active')?> <span class="number-jobs"><?=$countSFX?> <?=($countSFX > 1)? Yii::t('app','jobs') : Yii::app('app','job')?></span></a></p>
+        <p><?=Yii::t('app','Active')?> <span class="number-jobs"><?=$countSFX?> <?=($countSFX > 1)? Yii::t('app','jobs') : Yii::t('app','job')?></span></a></p>
     </div>
     <div class="date-time right">
 <?php echo Commonhelper::convertDate($model->finish_day) ?> <br/>      
