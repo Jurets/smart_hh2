@@ -88,12 +88,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="#"  class="info-position color-done"><span class="red">
                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             <span>
-                            <?php echo $profile->created_tasks ?> done tasks
+                            <?php echo $profile->created_tasks ?>&nbsp;<?=Yii::t('app',"Done Tasks")?>
                             </span>
                     </a>
                     <a href="#"  class="info-position  color-create"><span class="purple"><span class="glyphicon glyphicon-pencil" aria-hidden="true">
                             </span> 
-<?= $profile->done_tasks ?> tasks created
+<?= $profile->done_tasks ?>&nbsp; <?=Yii::t('app',"tasks create")?>
                         </span></a>
                 </p>
 <?php if ($profile->user_id === Yii::$app->user->id) { ?>
@@ -118,6 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div><br><br></div>
                     <a href="#" class="btn btn-width offer-job-button"
+                       style="font-size: 13px;"
                        data-user-id="<?= $profile->user_id ?>"
                        data-url="<?= Url::to(['/user/default/get-offer-job-popup']) ?>">
                         <?=Yii::t('app', "OFFER A JOB")?>

@@ -15,6 +15,7 @@ use yii\helpers\Html;
     <fieldset>
         <?php
         echo FileInput::widget([
+            'language' => common\components\Commonhelper::LanguageNormalize(),
             'id' => 'popup-inputDiplomas'.Yii::$app->user->id,
             'name' => 'cert[]',
             'options' => [

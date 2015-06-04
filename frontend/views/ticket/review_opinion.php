@@ -10,6 +10,10 @@ $this->registerJsFile(Yii::$app->params['path.js'].'profile-reviews.js', [
     
     <?php 
     echo ShowMoreListView::widget([
+        'showMoreBeginTemplate' =>
+        Commonhelper::messageParser("<a class='btn btn-width'>SHOW MORE</a>\n<div class='collapse'>", [
+            'SHOW MORE' => Yii::t('app', "SHOW MORE"),
+        ]),
         'dataProvider' => $reviewOpinionDataProvider,
         'id'=>'reviewOpinion',
         'itemOptions' => ['class' => ''],
@@ -19,7 +23,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'profile-reviews.js', [
         'summary' => '',
         'pager' => [
             'activePageCssClass' => '',
-            'prevPageLabel' => Yii::t('app', '<span class="color:#0d3f67;">' . 'Page:' . '</span>'),
+            'prevPageLabel' => '<span class="color:#0d3f67;">' .Yii::t('app',"Page").':'. '</span>',
             'nextPageLabel' => '',
         ],
     ])

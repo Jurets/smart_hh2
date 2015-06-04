@@ -15,6 +15,7 @@ use yii\helpers\Html;
     <fieldset>
         <?php
         echo FileInput::widget([
+            'language' => common\components\Commonhelper::LanguageNormalize(),
             'id' => 'popup-inputVerifycationsDocs'.Yii::$app->user->id,
             'name' => 'vercode[]',
             'options' => [

@@ -1,12 +1,22 @@
 <?php
-    use yii\widgets\Pjax;
+
+use yii\widgets\Pjax;
+use common\components\Commonhelper;
 ?>
 <div id="jobs-created-tab" class="reviews-holder tab-pane fade in active" role="tabpanel">
-    <?php Pjax::begin([
+    <?php
+    Pjax::begin([
         'id' => 'jobs-created',
         'timeout' => 3000,
-        ]); ?>
-    <?= \frontend\widgets\ShowMoreListView::widget([
+    ]);
+    ?>
+
+    <?=
+    \frontend\widgets\ShowMoreListView::widget([
+        'showMoreBeginTemplate' =>
+        Commonhelper::messageParser("<a class='btn btn-width'>SHOW MORE</a>\n<div class='collapse'>", [
+            'SHOW MORE' => Yii::t('app', "SHOW MORE"),
+        ]),
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => ''],
         'itemView' => '_jobs-created-item',
@@ -19,6 +29,6 @@
         ],
     ])
     ?>
-    <?php Pjax::end(); ?>
+<?php Pjax::end(); ?>
 </div>    
 

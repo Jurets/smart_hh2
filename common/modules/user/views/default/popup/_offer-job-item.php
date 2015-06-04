@@ -5,7 +5,7 @@
 <div class="task-item info-border">
     <div class="task-info-price">
         <p class="price">&dollar;<span><?= empty($model->price) ? '...' : $model->price?></span></p>
-        <p class="measurement">week</p>
+        <p class="measurement"><?php //echo 'week'?></p>
         <?= Html::checkbox('tickets[]', false, ['value' => $model->id]) ?>
     </div>
     <div class="task-info-meta">

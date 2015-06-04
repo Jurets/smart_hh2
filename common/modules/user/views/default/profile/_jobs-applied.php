@@ -7,6 +7,10 @@
         'timeout' => 3000,
         ]); ?>
     <?= \frontend\widgets\ShowMoreListView::widget([
+        'showMoreBeginTemplate' =>
+        Commonhelper::messageParser("<a class='btn btn-width'>SHOW MORE</a>\n<div class='collapse'>", [
+            'SHOW MORE' => Yii::t('app', "SHOW MORE"),
+        ]),
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => ''],
         //TODO: item view could be changed
@@ -15,7 +19,7 @@
         'summary' => '',
         'pager' => [
             'activePageCssClass' => '',
-            'prevPageLabel' => Yii::t('app', '<span class="color:#0d3f67;">' . 'Page:' . '</span>'),
+            'prevPageLabel' => '<span class="color:#0d3f67;">' .Yii::t('app', "Page").':'. '</span>',
             'nextPageLabel' => '',
         ],
     ])
