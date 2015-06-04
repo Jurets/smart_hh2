@@ -213,7 +213,7 @@
         "User Social Networks" => "Redes Sociales de usuario",
         "Verification Docs" => "Docs. de Verificación",
         "View" => "Ver",
-        "WANNA BE A HELPER" => "Quiere ser un ayudante?",
+        "WANNA BE A HELPER" => "Quiere ser un ayudante",
         "Was online" => "Estuvo en linea",
         "Weight" => "Peso",
         "Withdraw" => "Retirar",
