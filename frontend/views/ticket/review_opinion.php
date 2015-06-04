@@ -3,7 +3,7 @@ use frontend\widgets\ShowMoreListView;
 $this->registerJsFile(Yii::$app->params['path.js'].'profile-reviews.js', [
     'depends' => [\yii\web\JqueryAsset::className()],
 ]);
-
+use common\components\Commonhelper;
 ?>
 <div class="reviews-holder" data-review-opinions="true">
     

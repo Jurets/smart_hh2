@@ -1,5 +1,6 @@
 <?php
     use yii\widgets\Pjax;
+    use common\components\Commonhelper;
 ?>
 <div id="reviews-negative-tab" class="reviews-holder tab-pane fade in" role="tabpanel">
     <?php
