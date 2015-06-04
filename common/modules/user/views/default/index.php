@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'summary' => '',
                         'pager' => [
                             'activePageCssClass' => '',
-                            'prevPageLabel' => Yii::t('app', '<span class="color:#0d3f67;">' . 'Page:' . '</span>'),
+                            'prevPageLabel' => Yii::t('app', '<span class="color:#0d3f67;">' .Yii::t('app',"Page").':' . '</span>'),
                             'nextPageLabel' => '',
                         ],
                     ]);

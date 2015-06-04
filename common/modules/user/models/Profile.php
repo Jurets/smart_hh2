@@ -77,16 +77,16 @@ class Profile extends ActiveRecord {
             //Add new fields:
             'first_name' => Yii::t('app', 'First name'),
             'last_name' => Yii::t('app', 'Last name'),
-            'phone' => Yii::t('user', 'Phone'),
-            'adress_mailing' => Yii::t('user', 'Adress mailing'),
-            'adress_billing' => Yii::t('user', 'Adress billing'),
-            'zip_mailing' => Yii::t('user', 'ZIP code mailing'),
-            'zip_billing' => Yii::t('user', 'ZIP code billing'),            
-            'paypal' => Yii::t('user', 'Paypal'),
-            'another_payment' => Yii::t('user', 'Another payment'),
-            'self_description' => Yii::t('user', 'Self description'),
-            'photo' => Yii::t('user', 'Photo'),
-            'country_code' => Yii::t('user', 'Country code'),
+            'phone' => Yii::t('app', 'Phone'),
+            'adress_mailing' => Yii::t('app', 'Adress mailing'),
+            'adress_billing' => Yii::t('app', 'Adress billing'),
+            'zip_mailing' => Yii::t('app', 'ZIP code mailing'),
+            'zip_billing' => Yii::t('app', 'ZIP code billing'),            
+            'paypal' => Yii::t('app', 'Paypal'),
+            'another_payment' => Yii::t('app', 'Another payment'),
+            'self_description' => Yii::t('app', 'Self description'),
+            'photo' => Yii::t('app', 'Photo'),
+            'country_code' => Yii::t('app', 'Country code'),
         ];
     }
 
