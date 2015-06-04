@@ -7,6 +7,7 @@ use yii\web\Controller as native_Controller;
 use common\modules\user\models\User;
 use yii\helpers\Url;
 use common\modules\user\models\Role;
+use common\components\Commonhelper;
 
 class Controller extends native_Controller {
 
@@ -46,6 +47,7 @@ class Controller extends native_Controller {
 
     public function init() {
         parent::init();
+        Yii::$app->language = Commonhelper::getLanguage();
         $this->access_convension = array_merge($this->access_convension, $this->convensionInit()); // You may override this function in your child controller (see example in the top)
         if (!Yii::$app->user->id) {
             $this->Usr = NULL;
