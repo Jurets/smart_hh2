@@ -7,6 +7,7 @@
  *  */
 use kartik\widgets\FileInput;
 use yii\helpers\Url;
+use common\components\Commonhelper;
 use yii\helpers\Html;
 /*@var $this yii\web\View*/
 ?>
@@ -15,6 +16,7 @@ use yii\helpers\Html;
     <fieldset>
         <?php
         echo FileInput::widget([
+            'language' => Commonhelper::LanguageNormalize(),
             'id' => 'popup-inputFile',
             'name' => 'photo',
             'options' => [

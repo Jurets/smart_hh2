@@ -64,13 +64,13 @@ use common\components\Commonhelper;
                                     </div>
                                     <div class="right-column col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                         <?php if(!is_null($subcategories)) {?>
-                                        <p>Category subcats:</p>
+                                        <p><?=Yii::t('app',"Category subcats")?>:</p>
                                         <?php foreach($subcategories as $subcategory) { ?>
                                         <?php echo Html::checkbox('sub['.$subcategory->id.']',
                                                 isset($_GET['sub'][$subcategory->id]) ? TRUE : FALSE,
                                                 ['id' => 'subcat_id_'.$subcategory->id, 'value'=>'*'])
                                                 ?>
-                                        <?php echo Html::label($subcategory->name, 'subcat_id_'.$subcategory->id) ?><br>
+                                        <?php echo Html::label(Yii::t('app',$subcategory->name), 'subcat_id_'.$subcategory->id) ?><br>
                                         <?php } ?>
                                         <?php } ?>
                                     </div>

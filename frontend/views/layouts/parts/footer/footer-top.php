@@ -39,10 +39,10 @@ use common\components\Commonhelper;
         <?php // переработка - пока языки хардкодятся ?>
         <div class="column column-nav col-xs-6 col-sm-6 col-md-6 col-lg-2">
             <ul>
-                <li><a href="<?=Url::to(['site/aboutus', 'language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','About Us')?></a></li>
-                <li><a href="<?=Url::to(['site/faq', 'language'=>  Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','FAQ')?></a></li>
-                <li><a href="<?=Url::to(['site/termsandagreements','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app', 'Terms & Agreement')?></a></li>
-                <li><a href="<?=Url::to(['site/contactus','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','Contact US')?></a></li>
+                <li><a href="<?=Url::to(['/site/aboutus', 'language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','About Us')?></a></li>
+                <li><a href="<?=Url::to(['/site/faq', 'language'=>  Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','FAQ')?></a></li>
+                <li><a href="<?=Url::to(['/site/termsandagreements','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app', 'Terms & Agreement')?></a></li>
+                <li><a href="<?=Url::to(['/site/contactus','language'=>Commonhelper::getLanguage()],true)?>"><?=Yii::t('app','Contact US')?></a></li>
             </ul>
         </div>
         <?php // окончание переработки ?>

@@ -213,7 +213,7 @@
         "User Social Networks" => "User Social Networks",
         "Verification Docs" => "Verification Docs",
         "View" => "View",
-        "WANNA BE A HELPER" => "Want to become a helper?",
+        "WANNA BE A HELPER" => "Want to become a helper",
         "Was online" => "Was Online",
         "Weight" => "Weight",
         "Withdraw" => "Withdraw",

@@ -352,12 +352,12 @@ class TicketController extends Controller {
 
     public function actionTest($id = NULL, $test = NULL) {
         
-        $dbc = Yii::$app->db;
-        $categoryOnlyCommand = $dbc->createCommand('SELECT name FROM category');
-        $onlyCatsIdList = $categoryOnlyCommand->queryAll();
-        foreach($onlyCatsIdList as $item){
-            echo Yii::t('app',$item['name']).'<br>';
-        }
+//        $dbc = Yii::$app->db;
+//        $categoryOnlyCommand = $dbc->createCommand('SELECT name FROM category');
+//        $onlyCatsIdList = $categoryOnlyCommand->queryAll();
+//        foreach($onlyCatsIdList as $item){
+//            echo Yii::t('app',$item['name']).'<br>';
+//        }
         
 //        Yii::$app->language = 'spa';
 //       

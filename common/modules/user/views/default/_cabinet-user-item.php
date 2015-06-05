@@ -30,6 +30,8 @@ use common\components\Commonhelper;
         </div>
         <p class="user-mark">
             <?php
+            $basedOn = Yii::t('app', 'based on');
+            $votes = Yii::t('app','votes');
                     echo StarRating::widget([
                         'id' => 'the-star-rating',
                         'name' => 'noname',
@@ -42,14 +44,14 @@ use common\components\Commonhelper;
                             'stars' => 5,
                             'min' => 0,
                             'max' => 5,
-                            'clearCaption' => '(0 based on 0 votes)',
+                            'clearCaption' => "(0 $basedOn 0 $votes)",
                             'clearCaptionClass' => 'stars_rating_patch',
                             'starCaptions' => [
-                                1 => '(1 based on '.$profile->voice.' votes)',
-                                2 => '(2 based on '.$profile->voice.' votes)',
-                                3 => '(3 based on '.$profile->voice.' votes)',
-                                4 => '(4 based on '.$profile->voice.' votes)',
-                                5 => '(5 based on '.$profile->voice.' votes)',
+                                1 => "(1 $basedOn ".$profile->voice." $votes)",
+                                2 => "(2 $basedOn ".$profile->voice." $votes)",
+                                3 => "(3 $basedOn ".$profile->voice." $votes)",
+                                4 => "(4 $basedOn ".$profile->voice." $votes)",
+                                5 => "(5 $basedOn ".$profile->voice." $votes)",
                             ],
                             'starCaptionClasses' => [
                                 1 => 'stars_rating_patch',

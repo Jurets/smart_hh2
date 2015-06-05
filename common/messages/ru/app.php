@@ -213,7 +213,7 @@
         "User Social Networks" => "Социальные сети пользователя",
         "Verification Docs" => "Подтверждающие документы",
         "View" => "Обзор",
-        "WANNA BE A HELPER" => "Хотите стать хелпером?",
+        "WANNA BE A HELPER" => "Хотите стать хелпером",
         "Was online" => "Был онлайн",
         "Weight" => "Вес",
         "Withdraw" => "Снять деньги",
