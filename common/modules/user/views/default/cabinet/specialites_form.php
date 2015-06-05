@@ -13,7 +13,7 @@ use yii\helpers\Url;
        <?php if(!empty($dataSet)) { ?>
        <select class="" name="category_id">
             <?php foreach($dataSet as $category) { ?>
-           <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+           <option value="<?= $category['id'] ?>"><?= Yii::t('app',$category['name'])?></option>
             <?php } ?>
        </select>
        <?php } ?>
