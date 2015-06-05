@@ -294,6 +294,8 @@ class Ticket extends \yii\db\ActiveRecord {
         if (isset($post['category'])) {
             $category = $post['category'];
             $this->id_category = (int) array_search(current($category), $category);
+        }else{
+            $this->id_category = NULL;
         }
         
         $this->is_turned_on = self::TURNED_ON;
