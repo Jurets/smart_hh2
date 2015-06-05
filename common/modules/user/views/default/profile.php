@@ -100,9 +100,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('profile/_withdraw_popup', ['paymentProfile'=>$paymentProfile, 'profile'=>$profile]); ?>
     <?= $this->render('profile/_money_output', ['profile' => $profile]); ?>
 <?php } else { ?>
-                    <a href="#" class="user-additional-info"><?php echo $activityMessage ?></a>
+                    <a href="#" class="user-additional-info" style="font-size:12px;"><?php echo $activityMessage ?></a>
 <?php } ?>
-                <a href="#"  class="user-additional-info"><?php echo $doneTaskMessage ?></a>
+                <a href="#"  class="user-additional-info" style="font-size:12px;"><?php echo $doneTaskMessage ?></a>
             </div>
             <div class="clear"></div>
         </div>
