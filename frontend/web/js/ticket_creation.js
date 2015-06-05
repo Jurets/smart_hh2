@@ -2,40 +2,41 @@ $(function () {
     if ($('select').is('#slot1') === true) {
         SLOTS.initialSystem();
     }
-    if( $('div').is('#exists') === true ) {
+    if ($('div').is('#exists') === true) {
         SLOTS.modulation.slots();
     }
 });
 // Namespace for ticket creation form
 var SLOTS = {
     slotsQuantity: 0,
-    modulation : {
-        slots: function(){
+    subcatCount: 0,
+    modulation: {
+        slots: function () {
             var instruction = JSON.parse($('#exists').html());
             var currentSlotNumber = 1;
-            for (var category in instruction){
+            for (var category in instruction) {
                 this.slotChange(currentSlotNumber, category);
                 this.pnlChange(currentSlotNumber, instruction[category]);
-                currentSlotNumber ++;
+                currentSlotNumber++;
             }
         },
-        slotChange: function(currentSlotNumber, category){
-            $('#slot'+currentSlotNumber+' option').each(function(){
-                if( $(this).attr('name') === category) {
+        slotChange: function (currentSlotNumber, category) {
+            $('#slot' + currentSlotNumber + ' option').each(function () {
+                if ($(this).attr('name') === category) {
                     $(this).attr('selected', 'selected');
                     $(this).change();
                 }
             });
         },
-        pnlChange: function(currPnl, currObj){
-            for(var i = 0; i < currObj.length; i++){
-                $('#pnl'+currPnl).find('input[type="checkbox"]').each(function(){
-                    if( $(this).attr('name') === 'category['+currObj[i]+']' ){
+        pnlChange: function (currPnl, currObj) {
+            for (var i = 0; i < currObj.length; i++) {
+                $('#pnl' + currPnl).find('input[type="checkbox"]').each(function () {
+                    if ($(this).attr('name') === 'category[' + currObj[i] + ']') {
                         $(this).attr('checked', 'checked');
                         $(this).change();
                     }
                 });
-                
+
             }
         }
     },
@@ -63,7 +64,7 @@ var SLOTS = {
                     $('#slot' + i).html(matrix);
             },
             slotPrepare: function () {
-                var nodes = "<option>"+$('[data-thumb]').attr("data-thumb")+"</option>\n";
+                var nodes = "<option>" + $('[data-thumb]').attr("data-thumb") + "</option>\n";
                 for (var i = 0; i < this.signCollection.length; i++) {
                     nodes = nodes + '<option name="' + this.signCollection[i].id + '">' + this.signCollection[i].value + '</option>\n';
                 }
@@ -85,8 +86,8 @@ var SLOTS = {
             SLOTS.catalogue.choisesStorage[index] = choise.attr('name');
             SLOTS.catalogue.slotOtherRerender(index);
             SLOTS.catalogue.panelSubcatRender(index, SLOTS.catalogue.choisesStorage[index]);
-            if(SLOTS.catalogue.choisesStorage[index] === undefined){
-                $('#addon'+index).empty();
+            if (SLOTS.catalogue.choisesStorage[index] === undefined) {
+                $('#addon' + index).empty();
             }
         },
         slotOtherRerender: function (current) {
@@ -125,11 +126,16 @@ var SLOTS = {
             var pnl_id = $(this).closest('li[id^=pnl]').attr('id');
             var num_id = pnl_id.substr(3);
             if ($(this).is(':checked')) {
-                // insert
-                $('#addon'+num_id).append('<input type="hidden" name="'+this.name+'">');
+                var terminator = $('.select-sub-categories input:checked').length;
+                if (terminator <= 3) {
+                    if (!$('#addon' + num_id).find('input[name="' + this.name + '"]').length) {
+                        // insert
+                        $('#addon' + num_id).append('<input type="hidden" name="' + this.name + '">');
+                    }
+                }
             } else {
                 // delete
-                $('#addon'+num_id).find('input[name="'+this.name+'"]').remove();
+                $('#addon' + num_id).find('input[name="' + this.name + '"]').remove();
             }
         }
     },
@@ -148,24 +154,36 @@ var SLOTS = {
         }
         return buff;
     },
-    bindCheckboxHandlers: function(){
-        $('.option-categories').on('change', 'input:checkbox', SLOTS.handleCheckboxChange)
+    bindCheckboxHandlers: function () {
+        $('.option-categories').on('change', 'input:checkbox', SLOTS.handleCheckboxChange);
     },
-    handleCheckboxChange: function(){
+    handleCheckboxChange: function (event) {
         var $checkbox = $(this);
         var $selectedSubcategories = $checkbox
                 .closest('.sub-categiries')
                 .find('.select-sub-categories input:checked');
         var selectedSubcategoriesCount = $selectedSubcategories.length;
-        if($checkbox.hasClass('main-category')
+        if ($checkbox.hasClass('main-category')
                 && selectedSubcategoriesCount
-                && !$checkbox.is(':checked')){
+                && !$checkbox.is(':checked')) {
             $selectedSubcategories.prop('checked', false);
-        }else if ($checkbox.is(':checked')){
+            $selectedSubcategories.change();
+        } else if ($checkbox.is(':checked')) {
             $checkbox
                     .closest('.sub-categiries')
                     .find('input.main-category')
                     .prop('checked', true);
+
+            // HOW TO DO IT ?
+            //$checkbox.parent().parent().parent().find('[type=checkbox]').trigger('change');
+            if(!$(event.target).is('.main-category')){
+                $checkbox.parent().parent().parent().find('.main-category').change();
+            }
+        }
+
+        var terminator = $('.select-sub-categories input:checked').length;
+        if (terminator > 3) {
+            $checkbox.prop('checked', false);
         }
     }
 };

@@ -15,7 +15,7 @@ return [
     'path.js' => '/frontend/web/js/',
     
     //slots.quantity: how many categories can choose together when ticket created
-    'slots.quantity' => 4,
+    'slots.quantity' => 2,
     //maximum complaints count when ticket not banned
     'maximum.complaint' => 3,
     //system languages

@@ -357,12 +357,26 @@ class Ticket extends \yii\db\ActiveRecord {
     }
 
     /* add ticket id (as last insert id) into category_bind */
-    protected function categoryBindService($categories) {
+    protected function categoryBindService($categories) {        
         if(is_null($categories)){return;}
         $dbc = Yii::$app->db;
+        // Need make subcat list for deside to terminate subcat binding after 3
+        $categoryOnlyCommand = $dbc->createCommand('SELECT id FROM category WHERE level = 1');
+        $onlyCatsIdList = $categoryOnlyCommand->queryColumn();
+        $maxSubCatCounter = 0;
         $rows = [];
         foreach ($categories as $catname => $category) {
-            array_push($rows, [$catname, $this->id]);
+            if(array_search($catname, $onlyCatsIdList)=== FALSE){
+                // this is a subcategory
+                $maxSubCatCounter ++;
+                if($maxSubCatCounter > 3){ // terminate after last 3 subcat
+                    continue;
+                }else{
+                    array_push($rows, [$catname, $this->id]);
+                }
+            }else{ // this is a category
+                array_push($rows, [$catname, $this->id]);
+            }
         }
         $mainCom = $dbc->createCommand()
                 ->batchInsert('category_bind', ['category_id', 'ticket_id'], $rows);
