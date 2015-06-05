@@ -184,6 +184,7 @@ var SLOTS = {
         var terminator = $('.select-sub-categories input:checked').length;
         if (terminator > 3) {
             $checkbox.prop('checked', false);
+            $checkbox.parent().parent().parent().find('.main-category').prop('checked',true);
         }
     }
 };
