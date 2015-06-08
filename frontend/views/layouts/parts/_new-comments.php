@@ -9,7 +9,7 @@ $allNewTicketsCommentsCount = ($currentUser !== null) ? ($currentUser->getNewTic
 ?>
 <a href="#" class="" <?= $allNewTicketsCommentsCount ? 'data-toggle="dropdown"' : '' ?>><img src="/images/icon-letter.png" alt="letter"/>
     <?php
-    $buffTxt = Yii::t('app', '{n, plural, =1{<span>#</span> new message} other{<span>#</span> new messages}}', [
+    $buffTxt = Yii::t('app', '{n, plural, =1{<span>#</span> new messages} other{<span>#</span> new messages}}', [
         'n' => $allNewTicketsCommentsCount
     ]);
     $buffTxt = Commonhelper::messageParser($buffTxt, ['new messages' => Yii::t('app', 'new messages')]);

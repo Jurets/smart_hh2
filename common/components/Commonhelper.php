@@ -163,5 +163,19 @@ class Commonhelper {
         }
         return $language;
     }
+    // для получения количества созданных/завершенных тикетов
+    public static function createdDonedTicketQuantity($user_id){
+        $id = (int)$user_id;
+        $created = Ticket::find()
+                ->andWhere(['user_id' => $id])
+                ->andWhere(['not', ['status' => Ticket::STATUS_COMPLETED]])
+                ->count();
+        $doned = Ticket::find()
+                ->andWhere(['performer_id' => $id])
+                ->andWhere(['status' => Ticket::STATUS_COMPLETED])
+                ->count();
+        return ['created'=>$created, 'doned'=>$doned];
+        
+    }
     /* _ */
 }

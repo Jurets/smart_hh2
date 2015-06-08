@@ -352,6 +352,9 @@ class TicketController extends Controller {
 
     public function actionTest($id = NULL, $test = NULL) {
         
+//        $test = \common\components\Commonhelper::createdDonedTicketQuantity(3);
+//        var_dump($test);
+        
 //        $dbc = Yii::$app->db;
 //        $categoryOnlyCommand = $dbc->createCommand('SELECT name FROM category');
 //        $onlyCatsIdList = $categoryOnlyCommand->queryAll();

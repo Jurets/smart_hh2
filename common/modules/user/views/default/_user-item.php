@@ -56,13 +56,18 @@ use yii\helpers\Url;
             ],
         ]);
         ?>
+        <?php $createdDonedTasks = Commonhelper::createdDonedTicketQuantity($model->id) ?>
         <p class="user-info">
             <span class="info-position"><img alt="" src="/images/language-icon.png">United States</span>
             <a class="info-position color-done" href="#"><span class="red"><span aria-hidden="true" class="glyphicon glyphicon-ok"></span>
-            <?=(is_null($model->profile->done_tasks))?0:$model->profile->done_tasks?> <?=Yii::t('app', 'tasks done')?>
+            <?php //echo(is_null($model->profile->done_tasks))?0:$model->profile->done_tasks?> 
+            <?php echo $createdDonedTasks['doned']?>
+            <?=Yii::t('app', 'tasks done')?>
                 </span></a>
             <a class="info-position  color-create" href="#"><span class="purple"><span aria-hidden="true" class="glyphicon glyphicon-pencil"></span> 
-                    <?= (is_null($model->profile->created_tasks)) ? 0 : $model->profile->created_tasks ?> <?=Yii::t('app', 'tasks create')?>
+            <?php //echo (is_null($model->profile->created_tasks)) ? 0 : $model->profile->created_tasks ?>
+            <?php echo $createdDonedTasks['created']?>
+            <?=Yii::t('app', 'tasks create')?>
                 </span></a>
         </p>
     </div>
