@@ -614,4 +614,18 @@
         "and max" => "y máximo",
         "Seattle, WA or 98124" => "Seattle, WA o 98124",
         "Using our secure online methods" => "",
+        
+        // фаза 4
+        "no map" => "ningún mapa",
+        "Update" => "actualización",
+        "update" => "actualización",
+        "Create" => "crear",
+        "create" => "crear",
+        "Delete" => "borrar",
+        "delete" => "borrar",
+        "No Comments" => "Sin Comentarios",
+        "Category subcats" => "Subcategorias",
+        "I offer new price" => "Ofrezco nuevo precio",
+        "the page cannot be found" => "La página no se puede encontrar",
+        "please return back" => "por favor volver", 
 ];

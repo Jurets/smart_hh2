@@ -1,6 +1,9 @@
 <?php
 use Yii;
 use yii\helpers\Url;
+use common\components\Commonhelper;
+
+Yii::$app->language = Commonhelper::getLanguage();
 ?>
 <div class="custom-error-layout">
     <div class="error-block">
