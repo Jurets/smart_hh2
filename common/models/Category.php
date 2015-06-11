@@ -80,4 +80,16 @@ class Category extends \yii\db\ActiveRecord
         $structure = $db->createCommand($sql)->queryAll();
         return $structure;
     }
+    /* special method for set id_category keys of getting categoryes first lvl */
+    public static function determinateMainCategory($categoryFromPost){
+        $dbh = Yii::$app->db;
+        $categoryAll = $dbh->createCommand('SELECT id FROM category WHERE level = 1')->queryColumn();
+        $categoryRequest = array_keys($categoryFromPost);
+        foreach($categoryRequest as $item){
+            $catch = array_search((string)$item, $categoryAll);
+            if($catch !== FALSE){
+                return $item;
+            }
+        }
+    }
 }

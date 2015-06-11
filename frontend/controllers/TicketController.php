@@ -78,9 +78,9 @@ class TicketController extends Controller {
             $query->andFilterWhere(['category_bind.category_id' => (int) $cid]);
         }
         // new seo target condition
-        if(isset($get['category']) && isset($get['city'])){
+        if (isset($get['category']) && isset($get['city'])) {
             $zipList = SeoHelper::FooterZipCodesStructure($get['city']);
-            if(!is_null($zipList)){
+            if (!is_null($zipList)) {
                 $this->view->params['seo-zip-list'] = $zipList;
             }
             $query->leftJoin('category_bind', 'ticket.id = ticket_id');
@@ -351,41 +351,7 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = NULL, $test = NULL) {
-        
-//        $test = \common\components\Commonhelper::createdDonedTicketQuantity(3);
-//        var_dump($test);
-        
-//        $dbc = Yii::$app->db;
-//        $categoryOnlyCommand = $dbc->createCommand('SELECT name FROM category');
-//        $onlyCatsIdList = $categoryOnlyCommand->queryAll();
-//        foreach($onlyCatsIdList as $item){
-//            echo Yii::t('app',$item['name']).'<br>';
-//        }
-        
-//        Yii::$app->language = 'spa';
-//       
-//        echo Yii::t('user','Email');
-        
-       // echo Yii::getAlias('@common');
-
-        //   \common\components\UrlEncriptor::setupSeonamesForZips();
-//        $test = SeoHelper::FooterIndexStructure(); 
-//        var_dump($test);
-//        
-//        $test = SeoHelper::FooterIndexStructure();
-//        var_dump($test[0]);
-//        var_dump($test[338]);
-//        
-//        return $this->render('test', [
-//                    'id' => $id,
-//                    'test' => $test,
-//        ]);
-//        $str = 'Virtual Assistant &';
-//        $encode = Html::encode($str);
-//        $decode = Html::decode($encode);
-//        echo $str.'<br>'.PHP_EOL;
-//        echo $encode.'<br>'.PHP_EOL;
-//        echo $decode.'<br>'.PHP_EOL;
+        echo 'Test';
     }
 
     /* purposal work */

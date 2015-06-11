@@ -293,7 +293,8 @@ class Ticket extends \yii\db\ActiveRecord {
         $category = NULL;
         if (isset($post['category'])) {
             $category = $post['category'];
-            $this->id_category = (int) array_search(current($category), $category);
+            //$this->id_category = (int) array_search(current($category), $category); // fake binding
+            $this->id_category = Category::determinateMainCategory($category);
         }else{
             $this->id_category = NULL;
         }

@@ -83,6 +83,7 @@ var SLOTS = {
             var choise = $(this).find('option:selected');
             var slot = $(this).attr('id');
             var index = parseInt(slot.substr(4));
+            $('#addon' + index).empty(); // reset current choise if slot changed category
             SLOTS.catalogue.choisesStorage[index] = choise.attr('name');
             SLOTS.catalogue.slotOtherRerender(index);
             SLOTS.catalogue.panelSubcatRender(index, SLOTS.catalogue.choisesStorage[index]);
