@@ -44,4 +44,13 @@ return [
         'spa' => 'es',
         'por' => 'pt',
     ],
+    
+    // ZIP used diapasone
+    'zipDiapasone1' => [
+        'begin' => 33000, 'end' => 33499,
+    ],
+    'zipDiapasone2' => [
+        'begin' => 34900,
+        'end' => 34999,
+    ],
 ];

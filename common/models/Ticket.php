@@ -151,18 +151,52 @@ class Ticket extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['file_prepare'], 'file', 'extensions' => 'jpg,jpeg, png, gif', 'mimeTypes' => 'image/jpeg, image/png, image/gif'],
-            [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable'], 'required'],
+            [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable', 'assembled_zip'], 'required'],
             [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate', 'zip_id'], 'integer', 'min' => 0],
             [['description', 'comment', 'photo'], 'string'],
             [['lat','lon'], 'double'],
             [['created', 'start_day', 'finish_day'], 'safe'],
-            [['title', 'system_key'], 'string', 'max' => 255]
+            [['title', 'system_key'], 'string', 'max' => 255],
+            [['assembled_zip'], 'validateAssembledZip'],
         ];
     }
 
+    public function validateAssembledZip($attribute, $params){
+        $msg = [
+            'zero' => Yii::t('app','Zip code must be not null'),
+            'five' => Yii::t('app', 'Zip code consist of five digits'),
+            'range' => Yii::t('app', 'zip out of the range of addresses served'),
+            'mailto' => Yii::t('app', "if you want Helping Hut in your city write to us"),
+        ];
+        // zero
+        $zip = $this->$attribute;
+        if(!$zip){
+            $this->addError($attribute, $msg['zero']);
+        }
+        // format
+        if(!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string)$zip)){
+            $this->addError($attribute, $msg['five']);
+        }
+        // range
+        $diap1 = Yii::$app->params['zipDiapasone1'];
+        $diap2 = Yii::$app->params['zipDiapasone2'];
+        $outOfRange = 0;
+        if($zip < $diap1['begin'] || $zip > $diap1['end']){
+            $outOfRange ++;
+        }
+        if($zip < $diap2['begin'] || $zip > $diap2['end']){
+            $outOfRange ++;
+        }
+        if($outOfRange >=2){ // zip dont entered in any one of the ranges
+            $this->addError($attribute, $msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$msg['mailto'].'</a>');
+        }
+        
+    }
+    
     /**
      * @inheritdoc
      */
+    
     public function attributeLabels() {
         return [
             'id' => Yii::t('app', 'ID'),
@@ -309,7 +343,7 @@ class Ticket extends \yii\db\ActiveRecord {
             }else{ // ветвление для принятия решения по доклеиванию zip
                 if(!empty($post['zip_tf'])){
                     if(ctype_digit(\yii\helpers\Html::encode($post['zip_tf']))){ // человек пытается ввести zip-код как есть
-                        $isZip = Zips::find()->where('zip=:zip', ['zip'=>(int)$post['zip_tf']])->one();
+                        $isZip = Zips::find()->where('zip=:zip', ['zip'=>(int)$post['zip_tf']])->one(); // мы его пытаемся идентифицировть по базе данных
                         if(!is_null($isZip)){
                             $this->assembled_zip = $isZip->zip;
                         }else{
@@ -322,7 +356,8 @@ class Ticket extends \yii\db\ActiveRecord {
             
             /* иссл. */
             //die;
-            $this->calculateLatLon($location);
+            
+            $this->calculateLatLon($location); // google API
             $this->job_location = $location;
         }
         

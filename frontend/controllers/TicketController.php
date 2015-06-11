@@ -313,8 +313,14 @@ class TicketController extends Controller {
             $list = NULL;
             $post = Yii::$app->request->post();
             // TO DO LIKE-type query for ZIP-city-codes
-            if (isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3) {
+            if (isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3) { 
                 $cityes = Zips::find()
+                        ->andWhere("(zip >= :zipDiapasone1_begin AND zip <= :zipDiapasone1_end) OR (zip >= :zipDiapasone2_begin AND zip <= :zipDiapasone2_end)", [
+                            ':zipDiapasone1_begin' => Yii::$app->params['zipDiapasone1']['begin'],
+                            ':zipDiapasone1_end' => Yii::$app->params['zipDiapasone1']['end'],
+                            ':zipDiapasone2_begin' => Yii::$app->params['zipDiapasone2']['begin'],
+                            ':zipDiapasone2_end' => Yii::$app->params['zipDiapasone2']['end'],
+                        ])
                         ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($post['zip_tf'])])
                         ->all();
 
@@ -351,7 +357,14 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = NULL, $test = NULL) {
-        echo 'Test';
+        $zip_tf = "Stu";
+        $cityes = Zips::find()
+                        ->andWhere( "(zip >= 33000 AND zip <= 33499) OR (zip >= 34900 AND zip <= 34999)" )
+                        ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($zip_tf)])
+                        ->all();
+        foreach($cityes as $ind => $city){
+            echo ++$ind .' --- '. $city->city .' = '.$city->zip . '<br>';
+        }
     }
 
     /* purposal work */
