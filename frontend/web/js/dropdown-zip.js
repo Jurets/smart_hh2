@@ -4,18 +4,19 @@ $(function () {
 });
 
 ZIPI = {
+    url: '',
     init: function () {
         $('#zip_tf_id').on('input', ZIPI.dropdownchange);
+        ZIPI.url = $('[data-zipDropdownURL]').attr('data-zipDropdownURL');
     },
     dropdownchange: function () {
         var fieldContent = $('#zip_tf_id').val();
         var regChecked = /^[^0-9]{3,}/;
         var regResult = regChecked.test(fieldContent);
         if (regResult) {
-            var url = $('[data-zipDropdownURL]').attr('data-zipDropdownURL');
             $('#zip_id').val('');
             $.ajax({
-                'url': url,
+                'url': ZIPI.url,
                 'type': 'POST',
                 'dataType': 'html',
                 'data': {
@@ -42,23 +43,27 @@ ZIPI = {
         var checkFormat = /^[0-9][0-9][0-9][0-9][0-9]$/;
         var result = checkFormat.test(fieldContent);
         if (result) {
-//            var int1_Begin = $('[data-interval1_begin]').attr('data-interval1_begin');
-//            var int1_End = $('[data-interval1_end]').attr('data-interval1_end');
-//            var int2_Begin = $('[data-interval2_begin]').attr('data-interval2_begin');
-//            var int2_End = $('[data-interval2_end]').attr('data-interval2_end');
-//            var checkerCount = 0;
-//            if(fieldContent < int1_Begin || fieldContent > int1_End){ // diap 1
-//                checkerCount ++;
-//            }
-//            if(fieldContent <= int2_Begin || fieldContent >= int2_End){ // diap 2
-//                checkerCount ++;
-//            }
-//            // finalise check process
-//            if(checkerCount >= 2){
-//                var outOgRangeMessage = $('[data-outofrangemessage]').attr('data-outofrangemessage');
-//                alert(outOgRangeMessage);
-//                console.log(outOgRangeMessage);
-//            }
+          $.ajax({
+              'url': ZIPI.url,
+              'type': 'POST',
+              'dataType': 'json',
+              'data': {
+                'is_out_range': true,
+                'zip_check' : $('#zip_tf_id').val()
+              },
+              'success': function(responce){
+                  if(!responce.zipExist){
+                      var outOfRangeMessage = $('[data-outofrangemessage]').attr('data-outofrangemessage');
+                      $('#range-message').html(outOfRangeMessage);
+                  }
+              }
+          });  
+        } else {
+            $('#range-message').html('');
         }
-    },
+        
+        
+        
+        //var outOgRangeMessage = $('[data-outofrangemessage]').attr('data-outofrangemessage');
+    }
 };

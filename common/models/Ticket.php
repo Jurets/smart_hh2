@@ -8,7 +8,9 @@ use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 use common\modules\user\models\User;
 use common\models\Zips;
-/*message: curl-adapt : ok*/
+
+/* message: curl-adapt : ok */
+
 /**
  * This is the model class for table "ticket".
  *
@@ -69,11 +71,23 @@ class Ticket extends \yii\db\ActiveRecord {
      * @inheritdoc
      */
     public $categoryBinds = []; // get and check category instances for category binding when ticket create 
+    
+    public $msg = []; // messages pool for assembled_zip validation
 
     public static function tableName() {
         return 'ticket';
     }
 
+    public function init() {
+        parent::init();
+        $this->msg = [
+            'zero' => Yii::t('app', 'Zip code must be not null'),
+            'five' => Yii::t('app', 'Zip code consist of five digits'),
+            'range' => Yii::t('app', 'zip out of the range of addresses served'),
+            'mailto' => Yii::t('app', "if you want Helping Hut in your city write to us"),
+        ];
+    }
+    
     /* serves as a substitute for native values comfy  (Extensible) */
 
     protected $surrogateStruct = [
@@ -100,7 +114,6 @@ class Ticket extends \yii\db\ActiveRecord {
         0 => 'ASC',
         1 => 'DESC',
     ];
-
 
     /* invertor bann/unbann */
 
@@ -154,52 +167,33 @@ class Ticket extends \yii\db\ActiveRecord {
             [['user_id', 'id_category', 'description', 'title', 'is_turned_on', 'is_time_enable', 'assembled_zip'], 'required'],
             [['user_id', 'id_category', 'price', 'is_turned_on', 'status', 'is_time_enable', 'is_positive', 'rate', 'zip_id'], 'integer', 'min' => 0],
             [['description', 'comment', 'photo'], 'string'],
-            [['lat','lon'], 'double'],
+            [['lat', 'lon'], 'double'],
             [['created', 'start_day', 'finish_day'], 'safe'],
             [['title', 'system_key'], 'string', 'max' => 255],
             [['assembled_zip'], 'validateAssembledZip'],
         ];
     }
 
-    public function validateAssembledZip($attribute, $params){
-        /* This temporary switch off - code must be reorganized */
-//        $msg = [
-//            'zero' => Yii::t('app','Zip code must be not null'),
-//            'five' => Yii::t('app', 'Zip code consist of five digits'),
-//            'range' => Yii::t('app', 'zip out of the range of addresses served'),
-//            'mailto' => Yii::t('app', "if you want Helping Hut in your city write to us"),
-//        ];
-//        // zero
-//        $zip = $this->$attribute;
-//        if(!$zip){
-//            $this->addError($attribute, $msg['zero']);
-//        }
-//        // format
-//        if(!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string)$zip)){
-//            $this->addError($attribute, $msg['five']);
-//        }
-//        // range
-//        $diap1 = Yii::$app->params['zipDiapasone1'];
-//        $diap2 = Yii::$app->params['zipDiapasone2'];
-//        $outOfRange = 0;
-//        if($zip < $diap1['begin'] || $zip > $diap1['end']){
-//            $outOfRange ++;
-//        }
-//        if($zip < $diap2['begin'] || $zip > $diap2['end']){
-//            $outOfRange ++;
-//        }
-//        if($outOfRange >=2){ // zip dont entered in any one of the ranges
-//            $this->addError($attribute, $msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$msg['mailto'].'</a>');
-//        }
-        /* est */
-        // New validations Varriant
-        
+    // custom validators section
+    public function validateAssembledZip($attribute, $params) {
+        $zip = $this->$attribute;
+        // zero check
+        if (!$zip) {
+            $this->addError($attribute, $this->msg['zero']);
+        }
+        // 5 digits check
+        if (!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string) $zip)) {
+            $this->addError($attribute, $this->msg['five']);
+        }
+        // out of range check
+        if(!\common\components\Commonhelper::outRangeChecker($zip)){
+            $this->addError($attribute, $this->msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$this->msg['mailto'].'</a>');
+        }
     }
-    
+
     /**
      * @inheritdoc
      */
-    
     public function attributeLabels() {
         return [
             'id' => Yii::t('app', 'ID'),
@@ -227,6 +221,7 @@ class Ticket extends \yii\db\ActiveRecord {
     public function getZip() {
         return $this->hasOne(Zips::className(), ['id' => 'zip_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -243,15 +238,15 @@ class Ticket extends \yii\db\ActiveRecord {
 
     /**
      * @return \yii\db\ActiveQuery
-     */    
+     */
     public function getTicketComments() {
         return $this->hasMany(TicketComments::className(), ['ticket_id' => 'id'])->orderBy(['ticket_comments.date' => SORT_ASC]);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
-     */ 
-    public function getReviews(){
+     */
+    public function getReviews() {
         return $this->hasMany(Review::className(), ['ticket_id' => 'id']);
     }
 
@@ -290,26 +285,29 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $compactStruct;
     }
+
     /* depended from categoryLocate and if updateAction */
-    public function catsExist(){
+
+    public function catsExist() {
         $existence = (new Query())
                 ->select('category_id, parent_id')
                 ->from('category_bind')
                 ->leftJoin('category', 'category.id = category_bind.category_id')
-                ->where(['ticket_id'=>$this->id])
+                ->where(['ticket_id' => $this->id])
                 ->createCommand()
                 ->queryAll();
         $choiseStruct = [];
         foreach ($existence as $element) {
-            if( is_null($element['parent_id']) ){
-                $choiseStruct[(string)$element['category_id']] = [];
-                $choiseStruct[(string)$element['category_id']][] = $element['category_id'];//'enabled';
-            }else{
-                $choiseStruct[(string)$element['parent_id']][] = $element['category_id'];
+            if (is_null($element['parent_id'])) {
+                $choiseStruct[(string) $element['category_id']] = [];
+                $choiseStruct[(string) $element['category_id']][] = $element['category_id']; //'enabled';
+            } else {
+                $choiseStruct[(string) $element['parent_id']][] = $element['category_id'];
             }
         }
         return $choiseStruct = json_encode($choiseStruct);
     }
+
     public function ticketUploadFile() {
         $this->photo = UploadedFile::getInstanceByName('photo');
 
@@ -321,7 +319,7 @@ class Ticket extends \yii\db\ActiveRecord {
     /* Services */
     /* enabled with all dependced data */
 
-    public function mainInitService($post, $mode_update=FALSE) {       
+    public function mainInitService($post, $mode_update = FALSE) {
         $this->attributes = $post;
         $this->user_id = Yii::$app->user->id;
         $this->status = self::STATUS_NOT_COMPLETED;
@@ -332,39 +330,35 @@ class Ticket extends \yii\db\ActiveRecord {
             $category = $post['category'];
             //$this->id_category = (int) array_search(current($category), $category); // fake binding
             $this->id_category = Category::determinateMainCategory($category);
-        }else{
+        } else {
             $this->id_category = NULL;
         }
-        
+
         $this->is_turned_on = self::TURNED_ON;
-        if ( !empty($post['location']) || !empty($post['zip-city']) || !empty($post['zip_tf']) ) {
+        if (!empty($post['location']) || !empty($post['zip-city']) || !empty($post['zip_tf'])) {
             $location = \yii\helpers\Html::encode($post['location']);
-            
+
             // логика принятия решения по комбинации трех полей
-            if(isset($post['zip_ddl'])){ // значит идентифицирован город из базы и пришел его зип
-                $this->assembled_zip = (int)$post['zip_ddl'];
-            }else{ // ветвление для принятия решения по доклеиванию zip
-                if(!empty($post['zip_tf'])){
-                    if(ctype_digit(\yii\helpers\Html::encode($post['zip_tf']))){ // человек пытается ввести zip-код как есть
-                        $isZip = Zips::find()->where('zip=:zip', ['zip'=>(int)$post['zip_tf']])->one(); // мы его пытаемся идентифицировть по базе данных
-                        if(!is_null($isZip)){
+            if (isset($post['zip_ddl'])) { // значит идентифицирован город из базы и пришел его зип
+                $this->assembled_zip = (int) $post['zip_ddl'];
+            } else { // ветвление для принятия решения по доклеиванию zip
+                if (!empty($post['zip_tf'])) {
+                    if (ctype_digit(\yii\helpers\Html::encode($post['zip_tf']))) { // человек пытается ввести zip-код как есть
+                        $isZip = Zips::find()->where('zip=:zip', ['zip' => (int) $post['zip_tf']])->one(); // мы его пытаемся идентифицировть по базе данных
+                        if (!is_null($isZip)) {
                             $this->assembled_zip = $isZip->zip;
-                        }else{
-                            $this->assembled_zip = (int)$post['zip_tf'];
+                        } else {
+                            $this->assembled_zip = (int) $post['zip_tf'];
                         }
                     }
-                    
                 }
             }
-            
-            /* иссл. */
-            //die;
-            
+
             $this->calculateLatLon($location); // google API
             $this->job_location = $location;
         }
-        
-        
+
+
         $this->start_day = date('Y-m-d H:i:s');
         if (isset($post['finish_day']) && !empty($post['finish_day'])) {
             $this->finish_day = date('Y-m-d H:i:s', strtotime($post['finish_day']));
@@ -375,20 +369,20 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         if (UploadedFile::getInstanceByName('photo') !== NULL) {
             $this->photoPrepare();
-        }else{
+        } else {
             // пока без возможности удаления фоторесурса
             //$this->photo = '';
         }
-        if(!empty($post['zip-city'])){
+        if (!empty($post['zip-city'])) {
             $getId = Zips::find()
-                    ->where('zip = '.(int)$post['zip-city'])
+                    ->where('zip = ' . (int) $post['zip-city'])
                     ->one();
             $this->zip_id = $getId->id;
         }
         if ($this->validationTest()) {
             $this->save(false);
             $this->photoUploader();
-            if($mode_update === TRUE){
+            if ($mode_update === TRUE) {
                 $this->categoryUnbindService();
             }
             $this->categoryBindService($category);
@@ -398,8 +392,11 @@ class Ticket extends \yii\db\ActiveRecord {
     }
 
     /* add ticket id (as last insert id) into category_bind */
-    protected function categoryBindService($categories) {        
-        if(is_null($categories)){return;}
+
+    protected function categoryBindService($categories) {
+        if (is_null($categories)) {
+            return;
+        }
         $dbc = Yii::$app->db;
         // Need make subcat list for deside to terminate subcat binding after 3
         $categoryOnlyCommand = $dbc->createCommand('SELECT id FROM category WHERE level = 1');
@@ -407,15 +404,15 @@ class Ticket extends \yii\db\ActiveRecord {
         $maxSubCatCounter = 0;
         $rows = [];
         foreach ($categories as $catname => $category) {
-            if(array_search($catname, $onlyCatsIdList)=== FALSE){
+            if (array_search($catname, $onlyCatsIdList) === FALSE) {
                 // this is a subcategory
                 $maxSubCatCounter ++;
-                if($maxSubCatCounter > 3){ // terminate after last 3 subcat
+                if ($maxSubCatCounter > 3) { // terminate after last 3 subcat
                     continue;
-                }else{
+                } else {
                     array_push($rows, [$catname, $this->id]);
                 }
-            }else{ // this is a category
+            } else { // this is a category
                 array_push($rows, [$catname, $this->id]);
             }
         }
@@ -423,13 +420,16 @@ class Ticket extends \yii\db\ActiveRecord {
                 ->batchInsert('category_bind', ['category_id', 'ticket_id'], $rows);
         $mainCom->execute();
     }
+
     /* remove old categories when ticket edit */
+
     protected function categoryUnbindService() {
         $dbc = Yii::$app->db;
         $mainCom = $dbc->createCommand()
-                ->delete('category_bind', ['ticket_id'=>$this->id]);
+                ->delete('category_bind', ['ticket_id' => $this->id]);
         $mainCom->execute();
     }
+
     /* photoUploadService */
 
     protected function photoPrepare() {
@@ -461,8 +461,8 @@ class Ticket extends \yii\db\ActiveRecord {
 
         $object = @simplexml_load_string($container);
         if (isset($object->result->geometry)) {
-            $this->lat = (float)$object->result->geometry->location->lat;
-            $this->lon = (float)$object->result->geometry->location->lng;
+            $this->lat = (float) $object->result->geometry->location->lat;
+            $this->lon = (float) $object->result->geometry->location->lng;
         }
     }
 
@@ -489,19 +489,21 @@ class Ticket extends \yii\db\ActiveRecord {
         $name = join('', $hash_arr);
         return 'ticket_' . substr($name, 0, 20);
     }
-    
-    public function getSort($sort){
-        return $this->sort[(int)$sort];
+
+    public function getSort($sort) {
+        return $this->sort[(int) $sort];
     }
+
     public function delete() {
         $this->categoryUnbindService();
         parent::delete();
     }
+
     public function beforeSave($insert) {
         $this->updated_at = date('Y-m-d H:i:s');
         return parent::beforeSave($insert);
     }
-    
+
     public function getCommentsHierarchy() {
         if ($this->_commentHierarchy === null) {
             $this->_commentHierarchy = [];
@@ -515,7 +517,7 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $this->_commentHierarchy;
     }
-    
+
     /**
      * Get all replies to ticket including proposals and offers
      * @return Reply[] 
@@ -528,26 +530,26 @@ class Ticket extends \yii\db\ActiveRecord {
                         'archived' => 0
                     ])
                     ->andWhere([
-                'not exists',
-                (new \yii\db\Query)
-                ->select('offer.id')
-                ->from('offer')
-                ->where('offer.performer_id=proposal.performer_id')
-                ->andWhere(['ticket_id' => $this->id])
-                ->andWhere([
-                    'not in',
-                    'stage',
-                    [
-                        Offer::ARCHIVED,
-                        Offer::STAGE_OWNER_OFFER,
-                    ]
-                ])
-            ])
+                        'not exists',
+                        (new \yii\db\Query)
+                        ->select('offer.id')
+                        ->from('offer')
+                        ->where('offer.performer_id=proposal.performer_id')
+                        ->andWhere(['ticket_id' => $this->id])
+                        ->andWhere([
+                            'not in',
+                            'stage',
+                            [
+                                Offer::ARCHIVED,
+                                Offer::STAGE_OWNER_OFFER,
+                            ]
+                        ])
+                    ])
                     ->all();
             $offers = Offer::find()
                     ->where([
-                'ticket_id' => $this->id,
-            ])
+                        'ticket_id' => $this->id,
+                    ])
                     ->andWhere([
                         'not in',
                         'stage',
@@ -566,49 +568,47 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $this->_replies;
     }
-    
-    public function canAcceptOffer(){
-        if($this->_canAcceptOffer === null){
-            $this->_canAcceptOffer = $this->is_turned_on
-                    && $this->status !== Ticket::STATUS_COMPLETED
-                    && $this->status !== Ticket::STATUS_DONE_BY_PERFORMER
-                    && !(Offer::find()
-                    ->where([
-                        'ticket_id' => $this->id,
-                        'stage' => Offer::STAGE_AGREE
-                    ])
-                    ->exists());
+
+    public function canAcceptOffer() {
+        if ($this->_canAcceptOffer === null) {
+            $this->_canAcceptOffer = $this->is_turned_on && $this->status !== Ticket::STATUS_COMPLETED && $this->status !== Ticket::STATUS_DONE_BY_PERFORMER && !(Offer::find()
+                            ->where([
+                                'ticket_id' => $this->id,
+                                'stage' => Offer::STAGE_AGREE
+                            ])
+                            ->exists());
         }
         return $this->_canAcceptOffer;
     }
+
     public function getSimilarTasks() {
         return Ticket::find()
-                ->innerJoin('category_bind', 'ticket.id=category_bind.ticket_id')
-                ->where([
-                    'is_turned_on' => 1,
-                    'status' => Ticket::STATUS_NOT_COMPLETED,
-                ])
-                ->andWhere(['in', 'category_bind.category_id', (new Query)
-                    ->select(['cb.category_id'])
-                    ->from(['cb' => 'category_bind'])
-                    ->where('cb.ticket_id=:ticketId', [':ticketId' => $this->id])
-                    ])
-                ->andWhere(['not', ['ticket.id' => $this->id]])
-                ->orderBy(['created' => SORT_DESC])
-                ->limit(8)
-                ->all();
+                        ->innerJoin('category_bind', 'ticket.id=category_bind.ticket_id')
+                        ->where([
+                            'is_turned_on' => 1,
+                            'status' => Ticket::STATUS_NOT_COMPLETED,
+                        ])
+                        ->andWhere(['in', 'category_bind.category_id', (new Query)
+                            ->select(['cb.category_id'])
+                            ->from(['cb' => 'category_bind'])
+                            ->where('cb.ticket_id=:ticketId', [':ticketId' => $this->id])
+                        ])
+                        ->andWhere(['not', ['ticket.id' => $this->id]])
+                        ->orderBy(['created' => SORT_DESC])
+                        ->limit(8)
+                        ->all();
     }
-    
+
     public function beforeDelete() {
-        if(parent::beforeDelete()){
+        if (parent::beforeDelete()) {
             OfferHistory::deleteAll([
                 'offer_id' => (new Query)
-                    ->select('id')
-                    ->from('offer')
-                    ->where(['ticket_id' => $this->id])
-                ]);
+                        ->select('id')
+                        ->from('offer')
+                        ->where(['ticket_id' => $this->id])
+            ]);
             Offer::deleteAll(['ticket_id' => $this->id]);
-            Notification::deleteAll(['entity_id'=>$this->id]);
+            Notification::deleteAll(['entity_id' => $this->id]);
             return true;
         }
         return false;
@@ -616,27 +616,27 @@ class Ticket extends \yii\db\ActiveRecord {
 
     public function afterSave($insert, $changedAttributes) {
         parent::afterSave($insert, $changedAttributes);
-        if($insert){
+        if ($insert) {
             Yii::$app->notification->addRottenNotification($this->id, $this->user_id);
         }
-        if( array_key_exists ( 'performer_id' , $changedAttributes )
-                && $changedAttributes['performer_id'] !== $this->performer_id){
+        if (array_key_exists('performer_id', $changedAttributes) && $changedAttributes['performer_id'] !== $this->performer_id) {
             Yii::$app->notification->addFdUpNotification($this->id, $this->performer_id);
         }
-        if($this->status !== Ticket::STATUS_NOT_COMPLETED){
+        if ($this->status !== Ticket::STATUS_NOT_COMPLETED) {
             $types = [
                 Notification::TYPE_BELL_FD_UP,
                 Notification::TYPE_BELL_ROTTEN,
             ];
-            if($this->status === Ticket::STATUS_COMPLETED){
+            if ($this->status === Ticket::STATUS_COMPLETED) {
                 $types = null;
                 Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
-                TicketComments::updateAll(['status'=>TicketComments::STATUS_READ], ['ticket_id'=>$this->id]);
+                TicketComments::updateAll(['status' => TicketComments::STATUS_READ], ['ticket_id' => $this->id]);
             }
             //Yii::$app->notification->markNotificationsAsRead($this->id, 'ticket', null, false, $types);
         }
-        if($this->status === Ticket::STATUS_DONE_BY_PERFORMER && $this->is_turned_on){
+        if ($this->status === Ticket::STATUS_DONE_BY_PERFORMER && $this->is_turned_on) {
             Yii::$app->notification->addDoneByPerformerNotification($this->id, $this->user_id);
         }
     }
+
 }

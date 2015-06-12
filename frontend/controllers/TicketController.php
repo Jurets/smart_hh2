@@ -315,12 +315,12 @@ class TicketController extends Controller {
             // TO DO LIKE-type query for ZIP-city-codes
             if (isset($post['zip_tf']) && !empty($post['zip_tf']) && strlen($post['zip_tf']) >= 3) { 
                 $cityes = Zips::find()
-                        ->andWhere("(zip >= :zipDiapasone1_begin AND zip <= :zipDiapasone1_end) OR (zip >= :zipDiapasone2_begin AND zip <= :zipDiapasone2_end)", [
-                            ':zipDiapasone1_begin' => Yii::$app->params['zipDiapasone1']['begin'],
-                            ':zipDiapasone1_end' => Yii::$app->params['zipDiapasone1']['end'],
-                            ':zipDiapasone2_begin' => Yii::$app->params['zipDiapasone2']['begin'],
-                            ':zipDiapasone2_end' => Yii::$app->params['zipDiapasone2']['end'],
-                        ])
+//                        ->andWhere("(zip >= :zipDiapasone1_begin AND zip <= :zipDiapasone1_end) OR (zip >= :zipDiapasone2_begin AND zip <= :zipDiapasone2_end)", [
+//                            ':zipDiapasone1_begin' => Yii::$app->params['zipDiapasone1']['begin'],
+//                            ':zipDiapasone1_end' => Yii::$app->params['zipDiapasone1']['end'],
+//                            ':zipDiapasone2_begin' => Yii::$app->params['zipDiapasone2']['begin'],
+//                            ':zipDiapasone2_end' => Yii::$app->params['zipDiapasone2']['end'],
+//                        ])
                         ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($post['zip_tf'])])
                         ->all();
 
@@ -331,7 +331,15 @@ class TicketController extends Controller {
                     }
                 }
             }
-
+            // check zip code out of range
+            if(isset($post['is_out_range']) && isset($post['zip_check'])){
+                $ticket = new Ticket;
+                $zip = (int)$post['zip_check'];
+//                if( ! \common\components\Commonhelper::outRangeChecker($zip)){
+//                    return $ticket->msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$this->msg['mailto'].'</a>'; // return error content
+//                }
+                return json_encode(['zipExist'=>  \common\components\Commonhelper::outRangeChecker($zip)]);
+            }
             return $this->renderPartial('view/_zip_dropdown_partial', ['list' => $list]);
         }
     }
@@ -357,14 +365,9 @@ class TicketController extends Controller {
     }
 
     public function actionTest($id = NULL, $test = NULL) {
-        $zip_tf = "Stu";
-        $cityes = Zips::find()
-                        ->andWhere( "(zip >= 33000 AND zip <= 33499) OR (zip >= 34900 AND zip <= 34999)" )
-                        ->andFilterWhere(['like', 'city', \yii\helpers\Html::encode($zip_tf)])
-                        ->all();
-        foreach($cityes as $ind => $city){
-            echo ++$ind .' --- '. $city->city .' = '.$city->zip . '<br>';
-        }
+        $zip = 32356;
+        $test = \common\components\Commonhelper::outRangeChecker($zip);
+        var_dump($test);
     }
 
     /* purposal work */

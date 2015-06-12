@@ -53,8 +53,8 @@ return [
     'zipDiapasone2' => [
         'begin' => 34900,
         'end' => 34999,
-    ],
+    ],*/
     // Mailto message refference - temporary switch off
     'MailTo' => "mailto:support@helpinghut.com",
-     */
+     
 ];

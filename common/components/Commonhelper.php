@@ -177,5 +177,12 @@ class Commonhelper {
         return ['created'=>$created, 'doned'=>$doned];
         
     }
+    // для проверки зип-кода - если его в нашей базе zips нет, то считается что этот код out of range
+    public static function outRangeChecker($zip){
+        $check = Zips::find()
+                ->where("zip = :zip", [':zip'=>(int)$zip])
+                ->exists();
+        return $check;
+    }
     /* _ */
 }

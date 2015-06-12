@@ -48,6 +48,7 @@ use common\components\Commonhelper;
                             <?php echo Html::label(Yii::t('app', 'Zip code').':')?>
                             <?php echo Html::hiddenInput('zip-city', NULL, ['id'=>'zip_id'])?>
                             <div style="">
+                                <div id='range-message'> </div>
                                 <?php // делаем как независимый partial с передачей выбранного в текстовое поле ?>
                                 <?php echo Html::textInput('zip_tf', $model->assembled_zip, ['style'=>'display:block;  ', 'id'=>'zip_tf_id', 'placeholder'=>Yii::t('app',"e.g., 33122 or Miami")])?>
                                 <div id="zip-dropdown" data-zipDropdownURL="<?=Url::to(['ticket/zipdropdown'],true)?>">
@@ -142,20 +143,22 @@ use common\components\Commonhelper;
   <?php } ?>
   
      <?php 
+     // prepare out of range message for client side
       $outRangeMessage = Yii::t('app','zip out of the range of addresses served');
       $outRangeTail = '<a href="'.Yii::$app->params['MailTo'].'">'.Yii::t('app',"if you want Helping Hut in your city write to us").'</a>';
-      $message = $outRangeMessage.'<br>'.$outRangeTail;
+      $message = $outRangeMessage.'<br>'.$outRangeTail.'<br>&nbsp;';
      ?>
       
-      <!-- Temporary switch off -->
+      <!-- Temporary switch off 
       <div style="display:block;"
-          data-interval1_begin="<?=Yii::$app->params['zipDiapasone1']['begin']?>"
-          data-interval1_end="<?=Yii::$app->params['zipDiapasone1']['end']?>"
-          data-interval2_begin="<?=Yii::$app->params['zipDiapasone2']['begin']?>"
-          data-interval2_end="<?=Yii::$app->params['zipDiapasone2']['end']?>"
-          data-outofrangemessage='<?=$message?>'
+          data-interval1_begin="<?php //echo Yii::$app->params['zipDiapasone1']['begin']?>"
+          data-interval1_end="<?php //echo Yii::$app->params['zipDiapasone1']['end']?>"
+          data-interval2_begin="<?php //echo Yii::$app->params['zipDiapasone2']['begin']?>"
+          data-interval2_end="<?php //echo Yii::$app->params['zipDiapasone2']['end']?>"
+          data-outofrangemessage='<?php //echo $message?>'
           ></div>
-      <!-- / -->
+      -->
+      <div data-outofrangemessage='<?php echo $message?>'></div>
   </div>
 <style>
     .lvl1{color:red;}
