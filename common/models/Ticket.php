@@ -162,34 +162,37 @@ class Ticket extends \yii\db\ActiveRecord {
     }
 
     public function validateAssembledZip($attribute, $params){
-        $msg = [
-            'zero' => Yii::t('app','Zip code must be not null'),
-            'five' => Yii::t('app', 'Zip code consist of five digits'),
-            'range' => Yii::t('app', 'zip out of the range of addresses served'),
-            'mailto' => Yii::t('app', "if you want Helping Hut in your city write to us"),
-        ];
-        // zero
-        $zip = $this->$attribute;
-        if(!$zip){
-            $this->addError($attribute, $msg['zero']);
-        }
-        // format
-        if(!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string)$zip)){
-            $this->addError($attribute, $msg['five']);
-        }
-        // range
-        $diap1 = Yii::$app->params['zipDiapasone1'];
-        $diap2 = Yii::$app->params['zipDiapasone2'];
-        $outOfRange = 0;
-        if($zip < $diap1['begin'] || $zip > $diap1['end']){
-            $outOfRange ++;
-        }
-        if($zip < $diap2['begin'] || $zip > $diap2['end']){
-            $outOfRange ++;
-        }
-        if($outOfRange >=2){ // zip dont entered in any one of the ranges
-            $this->addError($attribute, $msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$msg['mailto'].'</a>');
-        }
+        /* This temporary switch off - code must be reorganized */
+//        $msg = [
+//            'zero' => Yii::t('app','Zip code must be not null'),
+//            'five' => Yii::t('app', 'Zip code consist of five digits'),
+//            'range' => Yii::t('app', 'zip out of the range of addresses served'),
+//            'mailto' => Yii::t('app', "if you want Helping Hut in your city write to us"),
+//        ];
+//        // zero
+//        $zip = $this->$attribute;
+//        if(!$zip){
+//            $this->addError($attribute, $msg['zero']);
+//        }
+//        // format
+//        if(!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string)$zip)){
+//            $this->addError($attribute, $msg['five']);
+//        }
+//        // range
+//        $diap1 = Yii::$app->params['zipDiapasone1'];
+//        $diap2 = Yii::$app->params['zipDiapasone2'];
+//        $outOfRange = 0;
+//        if($zip < $diap1['begin'] || $zip > $diap1['end']){
+//            $outOfRange ++;
+//        }
+//        if($zip < $diap2['begin'] || $zip > $diap2['end']){
+//            $outOfRange ++;
+//        }
+//        if($outOfRange >=2){ // zip dont entered in any one of the ranges
+//            $this->addError($attribute, $msg['range'].'<br>'.'<a href="mailto:support@helpinghut.com">'.$msg['mailto'].'</a>');
+//        }
+        /* est */
+        // New validations Varriant
         
     }
     

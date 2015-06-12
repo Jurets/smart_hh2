@@ -42,21 +42,23 @@ ZIPI = {
         var checkFormat = /^[0-9][0-9][0-9][0-9][0-9]$/;
         var result = checkFormat.test(fieldContent);
         if (result) {
-            var int1_Begin = 33000;
-            var int1_End = 33499;
-            var int2_Begin = 34900;
-            var int2_End = 34999;
-            var checkerCount = 0;
-            if(fieldContent < int1_Begin || fieldContent > int1_End){ // diap 1
-                checkerCount ++;
-            }
-            if(fieldContent <= int2_Begin || fieldContent >= int2_End){ // diap 2
-                checkerCount ++;
-            }
-            // finalise check process
-            if(checkerCount >= 2){
-                alert('Diapasone out of range');
-            }
+//            var int1_Begin = $('[data-interval1_begin]').attr('data-interval1_begin');
+//            var int1_End = $('[data-interval1_end]').attr('data-interval1_end');
+//            var int2_Begin = $('[data-interval2_begin]').attr('data-interval2_begin');
+//            var int2_End = $('[data-interval2_end]').attr('data-interval2_end');
+//            var checkerCount = 0;
+//            if(fieldContent < int1_Begin || fieldContent > int1_End){ // diap 1
+//                checkerCount ++;
+//            }
+//            if(fieldContent <= int2_Begin || fieldContent >= int2_End){ // diap 2
+//                checkerCount ++;
+//            }
+//            // finalise check process
+//            if(checkerCount >= 2){
+//                var outOgRangeMessage = $('[data-outofrangemessage]').attr('data-outofrangemessage');
+//                alert(outOgRangeMessage);
+//                console.log(outOgRangeMessage);
+//            }
         }
     },
 };

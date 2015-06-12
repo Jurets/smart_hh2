@@ -140,6 +140,22 @@ use common\components\Commonhelper;
   <?php if(isset($exists)) { ?>
       <div id="exists"><?php echo $exists?></div>
   <?php } ?>
+  
+     <?php 
+      $outRangeMessage = Yii::t('app','zip out of the range of addresses served');
+      $outRangeTail = '<a href="'.Yii::$app->params['MailTo'].'">'.Yii::t('app',"if you want Helping Hut in your city write to us").'</a>';
+      $message = $outRangeMessage.'<br>'.$outRangeTail;
+     ?>
+      
+      <!-- Temporary switch off -->
+      <div style="display:block;"
+          data-interval1_begin="<?=Yii::$app->params['zipDiapasone1']['begin']?>"
+          data-interval1_end="<?=Yii::$app->params['zipDiapasone1']['end']?>"
+          data-interval2_begin="<?=Yii::$app->params['zipDiapasone2']['begin']?>"
+          data-interval2_end="<?=Yii::$app->params['zipDiapasone2']['end']?>"
+          data-outofrangemessage='<?=$message?>'
+          ></div>
+      <!-- / -->
   </div>
 <style>
     .lvl1{color:red;}

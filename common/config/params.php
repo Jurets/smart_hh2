@@ -39,13 +39,14 @@ return [
     //paypal fee in percents
     'paypal.fee' => 7,
     
-    // Normalize languages switch patch
+    // Normalize languages switch patch - temporary switch off
+    /*
     'Nlang' => [
         'spa' => 'es',
         'por' => 'pt',
     ],
     
-    // ZIP used diapasone
+    // ZIP used diapasone - temporary switch off
     'zipDiapasone1' => [
         'begin' => 33000, 'end' => 33499,
     ],
@@ -53,4 +54,7 @@ return [
         'begin' => 34900,
         'end' => 34999,
     ],
+    // Mailto message refference - temporary switch off
+    'MailTo' => "mailto:support@helpinghut.com",
+     */
 ];
