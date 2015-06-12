@@ -347,6 +347,8 @@ class Ticket extends \yii\db\ActiveRecord {
                         $isZip = Zips::find()->where('zip=:zip', ['zip' => (int) $post['zip_tf']])->one(); // мы его пытаемся идентифицировть по базе данных
                         if (!is_null($isZip)) {
                             $this->assembled_zip = $isZip->zip;
+                            $this->lat = $isZip->lat;
+                            $this->lon = $isZip->lng;
                         } else {
                             $this->assembled_zip = (int) $post['zip_tf'];
                         }
@@ -446,6 +448,9 @@ class Ticket extends \yii\db\ActiveRecord {
     /* calculate and set longitude-latitude by Google API */
 
     protected function calculateLatLon($location) {
+        if(!is_null($this->lat) && !is_null($this->lon)){
+            return 0;
+        }
         $location = $this->assembled_zip . ' ' . $location;
         $address = str_replace(' ', '+', $location);
         $constPartUrl = 'https://maps.googleapis.com/maps/api/geocode/xml?key=' .
