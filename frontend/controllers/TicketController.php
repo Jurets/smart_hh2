@@ -368,7 +368,7 @@ class TicketController extends Controller {
         
         var_dump(Yii::$app->request->get());
         
-        $ticket = Ticket::findOne(['id'=>20]);
+        $ticket = Ticket::findOne(['id'=>1]);
          $state = $ticket->zip->state;
          $zip = $ticket->assembled_zip;
          $catname = $ticket->category->name;
