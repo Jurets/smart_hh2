@@ -186,7 +186,12 @@ class Ticket extends \yii\db\ActiveRecord {
             $this->addError($attribute, $this->msg['zero']);
         }
         // 5 digits check
-        if (!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', (string) $zip)) {
+        $zip_str = (string) $zip;
+        // patch for shot zip codes
+        if(strlen($zip_str) == 4){
+            $zip_str = '0'.$zip_str;
+        }
+        if (!preg_match('/^[0-9][0-9][0-9][0-9][0-9]$/', $zip_str)) {
             $this->addError($attribute, $this->msg['five']);
         }
         // out of range check

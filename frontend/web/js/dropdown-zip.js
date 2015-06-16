@@ -40,7 +40,7 @@ ZIPI = {
         $('#zip_id').val(id);
     },
     checkZipDigital: function (fieldContent) {
-        var checkFormat = /^[0-9][0-9][0-9][0-9][0-9]$/;
+        var checkFormat = /^[0-9][0-9][0-9][0-9]$/;
         var result = checkFormat.test(fieldContent);
         if (result) {
           $.ajax({
