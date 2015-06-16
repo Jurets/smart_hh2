@@ -27,7 +27,7 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
     </div>
     <div class="task-info-meta">
         <a  href="<?php echo Url::to(['ticket/review',
-            'state' => $model->zip->state,
+            'state' => (is_null($model->zip)) ? '':$model->zip->state,
             'zip' => $model->assembled_zip,
             'catname' => $model->category->seoname,
             'tname' => $model->title,
