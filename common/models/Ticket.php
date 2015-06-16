@@ -152,7 +152,11 @@ class Ticket extends \yii\db\ActiveRecord {
         }
         return $options;
     }
-
+    // For get city zip by id from zips
+    public function getCityZipCode($id){
+        $zip = Zips::findOne(['id'=>(int)$id]);
+        return $zip->zip;
+    }
     /* end of statament:1 */
 
     /**
@@ -228,7 +232,7 @@ class Ticket extends \yii\db\ActiveRecord {
     public function getCategory() {
         return $this->hasOne(Category::className(), ['id' => 'id_category']);
     }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -339,18 +343,21 @@ class Ticket extends \yii\db\ActiveRecord {
             $location = \yii\helpers\Html::encode($post['location']);
 
             // логика принятия решения по комбинации трех полей
-            if (isset($post['zip_ddl'])) { // значит идентифицирован город из базы и пришел его зип
-                $this->assembled_zip = (int) $post['zip_ddl'];
+            if (isset($post['zip_ddl'])) { // значит идентифицирован город из базы и пришел его зип посредством выбора в выпадающем списке
+                $this->assembled_zip = $this->getCityZipCode((int) $post['zip_ddl']);
+                $this->zip_id = (int) $post['zip_ddl'];
             } else { // ветвление для принятия решения по доклеиванию zip
                 if (!empty($post['zip_tf'])) {
                     if (ctype_digit(\yii\helpers\Html::encode($post['zip_tf']))) { // человек пытается ввести zip-код как есть
                         $isZip = Zips::find()->where('zip=:zip', ['zip' => (int) $post['zip_tf']])->one(); // мы его пытаемся идентифицировть по базе данных
                         if (!is_null($isZip)) {
                             $this->assembled_zip = $isZip->zip;
+                            $this->zip_id = $isZip->id;
                             $this->lat = $isZip->lat;
                             $this->lon = $isZip->lng;
                         } else {
                             $this->assembled_zip = (int) $post['zip_tf'];
+                            $this->zip_id = $this->getCityZipCode($this->assembled_zip);
                         }
                     }
                 }
@@ -375,12 +382,7 @@ class Ticket extends \yii\db\ActiveRecord {
             // пока без возможности удаления фоторесурса
             //$this->photo = '';
         }
-        if (!empty($post['zip-city'])) {
-            $getId = Zips::find()
-                    ->where('zip = ' . (int) $post['zip-city'])
-                    ->one();
-            $this->zip_id = $getId->id;
-        }
+        
         if ($this->validationTest()) {
             $this->save(false);
             $this->photoUploader();

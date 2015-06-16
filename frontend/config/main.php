@@ -28,8 +28,10 @@ return [
         'urlManager' => [
             //main params e.g. enablePrettyUrl see in /common/config
             'rules' => [
-                'ticket/test/<id:\d+>/test/<test:\d+>' => 'ticket/test', // тестовое правило потом можно удалить
-                'ticket/test/<id:\d+>' => 'ticket/test',
+                'ticket/review/<state:.*?>/<zip:.*?>/<catname:.*?>/<tname:.*?>/<id:\d+>' => 'ticket/review',
+                'ticket/test<state:.*?>/<zip:.*?>/<catname:.*?>/<tname:.*?>/<id:\d+>' => 'ticket/test',
+                //'ticket/test/<id:\d+>/test/<test:\d+>' => 'ticket/test', // тестовое правило потом можно удалить
+                //'ticket/test/<id:\d+>' => 'ticket/test',
                 'ticket/<category:.*?>/<city:.*?>' => 'ticket/index',
                 'user/zip/<zip:\d+>' => '/user/index',
             ],

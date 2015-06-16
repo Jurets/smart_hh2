@@ -326,8 +326,8 @@ class TicketController extends Controller {
 
 
                 if (!is_null($cityes)) {
-                    foreach ($cityes as $city) {
-                        $list[$city->zip] = $city->city . ' - ' . $city->zip;
+                    foreach ($cityes as $ind=>$city) {
+                        $list[$city->id] = $city->city . ' - ' . $city->zip. ' - ' . $city->state;
                     }
                 }
             }
@@ -364,10 +364,24 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest($id = NULL, $test = NULL) {
-        $zip = 32356;
-        $test = \common\components\Commonhelper::outRangeChecker($zip);
-        var_dump($test);
+    public function actionTest() {
+        
+        var_dump(Yii::$app->request->get());
+        
+        $ticket = Ticket::findOne(['id'=>20]);
+         $state = $ticket->zip->state;
+         $zip = $ticket->assembled_zip;
+         $catname = $ticket->category->name;
+         $tname = $ticket->title;
+         $id = $ticket->id;
+         
+         echo Url::to(['ticket/review',
+             'state' => $state,
+             'zip' => $zip,
+             'catname' => $catname,
+             'tname' => $tname,
+             'id' => $id,
+             ],true);
     }
 
     /* purposal work */
