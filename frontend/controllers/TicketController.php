@@ -388,6 +388,7 @@ class TicketController extends Controller {
         'n' => $count,
     ]);
         echo $buffTxt;
+        return $this->render('test');
         
     }
 

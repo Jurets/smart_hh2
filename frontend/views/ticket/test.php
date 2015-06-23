@@ -6,5 +6,5 @@ use yii\helpers\Url;
 <!--<a href="<?php //echo Url::to(['ticket/test', 'id'=>1, 'test'=>2], true)?>">QWERTY</a> -->
 
 <?php
-    echo $test;
+    //echo $test;
 ?>
