@@ -364,24 +364,31 @@ class TicketController extends Controller {
         }
     }
 
-    public function actionTest() {
+    public function actionTest($count = 1) {
         
-        var_dump(Yii::$app->request->get());
+//        var_dump(Yii::$app->request->get());
+//        
+//        $ticket = Ticket::findOne(['id'=>1]);
+//         $state = $ticket->zip->state;
+//         $zip = $ticket->assembled_zip;
+//         $catname = $ticket->category->name;
+//         $tname = $ticket->title;
+//         $id = $ticket->id;
+//         
+//         echo Url::to(['ticket/review',
+//             'state' => $state,
+//             'zip' => $zip,
+//             'catname' => $catname,
+//             'tname' => $tname,
+//             'id' => $id,
+//             ],true);
         
-        $ticket = Ticket::findOne(['id'=>1]);
-         $state = $ticket->zip->state;
-         $zip = $ticket->assembled_zip;
-         $catname = $ticket->category->name;
-         $tname = $ticket->title;
-         $id = $ticket->id;
-         
-         echo Url::to(['ticket/review',
-             'state' => $state,
-             'zip' => $zip,
-             'catname' => $catname,
-             'tname' => $tname,
-             'id' => $id,
-             ],true);
+        
+        $buffTxt = Yii::t('app', '{n, plural, =1{<span>#</span> new messages} other{<span>#</span> new messages}}', [
+        'n' => $count,
+    ]);
+        echo $buffTxt;
+        
     }
 
     /* purposal work */
