@@ -387,8 +387,7 @@ class TicketController extends Controller {
         $buffTxt = Yii::t('app', '{n, plural, =1 {<span>#</span> new messages} other{<span>#</span> new messages}}', [
         'n' => $count,
     ]);
-        echo $buffTxt;
-        return $this->render('test');
+        return $this->render('test', ['test'=>$buffTxt]);
         
     }
 
