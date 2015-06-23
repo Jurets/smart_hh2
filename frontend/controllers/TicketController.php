@@ -382,11 +382,10 @@ class TicketController extends Controller {
 //             'tname' => $tname,
 //             'id' => $id,
 //             ],true);
-        
-        
-        $buffTxt = Yii::t('app', '{n, plural, =1 {<span>#</span> new messages} other{<span>#</span> new messages}}', [
+        $buffTxt = Yii::t('app', '{n, plural, =1{<span>#</span> new messages} other{<span>#</span> new messages}}', [
         'n' => $count,
     ]);
+        $buffTxt = \common\components\Commonhelper::messageParser($buffTxt, ['new messages' => Yii::t('app', 'new messages')]);
         return $this->render('test', ['test'=>$buffTxt]);
         
     }
