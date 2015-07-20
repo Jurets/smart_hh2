@@ -103,7 +103,7 @@ class TicketController extends Controller {
             unset($query);
             $query = TicketSearch::advancedSearch($get);
         }
-
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -421,7 +421,10 @@ class TicketController extends Controller {
                 throw new NotFoundHttpException('unknown proposal');
             }
             $ticket = Ticket::findOne(['id' => $id]);
-            if (isset($post['render'])) {
+            // Check the ticket for its own supplies: "Is this ticket my own?"
+            if (Yii::$app->user->id == $ticket->user_id) {
+                echo 'Ooops! This is my ticket!';
+            } else if (isset($post['render'])) {
                 echo $this->renderPartial('popup/_apply', ['price' => $ticket->price]);
             } else {
                 /* apply */

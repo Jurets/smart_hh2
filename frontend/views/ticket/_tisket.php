@@ -17,7 +17,12 @@ $this->registerJsFile(Yii::$app->params['path.js'].'ticket_apply.js', [
     <div class="task-info-price" id="apply-block-<?=$model->id?>">
         <p class="price">&dollar;<span id="digital_price_part"><?= \frontend\helpers\PriceHelper::truncate($model->price) ?></span></p>
         <p>&nbsp;</p>
-        <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
+        <?php if (Yii::$app->user->id == $model->user_id) { ?>
+            <!--<span class="message-small"><?= Yii::t('app', "It's my") ?></span>-->
+            <a href="#" class="message-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', "It's my") ?></a>
+        <?php } else { ?>
+            <a href="#" class="btn-small" data-apply_id="<?= $model->id ?>"><?= Yii::t('app', 'APPLY') ?></a>
+        <?php } ?>
         <div class="pos-relativer">
             <div class="popup-apply pop-up-hide">
                 <div class="popup-apply-header">x</div>
