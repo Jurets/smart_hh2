@@ -141,7 +141,12 @@ class TicketController extends Controller {
         ]);
     }
 
-    public function actionView($id) {
+    /**
+    * view instance of Ticket
+    * 
+    * @param mixed $id
+    */
+    public function actionView($id) {//DebugBreak();
         $model = $this->findModel($id);
         $this->checkTicketExistence($model);
         $this->isTicketsOwner($model);
@@ -575,11 +580,16 @@ class TicketController extends Controller {
         $this->redirect(['ticket/view', 'id' => $ticket->id]);
     }
 
-    public function actionRenderPaypalPopup() {
+    /** 
+    * render popup form for payment confirmation
+    */
+    public function actionRenderPaypalPopup() {//DebugBreak();
         $post = Yii::$app->request->post();
         $ticketId = isset($post['ticket_id']) ? $post['ticket_id'] : null;
         $performerId = isset($post['performer_id']) ? $post['performer_id'] : null;
-        $price = isset($post['price']) ? $post['price'] : null;
+        $price = isset($post['price']) ? $post['price'] : 0; // null;
+        // add FEE for price
+        $price = $price + $price * Yii::$app->params['paypal.fee']/100;
         if ($ticketId === null || $performerId === null || $price === null) {
             throw new \yii\web\HttpException('404');
         }

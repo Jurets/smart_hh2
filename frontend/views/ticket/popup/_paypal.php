@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\components\Commonhelper;
-$message = Yii::t('app', 'You will be charged {fullPrice}',['fullPrice' => $price + $price * Yii::$app->params['paypal.fee']/100 ]);
+$message = Yii::t('app', 'You will be charged {fullPrice}',['fullPrice' => $price]);
 $paypal_message = Commonhelper::messageParser($message, [
     "You will be charged" => Yii::t('app', "You will be charged"),
 ]);

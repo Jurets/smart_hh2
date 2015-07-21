@@ -111,6 +111,14 @@ class Proposal extends \yii\db\ActiveRecord implements Reply
         return $this->price;
     }
 
+    /**
+    * put your comment there...
+    * 
+    */
+    public function getPriceFee() {
+        return $this->price + $this->price * Yii::$app->params['paypal.fee']/100;
+    }
+
     public function canOfferPrice() {
         return true;
     }
