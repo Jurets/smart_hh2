@@ -37,6 +37,7 @@ use common\components\Commonhelper;
                                                   'autoclose' => true,
                                                   'startDate' => date('Y-m-d', time()+86400),
                                                   'format' => 'yyyy-mm-dd H:ii P',
+                                                  'showMeridian' => true,
                                                   'language' => '',
                                                  ],
                                 ])
