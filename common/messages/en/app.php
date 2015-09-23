@@ -356,7 +356,7 @@
         "Email is already active" => "Email is already active",
         "Email not found" => "Email not found",
         "Expire Time" => "",
-        "First name" => "Firt name",
+        "First name" => "First name",
         "Forgot password" => "Forgot your password?",
         "Go home" => "Go to homepage",
         "Go to my account" => "Go to my account",
