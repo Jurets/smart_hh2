@@ -75,7 +75,7 @@ use common\components\Commonhelper;
             <?= Html::beginForm(['ticket/accept-offer'],'post',['style' => 'display:inline']) ?>
                 <?= Html::hiddenInput('ticket_id', $model->id) ?>
                 <?= Html::hiddenInput('performer_id', $propose->performer_id) ?>
-                <?= Html::hiddenInput('price', $propose->priceFee) ?>
+                <?= Html::hiddenInput('price', isset($propose->priceFee) ? $propose->priceFee : 0) ?>
                 <a href="#" class="btn btn-average accept-offer"
                    data-ticket-id="<?= $model->id ?>"
                    data-performer-id="<?= $propose->performer_id ?>"
